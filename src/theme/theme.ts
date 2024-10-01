@@ -76,11 +76,21 @@ const theme = createTheme({
       styleOverrides: {
         outlined: {
           "&:hover": {
-            backgroundColor: alpha(palette.common.black, 0.1),
+            backgroundColor: "#f7f7f7",
             borderColor: palette.common.black,
           },
           borderColor: palette.divider,
           color: palette.common.black,
+          fontWeight: 500,
+        },
+        text: {
+          "&:hover": {
+            backgroundColor: "#f7f7f7",
+            borderColor: palette.common.black,
+          },
+          borderColor: palette.divider,
+          color: palette.common.black,
+          fontWeight: 500,
         },
       },
     },

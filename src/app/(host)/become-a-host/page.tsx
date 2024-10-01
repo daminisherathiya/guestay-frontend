@@ -19,6 +19,7 @@ export default function ListingHomePage() {
           </Typography>
           <Box className="mb-16 space-y-3">
             <Button
+              disableRipple
               className="w-full justify-start gap-4 rounded-xl p-6 text-start"
               variant="outlined"
             >
@@ -26,6 +27,7 @@ export default function ListingHomePage() {
               <Typography>Your House listing</Typography>
             </Button>
             <Button
+              disableRipple
               className="w-full justify-start gap-4 rounded-xl p-6 text-start"
               variant="outlined"
             >

@@ -103,7 +103,7 @@ export default function Overview() {
               <Box className="ml-auto shrink-0">
                 <Image
                   alt="Finish up and publish"
-                  className="size-20 rounded lg:size-md"
+                  className="size-20 rounded lg:size-32"
                   src={aboutYourPlace}
                 />
               </Box>
