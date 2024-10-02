@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys */
 export const breakpoints = {
   xs: 0,
   sm: 576,
@@ -7,6 +8,7 @@ export const breakpoints = {
   "2xl": 1400,
   "3xl": 1600,
 };
+/* eslint-enable sort-keys */
 export const breakpointsInTailwindCssFormat = Object.fromEntries(
   Object.entries(breakpoints).map(([key, value]) => [key, `${value}px`]),
 );

@@ -28,7 +28,7 @@ export function Header() {
 
   return (
     <Container
-      className={`fixed top-0 z-10 w-full bg-common-white ${hasScrolled ? "border-b border-opacity-10 border-b-common-black" : ""}`}
+      className={`fixed top-0 z-10 w-full bg-common-white ${hasScrolled ? "border-b border-b-common-black/10" : ""}`}
       maxWidth="2xl"
     >
       <Stack className="flex-row justify-between pb-5 pt-8">
