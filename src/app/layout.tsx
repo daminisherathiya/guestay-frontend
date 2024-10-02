@@ -42,6 +42,9 @@ const airbnbCerealBlack = localFont({
 export const metadata: Metadata = {
   description:
     "Guestay - Find and book the best guest accommodations, vacation rentals, and unique stays worldwide. Discover comfortable, affordable, and conveniently located lodging options for your next trip. Easy online booking and secure payment.",
+  icons: {
+    icon: "/images/logo.svg",
+  },
   title: "Guestay",
 };
 

@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import Image from "next/image";
 
 import { Box, Container, Stack, Typography } from "@mui/material";
@@ -6,6 +8,15 @@ import FooterProgressBar from "@/components/organisms/FooterProgressBar/FooterPr
 
 import aboutYourPlace from "/public/images/aboutYourPlace.webp";
 import standOut from "/public/images/standOut.webp";
+
+export const metadata: Metadata = {
+  description:
+    "Guestay - Find and book the best guest accommodations, vacation rentals, and unique stays worldwide. Discover comfortable, affordable, and conveniently located lodging options for your next trip. Easy online booking and secure payment.",
+  icons: {
+    icon: "/images/logo.svg",
+  },
+  title: "Create your listing - Guestay",
+};
 
 export default function Overview() {
   return (
