@@ -3,8 +3,9 @@ import Image from "next/image";
 import { Box, Container, Stack, Typography } from "@mui/material";
 
 import FooterProgressBar from "@/components/organisms/FooterProgressBar/FooterProgressBar";
-import aboutYourPlace from "@/public/images/aboutYourPlace.webp";
-import standOut from "@/public/images/standOut.webp";
+
+import aboutYourPlace from "/public/images/aboutYourPlace.webp";
+import standOut from "/public/images/standOut.webp";
 
 export default function Overview() {
   return (
@@ -22,19 +23,15 @@ export default function Overview() {
           </Box>
           <Box className="lg:w-1/2">
             <Stack className="flex-row gap-4 border-b border-divider pb-8">
-              <Typography className="font-medium" component="p" variant="h2">
+              <Typography component="p" variant="h2">
                 1
               </Typography>
               <Box>
-                <Typography
-                  className="mb-2 font-medium"
-                  component="h2"
-                  variant="h2"
-                >
+                <Typography className="mb-2" component="h2" variant="h2">
                   Tell us about your place
                 </Typography>
                 <Typography
-                  className="font-medium text-text-secondary"
+                  className="text-text-secondary"
                   component="h3"
                   variant="h3"
                 >
@@ -51,19 +48,15 @@ export default function Overview() {
               </Box>
             </Stack>
             <Stack className="flex-row gap-4 border-b border-divider py-8">
-              <Typography className="font-medium" component="p" variant="h2">
+              <Typography component="p" variant="h2">
                 2
               </Typography>
               <Box>
-                <Typography
-                  className="mb-2 font-medium"
-                  component="h2"
-                  variant="h2"
-                >
+                <Typography className="mb-2" component="h2" variant="h2">
                   Make it stand out
                 </Typography>
                 <Typography
-                  className="font-medium text-text-secondary"
+                  className="text-text-secondary"
                   component="h3"
                   variant="h3"
                 >
@@ -80,19 +73,15 @@ export default function Overview() {
               </Box>
             </Stack>
             <Stack className="flex-row gap-4 py-8">
-              <Typography className="font-medium" component="p" variant="h2">
+              <Typography component="p" variant="h2">
                 3
               </Typography>
               <Box>
-                <Typography
-                  className="mb-2 font-medium"
-                  component="h2"
-                  variant="h2"
-                >
+                <Typography className="mb-2" component="h2" variant="h2">
                   Finish up and publish
                 </Typography>
                 <Typography
-                  className="font-medium text-text-secondary"
+                  className="text-text-secondary"
                   component="h3"
                   variant="h3"
                 >

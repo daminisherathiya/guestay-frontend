@@ -26,7 +26,7 @@ declare module "@mui/material/styles/createPalette" {
 /* eslint-disable sort-keys */
 const theme = createTheme({
   typography: {
-    fontFamily: "Airbnb Cereal, sans-serif",
+    fontFamily: "AirbnbCereal, sans-serif",
     h1: {
       fontSize: "2rem",
       fontWeight: 500,
@@ -42,31 +42,38 @@ const theme = createTheme({
       fontWeight: 400,
       lineHeight: "1.5rem",
     },
-    h4: {
-      fontSize: "1.25rem",
-      fontWeight: 700,
-    },
+    // h4: {
+    //   fontSize: "1.25rem",
+    //   fontWeight: 700,
+    // },
     body1: {
       fontSize: "1rem",
     },
-    body2: {
-      fontSize: "0.875rem",
-      lineHeight: "1.3125rem",
-    },
-    caption: {
-      fontSize: "0.625rem",
-    },
-    button: {
-      fontSize: "0.875rem",
-      fontWeight: 500,
-      textTransform: "none", // Do not capitalize by default
-    },
+    // body2: {
+    //   fontSize: "0.875rem",
+    //   lineHeight: "1.3125rem",
+    // },
+    // caption: {
+    //   fontSize: "0.625rem",
+    // },
   },
   palette: { mode: "light", ...palette },
   breakpoints: { values: breakpoints },
   components: {
     MuiButton: {
       styleOverrides: {
+        root: {
+          borderRadius: "0.5rem",
+          textTransform: "none",
+        },
+        sizeMedium: {
+          padding: "0.421875rem 1rem",
+          fontSize: "0.875rem",
+        },
+        sizeLarge: {
+          padding: "0.625rem 2rem",
+          fontSize: "1rem",
+        },
         outlined: {
           "&:hover": {
             backgroundColor: "#f7f7f7",
@@ -74,16 +81,21 @@ const theme = createTheme({
           },
           borderColor: palette.divider,
           color: palette.common.black,
-          fontWeight: 500,
         },
         text: {
           "&:hover": {
             backgroundColor: "#f7f7f7",
-            borderColor: palette.common.black,
+            textDecoration: "underline",
           },
-          borderColor: palette.divider,
           color: palette.common.black,
-          fontWeight: 500,
+          textDecoration: "underline",
+        },
+      },
+    },
+    MuiBackdrop: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "rgba(34, 34, 34, 0.6)",
         },
       },
     },

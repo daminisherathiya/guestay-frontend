@@ -5,7 +5,7 @@
 export const palette = {
   // Override the MUI defaults
   action: {
-    active: "#00ff00",
+    active: "#222222", //todo drawer
     disabled: "#00ff00",
     disabledBackground: "#00ff00",
     focus: "#00ff00",
@@ -14,7 +14,7 @@ export const palette = {
   },
   background: {
     default: "#ffffff",
-    paper: "#00ff00",
+    paper: "#ffffff", //Todo drawer
   },
   // border: {
   //   dark: "#00ff00",

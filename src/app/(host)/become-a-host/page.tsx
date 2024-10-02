@@ -3,8 +3,8 @@ import Image from "next/image";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 
-import addFile from "@/public/images/addFile.svg";
-import home from "@/public/images/home.jpg";
+import addFile from "/public/images/addFile.svg";
+import home from "/public/images/home.jpg";
 
 export default function ListingHomePage() {
   return (

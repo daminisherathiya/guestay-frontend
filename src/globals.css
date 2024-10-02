@@ -5,6 +5,50 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: "Airbnb Cereal, sans-serif";
+  font-family: "AirbnbCereal, sans-serif";
 }
 
+/* Airbnb Cereal Regular */
+@font-face {
+  font-family: "AirbnbCereal";
+  src: url("./fonts/AirbnbCereal_W_Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Airbnb Cereal Medium */
+@font-face {
+  font-family: "AirbnbCereal";
+  src: url("./fonts/AirbnbCereal_W_Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Airbnb Cereal Bold */
+@font-face {
+  font-family: "AirbnbCereal";
+  src: url("./fonts/AirbnbCereal_W_Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Airbnb Cereal Extra Bold */
+@font-face {
+  font-family: "AirbnbCereal";
+  src: url("./fonts/AirbnbCereal_W_ExtraBold.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Airbnb Cereal Black */
+@font-face {
+  font-family: "AirbnbCereal";
+  src: url("./fonts/AirbnbCereal_W_Black.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}

@@ -10,31 +10,31 @@ import { Header } from "@/components/organisms/Header";
 import { ThemeProvider as CustomThemeProvider } from "@/theme/ThemeProvider"; // Import your custom ThemeProvider
 
 const airbnbCerealRegular = localFont({
-  src: "../public/fonts/AirbnbCereal_W_Regular.otf",
+  src: "../fonts/AirbnbCereal_W_Regular.otf",
   variable: "--font-airbnb-cereal-regular",
   weight: "400", // Regular
 });
 
 const airbnbCerealMedium = localFont({
-  src: "../public/fonts/AirbnbCereal_W_Medium.otf",
+  src: "../fonts/AirbnbCereal_W_Medium.otf",
   variable: "--font-airbnb-cereal-medium",
   weight: "500", // Medium
 });
 
 const airbnbCerealBold = localFont({
-  src: "../public/fonts/AirbnbCereal_W_Bold.otf",
+  src: "../fonts/AirbnbCereal_W_Bold.otf",
   variable: "--font-airbnb-cereal-bold",
   weight: "700", // Bold
 });
 
 const airbnbCerealExtraBold = localFont({
-  src: "../public/fonts/AirbnbCereal_W_ExtraBold.otf",
+  src: "../fonts/AirbnbCereal_W_ExtraBold.otf",
   variable: "--font-airbnb-cereal-extra-bold",
   weight: "800", // Extra Bold
 });
 
 const airbnbCerealBlack = localFont({
-  src: "../public/fonts/AirbnbCereal_W_Black.otf",
+  src: "../fonts/AirbnbCereal_W_Black.otf",
   variable: "--font-airbnb-cereal-black",
   weight: "900", // Black
 });
