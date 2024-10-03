@@ -77,6 +77,7 @@ const theme = createTheme({
         },
         outlined: {
           "&:hover": {
+            backgroundColor: palette.action.hover,
             borderColor: palette.common.black,
           },
           borderColor: palette.divider,
