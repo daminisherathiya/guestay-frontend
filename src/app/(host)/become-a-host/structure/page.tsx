@@ -11,7 +11,7 @@ import cabin from "/public/images/cabin.svg";
 import dome from "/public/images/dome.svg";
 import flat from "/public/images/flat.svg";
 import hotel from "/public/images/hotel.svg";
-import breakfast from "/public/images/breakfast_1.svg";
+import breakfast from "/public/images/breakfast.svg";
 import tent from "/public/images/tent.svg";
 
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
