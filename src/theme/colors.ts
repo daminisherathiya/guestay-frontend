@@ -5,26 +5,20 @@
 export const palette = {
   // Override the MUI defaults
   action: {
-    active: "#222222", //todo drawer
+    active: "#222222",
     disabled: "#00ff00",
     disabledBackground: "#00ff00",
     focus: "#00ff00",
-    hover: "#00ff00",
+    hover: "#f7f7f7",
     selected: "#00ff00",
   },
   background: {
     default: "#ffffff",
-    paper: "#ffffff", //Todo drawer
+    paper: "#ffffff",
   },
-  // border: {
-  //   dark: "#00ff00",
-  //   light: "#00ff00",
-  //   main: "#00ff00",
-  //   primary: "#00ff00",
-  // },
   common: {
     black: "#000000",
-    // transparent: "#00000000",
+    transparent: "#00000000",
     white: "#ffffff",
   },
   divider: "#dddddd",
@@ -50,7 +44,6 @@ export const palette = {
   },
   text: {
     disabled: "#00ff00",
-    // icon: "#00ff00",
     primary: "#222222",
     secondary: "#6a6a6a",
   },

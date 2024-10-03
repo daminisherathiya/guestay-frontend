@@ -45,6 +45,13 @@ export default function ListingHomePage() {
               <Image alt="Home" className="size-11 rounded" src={home} />
               <Typography>Your listing started on 27 September 2024</Typography>
             </Button>
+            <Button
+              className="p-0 hover:bg-common-white"
+              color="secondary"
+              variant="text"
+            >
+              Show all
+            </Button>
           </Box>
           <Typography className="mb-4" component="h2" variant="h2">
             Start a new listing

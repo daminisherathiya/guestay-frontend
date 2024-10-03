@@ -13,7 +13,11 @@ const config: Config = {
   plugins: [],
   theme: {
     colors: palette,
-    extend: {},
+    extend: {
+      boxShadow: {
+        black: "0 0 0 2px #000000",
+      },
+    },
     screens: breakpointsInTailwindCssFormat,
   },
 };

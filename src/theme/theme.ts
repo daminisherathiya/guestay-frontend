@@ -5,6 +5,7 @@ import { palette } from "./colors";
 
 declare module "@mui/material/styles" {
   interface BreakpointOverrides {
+    "2xs": true,
     "2xl": true;
     "3xl": true;
   }
@@ -76,7 +77,6 @@ const theme = createTheme({
         },
         outlined: {
           "&:hover": {
-            backgroundColor: "#f7f7f7",
             borderColor: palette.common.black,
           },
           borderColor: palette.divider,
@@ -84,7 +84,6 @@ const theme = createTheme({
         },
         text: {
           "&:hover": {
-            backgroundColor: "#f7f7f7",
             textDecoration: "underline",
           },
           color: palette.common.black,

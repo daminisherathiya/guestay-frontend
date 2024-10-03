@@ -1,6 +1,7 @@
 /* eslint-disable sort-keys */
 export const breakpoints = {
-  xs: 0,
+  "2xs": 0,
+  xs: 375,
   sm: 576,
   md: 768,
   lg: 992,
