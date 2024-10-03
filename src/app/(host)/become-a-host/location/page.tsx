@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 
 import {
@@ -24,14 +25,14 @@ export default function Location() {
       <Stack>
         <Box className="mx-auto max-w-3xl">
           <Typography className="mb-2" component="h1" variant="h1">
-            Where's your place located?
+            Where&apos;s your place located?
           </Typography>
           <Typography
             className="mb-10 text-text-secondary"
             component="h3"
             variant="h3"
           >
-            Your address is only shared with guests after they’ve made a
+            Your address is only shared with guests after they&apos;ve made a
             reservation.
           </Typography>
           <Box className="relative">

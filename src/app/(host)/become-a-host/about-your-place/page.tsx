@@ -14,9 +14,9 @@ export default function AboutYourPlace() {
                 Tell us about your place
               </Typography>
               <Typography className="leading-7" variant="h3">
-                In this step, we'll ask you which type of property you have and
-                if guests will book the entire place or just a room. Then let us
-                know the location and how many guests can stay.
+                In this step, we&apos;ll ask you which type of property you have
+                and if guests will book the entire place or just a room. Then
+                let us know the location and how many guests can stay.
               </Typography>
             </Box>
             <Box className="w-1/2">

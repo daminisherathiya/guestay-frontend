@@ -5,8 +5,8 @@ import { palette } from "./colors";
 
 declare module "@mui/material/styles" {
   interface BreakpointOverrides {
-    "2xs": true,
     "2xl": true;
+    "2xs": true;
     "3xl": true;
   }
 }

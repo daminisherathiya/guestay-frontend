@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 
 import localFont from "next/font/local";
 
-import "../globals.css";
 import { Box, CssBaseline } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 
 import { Header } from "@/components/organisms/Header";
 import { ThemeProvider as CustomThemeProvider } from "@/theme/ThemeProvider"; // Import your custom ThemeProvider
+
+import "../globals.css";
 
 const airbnbCerealRegular = localFont({
   src: "../fonts/AirbnbCereal_W_Regular.otf",

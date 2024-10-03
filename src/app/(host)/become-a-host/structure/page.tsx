@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 
 import Image from "next/image";
@@ -44,7 +45,7 @@ export default function Structure() {
           </Typography>
           <Grid2 container spacing={2}>
             {places.map((place, index) => (
-              <Grid2 key={index} size={{ "2xs": 12, xs: 6, sm: 4 }}>
+              <Grid2 key={index} size={{ "2xs": 12, sm: 4, xs: 6 }}>
                 <Button
                   className={`w-full flex-col items-start p-4 hover:border-common-transparent hover:bg-common-white hover:shadow-black ${
                     selectedOption === place.name

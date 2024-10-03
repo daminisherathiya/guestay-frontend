@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import Image from "next/image";
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -34,13 +34,15 @@ export default function CountrySelect() {
         const { key, ...optionProps } = props;
         return (
           <Box key={key} component="li" {...optionProps}>
-            <img
+            <Image
               alt=""
               className="mr-4 shrink-0"
+              height={15}
               loading="lazy"
+              priority={false}
+              quality={75}
               src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-              srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-              width="20"
+              width={20}
             />
             {option.label} ({option.code}) +{option.phone}
           </Box>
