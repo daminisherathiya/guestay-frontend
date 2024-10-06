@@ -1,5 +1,8 @@
 import CloseIcon from "@mui/icons-material/Close";
-import { Box, IconButton, Typography } from "@mui/material";
+
+import { Box } from "@/components/atoms/Box";
+import { IconButton } from "@/components/atoms/IconButton/IconButton";
+import { Typography } from "@/components/atoms/Typography";
 
 interface QuestionsDrawerProps {
   onClose: () => void;

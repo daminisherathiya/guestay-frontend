@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 
 import Image from "next/image";
 
-import { Button, Container, Drawer, Stack } from "@mui/material";
-
-import logo from "/public/images/logo.svg";
+import { Button } from "@/components/atoms/Button";
+import { Container } from "@/components/atoms/Container";
+import { Drawer } from "@/components/atoms/Drawer";
+import { Stack } from "@/components/atoms/Stack";
 
 import QuestionsDrawer from "../QuestionsDrawer/QuestionsDrawer";
 
@@ -40,7 +41,7 @@ export function Header() {
     >
       <Container maxWidth="2xl">
         <Stack className="flex-row justify-between pb-5 pt-8">
-          <Image alt="Logo" src={logo} />
+          <Image alt="Logo" height={32} src="/images/logo.svg" width={32} />
           <Stack className="flex-row gap-4">
             <Button
               className="rounded-3xl hover:bg-common-white"

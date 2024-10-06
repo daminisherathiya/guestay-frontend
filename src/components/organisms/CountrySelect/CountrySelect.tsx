@@ -3,9 +3,10 @@
 import Image from "next/image";
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import Autocomplete from "@mui/material/Autocomplete";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+
+import { Autocomplete } from "@/components/atoms/Autocomplete";
+import { Box } from "@/components/atoms/Box";
+import { TextField } from "@/components/atoms/TextField";
 
 export default function CountrySelect() {
   return (
@@ -35,7 +36,7 @@ export default function CountrySelect() {
         return (
           <Box key={key} component="li" {...optionProps}>
             <Image
-              alt=""
+              alt={option.label}
               className="mr-4 shrink-0"
               height={15}
               loading="lazy"

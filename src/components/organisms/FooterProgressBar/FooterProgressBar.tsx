@@ -1,4 +1,8 @@
-import { Box, Button, Container, LinearProgress, Stack } from "@mui/material";
+import { Box } from "@/components/atoms/Box";
+import { Button } from "@/components/atoms/Button";
+import { Container } from "@/components/atoms/Container";
+import { LinearProgress } from "@/components/atoms/LinearProgress";
+import { Stack } from "@/components/atoms/Stack";
 
 export default function FooterProgressBar() {
   return (
