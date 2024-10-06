@@ -4,7 +4,7 @@ import MUIAutocomplete, {
   AutocompleteProps as MUIAutocompleteProps,
 } from "@mui/material/Autocomplete";
 
-type Value = unknown; // Adjust this to a more specific type if applicable
+type Value = any; // eslint-disable-line @typescript-eslint/no-explicit-any
 type Multiple = boolean;
 type DisableClearable = boolean;
 type FreeSolo = boolean;
