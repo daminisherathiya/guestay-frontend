@@ -72,6 +72,7 @@ export default function Amenities() {
           {places.map((place, index) => (
             <Grid2 key={index} size={{ "2xs": 12, md: 4, sm: 6 }}>
               <Button
+                disableRipple
                 className={`w-full flex-col items-start p-4 hover:border-common-transparent hover:bg-common-white hover:shadow-black ${
                   selectedOptions.includes(place.name)
                     ? "border-common-transparent bg-[#f7f7f7] shadow-black"

@@ -39,6 +39,7 @@ export default function Structure() {
           {places.map((place, index) => (
             <Grid2 key={index} size={{ "2xs": 12, sm: 4, xs: 6 }}>
               <Button
+                disableRipple
                 className={`w-full flex-col items-start p-4 hover:border-common-transparent hover:bg-common-white hover:shadow-black ${
                   selectedOption === place.name
                     ? "border-common-transparent bg-[#f7f7f7] shadow-black"

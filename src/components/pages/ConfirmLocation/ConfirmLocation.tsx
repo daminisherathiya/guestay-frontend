@@ -43,6 +43,7 @@ export default function ConfirmLocation() {
             <TextField
               key={index}
               className="w-full"
+              color="secondary"
               id="filled-basic"
               label={confirmAddressTextField.label}
               slotProps={{
