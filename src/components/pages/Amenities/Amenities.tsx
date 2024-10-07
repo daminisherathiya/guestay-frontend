@@ -39,7 +39,7 @@ export default function Amenities() {
     { iconUrl: "/images/umbrellaTable.svg", name: "Outdoor dining area" },
     { iconUrl: "/images/firepit.svg", name: "Firepit" },
     { iconUrl: "/images/poolTable.svg", name: "Pool table" },
-    { iconUrl: "/images/firePlace_1.svg", name: "Indoor fireplace" },
+    { iconUrl: "/images/firePlace.svg", name: "Indoor fireplace" },
     { iconUrl: "/images/piano.svg", name: "Piano" },
     { iconUrl: "/images/fitnessCenter.svg", name: "Exercise equipment" },
     { iconUrl: "/images/lake.svg", name: "Lake access" },
