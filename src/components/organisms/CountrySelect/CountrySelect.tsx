@@ -25,7 +25,7 @@ export default function CountrySelect() {
               ...params.InputProps,
               classes: { focused: "before:border-y-common-transparent" },
               className:
-                "before:border-common-black/45 before:border before:transition-none before:h-full after:h-full after:border-2 after:border-common-black after:transition-none after:rounded-lg",
+                "before:border-common-black/45 before:border before:transition-none bg-common-white before:rounded-lg before:h-full after:h-full after:border-2 after:border-common-black after:transition-none after:rounded-lg",
             },
           }}
           variant="filled"

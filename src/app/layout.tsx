@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 
 import localFont from "next/font/local";
 
-import { Box, CssBaseline } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 
+import { Toolbar } from "@/components/atoms/Toolbar";
 import { Header } from "@/components/organisms/Header";
 import { ThemeProvider as CustomThemeProvider } from "@/theme/ThemeProvider"; // Import your custom ThemeProvider
-
 import "../globals.css";
 
 const airbnbCerealRegular = localFont({
@@ -63,7 +63,8 @@ export default function RootLayout({
           <CustomThemeProvider>
             <CssBaseline />
             <Header />
-            <Box className="pt-24">{children}</Box>
+            <Toolbar className="min-h-[5.75rem]" />
+            {children}
           </CustomThemeProvider>
         </AppRouterCacheProvider>
       </body>

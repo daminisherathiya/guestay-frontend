@@ -4,30 +4,28 @@ import Script from "next/script";
 
 import { Box } from "@/components/atoms/Box";
 import { Container } from "@/components/atoms/Container";
-import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 import { LocationInputWithAutocompleteService } from "@/components/organisms/LocationInputWithAutocompleteService";
 
 export default function Location() {
   return (
     <Container maxWidth="2xl">
-      <Stack>
-        <Box className="mx-auto max-w-3xl">
-          <Typography className="mb-2" component="h1" variant="h1">
-            Where&apos;s your place located?
-          </Typography>
-          <Typography
-            className="mb-10 text-text-secondary"
-            component="h3"
-            variant="h3"
-          >
-            Your address is only shared with guests after they&apos;ve made a
-            reservation.
-          </Typography>
+      <Box className="mx-auto max-w-3xl">
+        <Typography className="mb-2" component="h1" variant="h1">
+          Where&apos;s your place located?
+        </Typography>
+        <Typography
+          className="mb-10 text-text-secondary"
+          component="h3"
+          variant="h3"
+        >
+          Your address is only shared with guests after they&apos;ve made a
+          reservation.
+        </Typography>
 
-          <LocationInputWithAutocompleteService></LocationInputWithAutocompleteService>
+        <LocationInputWithAutocompleteService></LocationInputWithAutocompleteService>
 
-          {/* <Box className="relative">
+        {/* <Box className="relative">
             <Image
               alt="Static Map"
               className="rounded-2xl"
@@ -44,8 +42,7 @@ export default function Location() {
               />
             </Stack>
           </Box> */}
-        </Box>
-      </Stack>
+      </Box>
       <Script
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
         strategy="lazyOnload"
