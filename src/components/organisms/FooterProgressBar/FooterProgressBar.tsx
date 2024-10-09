@@ -19,6 +19,7 @@ interface FooterDetailsType {
   };
 }
 
+/* eslint-disable sort-keys */
 const urlToFooterDetails: Record<string, FooterDetailsType> = {
   // Step 1
   "/become-a-host/overview": {
@@ -168,6 +169,7 @@ const urlToFooterDetails: Record<string, FooterDetailsType> = {
     },
   },
 };
+/* eslint-enable sort-keys */
 
 export default function FooterProgressBar() {
   const pathname = usePathname();

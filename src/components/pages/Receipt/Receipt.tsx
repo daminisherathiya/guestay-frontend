@@ -47,8 +47,10 @@ export default function Receipt() {
         <Grid2
           container
           className="items-center"
+          // eslint-disable-next-line sort-keys
           spacing={{ xs: 5, sm: 6, lg: 9 }}
         >
+          {/* eslint-disable-next-line sort-keys */}
           <Grid2 className="mx-auto" size={{ xs: 12, sm: 10, md: 5 }}>
             <Button
               disableRipple
@@ -104,6 +106,7 @@ export default function Receipt() {
               isFullReceiptPreviewDialogOpen={isFullReceiptPreviewDialogOpen}
             />
           </Grid2>
+          {/* eslint-disable-next-line sort-keys */}
           <Grid2 size={{ xs: 12, md: 7 }}>
             <Box className="space-y-8">
               <Typography component="h2" variant="h2">
