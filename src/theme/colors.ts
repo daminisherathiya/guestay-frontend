@@ -26,16 +26,16 @@ export const palette = {
     main: "#00ff00",
   },
   primary: {
-    contrastText: "#222222",
-    dark: "#00ff00",
-    light: "#00ff00",
-    main: "#E61E4D",
-  },
-  secondary: {
     contrastText: "#ffffff",
     dark: "#000000",
     light: "#00ff00",
     main: "#222222",
+  },
+  secondary: {
+    contrastText: "#222222",
+    dark: "#00ff00",
+    light: "#00ff00",
+    main: "#E61E4D",
   },
   // warning: {},
   // info: {},

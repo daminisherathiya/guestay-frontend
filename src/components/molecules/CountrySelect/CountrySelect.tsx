@@ -19,7 +19,6 @@ export default function CountrySelect() {
       renderInput={(params) => (
         <TextField
           {...params}
-          color="secondary"
           label="Country/region"
           slotProps={{
             input: {

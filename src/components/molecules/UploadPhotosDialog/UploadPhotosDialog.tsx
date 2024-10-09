@@ -69,13 +69,7 @@ export default function UploadPhotosDialog({
             className="size-9 min-w-0 rounded-full bg-common-transparent p-2 hover:bg-action-hover hover:shadow-none"
             size="small"
           >
-            <Image
-              alt="plus"
-              className="text-secondary-main"
-              height={16}
-              src="/images/plus.svg"
-              width={16}
-            />
+            <Image alt="plus" height={16} src="/images/plus.svg" width={16} />
           </InputFileUpload>
         </Stack>
         <DialogContent>
@@ -107,12 +101,7 @@ export default function UploadPhotosDialog({
           >
             Cancel
           </Button>
-          <Button
-            className="ml-0"
-            color="secondary"
-            size="large"
-            variant="contained"
-          >
+          <Button className="ml-0" size="large" variant="contained">
             Upload
           </Button>
         </DialogActions>

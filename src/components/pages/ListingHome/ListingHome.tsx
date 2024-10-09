@@ -47,11 +47,7 @@ export default function ListingHome() {
             />
             <Typography>Your listing started on 27 September 2024</Typography>
           </Button>
-          <Button
-            className="p-0 hover:bg-common-white"
-            color="secondary"
-            variant="text"
-          >
+          <Button className="p-0 hover:bg-common-white" variant="text">
             Show all
           </Button>
         </Box>

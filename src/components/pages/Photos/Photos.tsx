@@ -43,7 +43,7 @@ export default function Photos() {
             width={182}
           />
           <Button
-            className="border-secondary-main bg-common-white hover:bg-action-hover"
+            className="bg-common-white hover:bg-action-hover"
             variant="outlined"
             onClick={handleOpenUploadPhotosDialog}
           >

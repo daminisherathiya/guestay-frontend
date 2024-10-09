@@ -16,7 +16,6 @@ export default function InputFileUpload({
   return (
     <Button
       className={className}
-      color="secondary"
       component="label"
       role={undefined}
       size={size}
