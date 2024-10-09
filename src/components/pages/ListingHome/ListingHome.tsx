@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
@@ -54,20 +55,22 @@ export default function ListingHome() {
         <Typography className="mb-4" component="h2" variant="h2">
           Start a new listing
         </Typography>
-        <Box>
-          <Stack className="cursor-pointer flex-row items-center justify-between gap-4 border-b border-divider py-6">
-            <Stack className="flex-row items-center gap-4">
-              <Image
-                alt="Add"
-                className="rounded"
-                height={32}
-                src="/images/addFile.svg"
-                width={32}
-              />
-              <Typography>Create a new listing</Typography>
+        <Box className="mb-12">
+          <Link href="/become-a-host/overview/">
+            <Stack className="cursor-pointer flex-row items-center justify-between gap-4 border-divider py-6 md:border-b">
+              <Stack className="flex-row items-center gap-4">
+                <Image
+                  alt="Add"
+                  className="rounded"
+                  height={32}
+                  src="/images/addFile.svg"
+                  width={32}
+                />
+                <Typography>Create a new listing</Typography>
+              </Stack>
+              <KeyboardArrowRightIcon />
             </Stack>
-            <KeyboardArrowRightIcon />
-          </Stack>
+          </Link>
         </Box>
       </Box>
     </Container>
