@@ -61,9 +61,9 @@ export default function FullReceiptPreviewDialog({
         <DialogContent dividers>
           <Box className="sm:px-3 sm:py-5 lg:px-6 lg:py-8">
             {/* eslint-disable-next-line sort-keys */}
-            <Grid2 container spacing={{ xs: 4, sm: 5, md: 6 }}>
+            <Grid2 container spacing={{ "2xs": 4, sm: 5, md: 6 }}>
               {/* eslint-disable-next-line sort-keys */}
-              <Grid2 className="mx-auto" size={{ xs: 12, sm: 10, md: 6 }}>
+              <Grid2 className="mx-auto" size={{ "2xs": 12, sm: 10, md: 6 }}>
                 <Box className="sticky top-0 ">
                   <Image
                     alt="Cover picture"
@@ -75,7 +75,7 @@ export default function FullReceiptPreviewDialog({
                 </Box>
               </Grid2>
               {/* eslint-disable-next-line sort-keys */}
-              <Grid2 size={{ xs: 12, md: 6 }}>
+              <Grid2 size={{ "2xs": 12, md: 6 }}>
                 <Box>
                   <Typography component="h1" variant="h1">
                     The Orchard House
