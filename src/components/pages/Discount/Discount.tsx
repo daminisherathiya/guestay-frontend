@@ -21,7 +21,7 @@ export default function Discount() {
     setDiscountsDialogOpen(false);
   };
 
-  const handleInput = (e) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
 
     value = value.replace(/[^0-9]/g, "");
@@ -30,6 +30,7 @@ export default function Discount() {
     }
     e.target.value = value;
   };
+
   return (
     <Container maxWidth="2xl">
       <Box className="mx-auto max-w-2xl">

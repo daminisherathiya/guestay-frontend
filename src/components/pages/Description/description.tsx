@@ -10,7 +10,7 @@ import { Typography } from "@/components/atoms/Typography";
 
 export default function Description() {
   const [title, setTitle] = useState("");
-  const handleTitleChange = (event) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value;
     if (newValue.length <= 500) {
       setTitle(newValue);
@@ -18,6 +18,7 @@ export default function Description() {
       setTitle(newValue.slice(0, 500));
     }
   };
+
   return (
     <Container maxWidth="2xl">
       <Box className="mx-auto max-w-2xl">
