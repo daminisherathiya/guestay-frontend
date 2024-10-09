@@ -3,7 +3,7 @@ import * as React from "react";
 import Image from "next/image";
 
 import CloseIcon from "@mui/icons-material/Close";
-import { Avatar, DialogContentText, Divider } from "@mui/material";
+import { Avatar, Divider, Link } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -41,7 +41,7 @@ export default function FullReceiptPreviewDialog({
           paper: "rounded-xl w-full",
         }}
         maxWidth="lg"
-        open={true}
+        open={isFullReceiptPreviewDialogOpen}
         scroll="paper"
         TransitionComponent={Transition}
         onClose={handleCloseFullReceiptPreviewDialog}
@@ -59,44 +59,64 @@ export default function FullReceiptPreviewDialog({
           Full preview
         </DialogTitle>
         <DialogContent dividers>
-          <Box className="px-6 py-8">
-            <Grid2 container spacing={6}>
-              <Grid2 size={6}>
-                <Box>
+          <Box className="sm:px-3 sm:py-5 lg:px-6 lg:py-8">
+            <Grid2 container spacing={{ xs: 4, sm: 5, md: 6 }}>
+              <Grid2 className="mx-auto" size={{ xs: 12, sm: 10, md: 6 }}>
+                <Box className="sticky top-0 ">
                   <Image
                     alt="Cover picture"
-                    className="max-h-80 w-full rounded-lg object-cover"
+                    className="max-h-96 w-full rounded-lg object-cover"
                     height={320}
                     src="/images/aa.jpg"
                     width={320}
                   />
                 </Box>
               </Grid2>
-              <Grid2 size={6}>
-                <Typography component="h1" variant="h1">
-                  The Orchard House
-                </Typography>
-                <Stack className="flex-row justify-between gap-9 py-8">
-                  <Box>
-                    <Typography component="h2" variant="h2">
-                      Entire home hosted by Damini
-                    </Typography>
-                    <Typography className="mt-2">
-                      4 guests · 6 bedrooms · 6 beds · 3.5 bathrooms
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Avatar className="size-14 bg-primary-dark font-medium">
-                      D
-                    </Avatar>
-                  </Box>
-                </Stack>
-                <Divider />
-                <Box className="py-8">
-                  <Typography>
-                    You&apos;ll have a great time at this comfortable place to
-                    stay.
+              <Grid2 size={{ xs: 12, md: 6 }}>
+                <Box>
+                  <Typography component="h1" variant="h1">
+                    The Orchard House
                   </Typography>
+                  <Stack className="justify-between gap-9 py-5 xs:flex-row lg:py-6 xl:py-8">
+                    <Box className="order-2 xs:order-1">
+                      <Typography component="h2" variant="h2">
+                        Entire home hosted by Damini
+                      </Typography>
+                      <Typography className="mt-2">
+                        4 guests · 6 bedrooms · 6 beds · 3.5 bathrooms
+                      </Typography>
+                    </Box>
+                    <Box className="order-1 xs:order-2">
+                      <Avatar className="size-14 bg-primary-dark font-medium">
+                        D
+                      </Avatar>
+                    </Box>
+                  </Stack>
+                  <Divider />
+                  <Box className="py-5 lg:py-6 xl:py-8">
+                    <Typography>
+                      You&apos;ll have a great time at this comfortable place to
+                      stay.
+                    </Typography>
+                  </Box>
+                  <Divider />
+                  <Box className="py-5 lg:py-6 xl:py-8">
+                    <Typography
+                      className="font-medium"
+                      component="h2"
+                      variant="body1"
+                    >
+                      Location
+                    </Typography>
+                    <Typography className="mt-5" component="h3" variant="body1">
+                      153 California Ave, Palo Alto, CA 94306, USA
+                    </Typography>
+                    <Typography className="mt-1 text-xs">
+                      We&apos;ll only share your address with guests who are
+                      booked as outlined in our{" "}
+                      <Link href="#">Privacy Policy</Link>
+                    </Typography>
+                  </Box>
                 </Box>
               </Grid2>
             </Grid2>

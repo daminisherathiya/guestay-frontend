@@ -43,7 +43,7 @@ export const palette = {
     main: "#00ff00",
   },
   text: {
-    disabled: "#00ff00",
+    disabled: "#222222",
     primary: "#222222",
     secondary: "#6a6a6a",
   },

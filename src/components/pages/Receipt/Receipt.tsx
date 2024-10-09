@@ -37,15 +37,19 @@ export default function Receipt() {
           Review your listing
         </Typography>
         <Typography
-          className="mb-12 text-text-secondary"
+          className="mb-6 text-text-secondary sm:mb-9 md:mb-12"
           component="h3"
           variant="h3"
         >
           Here&apos;s what we&apos;ll show to guests. Make sure everything looks
           good.
         </Typography>
-        <Grid2 container className="items-center" spacing={9}>
-          <Grid2 size={5}>
+        <Grid2
+          container
+          className="items-center"
+          spacing={{ xs: 5, sm: 6, lg: 9 }}
+        >
+          <Grid2 className="mx-auto" size={{ xs: 12, sm: 10, md: 5 }}>
             <Button
               disableRipple
               className="w-full flex-col items-start rounded-2xl border border-common-black/5 p-4 text-start no-underline shadow-button"
@@ -100,7 +104,7 @@ export default function Receipt() {
               isFullReceiptPreviewDialogOpen={isFullReceiptPreviewDialogOpen}
             />
           </Grid2>
-          <Grid2 size={7}>
+          <Grid2 size={{ xs: 12, md: 7 }}>
             <Box className="space-y-8">
               <Typography component="h2" variant="h2">
                 What&apos;s next?

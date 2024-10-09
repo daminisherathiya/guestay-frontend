@@ -20,6 +20,16 @@ export default function Discount() {
   const handleCloseDiscountsDialog = () => {
     setDiscountsDialogOpen(false);
   };
+
+  const handleInput = (e) => {
+    let value = e.target.value;
+
+    value = value.replace(/[^0-9]/g, "");
+    if (value.length > 2) {
+      value = value.slice(0, 2);
+    }
+    e.target.value = value;
+  };
   return (
     <Container maxWidth="2xl">
       <Box className="mx-auto max-w-2xl">
@@ -39,17 +49,21 @@ export default function Discount() {
             <Stack className="flex-row items-center justify-between gap-4">
               <Stack className="flex-row flex-wrap items-center gap-4">
                 <TextField
+                  disabled
+                  autoComplete="off"
                   id="outlined-basic"
                   slotProps={{
                     input: {
-                      classes: { focused: "" },
-                      className:
-                        "pl-0 font-bold bg-common-white rounded-lg text-lg",
+                      classes: {
+                        notchedOutline: "border-none",
+                      },
+                      className: "pl-0 font-bold text-lg text-text-primary",
                       endAdornment: (
                         <Typography className="text-lg font-bold">%</Typography>
                       ),
                     },
                   }}
+                  value={20}
                   variant="outlined"
                 />
                 <Box>
@@ -69,10 +83,10 @@ export default function Discount() {
             <Stack className="flex-row items-center justify-between gap-4">
               <Stack className="flex-row flex-wrap items-center gap-4">
                 <TextField
+                  autoComplete="off"
                   id="outlined-basic"
                   slotProps={{
                     input: {
-                      classes: { focused: "" },
                       className:
                         "pl-0 font-bold bg-common-white rounded-lg text-lg",
                       endAdornment: (
@@ -81,6 +95,7 @@ export default function Discount() {
                     },
                   }}
                   variant="outlined"
+                  onInput={handleInput}
                 />
                 <Box>
                   <Typography>New listing promotion</Typography>
@@ -99,10 +114,10 @@ export default function Discount() {
             <Stack className="flex-row items-center justify-between gap-4">
               <Stack className="flex-row flex-wrap items-center gap-4">
                 <TextField
+                  autoComplete="off"
                   id="outlined-basic"
                   slotProps={{
                     input: {
-                      classes: { focused: "" },
                       className:
                         "pl-0 font-bold bg-common-white rounded-lg text-lg",
                       endAdornment: (
@@ -111,6 +126,7 @@ export default function Discount() {
                     },
                   }}
                   variant="outlined"
+                  onInput={handleInput}
                 />
                 <Box>
                   <Typography>New listing promotion</Typography>

@@ -40,8 +40,17 @@ export function Header() {
       className={`fixed top-0 z-10 w-full bg-common-white ${hasScrolled ? "border-b border-b-common-black/10" : ""}`}
     >
       <Container maxWidth="2xl">
-        <Stack className="flex-row justify-between pb-5 pt-8">
-          <Image alt="Logo" height={32} src="/images/logo.svg" width={32} />
+        <Stack className="flex-row items-center justify-between pb-4 pt-6 md:pb-5 md:pt-8">
+          <picture>
+            <source media="(min-width: 576px)" srcSet="/images/logo.svg" />
+            <Image
+              alt="Logo"
+              className="w-7 sm:w-36"
+              height={32}
+              src="/images/logoIcon.svg"
+              width={140}
+            />
+          </picture>
           <Stack className="flex-row gap-4">
             <Button
               className="rounded-3xl hover:bg-common-white"
