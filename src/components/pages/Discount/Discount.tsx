@@ -45,19 +45,22 @@ export default function Discount() {
           reviews.
         </Typography>
         <Box className="space-y-6">
-          <Box className="rounded-xl border border-divider bg-action-hover px-6 py-8">
+          <Box className="rounded-xl border border-divider bg-action-hover p-4 md:px-6 md:py-8">
             <Stack className="flex-row items-center justify-between gap-4">
-              <Stack className="flex-row flex-wrap items-center gap-4">
+              <Stack className="flex-row items-center gap-4">
                 <TextField
                   disabled
                   autoComplete="off"
+                  className="shrink-0"
                   id="outlined-basic"
                   slotProps={{
                     input: {
                       classes: {
+                        input: "w-6 py-2 pl-3",
                         notchedOutline: "border-none",
                       },
-                      className: "pl-0 font-bold text-lg text-text-primary",
+                      className:
+                        "pl-0 font-bold text-lg text-text-primary pr-3",
                       endAdornment: (
                         <Typography className="text-lg font-bold">%</Typography>
                       ),
@@ -79,16 +82,18 @@ export default function Discount() {
               />
             </Stack>
           </Box>
-          <Box className="rounded-xl border border-divider bg-action-hover px-6 py-8">
+          <Box className="rounded-xl border border-divider bg-action-hover p-4 md:px-6 md:py-8">
             <Stack className="flex-row items-center justify-between gap-4">
-              <Stack className="flex-row flex-wrap items-center gap-4">
+              <Stack className="flex-row items-center gap-4">
                 <TextField
                   autoComplete="off"
+                  className="shrink-0"
                   id="outlined-basic"
                   slotProps={{
                     input: {
+                      classes: { input: "w-6 py-2 pl-3" },
                       className:
-                        "pl-0 font-bold bg-common-white rounded-lg text-lg",
+                        "pl-0 font-bold bg-common-white rounded-lg text-lg pr-3",
                       endAdornment: (
                         <Typography className="text-lg font-bold">%</Typography>
                       ),
@@ -110,16 +115,18 @@ export default function Discount() {
               />
             </Stack>
           </Box>
-          <Box className="rounded-xl border border-divider bg-action-hover px-6 py-8">
+          <Box className="rounded-xl border border-divider bg-action-hover p-4 md:px-6 md:py-8">
             <Stack className="flex-row items-center justify-between gap-4">
-              <Stack className="flex-row flex-wrap items-center gap-4">
+              <Stack className="flex-row items-center gap-4">
                 <TextField
                   autoComplete="off"
+                  className="shrink-0"
                   id="outlined-basic"
                   slotProps={{
                     input: {
+                      classes: { input: "w-6 py-2 pl-3" },
                       className:
-                        "pl-0 font-bold bg-common-white rounded-lg text-lg",
+                        "pl-0 font-bold bg-common-white rounded-lg text-lg pr-3",
                       endAdornment: (
                         <Typography className="text-lg font-bold">%</Typography>
                       ),
