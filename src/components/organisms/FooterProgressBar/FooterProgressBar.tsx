@@ -16,7 +16,7 @@ export default function FooterProgressBar() {
       <Container maxWidth="2xl">
         <Stack className="flex-row items-center justify-between py-4">
           <Box>
-            <Button color="secondary" variant="text">
+            <Button className="text-base" color="secondary" variant="text">
               Back
             </Button>
           </Box>

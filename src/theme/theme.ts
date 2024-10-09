@@ -50,10 +50,10 @@ const theme = createTheme({
     body1: {
       fontSize: "1rem",
     },
-    // body2: {
-    //   fontSize: "0.875rem",
-    //   lineHeight: "1.3125rem",
-    // },
+    body2: {
+      fontSize: "0.875rem",
+      lineHeight: "1.25125rem",
+    },
     // caption: {
     //   fontSize: "0.625rem",
     // },
@@ -66,6 +66,7 @@ const theme = createTheme({
         root: {
           borderRadius: "0.5rem",
           textTransform: "none",
+          boxShadow: "none",
         },
         sizeMedium: {
           padding: "0.421875rem 1rem",

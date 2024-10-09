@@ -9,7 +9,9 @@ export default function ListingLayout({
 }>) {
   return (
     <Box className="flex min-h-[calc(100vh-192px)] flex-col items-center justify-center">
-      <Box className="my-5 flex h-full items-center md:my-10">{children}</Box>
+      <Box className="my-5 flex size-full items-center md:my-10">
+        {children}
+      </Box>
       <Box className="w-full">
         <Toolbar className="min-h-[5.375rem]" />
         <FooterProgressBar />

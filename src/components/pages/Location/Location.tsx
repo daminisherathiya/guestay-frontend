@@ -5,7 +5,7 @@ import Script from "next/script";
 import { Box } from "@/components/atoms/Box";
 import { Container } from "@/components/atoms/Container";
 import { Typography } from "@/components/atoms/Typography";
-import { LocationInputWithAutocompleteService } from "@/components/organisms/LocationInputWithAutocompleteService";
+import { LocationInputWithAutocompleteService } from "@/components/molecules/LocationInputWithAutocompleteService";
 
 export default function Location() {
   return (

@@ -6,7 +6,7 @@ import { Box } from "@/components/atoms/Box";
 import { Container } from "@/components/atoms/Container";
 import { TextField } from "@/components/atoms/TextField/TextField";
 import { Typography } from "@/components/atoms/Typography";
-import CountrySelect from "@/components/organisms/CountrySelect/CountrySelect";
+import CountrySelect from "@/components/molecules/CountrySelect/CountrySelect";
 
 const confirmAddressTextFields = [
   { label: "Flat, house, etc. (if applicable)" },
