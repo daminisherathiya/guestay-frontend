@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef, useState } from "react";
+
 import EditIcon from "@mui/icons-material/Edit";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Divider } from "@mui/material";
@@ -11,102 +13,222 @@ import { IconButton } from "@/components/atoms/IconButton";
 import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
+import MoreAboutPricingDialog from "@/components/molecules/MoreAboutPricingDialog/MoreAboutPricingDialog";
 
 export default function Price() {
+  const [isPriceVisible, setIsPriceVisible] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const togglePriceSection = () => {
+    // setIsPriceVisible((prevState) => !prevState);
+    setIsPriceVisible(!isPriceVisible);
+  };
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
+  const handleInputFocus = () => {
+    setIsEditing(true);
+  };
+
+  const handleInputBlur = () => {
+    setIsEditing(false);
+  };
+  const [value, setValue] = useState("2,439");
+
+  const formatNumberWithCommas = (num) => {
+    if (!num) return "";
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+
+    value = value.replace(/[^0-9]/g, "");
+    if (value.length > 5) {
+      value = value.slice(0, 5);
+    }
+    e.target.value = value;
+    setValue(formatNumberWithCommas(value));
+  };
+
+  const [isMoreAboutPricingDialogOpen, setMoreAboutPricingDialogOpen] =
+    useState(false);
+
+  const handleOpenMoreAboutPricingDialog = () => {
+    setMoreAboutPricingDialogOpen(true);
+  };
+
+  const handleCloseMoreAboutPricingDialog = () => {
+    setMoreAboutPricingDialogOpen(false);
+  };
+
+  const [expanded, setExpanded] = useState(null);
+
+  // Function to toggle the expanded button
+  const toggleExpansion = (buttonIndex) => {
+    setExpanded(buttonIndex);
+  };
+
   return (
-    <Container maxWidth="2xl">
-      <Box className="mx-auto max-w-2xl">
-        <Typography className="mb-2" component="h1" variant="h1">
-          Now, set your price
-        </Typography>
-        <Typography
-          className="mb-8 text-text-secondary"
-          component="h3"
-          variant="h3"
-        >
-          You can change it anytime.
-        </Typography>
-        <Stack className="flex-row items-end">
-          <TextField
-            id="outlined-basic"
-            slotProps={{
-              input: {
-                classes: { notchedOutline: "border-none" },
-                className: "pl-0 text-7xl font-bold",
-                startAdornment: (
-                  <Typography className="text-7xl font-bold">$</Typography>
-                ),
-              },
-            }}
-            variant="outlined"
+    <Container className="flex h-full grow flex-col" maxWidth="2xl">
+      <Stack className="mx-auto h-full max-w-2xl grow justify-center">
+        <Box>
+          <Typography className="mb-2" component="h1" variant="h1">
+            Now, set your price
+          </Typography>
+          <Typography
+            className="mb-8 text-text-secondary"
+            component="h3"
+            variant="h3"
+          >
+            You can change it anytime.
+          </Typography>
+        </Box>
+        <Stack className="flex max-h-96 flex-1 justify-center">
+          <Stack className="flex-row items-baseline justify-center">
+            <TextField
+              autoComplete="off"
+              id="outlined-basic"
+              inputRef={inputRef}
+              slotProps={{
+                input: {
+                  classes: { input: "py-0", notchedOutline: "border-none" },
+                  className: "pl-0 text-5xl sm:text-6xl md:text-7xl font-bold max-w-72",
+                  startAdornment: (
+                    <Typography className="text-5xl sm:text-6xl md:text-7xl font-bold">$</Typography>
+                  ),
+                },
+              }}
+              value={value}
+              variant="outlined"
+              onBlur={handleInputBlur}
+              onFocus={handleInputFocus}
+              onInput={handleInput}
+            />
+            <Box className={`${!isEditing ? "" : "opacity-0"}`}>
+              <IconButton
+                className="size-8 border border-solid border-divider"
+                onClick={handleEditClick}
+              >
+                <EditIcon className="size-4" />
+              </IconButton>
+            </Box>
+          </Stack>
+          <Stack
+            className={`cursor-pointer flex-row justify-center gap-x-1 ${isPriceVisible ? "hidden" : "flex"}`}
+            onClick={togglePriceSection}
+          >
+            <Typography variant="h3">
+              Guest price before taxes $6,077
+            </Typography>
+            <Box>
+              <KeyboardArrowDownIcon />
+            </Box>
+          </Stack>
+          <Stack
+            className={`mt-8 gap-y-3 ${isPriceVisible ? "flex" : "hidden"}`}
+          >
+            <Button
+              disableRipple
+              className="inline-block p-0 no-underline hover:bg-common-white"
+              onClick={() => toggleExpansion(1)}
+            >
+              <Box className="rounded-xl border-2 p-4">
+                <Box
+                  className={`pt-2 ${
+                    expanded === 1 ? "h-full" : "h-0"
+                  } overflow-hidden`}
+                >
+                  <Box className="space-y-2">
+                    <Stack className="flex-row justify-between gap-2">
+                      <Typography variant="h3">Base price</Typography>
+                      <Typography variant="h3">$5,325</Typography>
+                    </Stack>
+                    <Stack className="flex-row justify-between gap-2">
+                      <Typography variant="h3">Base price</Typography>
+                      <Typography variant="h3">$5,325</Typography>
+                    </Stack>
+                  </Box>
+                  <Divider className="mb-4 mt-2 pt-2" />
+                </Box>
+                <Stack className="flex-row justify-between pb-2 gap-2">
+                  <Typography className="font-medium text-left" variant="h3">
+                    Guest price before taxes
+                  </Typography>
+                  <Typography className="font-medium" variant="h3">
+                    $5,325
+                  </Typography>
+                </Stack>
+              </Box>
+            </Button>
+            <Button
+              disableRipple
+              className="inline-block p-0 no-underline hover:bg-common-white"
+              onClick={() => toggleExpansion(2)}
+            >
+              <Box className="rounded-xl border-2 p-4">
+                <Box
+                  className={`pt-2 ${
+                    expanded === 2 ? "h-full" : "h-0"
+                  } overflow-hidden`}
+                >
+                  <Box className="space-y-2">
+                    <Stack className="flex-row justify-between gap-2">
+                      <Typography variant="h3">Base price</Typography>
+                      <Typography variant="h3">$5,325</Typography>
+                    </Stack>
+                    <Stack className="flex-row justify-between gap-2">
+                      <Typography variant="h3">Host service fee</Typography>
+                      <Typography variant="h3">-$160</Typography>
+                    </Stack>
+                  </Box>
+                  <Divider className="mb-4 mt-2 pt-2" />
+                </Box>
+                <Stack className="flex-row justify-between gap-2">
+                  <Typography className="font-medium" variant="h3">
+                    You earn
+                  </Typography>
+                  <Typography className="font-medium" variant="h3">
+                    $5,165
+                  </Typography>
+                </Stack>
+              </Box>
+            </Button>
+          </Stack>
+          <Stack
+            className={`mt-10 cursor-pointer flex-row justify-center gap-x-1 text-center ${isPriceVisible ? "flex" : "hidden"}`}
+            onClick={togglePriceSection}
+          >
+            <Typography variant="h3">Show less</Typography>
+            <Box>
+              <KeyboardArrowDownIcon />
+            </Box>
+          </Stack>
+        </Stack>
+        <Box className="mt-6 text-center">
+          <Button
+            disableRipple
+            className="p-0 text-xs font-normal text-text-secondary"
+            variant="text"
+            onClick={handleOpenMoreAboutPricingDialog}
+          >
+            Learn more about pricing
+          </Button>
+          <MoreAboutPricingDialog
+            handleCloseMoreAboutPricingDialog={
+              handleCloseMoreAboutPricingDialog
+            }
+            isMoreAboutPricingDialogOpen={isMoreAboutPricingDialogOpen}
           />
-          <Box>
-            <IconButton>
-              <EditIcon />
-            </IconButton>
-          </Box>
-        </Stack>
-        <Stack className="flex-row gap-x-1">
-          <Typography>Guest price before taxes ₹6,077</Typography>
-          <Box>
-            <KeyboardArrowDownIcon />
-          </Box>
-        </Stack>
-        <Stack className="gap-y-3">
-          <Button
-            disableRipple
-            className="inline-block p-0 no-underline hover:bg-common-white"
-          >
-            <Box className="space-y-2 rounded-xl border-2 px-4 py-6">
-              <Box className="space-y-2">
-                <Stack className="flex-row justify-between">
-                  <Typography variant="h3">Base price</Typography>
-                  <Typography variant="h3">₹5,325</Typography>
-                </Stack>
-                <Stack className="flex-row justify-between">
-                  <Typography variant="h3">Base price</Typography>
-                  <Typography variant="h3">₹5,325</Typography>
-                </Stack>
-              </Box>
-              <Divider className="pt-2" />
-              <Stack className="flex-row justify-between pt-2">
-                <Typography className="font-medium" variant="h3">
-                  Guest price before taxes
-                </Typography>
-                <Typography className="font-medium" variant="h3">
-                  ₹5,325
-                </Typography>
-              </Stack>
-            </Box>
-          </Button>
-          <Button
-            disableRipple
-            className="inline-block p-0 no-underline hover:bg-common-white"
-          >
-            <Box className="space-y-2 rounded-xl border-2 px-4 py-6">
-              <Box className="space-y-2">
-                <Stack className="flex-row justify-between">
-                  <Typography variant="h3">Base price</Typography>
-                  <Typography variant="h3">₹5,325</Typography>
-                </Stack>
-                <Stack className="flex-row justify-between">
-                  <Typography variant="h3">Host service fee</Typography>
-                  <Typography variant="h3">-₹160</Typography>
-                </Stack>
-              </Box>
-              <Divider className="pt-2" />
-              <Stack className="flex-row justify-between pt-2">
-                <Typography className="font-medium" variant="h3">
-                  You earn
-                </Typography>
-                <Typography className="font-medium" variant="h3">
-                  ₹5,165
-                </Typography>
-              </Stack>
-            </Box>
-          </Button>
-        </Stack>
-      </Box>
+        </Box>
+      </Stack>
     </Container>
   );
 }

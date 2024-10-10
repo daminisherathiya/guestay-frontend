@@ -80,14 +80,14 @@ export default function Receipt() {
                       component="span"
                       variant="body2"
                     >
-                      ₹5,325
+                      $5,325
                     </Typography>{" "}
                     <Typography
                       className="font-bold"
                       component="span"
                       variant="body2"
                     >
-                      ₹5,325
+                      $5,325
                     </Typography>{" "}
                     night
                   </Typography>

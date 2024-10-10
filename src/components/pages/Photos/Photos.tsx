@@ -34,7 +34,7 @@ export default function Photos() {
           You&apos;ll need 5 photos to get started. You can add more or make
           changes later.
         </Typography>
-        <Box className="flex h-[60vh] flex-col items-center justify-center rounded-xl border border-dashed border-[#B0B0B0] bg-action-hover">
+        <Box className="flex h-[60vh] max-h-[31.25rem] flex-col items-center justify-center rounded-xl border border-dashed border-[#B0B0B0] bg-action-hover">
           <Image
             alt="Camera"
             className="mb-3"
