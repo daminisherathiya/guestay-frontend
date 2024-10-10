@@ -115,7 +115,8 @@ export function LocationInputWithAutocompleteService() {
         slotProps={{
           input: {
             classes: {
-              focused: "!rounded-t-2xl !rounded-b-none shadow-none border-b border-divider",
+              focused:
+                "!rounded-t-2xl !rounded-b-none shadow-none border-b border-divider",
               input: "py-4 md:py-5",
               notchedOutline: "border-none",
             },
@@ -137,7 +138,7 @@ export function LocationInputWithAutocompleteService() {
         open={open}
         placement="bottom-start"
       >
-        <Paper className="bg-common-white shadow-lg rounded-t-none rounded-b-2xl mb-28">
+        <Paper className="mb-28 rounded-b-2xl rounded-t-none bg-common-white shadow-lg">
           <ul className="list-none py-3">
             <li>
               <Button

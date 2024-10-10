@@ -42,7 +42,7 @@ export default function Price() {
   };
   const [value, setValue] = useState("2,439");
 
-  const formatNumberWithCommas = (num) => {
+  const formatNumberWithCommas = (num: string) => {
     if (!num) return "";
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
@@ -69,10 +69,10 @@ export default function Price() {
     setMoreAboutPricingDialogOpen(false);
   };
 
-  const [expanded, setExpanded] = useState(null);
+  const [expanded, setExpanded] = useState<number | null>(null);
 
   // Function to toggle the expanded button
-  const toggleExpansion = (buttonIndex) => {
+  const toggleExpansion = (buttonIndex: number) => {
     setExpanded(buttonIndex);
   };
 
@@ -100,9 +100,12 @@ export default function Price() {
               slotProps={{
                 input: {
                   classes: { input: "py-0", notchedOutline: "border-none" },
-                  className: "pl-0 text-5xl sm:text-6xl md:text-7xl font-bold max-w-72",
+                  className:
+                    "pl-0 text-5xl sm:text-6xl md:text-7xl font-bold max-w-72",
                   startAdornment: (
-                    <Typography className="text-5xl sm:text-6xl md:text-7xl font-bold">$</Typography>
+                    <Typography className="text-5xl font-bold sm:text-6xl md:text-7xl">
+                      $
+                    </Typography>
                   ),
                 },
               }}
@@ -158,8 +161,8 @@ export default function Price() {
                   </Box>
                   <Divider className="mb-4 mt-2 pt-2" />
                 </Box>
-                <Stack className="flex-row justify-between pb-2 gap-2">
-                  <Typography className="font-medium text-left" variant="h3">
+                <Stack className="flex-row justify-between gap-2 pb-2">
+                  <Typography className="text-left font-medium" variant="h3">
                     Guest price before taxes
                   </Typography>
                   <Typography className="font-medium" variant="h3">
