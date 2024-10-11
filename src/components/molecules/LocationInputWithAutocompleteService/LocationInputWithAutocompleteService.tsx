@@ -11,31 +11,41 @@ import { Popper } from "@/components/atoms/Popper/Popper";
 import { TextField } from "@/components/atoms/TextField";
 
 type AutocompleteService = google.maps.places.AutocompleteService;
+type GeocoderResult = google.maps.GeocoderResult;
 type PlacePrediction = google.maps.places.AutocompletePrediction;
+type PlaceService = google.maps.places.PlacesService;
 
 export function LocationInputWithAutocompleteService() {
   const [inputValue, setInputValue] = useState<string>("");
-  console.log(
-    "🚀 ~ LocationInputWithAutocompleteService ~ inputValue:",
-    inputValue,
-  );
   const [predictions, setPredictions] = useState<PlacePrediction[]>([]);
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [autocompleteService, setAutocompleteService] =
     useState<AutocompleteService | null>(null);
+  const [placeService, setPlaceService] = useState<PlaceService | null>(null);
   const [open, setOpen] = useState<boolean>(false);
+  const [selectedPlaceDetails, setSelectedPlaceDetails] = useState<any>(null);
+  console.log(
+    "🚀 ~ LocationInputWithAutocompleteService ~ selectedPlaceDetails:",
+    selectedPlaceDetails,
+  );
 
   useEffect(() => {
-    const initializeAutocompleteService = () => {
+    const initializeGoogleServices = () => {
       if (typeof window !== "undefined" && window.google) {
-        const service = new google.maps.places.AutocompleteService();
-        setAutocompleteService(service);
+        const autocompleteService =
+          new google.maps.places.AutocompleteService();
+        setAutocompleteService(autocompleteService);
+
+        const placesService = new google.maps.places.PlacesService(
+          document.createElement("div"),
+        );
+        setPlaceService(placesService);
       }
     };
 
     const intervalId = setInterval(() => {
       if (window.google) {
-        initializeAutocompleteService();
+        initializeGoogleServices();
         clearInterval(intervalId);
       }
     }, 100);
@@ -44,7 +54,6 @@ export function LocationInputWithAutocompleteService() {
   }, []);
 
   const fetchPredictions = (value: string) => {
-    console.log("🚀 ~ fetchPredictions ~ value:", value);
     if (value.length > 0 && autocompleteService) {
       const request = {
         componentRestrictions: { country: "us" },
@@ -54,7 +63,6 @@ export function LocationInputWithAutocompleteService() {
       autocompleteService.getPlacePredictions(
         request,
         (predictions, status) => {
-          console.log("🚀 ~ fetchPredictions ~ predictions:", predictions);
           if (
             status === google.maps.places.PlacesServiceStatus.OK &&
             predictions
@@ -68,6 +76,52 @@ export function LocationInputWithAutocompleteService() {
       );
     } else {
       setPredictions([]);
+    }
+  };
+
+  const findAddressComponent = (
+    components: GeocoderResult["address_components"],
+    type: string,
+  ) => {
+    const component = components.find((c) => c.types.includes(type));
+    return component
+      ? { longName: component.long_name, shortName: component.short_name }
+      : { longName: "", shortName: "" };
+  };
+
+  const handlePlaceSelect = (placeId: string) => {
+    console.log("🚀 ~ handlePlaceSelect ~ placeId:", placeId);
+    if (placeService) {
+      console.log("🚀 ~ handlePlaceSelect ~ placeService:", placeService);
+      const request = {
+        fields: ["address_components", "formatted_address"],
+        placeId,
+      };
+      placeService.getDetails(request, (place, status) => {
+        console.log("🚀 ~ placeService.getDetails ~ status:", status);
+        console.log("🚀 ~ placeService.getDetails ~ place:", place);
+        if (status === google.maps.places.PlacesServiceStatus.OK && place) {
+          const addressComponents = place.address_components ?? [];
+
+          const address = {
+            flatHouse: findAddressComponent(addressComponents, "subpremise"),
+            street: findAddressComponent(addressComponents, "route"),
+            landmark: findAddressComponent(
+              addressComponents,
+              "point_of_interest",
+            ),
+            locality: findAddressComponent(addressComponents, "sublocality"),
+            city: findAddressComponent(addressComponents, "locality"),
+            state: findAddressComponent(
+              addressComponents,
+              "administrative_area_level_1",
+            ),
+            country: findAddressComponent(addressComponents, "country"),
+          };
+          console.log("🚀 ~ placeService.getDetails ~ address:", address);
+          setSelectedPlaceDetails(address);
+        }
+      });
     }
   };
 
@@ -135,7 +189,7 @@ export function LocationInputWithAutocompleteService() {
         disablePortal
         anchorEl={anchorEl}
         className="w-11/12"
-        open={open}
+        open={open || true}
         placement="bottom-start"
       >
         <Paper className="mb-28 rounded-b-2xl rounded-t-none bg-common-white shadow-lg">
@@ -157,6 +211,7 @@ export function LocationInputWithAutocompleteService() {
               <li
                 key={prediction.place_id}
                 className="flex cursor-pointer items-center px-4 py-2 hover:bg-action-hover"
+                onClick={() => handlePlaceSelect(prediction.place_id)}
               >
                 <Avatar className="mr-3 bg-action-hover">
                   <ApartmentIcon className="w-5 text-common-black" />
@@ -165,6 +220,20 @@ export function LocationInputWithAutocompleteService() {
               </li>
             ))}
           </ul>
+          {selectedPlaceDetails && (
+            <div className="mt-4">
+              <h3>Selected Address Details:</h3>
+              <p>Flat/House: {selectedPlaceDetails.flatHouse.shortName}</p>
+              <p>Street Address: {selectedPlaceDetails.street.shortName}</p>
+              <p>Nearby Landmark: {selectedPlaceDetails.landmark.shortName}</p>
+              <p>
+                District/Locality: {selectedPlaceDetails.locality.shortName}
+              </p>
+              <p>City/Town: {selectedPlaceDetails.city.shortName}</p>
+              <p>State: {selectedPlaceDetails.state.shortName}</p>
+              <p>Country: {selectedPlaceDetails.country.shortName}</p>
+            </div>
+          )}
         </Paper>
       </Popper>
     </div>
