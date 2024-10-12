@@ -40,33 +40,33 @@ export default function Photos() {
 
   const handleMakeCoverPhoto = useCallback(
     (index: number) => {
-      [uploadedImages[0], uploadedImages[index]] = [
-        uploadedImages[index],
-        uploadedImages[0],
-      ];
-      setUploadedImages(uploadedImages);
+      const newImages = [...uploadedImages];
+      [newImages[0], newImages[index]] = [newImages[index], newImages[0]];
+      setUploadedImages(newImages);
     },
     [uploadedImages],
   );
 
   const handleMoveBackwards = useCallback(
     (index: number) => {
-      [uploadedImages[index - 1], uploadedImages[index]] = [
-        uploadedImages[index],
-        uploadedImages[index - 1],
+      const newImages = [...uploadedImages];
+      [newImages[index - 1], newImages[index]] = [
+        newImages[index],
+        newImages[index - 1],
       ];
-      setUploadedImages(uploadedImages);
+      setUploadedImages(newImages);
     },
     [uploadedImages],
   );
 
   const handleMoveForwards = useCallback(
     (index: number) => {
-      [uploadedImages[index + 1], uploadedImages[index]] = [
-        uploadedImages[index],
-        uploadedImages[index + 1],
+      const newImages = [...uploadedImages];
+      [newImages[index + 1], newImages[index]] = [
+        newImages[index],
+        newImages[index + 1],
       ];
-      setUploadedImages(uploadedImages);
+      setUploadedImages(newImages);
     },
     [uploadedImages],
   );
