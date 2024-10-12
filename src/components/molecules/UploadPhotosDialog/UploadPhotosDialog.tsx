@@ -38,7 +38,7 @@ const Transition = React.forwardRef(function Transition(
   return <Slide ref={ref} direction="up" {...props} />;
 });
 
-export default function UploadPhotosDialog({
+export function UploadPhotosDialog({
   handleCloseUploadPhotosDialog,
   isUploadPhotosDialogOpen,
   selectedImages,

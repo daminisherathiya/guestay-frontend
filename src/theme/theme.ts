@@ -93,13 +93,6 @@ const theme = createTheme({
         },
       },
     },
-    MuiBackdrop: {
-      styleOverrides: {
-        root: {
-          backgroundColor: "rgba(34, 34, 34, 0.6)",
-        },
-      },
-    },
   },
 });
 /* eslint-enable sort-keys */

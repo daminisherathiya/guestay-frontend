@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import Image from "next/image";
+
+import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
@@ -12,10 +14,11 @@ import { IconButton } from "@/components/atoms/IconButton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-import DeleteIcon from "/public/images/delete.svg";
 import PlusIcon from "/public/images/plus.svg";
 
-import UploadPhotosDialog from "@/components/molecules/UploadPhotosDialog/UploadPhotosDialog";
+import { UploadedPhoto } from "@/components/molecules/UploadedPhoto";
+import { UploadPhotosDialog } from "@/components/molecules/UploadPhotosDialog/UploadPhotosDialog";
+
 export default function Photos() {
   const [isUploadPhotosDialogOpen, setUploadPhotosDialogOpen] = useState(false);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
@@ -29,11 +32,44 @@ export default function Photos() {
     setUploadPhotosDialogOpen(false);
   };
 
-  const handleDeleteImage = (indexToDelete: number) => {
+  const handleDeleteImage = useCallback((indexToDelete: number) => {
     setUploadedImages((prevImages) =>
       prevImages.filter((_, index) => index != indexToDelete),
     );
-  };
+  }, []);
+
+  const handleMakeCoverPhoto = useCallback(
+    (index: number) => {
+      [uploadedImages[0], uploadedImages[index]] = [
+        uploadedImages[index],
+        uploadedImages[0],
+      ];
+      setUploadedImages(uploadedImages);
+    },
+    [uploadedImages],
+  );
+
+  const handleMoveBackwards = useCallback(
+    (index: number) => {
+      [uploadedImages[index - 1], uploadedImages[index]] = [
+        uploadedImages[index],
+        uploadedImages[index - 1],
+      ];
+      setUploadedImages(uploadedImages);
+    },
+    [uploadedImages],
+  );
+
+  const handleMoveForwards = useCallback(
+    (index: number) => {
+      [uploadedImages[index + 1], uploadedImages[index]] = [
+        uploadedImages[index],
+        uploadedImages[index + 1],
+      ];
+      setUploadedImages(uploadedImages);
+    },
+    [uploadedImages],
+  );
 
   const handleUploadImages = () => {
     setUploadedImages([...uploadedImages, ...selectedImages]);
@@ -93,28 +129,35 @@ export default function Photos() {
                 <Grid2
                   key={index}
                   className="relative rounded-xl bg-action-hover"
-                  size={index === 0 ? 12 : 6}
+                  size={{
+                    "2xs": 12,
+                    sm: index === 0 ? 12 : 6,
+                  }}
                 >
-                  <Image
-                    alt={`uploaded-${index}`}
-                    className={`aspect-square size-full rounded-lg object-cover ${index === 0 ? "max-h-[29.125rem]" : "max-h-56"}`}
-                    height={252}
-                    src={imageUrl}
-                    width={252}
+                  <UploadedPhoto
+                    handleDeleteImage={handleDeleteImage}
+                    handleMakeCoverPhoto={handleMakeCoverPhoto}
+                    handleMoveBackwards={handleMoveBackwards}
+                    handleMoveForwards={handleMoveForwards}
+                    imageUrl={imageUrl}
+                    index={index}
+                    totalLength={uploadedImages.length - 1}
                   />
-                  <IconButton
-                    className="absolute right-2 top-2 bg-primary-main shadow-button"
-                    onClick={() => handleDeleteImage(index)}
-                  >
-                    <DeleteIcon
-                      className="text-common-white"
-                      height={16}
-                      width={16}
-                    />
-                  </IconButton>
                 </Grid2>
               );
             })}
+            {uploadedImages.length < 4 &&
+              [...Array(4 - uploadedImages.length)].map((_, index) => (
+                <Grid2 key={index} size={6}>
+                  <Button
+                    className="size-full min-h-56 flex-col items-center justify-center rounded-xl border border-dashed border-text-secondary p-10 hover:border-2 hover:border-solid hover:bg-common-white"
+                    variant="outlined"
+                    onClick={handleOpenUploadPhotosDialog}
+                  >
+                    <ImageOutlinedIcon className="mx-auto !size-10 text-text-secondary" />
+                  </Button>
+                </Grid2>
+              ))}
             <Grid2 size={6}>
               <Button
                 className="size-full min-h-56 flex-col items-center justify-center rounded-xl border border-dashed border-text-secondary p-10 hover:border-2 hover:border-solid hover:bg-common-white"

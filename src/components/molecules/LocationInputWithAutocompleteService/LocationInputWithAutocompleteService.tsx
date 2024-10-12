@@ -15,6 +15,18 @@ type GeocoderResult = google.maps.GeocoderResult;
 type PlacePrediction = google.maps.places.AutocompletePrediction;
 type PlaceService = google.maps.places.PlacesService;
 
+/* eslint-disable @typescript-eslint/member-ordering */
+interface AddressDetails {
+  flatHouse: { longName: string; shortName: string };
+  street: { longName: string; shortName: string };
+  landmark: { longName: string; shortName: string };
+  locality: { longName: string; shortName: string };
+  city: { longName: string; shortName: string };
+  state: { longName: string; shortName: string };
+  country: { longName: string; shortName: string };
+}
+/* eslint-enable @typescript-eslint/member-ordering */
+
 export function LocationInputWithAutocompleteService() {
   const [inputValue, setInputValue] = useState<string>("");
   const [predictions, setPredictions] = useState<PlacePrediction[]>([]);
@@ -23,7 +35,8 @@ export function LocationInputWithAutocompleteService() {
     useState<AutocompleteService | null>(null);
   const [placeService, setPlaceService] = useState<PlaceService | null>(null);
   const [open, setOpen] = useState<boolean>(false);
-  const [selectedPlaceDetails, setSelectedPlaceDetails] = useState<any>(null);
+  const [selectedPlaceDetails, setSelectedPlaceDetails] =
+    useState<AddressDetails | null>(null);
   console.log(
     "🚀 ~ LocationInputWithAutocompleteService ~ selectedPlaceDetails:",
     selectedPlaceDetails,
@@ -103,6 +116,7 @@ export function LocationInputWithAutocompleteService() {
         if (status === google.maps.places.PlacesServiceStatus.OK && place) {
           const addressComponents = place.address_components ?? [];
 
+          /* eslint-disable sort-keys */
           const address = {
             flatHouse: findAddressComponent(addressComponents, "subpremise"),
             street: findAddressComponent(addressComponents, "route"),
@@ -118,6 +132,7 @@ export function LocationInputWithAutocompleteService() {
             ),
             country: findAddressComponent(addressComponents, "country"),
           };
+          /* eslint-enable sort-keys */
           console.log("🚀 ~ placeService.getDetails ~ address:", address);
           setSelectedPlaceDetails(address);
         }
