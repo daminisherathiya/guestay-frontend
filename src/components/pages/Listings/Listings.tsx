@@ -142,7 +142,9 @@ export default function Listings() {
           handleOpenManageListingDialog={handleOpenManageListingDialog}
         />
       ) : (
-        <ListingsGridView />
+        <ListingsGridView
+          handleOpenManageListingDialog={handleOpenManageListingDialog}
+        />
       )}
       <ManageListingDialog
         handleCloseManageListingDialog={handleCloseManageListingDialog}

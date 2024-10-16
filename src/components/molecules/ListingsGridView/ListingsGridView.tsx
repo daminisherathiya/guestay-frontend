@@ -5,10 +5,18 @@ import { Grid2 } from "@/components/atoms/Grid2";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-export default function ListingsGridView() {
+interface ListingsGridViewProps {
+  handleOpenManageListingDialog: () => void;
+}
+export default function ListingsGridView({
+  handleOpenManageListingDialog,
+}: ListingsGridViewProps) {
   return (
     <Grid2 container spacing={3}>
-      <Grid2 size={{ "2xs": 12, sm: 6, lg: 4 }}>
+      <Grid2
+        size={{ "2xs": 12, sm: 6, lg: 4 }}
+        onClick={handleOpenManageListingDialog}
+      >
         <Box className="relative">
           <Box className="aspect-[20/19] overflow-hidden rounded-lg bg-divider">
             <Image
@@ -35,7 +43,10 @@ export default function ListingsGridView() {
           </Typography>
         </Box>
       </Grid2>
-      <Grid2 size={{ "2xs": 12, sm: 6, lg: 4 }}>
+      <Grid2
+        size={{ "2xs": 12, sm: 6, lg: 4 }}
+        onClick={handleOpenManageListingDialog}
+      >
         <Box className="relative">
           <Box className="aspect-[20/19] overflow-hidden rounded-lg bg-divider">
             {/* <Image
@@ -62,7 +73,10 @@ export default function ListingsGridView() {
           </Typography>
         </Box>
       </Grid2>
-      <Grid2 size={{ "2xs": 12, sm: 6, lg: 4 }}>
+      <Grid2
+        size={{ "2xs": 12, sm: 6, lg: 4 }}
+        onClick={handleOpenManageListingDialog}
+      >
         <Box className="relative">
           <Box className="aspect-[20/19] overflow-hidden rounded-lg bg-divider">
             <Image
@@ -89,7 +103,10 @@ export default function ListingsGridView() {
           </Typography>
         </Box>
       </Grid2>
-      <Grid2 size={{ "2xs": 12, sm: 6, lg: 4 }}>
+      <Grid2
+        size={{ "2xs": 12, sm: 6, lg: 4 }}
+        onClick={handleOpenManageListingDialog}
+      >
         <Box className="relative">
           <Box className="aspect-[20/19] overflow-hidden rounded-lg bg-divider">
             {/* <Image
@@ -116,7 +133,10 @@ export default function ListingsGridView() {
           </Typography>
         </Box>
       </Grid2>
-      <Grid2 size={{ "2xs": 12, sm: 6, lg: 4 }}>
+      <Grid2
+        size={{ "2xs": 12, sm: 6, lg: 4 }}
+        onClick={handleOpenManageListingDialog}
+      >
         <Box className="relative">
           <Box className="aspect-[20/19] overflow-hidden rounded-lg bg-divider">
             <Image
@@ -143,7 +163,10 @@ export default function ListingsGridView() {
           </Typography>
         </Box>
       </Grid2>
-      <Grid2 size={{ "2xs": 12, sm: 6, lg: 4 }}>
+      <Grid2
+        size={{ "2xs": 12, sm: 6, lg: 4 }}
+        onClick={handleOpenManageListingDialog}
+      >
         <Box className="relative">
           <Box className="aspect-[20/19] overflow-hidden rounded-lg bg-divider">
             <Image

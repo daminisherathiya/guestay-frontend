@@ -10,7 +10,7 @@ import { Stack } from "@/components/atoms/Stack";
 
 import QuestionsDrawer from "../QuestionsDrawer/QuestionsDrawer";
 
-export function Header() {
+export default function Header() {
   const [hasScrolled, setHasScrolled] = useState(false);
 
   const [openQuestionsDrawer, setOpenQuestionsDrawer] = useState(false);
