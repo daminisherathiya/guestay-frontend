@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 
-import Button from "@mui/material/Button";
+import { Button } from "@/components/atoms/Button";
 
 interface InputFileUploadProps {
   children: ReactElement;

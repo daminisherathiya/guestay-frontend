@@ -67,6 +67,9 @@ const theme = createTheme({
           borderRadius: "0.5rem",
           textTransform: "none",
           boxShadow: "none",
+          ":hover": {
+            boxShadow: "none",
+          }
         },
         sizeMedium: {
           padding: "0.421875rem 1rem",

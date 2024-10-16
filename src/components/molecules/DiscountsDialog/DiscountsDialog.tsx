@@ -1,14 +1,14 @@
 import * as React from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
-import { DialogContentText } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 
+import { Dialog } from "@/components/atoms/Dialog";
+import { DialogContent } from "@/components/atoms/DialogContent";
+import { DialogContentText } from "@/components/atoms/DialogContentText";
+import { DialogTitle } from "@/components/atoms/DialogTitle";
 import { IconButton } from "@/components/atoms/IconButton";
+import { Slide } from "@/components/atoms/Slide";
 import { Typography } from "@/components/atoms/Typography";
 
 type DiscountsDialogProps = {
@@ -20,7 +20,7 @@ const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
   },
-  ref: React.Ref<unknown>,
+  ref: React.Ref<HTMLDivElement>,
 ) {
   return <Slide ref={ref} direction="up" {...props} />;
 });

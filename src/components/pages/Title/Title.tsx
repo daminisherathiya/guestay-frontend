@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 
-import TextareaAutosize from "@mui/material/TextareaAutosize";
-
 import { Box } from "@/components/atoms/Box";
 import { Container } from "@/components/atoms/Container";
+import { TextareaAutosize } from "@/components/atoms/TextareaAutosize";
 import { Typography } from "@/components/atoms/Typography";
 
 export default function Title() {

@@ -15,19 +15,11 @@ type GeocoderResult = google.maps.GeocoderResult;
 type PlacePrediction = google.maps.places.AutocompletePrediction;
 type PlaceService = google.maps.places.PlacesService;
 
-/* eslint-disable @typescript-eslint/member-ordering */
-interface AddressDetails {
-  flatHouse: { longName: string; shortName: string };
-  street: { longName: string; shortName: string };
-  landmark: { longName: string; shortName: string };
-  locality: { longName: string; shortName: string };
-  city: { longName: string; shortName: string };
-  state: { longName: string; shortName: string };
-  country: { longName: string; shortName: string };
-}
 /* eslint-enable @typescript-eslint/member-ordering */
 
-export function LocationInputWithAutocompleteService() {
+export function LocationInputWithAutocompleteService({
+  setSelectedPlaceDetails,
+}) {
   const [inputValue, setInputValue] = useState<string>("");
   const [predictions, setPredictions] = useState<PlacePrediction[]>([]);
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
@@ -35,12 +27,6 @@ export function LocationInputWithAutocompleteService() {
     useState<AutocompleteService | null>(null);
   const [placeService, setPlaceService] = useState<PlaceService | null>(null);
   const [open, setOpen] = useState<boolean>(false);
-  const [selectedPlaceDetails, setSelectedPlaceDetails] =
-    useState<AddressDetails | null>(null);
-  console.log(
-    "🚀 ~ LocationInputWithAutocompleteService ~ selectedPlaceDetails:",
-    selectedPlaceDetails,
-  );
 
   useEffect(() => {
     const initializeGoogleServices = () => {
@@ -235,20 +221,6 @@ export function LocationInputWithAutocompleteService() {
               </li>
             ))}
           </ul>
-          {selectedPlaceDetails && (
-            <div className="mt-4">
-              <h3>Selected Address Details:</h3>
-              <p>Flat/House: {selectedPlaceDetails.flatHouse.shortName}</p>
-              <p>Street Address: {selectedPlaceDetails.street.shortName}</p>
-              <p>Nearby Landmark: {selectedPlaceDetails.landmark.shortName}</p>
-              <p>
-                District/Locality: {selectedPlaceDetails.locality.shortName}
-              </p>
-              <p>City/Town: {selectedPlaceDetails.city.shortName}</p>
-              <p>State: {selectedPlaceDetails.state.shortName}</p>
-              <p>Country: {selectedPlaceDetails.country.shortName}</p>
-            </div>
-          )}
         </Paper>
       </Popper>
     </div>

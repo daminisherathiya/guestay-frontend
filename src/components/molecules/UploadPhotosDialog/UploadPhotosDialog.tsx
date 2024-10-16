@@ -3,17 +3,17 @@ import React from "react";
 import Image from "next/image";
 
 import CloseIcon from "@mui/icons-material/Close";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 
 import { Box } from "@/components/atoms/Box";
+import { Button } from "@/components/atoms/Button";
+import { Dialog } from "@/components/atoms/Dialog";
+import { DialogActions } from "@/components/atoms/DialogActions";
+import { DialogContent } from "@/components/atoms/DialogContent";
+import { DialogTitle } from "@/components/atoms/DialogTitle";
 import { Grid2 } from "@/components/atoms/Grid2";
 import { IconButton } from "@/components/atoms/IconButton";
+import { Slide } from "@/components/atoms/Slide";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
@@ -33,7 +33,7 @@ const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
   },
-  ref: React.Ref<unknown>,
+  ref: React.Ref<HTMLDivElement>,
 ) {
   return <Slide ref={ref} direction="up" {...props} />;
 });
