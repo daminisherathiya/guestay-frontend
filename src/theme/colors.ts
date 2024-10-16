@@ -6,8 +6,8 @@ export const palette = {
   // Override the MUI defaults
   action: {
     active: "#222222",
-    disabled: "#00ff00",
-    disabledBackground: "#00ff00",
+    disabled: "#ffffff",
+    disabledBackground: "#dddddd",
     focus: "#00ff00",
     hover: "#f7f7f7",
     selected: "#00ff00",

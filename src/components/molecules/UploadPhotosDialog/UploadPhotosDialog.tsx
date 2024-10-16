@@ -19,8 +19,10 @@ type UploadPhotosDialogProps = {
   handleCloseUploadPhotosDialog: () => void;
   handleUploadImages: () => void;
   isUploadPhotosDialogOpen: boolean;
-  selectedImages: File[];
-  setSelectedImages: React.Dispatch<React.SetStateAction<File[]>>;
+  selectedImages: { error?: string; file: File }[];
+  setSelectedImages: React.Dispatch<
+    React.SetStateAction<{ error?: string; file: File }[]>
+  >;
 };
 
 const UploadPhotosDialogHeader = ({
@@ -71,8 +73,8 @@ const ImageGrid = ({
   handleDeleteSelectedImage: (index: number) => void;
 }) => (
   <Grid2 container spacing={2}>
-    {selectedImages.map((image, index) => {
-      const imageUrl = URL.createObjectURL(image);
+    {selectedImages.map((imageData, index) => {
+      const imageUrl = URL.createObjectURL(imageData.file);
       return (
         <Grid2
           key={index}
@@ -92,6 +94,14 @@ const ImageGrid = ({
           >
             <DeleteIcon className="text-common-white" height={16} width={16} />
           </IconButton>
+          {imageData.error && (
+            <Stack className="absolute bottom-2 left-2 flex-row items-center gap-1  bg-[#fcf2e8] px-1.5 py-0.5">
+              <Box className="size-2 shrink-0 rounded-full bg-[#E07912]"></Box>
+              <Typography className="text-xs font-bold" variant="body2">
+                {imageData.error}
+              </Typography>
+            </Stack>
+          )}
         </Grid2>
       );
     })}
@@ -140,6 +150,9 @@ export default function UploadPhotosDialog({
     );
   };
 
+  const hasImageErrors = selectedImages.some((image) => !!image.error);
+  const noImagesSelected = selectedImages.length === 0;
+
   return (
     <DialogWrapper
       customHeader={
@@ -159,6 +172,7 @@ export default function UploadPhotosDialog({
           </Button>
           <Button
             className="ml-0"
+            disabled={noImagesSelected || hasImageErrors}
             size="large"
             variant="contained"
             onClick={handleUploadImages}

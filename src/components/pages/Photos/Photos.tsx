@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import Image from "next/image";
 
@@ -21,7 +21,9 @@ import UploadPhotosDialog from "@/components/molecules/UploadPhotosDialog/Upload
 
 export default function Photos() {
   const [isUploadPhotosDialogOpen, setUploadPhotosDialogOpen] = useState(false);
-  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [selectedImages, setSelectedImages] = useState<
+    { error?: string; file: File }[]
+  >([]);
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
 
   const handleOpenUploadPhotosDialog = () => {
@@ -72,10 +74,24 @@ export default function Photos() {
   );
 
   const handleUploadImages = () => {
-    setUploadedImages([...uploadedImages, ...selectedImages]);
+    setUploadedImages([
+      ...uploadedImages,
+      ...selectedImages.map((image) => image.file),
+    ]);
     setSelectedImages([]);
     handleCloseUploadPhotosDialog();
   };
+
+  // const imageUrls = useMemo(() => {
+  //   return uploadedImages.map((image) => URL.createObjectURL(image));
+  // }, [uploadedImages]);
+
+  // // Cleanup object URLs to prevent memory leaks
+  // useEffect(() => {
+  //   return () => {
+  //     imageUrls.forEach((url) => URL.revokeObjectURL(url));
+  //   };
+  // }, [imageUrls]);
 
   return (
     <Container maxWidth="2xl">
