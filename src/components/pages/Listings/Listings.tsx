@@ -16,11 +16,11 @@ import { Typography } from "@/components/atoms/Typography";
 
 import PlusIcon from "/public/images/plus.svg";
 
-import ListingsGridView from "@/components/molecules/ListingsGridView/ListingsGridView";
-import ListingsListView from "@/components/molecules/ListingsListView/ListingsListView";
-import ManageListingDialog from "@/components/molecules/ManageListingDialog/ManageListingDialog";
+import { ListingsGridView } from "@/components/molecules/ListingsGridView/ListingsGridView";
+import { ListingsListView } from "@/components/molecules/ListingsListView/ListingsListView";
+import { ManageListingDialog } from "@/components/molecules/ManageListingDialog/ManageListingDialog";
 
-export default function Listings() {
+export function Listings() {
   const [isManageListingDialogOpen, setManageListingDialogOpen] =
     useState(false);
   const [isSearching, setIsSearching] = useState(false);

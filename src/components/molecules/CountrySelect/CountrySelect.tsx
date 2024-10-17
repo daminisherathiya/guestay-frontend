@@ -14,7 +14,7 @@ interface CountrySelectProps {
   totalFields?: number;
 }
 
-export default function CountrySelect({
+export function CountrySelect({
   index = 0,
   focusedInputIndex = 0,
   totalFields = 1,

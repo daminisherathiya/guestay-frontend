@@ -12,8 +12,8 @@ import { Typography } from "@/components/atoms/Typography";
 
 import GoogleIcon from "/public/images/google.svg";
 
-import DialogWrapper from "../DialogWrapper/DialogWrapper";
-import TextFieldWrapper from "../TextFieldWrapper/TextFieldWrapper";
+import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
+import { TextFieldWrapper } from "../TextFieldWrapper/TextFieldWrapper";
 
 interface SignUpDialogProps {
   handleCloseSignUpDialog: () => void;
@@ -53,7 +53,7 @@ function SocialButton({ className, icon, label }: SocialButtonProps) {
   );
 }
 
-export default function SignUpDialog({
+export function SignUpDialog({
   handleCloseSignUpDialog,
   handleOpenLoginDialog,
   isSignUpDialogOpen,

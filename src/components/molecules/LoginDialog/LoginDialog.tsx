@@ -5,8 +5,8 @@ import { Button } from "@/components/atoms/Button";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-import DialogWrapper from "../DialogWrapper/DialogWrapper";
-import TextFieldWrapper from "../TextFieldWrapper/TextFieldWrapper";
+import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
+import { TextFieldWrapper } from "../TextFieldWrapper/TextFieldWrapper";
 
 interface LoginDialogProps {
   handleCloseLoginDialog: () => void;
@@ -19,7 +19,7 @@ const loginTextFields = [
   { key: "password", label: "Password", type: "password" },
 ];
 
-export default function LoginDialog({
+export function LoginDialog({
   handleCloseLoginDialog,
   handleOpenSignUpDialog,
   isLoginDialogOpen,

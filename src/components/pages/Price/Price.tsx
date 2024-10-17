@@ -13,9 +13,9 @@ import { IconButton } from "@/components/atoms/IconButton";
 import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
-import MoreAboutPricingDialog from "@/components/molecules/MoreAboutPricingDialog/MoreAboutPricingDialog";
+import { MoreAboutPricingDialog } from "@/components/molecules/MoreAboutPricingDialog/MoreAboutPricingDialog";
 
-export default function Price() {
+export function Price() {
   const [isPriceVisible, setIsPriceVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 

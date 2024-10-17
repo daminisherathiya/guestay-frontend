@@ -9,7 +9,7 @@ import { Container } from "@/components/atoms/Container";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-export default function ListingHome() {
+export function ListingHome() {
   return (
     <Container maxWidth="2xl">
       <Box className="mx-auto max-w-2xl">

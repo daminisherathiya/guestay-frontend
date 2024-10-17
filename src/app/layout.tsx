@@ -6,7 +6,7 @@ import { CssBaseline } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 
 import { Toolbar } from "@/components/atoms/Toolbar";
-import Header from "@/components/organisms/Header/Header";
+import { Header } from "@/components/organisms/Header/Header";
 import { ThemeProvider as CustomThemeProvider } from "@/theme/ThemeProvider";
 
 import "../globals.css";

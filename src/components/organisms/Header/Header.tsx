@@ -7,12 +7,12 @@ import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
 import { Drawer } from "@/components/atoms/Drawer";
 import { Stack } from "@/components/atoms/Stack";
-import LoginDialog from "@/components/molecules/LoginDialog/LoginDialog";
-import SignUpDialog from "@/components/molecules/SignUpDialog/SignUpDialog";
+import { LoginDialog } from "@/components/molecules/LoginDialog/LoginDialog";
+import { SignUpDialog } from "@/components/molecules/SignUpDialog/SignUpDialog";
 
-import QuestionsDrawer from "../QuestionsDrawer/QuestionsDrawer";
+import { QuestionsDrawer } from "../QuestionsDrawer/QuestionsDrawer";
 
-export default function Header() {
+export function Header() {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [openQuestionsDrawer, setOpenQuestionsDrawer] = useState(false);
   const [isSignUpDialogOpen, setSignUpDialogOpen] = useState(false);

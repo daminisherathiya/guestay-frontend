@@ -16,10 +16,10 @@ import { Typography } from "@/components/atoms/Typography";
 
 import PlusIcon from "/public/images/plus.svg";
 
-import UploadedPhoto from "@/components/molecules/UploadedPhoto/UploadedPhoto";
-import UploadPhotosDialog from "@/components/molecules/UploadPhotosDialog/UploadPhotosDialog";
+import { UploadedPhoto } from "@/components/molecules/UploadedPhoto/UploadedPhoto";
+import { UploadPhotosDialog } from "@/components/molecules/UploadPhotosDialog/UploadPhotosDialog";
 
-export default function Photos() {
+export function Photos() {
   const [isUploadPhotosDialogOpen, setUploadPhotosDialogOpen] = useState(false);
   const [selectedImages, setSelectedImages] = useState<
     { error?: string; file: File }[]

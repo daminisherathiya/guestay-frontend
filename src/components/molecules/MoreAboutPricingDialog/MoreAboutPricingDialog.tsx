@@ -2,14 +2,14 @@ import { Box, DialogContentText } from "@mui/material";
 
 import { Typography } from "@/components/atoms/Typography";
 
-import DialogWrapper from "../DialogWrapper/DialogWrapper";
+import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
 
 type MoreAboutPricingDialogProps = {
   handleCloseMoreAboutPricingDialog: () => void;
   isMoreAboutPricingDialogOpen: boolean;
 };
 
-export default function MoreAboutPricingDialog({
+export function MoreAboutPricingDialog({
   handleCloseMoreAboutPricingDialog,
   isMoreAboutPricingDialogOpen,
 }: MoreAboutPricingDialogProps) {

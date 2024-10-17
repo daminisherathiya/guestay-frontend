@@ -10,7 +10,7 @@ import { Container } from "@/components/atoms/Container";
 import { Grid2 } from "@/components/atoms/Grid2";
 import { Typography } from "@/components/atoms/Typography";
 
-export default function Structure() {
+export function Structure() {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const handleButtonClick = (value: string) => {

@@ -8,9 +8,9 @@ import { Box } from "@/components/atoms/Box";
 import { Container } from "@/components/atoms/Container";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
-import CountrySelect from "@/components/molecules/CountrySelect/CountrySelect";
+import { CountrySelect } from "@/components/molecules/CountrySelect/CountrySelect";
 import { LocationInputWithAutocompleteService } from "@/components/molecules/LocationInputWithAutocompleteService";
-import TextFieldWrapper from "@/components/molecules/TextFieldWrapper/TextFieldWrapper";
+import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper/TextFieldWrapper";
 
 import { AddressDetails } from "./LocationTypes";
 
@@ -24,7 +24,7 @@ const confirmAddressTextFields = [
   { key: "pinCode", label: "PIN code" },
 ];
 
-export default function Location() {
+export function Location() {
   const [selectedPlaceDetails, setSelectedPlaceDetails] =
     useState<AddressDetails | null>(null);
 

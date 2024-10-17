@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import Photos from "@/components/pages/Photos/Photos";
+import { Photos } from "@/components/pages/Photos/Photos";
 
 export const metadata: Metadata = {
   title: "Add some photos - Guestay",

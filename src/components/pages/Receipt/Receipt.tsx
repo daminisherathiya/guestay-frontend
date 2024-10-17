@@ -12,9 +12,9 @@ import { Container } from "@/components/atoms/Container";
 import { Grid2 } from "@/components/atoms/Grid2";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
-import FullReceiptPreviewDialog from "@/components/molecules/FullReceiptPreviewDialog/FullReceiptPreviewDialog";
+import { FullReceiptPreviewDialog } from "@/components/molecules/FullReceiptPreviewDialog/FullReceiptPreviewDialog";
 
-export default function Receipt() {
+export function Receipt() {
   const [isFullReceiptPreviewDialogOpen, setFullReceiptPreviewDialogOpen] =
     useState(false);
 

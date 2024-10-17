@@ -1,6 +1,6 @@
 import { Box } from "@/components/atoms/Box";
 import { Toolbar } from "@/components/atoms/Toolbar";
-import FooterProgressBar from "@/components/organisms/FooterProgressBar/FooterProgressBar";
+import { FooterProgressBar } from "@/components/organisms/FooterProgressBar/FooterProgressBar";
 
 export default function ListingLayout({
   children,

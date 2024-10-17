@@ -7,14 +7,14 @@ import { Grid2 } from "@/components/atoms/Grid2";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-import DialogWrapper from "../DialogWrapper/DialogWrapper";
+import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
 
 type FullReceiptPreviewDialogProps = {
   handleCloseFullReceiptPreviewDialog: () => void;
   isFullReceiptPreviewDialogOpen: boolean;
 };
 
-export default function FullReceiptPreviewDialog({
+export function FullReceiptPreviewDialog({
   handleCloseFullReceiptPreviewDialog,
   isFullReceiptPreviewDialogOpen,
 }: FullReceiptPreviewDialogProps) {

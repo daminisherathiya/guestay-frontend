@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import { IconButton } from "@/components/atoms/IconButton";
 import { InputAdornment } from "@/components/atoms/InputAdornment";
 
-import CountrySelect from "../CountrySelect/CountrySelect";
+import { CountrySelect } from "../CountrySelect/CountrySelect";
 
 interface TextFieldWrapperProps {
   endAdornment?: React.ReactNode;
@@ -47,7 +47,7 @@ function PasswordAdornment({
   );
 }
 
-export default function TextFieldWrapper({
+export function TextFieldWrapper({
   endAdornment,
   focusedInputIndex,
   handleBlur,

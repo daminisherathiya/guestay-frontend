@@ -162,7 +162,7 @@ const urlToFooterDetails: Record<string, FooterDetailsType> = {
 };
 /* eslint-enable sort-keys */
 
-export default function FooterProgressBar() {
+export function FooterProgressBar() {
   const pathname = usePathname();
 
   const footerDetails = urlToFooterDetails[pathname] || {

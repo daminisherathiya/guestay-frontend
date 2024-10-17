@@ -3,7 +3,7 @@ import { Container } from "@/components/atoms/Container";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-export default function StandOut() {
+export function StandOut() {
   return (
     <Container maxWidth="2xl">
       <Box className="mx-auto md:w-11/12">

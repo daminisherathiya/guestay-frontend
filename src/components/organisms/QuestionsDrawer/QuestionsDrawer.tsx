@@ -8,7 +8,7 @@ interface QuestionsDrawerProps {
   onClose: () => void;
 }
 
-export default function QuestionsDrawer({ onClose }: QuestionsDrawerProps) {
+export function QuestionsDrawer({ onClose }: QuestionsDrawerProps) {
   return (
     <Box className="px-6">
       <Box className="relative py-5">

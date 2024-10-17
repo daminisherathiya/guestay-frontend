@@ -12,7 +12,7 @@ interface InputFileUploadProps {
   size?: "small" | "large" | "medium";
 }
 
-export default function InputFileUpload({
+export function InputFileUpload({
   children,
   className,
   size = "large",

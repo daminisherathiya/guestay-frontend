@@ -1,14 +1,14 @@
 import { DialogContentText } from "@/components/atoms/DialogContentText";
 import { Typography } from "@/components/atoms/Typography";
 
-import DialogWrapper from "../DialogWrapper/DialogWrapper";
+import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
 
 type DiscountsDialogProps = {
   handleCloseDiscountsDialog: () => void;
   isDiscountsDialogOpen: boolean;
 };
 
-export default function DiscountsDialog({
+export function DiscountsDialog({
   handleCloseDiscountsDialog,
   isDiscountsDialogOpen,
 }: DiscountsDialogProps) {

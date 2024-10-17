@@ -8,7 +8,8 @@ import { Typography } from "@/components/atoms/Typography";
 interface ListingsGridViewProps {
   handleOpenManageListingDialog: () => void;
 }
-export default function ListingsGridView({
+
+export function ListingsGridView({
   handleOpenManageListingDialog,
 }: ListingsGridViewProps) {
   return (

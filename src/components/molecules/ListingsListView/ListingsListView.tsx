@@ -100,7 +100,7 @@ const rows = [
 
 const paginationModel = { page: 0, pageSize: 5 };
 
-export default function ListingsListView({
+export function ListingsListView({
   handleOpenManageListingDialog,
 }: ListingsListViewProps) {
   return (

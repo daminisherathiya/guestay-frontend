@@ -12,8 +12,8 @@ import { IconButton } from "@/components/atoms/IconButton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-import DialogWrapper from "../DialogWrapper/DialogWrapper";
-import InputFileUpload from "../InputFileUpload/InputFileUpload";
+import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
+import { InputFileUpload } from "../InputFileUpload/InputFileUpload";
 
 type UploadPhotosDialogProps = {
   handleCloseUploadPhotosDialog: () => void;
@@ -137,7 +137,7 @@ const EmptyState = ({
   </Box>
 );
 
-export default function UploadPhotosDialog({
+export function UploadPhotosDialog({
   handleCloseUploadPhotosDialog,
   isUploadPhotosDialogOpen,
   selectedImages,

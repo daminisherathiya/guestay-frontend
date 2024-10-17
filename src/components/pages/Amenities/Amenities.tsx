@@ -10,7 +10,7 @@ import { Container } from "@/components/atoms/Container";
 import { Grid2 } from "@/components/atoms/Grid2";
 import { Typography } from "@/components/atoms/Typography";
 
-export default function Amenities() {
+export function Amenities() {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
   const handleButtonClick = (value: string) => {
@@ -75,7 +75,7 @@ export default function Amenities() {
                 disableRipple
                 className={`w-full flex-col items-start p-4 hover:border-common-transparent hover:bg-common-white hover:shadow-black ${
                   selectedOptions.includes(place.name)
-                    ? "bg-background-highlight border-common-transparent shadow-black"
+                    ? "border-common-transparent bg-background-highlight shadow-black"
                     : ""
                 }`}
                 variant="outlined"

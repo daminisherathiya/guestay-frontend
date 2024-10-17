@@ -6,14 +6,14 @@ import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
 import { Typography } from "@/components/atoms/Typography";
 
-import DialogWrapper from "../DialogWrapper/DialogWrapper";
+import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
 
 type ManageListingDialogProps = {
   handleCloseManageListingDialog: () => void;
   isManageListingDialogOpen: boolean;
 };
 
-export default function ManageListingDialog({
+export function ManageListingDialog({
   handleCloseManageListingDialog,
   isManageListingDialogOpen,
 }: ManageListingDialogProps) {

@@ -18,7 +18,7 @@ interface UploadedPhotoProps {
   totalLength: number;
 }
 
-export default function UploadedPhoto({
+export function UploadedPhoto({
   handleDeleteImage,
   handleMakeCoverPhoto,
   handleMoveBackwards,

@@ -7,7 +7,7 @@ import { Container } from "@/components/atoms/Container";
 import { TextareaAutosize } from "@/components/atoms/TextareaAutosize";
 import { Typography } from "@/components/atoms/Typography";
 
-export default function Description() {
+export function Description() {
   const [title, setTitle] = useState("");
   const handleTitleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value;

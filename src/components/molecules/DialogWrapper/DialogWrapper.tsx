@@ -30,7 +30,7 @@ const Transition = React.forwardRef(function Transition(
   return <Slide ref={ref} direction="up" {...props} />;
 });
 
-export default function DialogWrapper({
+export function DialogWrapper({
   children,
   customHeader,
   dialogActions,

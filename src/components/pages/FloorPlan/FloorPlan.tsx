@@ -29,7 +29,7 @@ const floorPlanItems: CounterItem[] = [
   { field: "bathrooms", max: 50, name: "Bathrooms" },
 ];
 
-export default function FloorPlan() {
+export function FloorPlan() {
   const [counters, setCounters] = useState<CounterState>({
     bathrooms: 1,
     bedrooms: 1,
