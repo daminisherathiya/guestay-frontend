@@ -2,6 +2,8 @@
 // - https://mui.com/material-ui/customization/dark-mode/
 // - https://mui.com/material-ui/customization/default-theme/?expand-path=$.palette
 
+import { darken } from "@mui/system";
+
 /* eslint-disable sort-keys */
 export const palette = {
   // Override the MUI defaults
@@ -35,7 +37,7 @@ export const palette = {
   },
   secondary: {
     contrastText: "#222222",
-    dark: "#00ff00",
+    dark: darken("#f06a55", 0.05),
     light: "#00ff00",
     main: "#f06a55",
   },
