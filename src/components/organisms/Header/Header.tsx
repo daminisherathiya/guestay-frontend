@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import Image from "next/image";
 
@@ -7,17 +7,38 @@ import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
 import { Drawer } from "@/components/atoms/Drawer";
 import { Stack } from "@/components/atoms/Stack";
+import LoginDialog from "@/components/molecules/LoginDialog/LoginDialog";
+import SignUpDialog from "@/components/molecules/SignUpDialog/SignUpDialog";
 
 import QuestionsDrawer from "../QuestionsDrawer/QuestionsDrawer";
 
 export default function Header() {
   const [hasScrolled, setHasScrolled] = useState(false);
-
   const [openQuestionsDrawer, setOpenQuestionsDrawer] = useState(false);
+  const [isSignUpDialogOpen, setSignUpDialogOpen] = useState(false);
+  const [isLoginDialogOpen, setLoginDialogOpen] = useState(false);
 
   const toggleQuestionsDrawer = (newOpenQuestionsDrawer: boolean) => () => {
     setOpenQuestionsDrawer(newOpenQuestionsDrawer);
   };
+
+  const handleCloseSignUpDialog = useCallback(() => {
+    setSignUpDialogOpen(false);
+  }, []);
+
+  const handleCloseLoginDialog = useCallback(() => {
+    setLoginDialogOpen(false);
+  }, []);
+
+  const handleOpenSignUpDialog = useCallback(() => {
+    handleCloseLoginDialog();
+    setSignUpDialogOpen(true);
+  }, [handleCloseLoginDialog]);
+
+  const handleOpenLoginDialog = useCallback(() => {
+    handleCloseSignUpDialog();
+    setLoginDialogOpen(true);
+  }, [handleCloseSignUpDialog]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,6 +95,30 @@ export default function Header() {
             >
               Exit
             </Button>
+            <Button
+              className="rounded-3xl"
+              variant="outlined"
+              onClick={handleOpenLoginDialog}
+            >
+              Login
+            </Button>
+            <LoginDialog
+              handleCloseLoginDialog={handleCloseLoginDialog}
+              handleOpenSignUpDialog={handleOpenSignUpDialog}
+              isLoginDialogOpen={isLoginDialogOpen}
+            />
+            <Button
+              className="rounded-3xl"
+              variant="contained"
+              onClick={handleOpenSignUpDialog}
+            >
+              Sign up
+            </Button>
+            <SignUpDialog
+              handleCloseSignUpDialog={handleCloseSignUpDialog}
+              handleOpenLoginDialog={handleOpenLoginDialog}
+              isSignUpDialogOpen={isSignUpDialogOpen}
+            />
           </Stack>
         </Stack>
       </Container>

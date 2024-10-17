@@ -35,7 +35,7 @@ export const palette = {
     contrastText: "#222222",
     dark: "#00ff00",
     light: "#00ff00",
-    main: "#E61E4D",
+    main: "#f06a55",
   },
   // warning: {},
   // info: {},

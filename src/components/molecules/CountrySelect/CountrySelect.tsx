@@ -8,7 +8,17 @@ import { Autocomplete } from "@/components/atoms/Autocomplete";
 import { Box } from "@/components/atoms/Box";
 import { TextField } from "@/components/atoms/TextField";
 
-export default function CountrySelect() {
+interface CountrySelectProps {
+  index?:number,
+  focusedInputIndex? : number,
+  totalFields? :number,
+}
+
+export default function CountrySelect({
+  index = 0,
+  focusedInputIndex = 0,
+  totalFields = 1,
+}:CountrySelectProps) {
   return (
     <Autocomplete
       autoHighlight
@@ -23,9 +33,18 @@ export default function CountrySelect() {
           slotProps={{
             input: {
               ...params.InputProps,
-              classes: { focused: "before:border-y-common-transparent" },
-              className:
-                "before:border-common-black/45 before:border before:transition-none bg-common-white before:rounded-lg before:h-full after:h-full after:border-2 after:border-common-black after:transition-none after:rounded-lg",
+              classes: {
+                focused: "before:border-y-common-transparent",
+              },
+              className: `before:h-full ${
+                index === 0 ? "before:rounded-t-lg" : ""
+              } ${
+                index === totalFields - 1
+                  ? "before:rounded-b-lg before:!border-b"
+                  : ""
+              } ${
+                focusedInputIndex === index - 1 ? "before:border-t-0" : ""
+              } bg-common-white before:border-x before:border-b-0 before:border-t before:border-common-black/45 before:transition-none after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none`,
             },
           }}
           variant="filled"

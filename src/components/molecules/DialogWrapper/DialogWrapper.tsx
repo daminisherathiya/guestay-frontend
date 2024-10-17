@@ -57,8 +57,11 @@ export default function DialogWrapper({
             className="relative min-h-16 p-0 px-4 py-5 text-center text-base font-bold"
             id="scroll-dialog-title"
           >
-            <IconButton className="absolute left-4 top-1/2 -translate-y-1/2">
-              <CloseIcon className="size-5" onClick={handleCloseDialog} />
+            <IconButton
+              className="absolute left-4 top-1/2 -translate-y-1/2"
+              onClick={handleCloseDialog}
+            >
+              <CloseIcon className="size-5" />
             </IconButton>
             {title}
           </DialogTitle>

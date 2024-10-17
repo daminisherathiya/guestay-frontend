@@ -7,20 +7,20 @@ import Script from "next/script";
 import { Box } from "@/components/atoms/Box";
 import { Container } from "@/components/atoms/Container";
 import { Stack } from "@/components/atoms/Stack";
-import { TextField } from "@/components/atoms/TextField/TextField";
 import { Typography } from "@/components/atoms/Typography";
 import CountrySelect from "@/components/molecules/CountrySelect/CountrySelect";
 import { LocationInputWithAutocompleteService } from "@/components/molecules/LocationInputWithAutocompleteService";
+import TextFieldWrapper from "@/components/molecules/TextFieldWrapper/TextFieldWrapper";
 
 /* eslint-disable @typescript-eslint/member-ordering */
 interface AddressDetails {
-  flatHouse: { longName: string; shortName: string; value: "flatHouse" };
-  street: { longName: string; shortName: string; value: "street" };
-  landmark: { longName: string; shortName: string; value: "landmark" };
-  locality: { longName: string; shortName: string; value: "locality" };
-  city: { longName: string; shortName: string; value: "city" };
-  state: { longName: string; shortName: string; value: "state" };
-  country: { longName: string; shortName: string; value: "country" };
+  flatHouse: { longName: string; shortName: string };
+  street: { longName: string; shortName: string };
+  landmark: { longName: string; shortName: string };
+  locality: { longName: string; shortName: string };
+  city: { longName: string; shortName: string };
+  state: { longName: string; shortName: string };
+  country: { longName: string; shortName: string };
 }
 
 const confirmAddressTextFields = [
@@ -93,33 +93,15 @@ export default function Location() {
                 ? (selectedPlaceDetails[fieldKey]?.shortName ?? "")
                 : "";
               return (
-                <TextField
+                <TextFieldWrapper
                   key={index}
-                  className="w-full"
-                  id={`filled-basic-${index}`}
+                  focusedInputIndex={focusedInputIndex}
+                  handleBlur={() => setFocusedInputIndex(null)}
+                  handleFocus={() => setFocusedInputIndex(index)}
+                  index={index}
                   label={confirmAddressTextField.label}
-                  slotProps={{
-                    input: {
-                      classes: {
-                        focused: "before:border-y-common-transparent",
-                      },
-                      className: `g-common-white before:h-full ${
-                        index === 0 ? "before:rounded-t-lg" : ""
-                      } ${
-                        index === confirmAddressTextFields.length - 1
-                          ? "before:rounded-b-lg before:!border-b"
-                          : ""
-                      } ${
-                        focusedInputIndex === index - 1
-                          ? "before:border-t-0"
-                          : ""
-                      } bg-common-white before:border-x before:border-b-0 before:border-t before:border-common-black/45 before:transition-none after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none`,
-                    },
-                  }}
+                  totalFields={confirmAddressTextFields.length}
                   value={value}
-                  variant="filled"
-                  onBlur={() => setFocusedInputIndex(null)}
-                  onFocus={() => setFocusedInputIndex(index)}
                 />
               );
             })}
