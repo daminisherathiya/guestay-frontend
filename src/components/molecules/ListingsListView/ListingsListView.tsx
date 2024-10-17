@@ -52,7 +52,7 @@ const columns: GridColDef[] = [
     renderCell: () => {
       return (
         <Stack className="h-full flex-row items-center gap-2">
-          <Box className="size-3 shrink-0 rounded-full bg-[#C13515]"></Box>
+          <Box className="size-3 shrink-0 rounded-full bg-error-main"></Box>
           <Typography className="text-wrap" variant="body2">
             Verification required
           </Typography>

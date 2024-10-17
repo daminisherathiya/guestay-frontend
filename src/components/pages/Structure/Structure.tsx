@@ -42,7 +42,7 @@ export default function Structure() {
                 disableRipple
                 className={`w-full flex-col items-start p-4 hover:border-common-transparent hover:bg-common-white hover:shadow-black ${
                   selectedOption === place.name
-                    ? "border-common-transparent bg-[#f7f7f7] shadow-black"
+                    ? "border-common-transparent bg-background-highlight shadow-black"
                     : ""
                 }`}
                 variant="outlined"

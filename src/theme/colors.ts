@@ -2,6 +2,7 @@
 // - https://mui.com/material-ui/customization/dark-mode/
 // - https://mui.com/material-ui/customization/default-theme/?expand-path=$.palette
 
+/* eslint-disable sort-keys */
 export const palette = {
   // Override the MUI defaults
   action: {
@@ -15,6 +16,7 @@ export const palette = {
   background: {
     default: "#ffffff",
     paper: "#ffffff",
+    highlight: "#f7f7f7",
   },
   common: {
     black: "#000000",
@@ -23,7 +25,7 @@ export const palette = {
   },
   divider: "#dddddd",
   error: {
-    main: "#00ff00",
+    main: "#c13515",
   },
   primary: {
     contrastText: "#ffffff",
@@ -37,7 +39,10 @@ export const palette = {
     light: "#00ff00",
     main: "#f06a55",
   },
-  // warning: {},
+  warning: {
+    light: "#fcf2e8",
+    main: "#e07912",
+  },
   // info: {},
   success: {
     main: "#00ff00",
@@ -47,4 +52,6 @@ export const palette = {
     primary: "#222222",
     secondary: "#6a6a6a",
   },
+  facebook: "#1877F2",
 };
+/* eslint-enable sort-keys */

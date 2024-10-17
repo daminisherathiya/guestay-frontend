@@ -106,14 +106,14 @@ export default function FloorPlan() {
           {floorPlanItems.map((floorPlanItem, index) => (
             <Stack
               key={index}
-              className="flex-row items-center justify-between border-b-[#EBEBEB] py-6 [&:not(:last-child)]:border-b"
+              className="flex-row items-center justify-between border-b-divider py-6 [&:not(:last-child)]:border-b"
             >
               <Typography component="p" variant="h3">
                 {floorPlanItem.name}
               </Typography>
               <Stack className="w-[6.5rem] flex-row items-center justify-between">
                 <IconButton
-                  className={`flex size-8 items-center justify-center border border-solid border-[#B0B0B0] ${
+                  className={`flex size-8 items-center justify-center border border-solid border-divider ${
                     counters[floorPlanItem.field] === 0
                       ? "pointer-events-none opacity-30"
                       : ""
@@ -136,7 +136,7 @@ export default function FloorPlan() {
                   )}
                 </Typography>
                 <IconButton
-                  className={`flex size-8 items-center justify-center border border-solid border-[#B0B0B0] ${
+                  className={`flex size-8 items-center justify-center border border-solid border-divider ${
                     counters[floorPlanItem.field] === floorPlanItem.max
                       ? "pointer-events-none opacity-30"
                       : ""

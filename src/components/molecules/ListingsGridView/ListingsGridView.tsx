@@ -30,7 +30,7 @@ export default function ListingsGridView({
           </Box>
           <Box className="absolute left-4 top-4 rounded-pill bg-common-white px-4 py-3">
             <Stack className="flex-row items-center gap-2">
-              <Box className="size-3 rounded-full bg-[#C13515]"></Box>
+              <Box className="size-3 rounded-full bg-error-main"></Box>
               <Typography className="font-medium leading-4" variant="body2">
                 In progress
               </Typography>
@@ -61,7 +61,7 @@ export default function ListingsGridView({
           </Box>
           <Box className="absolute left-4 top-4 rounded-pill bg-common-white px-4 py-3">
             <Stack className="flex-row items-center gap-2">
-              <Box className="size-3 rounded-full bg-[#C13515]"></Box>
+              <Box className="size-3 rounded-full bg-error-main"></Box>
               <Typography className="font-medium leading-4" variant="body2">
                 In progress
               </Typography>
@@ -92,7 +92,7 @@ export default function ListingsGridView({
           </Box>
           <Box className="absolute left-4 top-4 rounded-pill bg-common-white px-4 py-3">
             <Stack className="flex-row items-center gap-2">
-              <Box className="size-3 rounded-full bg-[#C13515]"></Box>
+              <Box className="size-3 rounded-full bg-error-main"></Box>
               <Typography className="font-medium leading-4" variant="body2">
                 In progress
               </Typography>
@@ -123,7 +123,7 @@ export default function ListingsGridView({
           </Box>
           <Box className="absolute left-4 top-4 rounded-pill bg-common-white px-4 py-3">
             <Stack className="flex-row items-center gap-2">
-              <Box className="size-3 rounded-full bg-[#C13515]"></Box>
+              <Box className="size-3 rounded-full bg-error-main"></Box>
               <Typography className="font-medium leading-4" variant="body2">
                 In progress
               </Typography>
@@ -154,7 +154,7 @@ export default function ListingsGridView({
           </Box>
           <Box className="absolute left-4 top-4 rounded-pill bg-common-white px-4 py-3">
             <Stack className="flex-row items-center gap-2">
-              <Box className="size-3 rounded-full bg-[#C13515]"></Box>
+              <Box className="size-3 rounded-full bg-error-main"></Box>
               <Typography className="font-medium leading-4" variant="body2">
                 In progress
               </Typography>
@@ -185,7 +185,7 @@ export default function ListingsGridView({
           </Box>
           <Box className="absolute left-4 top-4 rounded-pill bg-common-white px-4 py-3">
             <Stack className="flex-row items-center gap-2">
-              <Box className="size-3 rounded-full bg-[#C13515]"></Box>
+              <Box className="size-3 rounded-full bg-error-main"></Box>
               <Typography className="font-medium leading-4" variant="body2">
                 In progress
               </Typography>

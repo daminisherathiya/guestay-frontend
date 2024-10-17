@@ -75,7 +75,7 @@ export default function Amenities() {
                 disableRipple
                 className={`w-full flex-col items-start p-4 hover:border-common-transparent hover:bg-common-white hover:shadow-black ${
                   selectedOptions.includes(place.name)
-                    ? "border-common-transparent bg-[#f7f7f7] shadow-black"
+                    ? "bg-background-highlight border-common-transparent shadow-black"
                     : ""
                 }`}
                 variant="outlined"

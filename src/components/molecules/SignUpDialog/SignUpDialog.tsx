@@ -112,7 +112,7 @@ export default function SignUpDialog({
         </Stack>
         <Divider className="text-xs">Or</Divider>
         <SocialButton
-          icon={<FacebookIcon className="text-[#1877F2]" />}
+          icon={<FacebookIcon className="text-facebook" />}
           label="Continue with Facebook"
         />
         <SocialButton
