@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 
 import { Box } from "@/components/atoms/Box";
 import { Stack } from "@/components/atoms/Stack";
@@ -11,7 +11,7 @@ interface ListingsListViewProps {
   handleOpenManageListingDialog: () => void;
 }
 
-const columns = [
+const columns: GridColDef[] = [
   {
     field: "listing",
     flex: 0.46,
@@ -43,6 +43,7 @@ const columns = [
     field: "location",
     flex: 0.26,
     headerName: "Location",
+    sortable: true,
   },
   {
     field: "status",
@@ -61,6 +62,7 @@ const columns = [
     sortable: false,
   },
   {
+    field: "action",
     flex: 0.06,
     headerName: "",
     renderCell: () => {
@@ -95,6 +97,7 @@ const rows = [
   { id: 5, listing: 1, location: "Charlotte, NC", status: "In progress" },
   { id: 6, listing: 1, location: "Charlotte, NC", status: "In progress" },
 ];
+
 const paginationModel = { page: 0, pageSize: 5 };
 
 export default function ListingsListView({
