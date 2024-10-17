@@ -69,7 +69,7 @@ const theme = createTheme({
           boxShadow: "none",
           ":hover": {
             boxShadow: "none",
-          }
+          },
         },
         sizeMedium: {
           padding: "0.421875rem 1rem",

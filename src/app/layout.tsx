@@ -6,9 +6,10 @@ import { CssBaseline } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 
 import { Toolbar } from "@/components/atoms/Toolbar";
-import { ThemeProvider as CustomThemeProvider } from "@/theme/ThemeProvider"; // Import your custom ThemeProvider
-import "../globals.css";
 import Header from "@/components/organisms/Header/Header";
+import { ThemeProvider as CustomThemeProvider } from "@/theme/ThemeProvider";
+
+import "../globals.css";
 
 const airbnbCerealRegular = localFont({
   src: "../fonts/AirbnbCereal_W_Regular.otf",

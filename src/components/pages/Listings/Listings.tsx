@@ -1,8 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 
-import { useRouter } from "next/router";
-
 import CloseIcon from "@mui/icons-material/Close";
 import GridViewIcon from "@mui/icons-material/GridView";
 import SearchIcon from "@mui/icons-material/Search";

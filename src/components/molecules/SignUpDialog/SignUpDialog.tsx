@@ -39,13 +39,12 @@ interface SocialButtonProps {
   // onClick: () => void;
 }
 
-function SocialButton({ className, icon, label, onClick }: SocialButtonProps) {
+function SocialButton({ className, icon, label }: SocialButtonProps) {
   return (
     <Button
       className={`w-full justify-between border-common-black/45 text-sm ${className}`}
       size="large"
       variant="outlined"
-      // onClick={onClick}
     >
       {icon}
       {label}

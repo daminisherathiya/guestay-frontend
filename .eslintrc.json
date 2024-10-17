@@ -55,6 +55,9 @@
         "natural": true
       }
     ],
+    "tailwindcss/no-custom-classname": ["error", {
+      "whitelist": ["c-keyboard-arrow-icon"]
+    }],
     "react/react-in-jsx-scope": "off",
     "comma-dangle": ["error", "always-multiline"],
     "indent": ["error", 2],

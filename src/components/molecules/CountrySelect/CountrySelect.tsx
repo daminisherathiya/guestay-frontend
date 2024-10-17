@@ -9,16 +9,16 @@ import { Box } from "@/components/atoms/Box";
 import { TextField } from "@/components/atoms/TextField";
 
 interface CountrySelectProps {
-  index?:number,
-  focusedInputIndex? : number,
-  totalFields? :number,
+  focusedInputIndex?: number;
+  index?: number;
+  totalFields?: number;
 }
 
 export default function CountrySelect({
   index = 0,
   focusedInputIndex = 0,
   totalFields = 1,
-}:CountrySelectProps) {
+}: CountrySelectProps) {
   return (
     <Autocomplete
       autoHighlight

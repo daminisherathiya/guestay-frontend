@@ -16,7 +16,7 @@ const columns = [
     field: "listing",
     flex: 0.46,
     headerName: "Listing",
-    renderCell: (row) => {
+    renderCell: () => {
       return (
         <Stack className="h-full flex-row items-center gap-6">
           <Box className="aspect-square size-16 shrink-0 overflow-hidden rounded bg-divider">
@@ -48,7 +48,7 @@ const columns = [
     field: "status",
     flex: 0.2,
     headerName: "Status",
-    renderCell: (row) => {
+    renderCell: () => {
       return (
         <Stack className="h-full flex-row items-center gap-2">
           <Box className="size-3 shrink-0 rounded-full bg-[#C13515]"></Box>
@@ -63,7 +63,7 @@ const columns = [
   {
     flex: 0.06,
     headerName: "",
-    renderCell: (row) => {
+    renderCell: () => {
       return (
         <KeyboardArrowRightIcon className="c-keyboard-arrow-icon size-7 text-text-primary" />
       );
