@@ -51,24 +51,15 @@ const urlToFooterDetails: Record<string, FooterDetailsType> = {
   },
   "/become-a-host/location": {
     backUrl: "/become-a-host/structure",
-    nextUrl: "/become-a-host/confirm-location",
+    nextUrl: "/become-a-host/floor-plan",
     progressPercentage: {
       setp1: 3 * 16.66,
       setp2: 0,
       setp3: 0,
     },
   },
-  "/become-a-host/confirm-location": {
-    backUrl: "/become-a-host/location",
-    nextUrl: "/become-a-host/floor-plan",
-    progressPercentage: {
-      setp1: 4 * 16.66,
-      setp2: 0,
-      setp3: 0,
-    },
-  },
   "/become-a-host/floor-plan": {
-    backUrl: "/become-a-host/confirm-location",
+    backUrl: "/become-a-host/location",
     nextUrl: "/become-a-host/stand-out",
     progressPercentage: {
       setp1: 5 * 16.66,
