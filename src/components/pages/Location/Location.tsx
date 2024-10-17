@@ -12,16 +12,7 @@ import CountrySelect from "@/components/molecules/CountrySelect/CountrySelect";
 import { LocationInputWithAutocompleteService } from "@/components/molecules/LocationInputWithAutocompleteService";
 import TextFieldWrapper from "@/components/molecules/TextFieldWrapper/TextFieldWrapper";
 
-/* eslint-disable @typescript-eslint/member-ordering */
-interface AddressDetails {
-  flatHouse: { longName: string; shortName: string };
-  street: { longName: string; shortName: string };
-  landmark: { longName: string; shortName: string };
-  locality: { longName: string; shortName: string };
-  city: { longName: string; shortName: string };
-  state: { longName: string; shortName: string };
-  country: { longName: string; shortName: string };
-}
+import { AddressDetails } from "./LocationTypes";
 
 const confirmAddressTextFields = [
   { key: "flatHouse", label: "Flat, house, etc. (if applicable)" },
@@ -32,6 +23,7 @@ const confirmAddressTextFields = [
   { key: "state", label: "State/union territory" },
   { key: "pinCode", label: "PIN code" },
 ];
+
 export default function Location() {
   const [selectedPlaceDetails, setSelectedPlaceDetails] =
     useState<AddressDetails | null>(null);

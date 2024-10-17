@@ -9,17 +9,22 @@ import { Button } from "@/components/atoms/Button";
 import { Paper } from "@/components/atoms/Paper";
 import { Popper } from "@/components/atoms/Popper/Popper";
 import { TextField } from "@/components/atoms/TextField";
+import { AddressDetails } from "@/components/pages/Location/LocationTypes";
 
 type AutocompleteService = google.maps.places.AutocompleteService;
 type GeocoderResult = google.maps.GeocoderResult;
 type PlacePrediction = google.maps.places.AutocompletePrediction;
 type PlaceService = google.maps.places.PlacesService;
 
-/* eslint-enable @typescript-eslint/member-ordering */
+interface LocationInputWithAutocompleteServiceProps {
+  setSelectedPlaceDetails: React.Dispatch<
+    React.SetStateAction<AddressDetails | null>
+  >;
+}
 
 export function LocationInputWithAutocompleteService({
   setSelectedPlaceDetails,
-}) {
+}: LocationInputWithAutocompleteServiceProps) {
   const [inputValue, setInputValue] = useState<string>("");
   const [predictions, setPredictions] = useState<PlacePrediction[]>([]);
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);

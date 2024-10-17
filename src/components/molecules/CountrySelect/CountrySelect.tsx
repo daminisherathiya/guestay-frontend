@@ -9,7 +9,7 @@ import { Box } from "@/components/atoms/Box";
 import { TextField } from "@/components/atoms/TextField";
 
 interface CountrySelectProps {
-  focusedInputIndex?: number;
+  focusedInputIndex?: number | null;
   index?: number;
   totalFields?: number;
 }
