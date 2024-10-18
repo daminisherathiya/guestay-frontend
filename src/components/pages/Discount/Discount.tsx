@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 
 import { Button, Checkbox } from "@mui/material";
 
@@ -10,26 +9,15 @@ import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
 import { DiscountsDialog } from "@/components/molecules/DiscountsDialog/DiscountsDialog";
 
+import { useDiscount } from "./Discount.hooks";
+
 export function Discount() {
-  const [isDiscountsDialogOpen, setDiscountsDialogOpen] = useState(false);
-
-  const handleOpenDiscountsDialog = () => {
-    setDiscountsDialogOpen(true);
-  };
-
-  const handleCloseDiscountsDialog = () => {
-    setDiscountsDialogOpen(false);
-  };
-
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
-
-    value = value.replace(/[^0-9]/g, "");
-    if (value.length > 2) {
-      value = value.slice(0, 2);
-    }
-    e.target.value = value;
-  };
+  const {
+    handleCloseDiscountsDialog,
+    handleInput,
+    handleOpenDiscountsDialog,
+    isDiscountsDialogOpen,
+  } = useDiscount();
 
   return (
     <Container maxWidth="2xl">

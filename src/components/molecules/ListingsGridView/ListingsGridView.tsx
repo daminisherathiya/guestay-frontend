@@ -5,9 +5,7 @@ import { Grid2 } from "@/components/atoms/Grid2";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-interface ListingsGridViewProps {
-  handleOpenManageListingDialog: () => void;
-}
+import { ListingsGridViewProps } from "./ListingsGridView.types";
 
 export function ListingsGridView({
   handleOpenManageListingDialog,

@@ -10,16 +10,7 @@ import { DialogTitle } from "@/components/atoms/DialogTitle";
 import { IconButton } from "@/components/atoms/IconButton";
 import { Slide } from "@/components/atoms/Slide";
 
-type DialogWrapperProps = {
-  children: React.ReactNode;
-  customHeader?: React.ReactNode;
-  dialogActions?: React.ReactNode;
-  dialogActionsClassName?: string;
-  handleCloseDialog: () => void;
-  isDialogOpen: boolean;
-  maxWidth?: "xs" | "sm" | "md" | "lg" | "xl";
-  title?: string;
-};
+import { DialogWrapperProps } from "./DialogWrapper.types";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {

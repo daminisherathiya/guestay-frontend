@@ -7,9 +7,8 @@ import { Box } from "@/components/atoms/Box";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-interface ListingsListViewProps {
-  handleOpenManageListingDialog: () => void;
-}
+import { paginationModel, rows } from "./ListingsListView.const";
+import { ListingsListViewProps } from "./ListingsListView.types";
 
 const columns: GridColDef[] = [
   {
@@ -73,32 +72,6 @@ const columns: GridColDef[] = [
     sortable: false,
   },
 ];
-
-const rows = [
-  {
-    id: 1,
-    listing: 1,
-    location: "Charlotte, NC",
-    status: "Verification required",
-  },
-  {
-    id: 2,
-    listing: 1,
-    location: "Charlotte, NC",
-    status: "Verification required",
-  },
-  {
-    id: 3,
-    listing: 1,
-    location: "Charlotte, NC",
-    status: "Verification required",
-  },
-  { id: 4, listing: 1, location: "Charlotte, NC", status: "In progress" },
-  { id: 5, listing: 1, location: "Charlotte, NC", status: "In progress" },
-  { id: 6, listing: 1, location: "Charlotte, NC", status: "In progress" },
-];
-
-const paginationModel = { page: 0, pageSize: 5 };
 
 export function ListingsListView({
   handleOpenManageListingDialog,

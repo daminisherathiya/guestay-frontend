@@ -9,10 +9,7 @@ import { Typography } from "@/components/atoms/Typography";
 
 import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
 
-type FullReceiptPreviewDialogProps = {
-  handleCloseFullReceiptPreviewDialog: () => void;
-  isFullReceiptPreviewDialogOpen: boolean;
-};
+import { FullReceiptPreviewDialogProps } from "./FullReceiptPreviewDialog.types";
 
 export function FullReceiptPreviewDialog({
   handleCloseFullReceiptPreviewDialog,

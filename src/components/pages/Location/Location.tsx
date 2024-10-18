@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 
 import Image from "next/image";
 import Script from "next/script";
@@ -11,26 +10,18 @@ import { Typography } from "@/components/atoms/Typography";
 import { CountrySelect } from "@/components/molecules/CountrySelect/CountrySelect";
 import { LocationInputWithAutocompleteService } from "@/components/molecules/LocationInputWithAutocompleteService";
 import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper/TextFieldWrapper";
+import { LocationAddressDetails } from "@/types/common.types";
 
-import { AddressDetails } from "./LocationTypes";
-
-const confirmAddressTextFields = [
-  { key: "flatHouse", label: "Flat, house, etc. (if applicable)" },
-  { key: "street", label: "Street address" },
-  { key: "landmark", label: "Nearby landmark (if applicable)" },
-  { key: "locality", label: "District/locality (if applicable)" },
-  { key: "city", label: "City / town" },
-  { key: "state", label: "State/union territory" },
-  { key: "pinCode", label: "PIN code" },
-];
+import { confirmAddressTextFields } from "./Location.const";
+import { useLocation } from "./Location.hooks";
 
 export function Location() {
-  const [selectedPlaceDetails, setSelectedPlaceDetails] =
-    useState<AddressDetails | null>(null);
-
-  const [focusedInputIndex, setFocusedInputIndex] = useState<null | number>(
-    null,
-  );
+  const {
+    focusedInputIndex,
+    selectedPlaceDetails,
+    setFocusedInputIndex,
+    setSelectedPlaceDetails,
+  } = useLocation();
 
   return (
     <Container maxWidth="2xl">
@@ -80,7 +71,7 @@ export function Location() {
           <Box className="mt-4">
             {confirmAddressTextFields.map((confirmAddressTextField, index) => {
               const fieldKey =
-                confirmAddressTextField.key as keyof AddressDetails;
+                confirmAddressTextField.key as keyof LocationAddressDetails;
               const value = selectedPlaceDetails
                 ? (selectedPlaceDetails[fieldKey]?.shortName ?? "")
                 : "";

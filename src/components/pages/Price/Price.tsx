@@ -1,7 +1,5 @@
 "use client";
 
-import { useRef, useState } from "react";
-
 import EditIcon from "@mui/icons-material/Edit";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Divider } from "@mui/material";
@@ -15,66 +13,25 @@ import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
 import { MoreAboutPricingDialog } from "@/components/molecules/MoreAboutPricingDialog/MoreAboutPricingDialog";
 
+import { usePrice } from "./Price.hooks";
+
 export function Price() {
-  const [isPriceVisible, setIsPriceVisible] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-
-  const togglePriceSection = () => {
-    // setIsPriceVisible((prevState) => !prevState);
-    setIsPriceVisible(!isPriceVisible);
-  };
-
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
-  const handleEditClick = () => {
-    setIsEditing(true);
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  };
-
-  const handleInputFocus = () => {
-    setIsEditing(true);
-  };
-
-  const handleInputBlur = () => {
-    setIsEditing(false);
-  };
-  const [value, setValue] = useState("2,439");
-
-  const formatNumberWithCommas = (num: string) => {
-    if (!num) return "";
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
-
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
-
-    value = value.replace(/[^0-9]/g, "");
-    if (value.length > 5) {
-      value = value.slice(0, 5);
-    }
-    e.target.value = value;
-    setValue(formatNumberWithCommas(value));
-  };
-
-  const [isMoreAboutPricingDialogOpen, setMoreAboutPricingDialogOpen] =
-    useState(false);
-
-  const handleOpenMoreAboutPricingDialog = () => {
-    setMoreAboutPricingDialogOpen(true);
-  };
-
-  const handleCloseMoreAboutPricingDialog = () => {
-    setMoreAboutPricingDialogOpen(false);
-  };
-
-  const [expanded, setExpanded] = useState<number | null>(null);
-
-  // Function to toggle the expanded button
-  const toggleExpansion = (buttonIndex: number) => {
-    setExpanded(buttonIndex);
-  };
+  const {
+    expanded,
+    handleCloseMoreAboutPricingDialog,
+    handleEditClick,
+    handleInput,
+    handleInputBlur,
+    handleInputFocus,
+    handleOpenMoreAboutPricingDialog,
+    inputRef,
+    isEditing,
+    isMoreAboutPricingDialogOpen,
+    isPriceVisible,
+    toggleExpansion,
+    togglePriceSection,
+    value,
+  } = usePrice();
 
   return (
     <Container className="flex h-full grow flex-col" maxWidth="2xl">

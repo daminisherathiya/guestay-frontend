@@ -1,5 +1,4 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import GridViewIcon from "@mui/icons-material/GridView";
@@ -20,48 +19,22 @@ import { ListingsGridView } from "@/components/molecules/ListingsGridView/Listin
 import { ListingsListView } from "@/components/molecules/ListingsListView/ListingsListView";
 import { ManageListingDialog } from "@/components/molecules/ManageListingDialog/ManageListingDialog";
 
+import { useListings } from "./Listings.hooks";
+
 export function Listings() {
-  const [isManageListingDialogOpen, setManageListingDialogOpen] =
-    useState(false);
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchText, setSearchText] = useState("");
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
-  const handleOpenManageListingDialog = () => {
-    setManageListingDialogOpen(true);
-  };
-
-  const handleCloseManageListingDialog = () => {
-    setManageListingDialogOpen(false);
-  };
-
-  const [isListingsListView, setIsListingsListView] = useState(true);
-
-  const toggleListingsView = () => {
-    setIsListingsListView(!isListingsListView);
-  };
-
-  const handleSearchIconClick = () => {
-    setIsSearching(true);
-  };
-
-  const handleCloseClick = () => {
-    setIsSearching(false);
-    setSearchText("");
-  };
-
-  useEffect(() => {
-    if (isSearching && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isSearching]);
-
-  // const router = useRouter();
-
-  // // Function to handle redirection
-  // const handleRedirect = () => {
-  //   router.push("/become-a-host");
-  // };
+  const {
+    handleCloseClick,
+    handleCloseManageListingDialog,
+    handleOpenManageListingDialog,
+    handleSearchIconClick,
+    isListingsListView,
+    isSearching,
+    searchInputRef,
+    isManageListingDialogOpen,
+    searchText,
+    setSearchText,
+    toggleListingsView,
+  } = useListings();
 
   return (
     <Container maxWidth="2xl">
@@ -82,7 +55,7 @@ export function Listings() {
               <TextField
                 className="w-full"
                 id="filled-search"
-                inputRef={inputRef}
+                inputRef={searchInputRef}
                 placeholder="Search here…"
                 slotProps={{
                   input: {

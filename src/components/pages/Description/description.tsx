@@ -1,22 +1,14 @@
 "use client";
 
-import { useState } from "react";
-
 import { Box } from "@/components/atoms/Box";
 import { Container } from "@/components/atoms/Container";
 import { TextareaAutosize } from "@/components/atoms/TextareaAutosize";
 import { Typography } from "@/components/atoms/Typography";
 
+import { useDescription } from "./Description.hooks";
+
 export function Description() {
-  const [title, setTitle] = useState("");
-  const handleTitleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newValue = event.target.value;
-    if (newValue.length <= 500) {
-      setTitle(newValue);
-    } else {
-      setTitle(newValue.slice(0, 500));
-    }
-  };
+  const { handleTitleChange, title } = useDescription();
 
   return (
     <Container maxWidth="2xl">

@@ -9,7 +9,7 @@ import { Button } from "@/components/atoms/Button";
 import { Paper } from "@/components/atoms/Paper";
 import { Popper } from "@/components/atoms/Popper/Popper";
 import { TextField } from "@/components/atoms/TextField";
-import { AddressDetails } from "@/components/pages/Location/LocationTypes";
+import { LocationAddressDetails } from "@/types/common.types";
 
 type AutocompleteService = google.maps.places.AutocompleteService;
 type GeocoderResult = google.maps.GeocoderResult;
@@ -18,7 +18,7 @@ type PlaceService = google.maps.places.PlacesService;
 
 interface LocationInputWithAutocompleteServiceProps {
   setSelectedPlaceDetails: React.Dispatch<
-    React.SetStateAction<AddressDetails | null>
+    React.SetStateAction<LocationAddressDetails | null>
   >;
 }
 

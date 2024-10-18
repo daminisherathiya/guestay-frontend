@@ -4,10 +4,7 @@ import { Typography } from "@/components/atoms/Typography";
 
 import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
 
-type MoreAboutPricingDialogProps = {
-  handleCloseMoreAboutPricingDialog: () => void;
-  isMoreAboutPricingDialogOpen: boolean;
-};
+import { MoreAboutPricingDialogProps } from "./MoreAboutPricingDialog.types";
 
 export function MoreAboutPricingDialog({
   handleCloseMoreAboutPricingDialog,

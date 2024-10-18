@@ -1,16 +1,7 @@
-import React, { ReactElement } from "react";
-
 import { Button } from "@/components/atoms/Button";
 
-interface InputFileUploadProps {
-  children: ReactElement;
-  className?: string;
-  selectedImages: { error?: string; file: File }[];
-  setSelectedImages: React.Dispatch<
-    React.SetStateAction<{ error?: string; file: File }[]>
-  >;
-  size?: "small" | "large" | "medium";
-}
+import { useInputFileUpload } from "./InputFileUpload.hooks";
+import { InputFileUploadProps } from "./InputFileUpload.types";
 
 export function InputFileUpload({
   children,
@@ -19,16 +10,10 @@ export function InputFileUpload({
   setSelectedImages,
   selectedImages,
 }: InputFileUploadProps) {
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const filesArray = Array.from(event.target.files);
-      const newImages = filesArray.map((file) => ({
-        error: file.size < 50 * 1024 ? "UNDER 50KB" : undefined,
-        file,
-      }));
-      setSelectedImages([...selectedImages, ...newImages]);
-    }
-  };
+  const { handleFileChange } = useInputFileUpload({
+    selectedImages,
+    setSelectedImages,
+  });
 
   return (
     <>

@@ -4,9 +4,7 @@ import { Box } from "@/components/atoms/Box";
 import { IconButton } from "@/components/atoms/IconButton/IconButton";
 import { Typography } from "@/components/atoms/Typography";
 
-interface QuestionsDrawerProps {
-  onClose: () => void;
-}
+import { QuestionsDrawerProps } from "./QuestionsDrawer.types";
 
 export function QuestionsDrawer({ onClose }: QuestionsDrawerProps) {
   return (

@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
 import { Stack } from "@/components/atoms/Stack";
@@ -8,25 +6,17 @@ import { Typography } from "@/components/atoms/Typography";
 import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
 import { TextFieldWrapper } from "../TextFieldWrapper/TextFieldWrapper";
 
-interface LoginDialogProps {
-  handleCloseLoginDialog: () => void;
-  handleOpenSignUpDialog: () => void;
-  isLoginDialogOpen: boolean;
-}
-
-const loginTextFields = [
-  { key: "uname", label: "Username", type: "text" },
-  { key: "password", label: "Password", type: "password" },
-];
+import { loginTextFields } from "./LoginDialog.consts";
+import { useLoginDialog } from "./LoginDialog.hooks";
+import { LoginDialogProps } from "./LoginDialog.types";
 
 export function LoginDialog({
   handleCloseLoginDialog,
   handleOpenSignUpDialog,
   isLoginDialogOpen,
 }: LoginDialogProps) {
-  const [focusedInputIndex, setFocusedInputIndex] = useState<null | number>(
-    null,
-  );
+  const { focusedInputIndex, setFocusedInputIndex } = useLoginDialog();
+
   return (
     <DialogWrapper
       handleCloseDialog={handleCloseLoginDialog}

@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import TextField from "@mui/material/TextField";
@@ -9,18 +7,8 @@ import { InputAdornment } from "@/components/atoms/InputAdornment";
 
 import { CountrySelect } from "../CountrySelect/CountrySelect";
 
-interface TextFieldWrapperProps {
-  endAdornment?: React.ReactNode;
-  focusedInputIndex: number | null;
-  handleBlur: (index: number | null) => void;
-  handleFocus: (index: number) => void;
-  index: number;
-  label: string;
-  startAdornment?: React.ReactNode;
-  totalFields: number;
-  type?: string;
-  value?: string;
-}
+import { useTextFieldWrapper } from "./TextFieldWrapper.hooks";
+import { TextFieldWrapperProps } from "./TextFieldWrapper.types";
 
 function PasswordAdornment({
   handleClick,
@@ -59,29 +47,14 @@ export function TextFieldWrapper({
   type = "text",
   value,
 }: TextFieldWrapperProps) {
-  const [inputValue, setInputValue] = useState<null | string>(
-    value ? value : null,
-  );
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    event.preventDefault();
-  };
-
-  const handleMouseUpPassword = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    event.preventDefault();
-  };
+  const {
+    handleChange,
+    handleClickShowPassword,
+    handleMouseDownPassword,
+    handleMouseUpPassword,
+    inputValue,
+    showPassword,
+  } = useTextFieldWrapper({ value });
 
   if (type === "country-select") {
     return (

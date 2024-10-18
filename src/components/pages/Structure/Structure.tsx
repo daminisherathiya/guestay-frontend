@@ -1,7 +1,5 @@
 "use client";
 
-import React, { useState } from "react";
-
 import Image from "next/image";
 
 import { Box } from "@/components/atoms/Box";
@@ -10,24 +8,11 @@ import { Container } from "@/components/atoms/Container";
 import { Grid2 } from "@/components/atoms/Grid2";
 import { Typography } from "@/components/atoms/Typography";
 
+import { places } from "./Structure.consts";
+import { useStructure } from "./Structure.hooks";
+
 export function Structure() {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-
-  const handleButtonClick = (value: string) => {
-    setSelectedOption(value);
-  };
-
-  const places = [
-    { iconUrl: "/images/house.svg", name: "House" },
-    { iconUrl: "/images/flat.svg", name: "Flat/apartment" },
-    { iconUrl: "/images/barn.svg", name: "Barn" },
-    { iconUrl: "/images/breakfast.svg", name: "Bed & breakfast" },
-    { iconUrl: "/images/boat.svg", name: "Boat" },
-    { iconUrl: "/images/cabin.svg", name: "Cabin" },
-    { iconUrl: "/images/dome.svg", name: "Dome" },
-    { iconUrl: "/images/hotel.svg", name: "Hotel" },
-    { iconUrl: "/images/tent.svg", name: "Tent" },
-  ];
+  const { handleButtonClick, selectedOption } = useStructure();
 
   return (
     <Container maxWidth="2xl">

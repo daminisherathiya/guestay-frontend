@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import Image from "next/image";
 
 import StarIcon from "@mui/icons-material/Star";
@@ -14,17 +12,14 @@ import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 import { FullReceiptPreviewDialog } from "@/components/molecules/FullReceiptPreviewDialog/FullReceiptPreviewDialog";
 
+import { useReceipt } from "./Receipt.hook";
+
 export function Receipt() {
-  const [isFullReceiptPreviewDialogOpen, setFullReceiptPreviewDialogOpen] =
-    useState(false);
-
-  const handleOpenFullReceiptPreviewDialog = () => {
-    setFullReceiptPreviewDialogOpen(true);
-  };
-
-  const handleCloseFullReceiptPreviewDialog = () => {
-    setFullReceiptPreviewDialogOpen(false);
-  };
+  const {
+    handleCloseFullReceiptPreviewDialog,
+    handleOpenFullReceiptPreviewDialog,
+    isFullReceiptPreviewDialogOpen,
+  } = useReceipt();
 
   return (
     <Container maxWidth="2xl">

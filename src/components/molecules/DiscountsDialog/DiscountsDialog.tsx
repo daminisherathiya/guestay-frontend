@@ -3,10 +3,7 @@ import { Typography } from "@/components/atoms/Typography";
 
 import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
 
-type DiscountsDialogProps = {
-  handleCloseDiscountsDialog: () => void;
-  isDiscountsDialogOpen: boolean;
-};
+import { DiscountsDialogProps } from "./DiscountsDialog.types";
 
 export function DiscountsDialog({
   handleCloseDiscountsDialog,

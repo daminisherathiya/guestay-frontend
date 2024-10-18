@@ -8,15 +8,7 @@ import { IconButton } from "@/components/atoms/IconButton";
 import { Menu } from "@/components/atoms/Menu";
 import { MenuItem } from "@/components/atoms/MenuItem";
 
-interface UploadedPhotoProps {
-  handleDeleteImage: (indexToDelete: number) => void;
-  handleMakeCoverPhoto: (index: number) => void;
-  handleMoveBackwards: (index: number) => void;
-  handleMoveForwards: (index: number) => void;
-  imageUrl: string;
-  index: number;
-  totalLength: number;
-}
+import { UploadedPhotoProps } from "./UploadedPhoto.types";
 
 export function UploadedPhoto({
   handleDeleteImage,

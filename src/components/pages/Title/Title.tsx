@@ -1,22 +1,14 @@
 "use client";
 
-import { useState } from "react";
-
 import { Box } from "@/components/atoms/Box";
 import { Container } from "@/components/atoms/Container";
 import { TextareaAutosize } from "@/components/atoms/TextareaAutosize";
 import { Typography } from "@/components/atoms/Typography";
 
+import { useTitle } from "./Title.hooks";
+
 export function Title() {
-  const [title, setTitle] = useState("");
-  const handleTitleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newValue = event.target.value;
-    if (newValue.length <= 32) {
-      setTitle(newValue);
-    } else {
-      setTitle(newValue.slice(0, 32));
-    }
-  };
+  const { handleTitleChange, title } = useTitle();
 
   return (
     <Container maxWidth="2xl">

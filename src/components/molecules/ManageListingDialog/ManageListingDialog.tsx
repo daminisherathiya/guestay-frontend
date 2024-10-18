@@ -8,10 +8,7 @@ import { Typography } from "@/components/atoms/Typography";
 
 import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
 
-type ManageListingDialogProps = {
-  handleCloseManageListingDialog: () => void;
-  isManageListingDialogOpen: boolean;
-};
+import { ManageListingDialogProps } from "./ManageListingDialog.types";
 
 export function ManageListingDialog({
   handleCloseManageListingDialog,
