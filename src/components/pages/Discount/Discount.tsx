@@ -7,8 +7,8 @@ import { Container } from "@/components/atoms/Container";
 import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
-import { DiscountsDialog } from "@/components/molecules/DiscountsDialog/DiscountsDialog";
 
+import { DiscountsDialog } from "./components/DiscountsDialog";
 import { useDiscount } from "./Discount.hooks";
 
 export function Discount() {

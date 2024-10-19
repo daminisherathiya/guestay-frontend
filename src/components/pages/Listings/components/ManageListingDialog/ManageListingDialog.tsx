@@ -5,8 +5,7 @@ import DeleteIcon from "/public/images/delete.svg";
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
 import { Typography } from "@/components/atoms/Typography";
-
-import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
+import { DialogWrapper } from "@/components/molecules/DialogWrapper/DialogWrapper";
 
 import { ManageListingDialogProps } from "./ManageListingDialog.types";
 

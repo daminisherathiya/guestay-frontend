@@ -11,9 +11,9 @@ import { Grid2 } from "@/components/atoms/Grid2";
 import { IconButton } from "@/components/atoms/IconButton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
+import { DialogWrapper } from "@/components/molecules/DialogWrapper/DialogWrapper";
 
-import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
-import { InputFileUpload } from "../InputFileUpload/InputFileUpload";
+import { FileUploadButton } from "../FileUploadButton";
 
 type UploadPhotosDialogProps = {
   handleCloseUploadPhotosDialog: () => void;
@@ -55,14 +55,14 @@ const UploadPhotosDialogHeader = ({
         </Typography>
       )}
     </Box>
-    <InputFileUpload
+    <FileUploadButton
       className="size-9 min-w-0 rounded-full bg-common-transparent p-2 hover:bg-action-hover hover:shadow-none"
       selectedImages={selectedImages}
       setSelectedImages={setSelectedImages}
       size="small"
     >
       <Image alt="plus" height={16} src="/images/plus.svg" width={16} />
-    </InputFileUpload>
+    </FileUploadButton>
   </Stack>
 );
 
@@ -127,12 +127,12 @@ const EmptyState = ({
       or browse for photos
     </Typography>
     <Box className="text-center">
-      <InputFileUpload
+      <FileUploadButton
         selectedImages={selectedImages}
         setSelectedImages={setSelectedImages}
       >
         <Typography className="font-medium">Browse</Typography>
-      </InputFileUpload>
+      </FileUploadButton>
     </Box>
   </Box>
 );

@@ -1,9 +1,9 @@
-import { useInputFileUploadProps } from "./InputFileUpload.types";
+import { useFileUploadButtonProps } from "./FileUploadButton.types";
 
-export const useInputFileUpload = ({
+export const useFileUploadButton = ({
   setSelectedImages,
   selectedImages,
-}: useInputFileUploadProps) => {
+}: useFileUploadButtonProps) => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const filesArray = Array.from(event.target.files);

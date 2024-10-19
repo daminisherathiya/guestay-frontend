@@ -1,8 +1,7 @@
-import { Box, DialogContentText } from "@mui/material";
+import { Box } from "@mui/material";
 
 import { Typography } from "@/components/atoms/Typography";
-
-import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
+import { DialogWrapper } from "@/components/molecules/DialogWrapper/DialogWrapper";
 
 import { MoreAboutPricingDialogProps } from "./MoreAboutPricingDialog.types";
 
@@ -17,7 +16,7 @@ export function MoreAboutPricingDialog({
       maxWidth="sm"
       title="More about pricing"
     >
-      <DialogContentText className="space-y-4">
+      <Box className="space-y-4">
         <Typography className="text-text-primary" variant="body2">
           You choose your price and you can change it anytime. Bookings aren’t
           guaranteed.
@@ -59,7 +58,7 @@ export function MoreAboutPricingDialog({
             nights.
           </Typography>
         </Box>
-      </DialogContentText>
+      </Box>
     </DialogWrapper>
   );
 }

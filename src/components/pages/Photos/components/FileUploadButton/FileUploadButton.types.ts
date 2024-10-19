@@ -5,7 +5,7 @@ export interface SelectedImage {
   file: File;
 }
 
-export interface InputFileUploadProps {
+export interface FileUploadButtonProps {
   children: ReactElement;
   className?: string;
   selectedImages: SelectedImage[];
@@ -13,7 +13,7 @@ export interface InputFileUploadProps {
   size?: "small" | "large" | "medium";
 }
 
-export type useInputFileUploadProps = Pick<
-  InputFileUploadProps,
+export type useFileUploadButtonProps = Pick<
+  FileUploadButtonProps,
   "setSelectedImages" | "selectedImages"
 >;

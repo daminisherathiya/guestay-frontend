@@ -15,11 +15,11 @@ import { Typography } from "@/components/atoms/Typography";
 
 import PlusIcon from "/public/images/plus.svg";
 
-import { ListingsGridView } from "@/components/molecules/ListingsGridView/ListingsGridView";
-import { ListingsListView } from "@/components/molecules/ListingsListView/ListingsListView";
-import { ManageListingDialog } from "@/components/molecules/ManageListingDialog/ManageListingDialog";
 
 import { useListings } from "./Listings.hooks";
+import { ListingsListView } from "./components/ListingsListView";
+import { ListingsGridView } from "./components/ListingsGridView";
+import { ManageListingDialog } from "./components/ManageListingDialog";
 
 export function Listings() {
   const {

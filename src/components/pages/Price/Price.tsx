@@ -2,17 +2,17 @@
 
 import EditIcon from "@mui/icons-material/Edit";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { Divider } from "@mui/material";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
+import { Divider } from "@/components/atoms/Divider";
 import { IconButton } from "@/components/atoms/IconButton";
 import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
-import { MoreAboutPricingDialog } from "@/components/molecules/MoreAboutPricingDialog/MoreAboutPricingDialog";
 
+import { MoreAboutPricingDialog } from "./components/MoreAboutPricingDialog";
 import { usePrice } from "./Price.hooks";
 
 export function Price() {

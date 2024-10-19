@@ -1,10 +1,10 @@
 import AppleIcon from "@mui/icons-material/Apple";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import MailOutlineOutlinedIcon from "@mui/icons-material/MailOutlineOutlined";
-import { Divider } from "@mui/material";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
+import { Divider } from "@/components/atoms/Divider";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 

@@ -9,9 +9,7 @@ export function useTextFieldWrapper({ value }: useTextFieldWrapperProps) {
     initialValue: false,
   });
 
-  const [inputValue, setInputValue] = useState<string | null>(
-    value ? value : null,
-  );
+  const [inputValue, setInputValue] = useState<string | null>(value ?? null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);

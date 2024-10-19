@@ -14,9 +14,8 @@ import { Typography } from "@/components/atoms/Typography";
 
 import PlusIcon from "/public/images/plus.svg";
 
-import { UploadedPhoto } from "@/components/molecules/UploadedPhoto/UploadedPhoto";
-import { UploadPhotosDialog } from "@/components/molecules/UploadPhotosDialog/UploadPhotosDialog";
-
+import { UploadedPhoto } from "./components/UploadedPhoto";
+import { UploadPhotosDialog } from "./components/UploadPhotosDialog";
 import { usePhotos } from "./Photos.hooks";
 
 export function Photos() {

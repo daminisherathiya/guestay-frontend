@@ -6,8 +6,7 @@ import { Box } from "@/components/atoms/Box";
 import { Grid2 } from "@/components/atoms/Grid2";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
-
-import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
+import { DialogWrapper } from "@/components/molecules/DialogWrapper/DialogWrapper";
 
 import { FullReceiptPreviewDialogProps } from "./FullReceiptPreviewDialog.types";
 

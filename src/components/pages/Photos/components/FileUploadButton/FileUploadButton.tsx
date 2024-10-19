@@ -1,16 +1,16 @@
 import { Button } from "@/components/atoms/Button";
 
-import { useInputFileUpload } from "./InputFileUpload.hooks";
-import { InputFileUploadProps } from "./InputFileUpload.types";
+import { useFileUploadButton } from "./FileUploadButton.hooks";
+import { FileUploadButtonProps } from "./FileUploadButton.types";
 
-export function InputFileUpload({
+export function FileUploadButton({
   children,
   className,
   size = "large",
   setSelectedImages,
   selectedImages,
-}: InputFileUploadProps) {
-  const { handleFileChange } = useInputFileUpload({
+}: FileUploadButtonProps) {
+  const { handleFileChange } = useFileUploadButton({
     selectedImages,
     setSelectedImages,
   });

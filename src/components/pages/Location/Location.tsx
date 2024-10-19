@@ -8,10 +8,10 @@ import { Container } from "@/components/atoms/Container";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 import { CountrySelect } from "@/components/molecules/CountrySelect/CountrySelect";
-import { LocationInputWithAutocompleteService } from "@/components/molecules/LocationInputWithAutocompleteService";
 import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper/TextFieldWrapper";
 import { LocationAddressDetails } from "@/types/common.types";
 
+import { LocationInputWithAutocompleteService } from "./components/LocationInputWithAutocompleteService";
 import { confirmAddressTextFields } from "./Location.const";
 import { useLocation } from "./Location.hooks";
 
@@ -25,7 +25,7 @@ export function Location() {
 
   return (
     <Container maxWidth="2xl">
-      {selectedPlaceDetails == null ? (
+      {selectedPlaceDetails === null ? (
         <Box className="mx-auto max-w-2xl">
           <Typography className="mb-2" component="h1" variant="h1">
             Where&apos;s your place located?
@@ -90,18 +90,6 @@ export function Location() {
             })}
           </Box>
         </Box>
-      )}
-      {selectedPlaceDetails && (
-        <div className="mt-4">
-          <h3>Selected Address Details:</h3>
-          <p>Flat/House: {selectedPlaceDetails.flatHouse.shortName}</p>
-          <p>Street Address: {selectedPlaceDetails.street.shortName}</p>
-          <p>Nearby Landmark: {selectedPlaceDetails.landmark.shortName}</p>
-          <p>District/Locality: {selectedPlaceDetails.locality.shortName}</p>
-          <p>City/Town: {selectedPlaceDetails.city.shortName}</p>
-          <p>State: {selectedPlaceDetails.state.shortName}</p>
-          <p>Country: {selectedPlaceDetails.country.shortName}</p>
-        </div>
       )}
       <Script
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
