@@ -231,5 +231,3 @@ export function LocationInputWithAutocompleteService({
     </div>
   );
 }
-
-export default LocationInputWithAutocompleteService;

@@ -1,20 +1,15 @@
-import { useState } from "react";
+import { useBoolean } from "@/hooks/useBoolean/useBoolean";
 
 export function useReceipt() {
-  const [isFullReceiptPreviewDialogOpen, setFullReceiptPreviewDialogOpen] =
-    useState(false);
-
-  const handleOpenFullReceiptPreviewDialog = () => {
-    setFullReceiptPreviewDialogOpen(true);
-  };
-
-  const handleCloseFullReceiptPreviewDialog = () => {
-    setFullReceiptPreviewDialogOpen(false);
-  };
+  const {
+    value: fullReceiptPreviewDialogIsOpen,
+    setTrue: setFullReceiptPreviewDialogIsOpenTrue,
+    setFalse: setFullReceiptPreviewDialogIsOpenFalse,
+  } = useBoolean({ initialValue: false });
 
   return {
-    handleCloseFullReceiptPreviewDialog,
-    handleOpenFullReceiptPreviewDialog,
-    isFullReceiptPreviewDialogOpen,
+    fullReceiptPreviewDialogIsOpen,
+    setFullReceiptPreviewDialogIsOpenFalse,
+    setFullReceiptPreviewDialogIsOpenTrue,
   };
 }

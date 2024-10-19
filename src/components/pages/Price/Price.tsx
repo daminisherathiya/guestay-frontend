@@ -18,18 +18,18 @@ import { usePrice } from "./Price.hooks";
 export function Price() {
   const {
     expanded,
-    handleCloseMoreAboutPricingDialog,
     handleEditClick,
     handleInput,
-    handleInputBlur,
-    handleInputFocus,
-    handleOpenMoreAboutPricingDialog,
     inputRef,
     isEditing,
-    isMoreAboutPricingDialogOpen,
     isPriceVisible,
+    moreAboutPricingDialogIsOpen,
+    setIsEditingFalse,
+    setIsEditingTrue,
+    setIsPriceVisibleTrue,
+    setMoreAboutPricingDialogIsOpenFalse,
+    setMoreAboutPricingDialogIsOpenTrue,
     toggleExpansion,
-    togglePriceSection,
     value,
   } = usePrice();
 
@@ -68,8 +68,8 @@ export function Price() {
               }}
               value={value}
               variant="outlined"
-              onBlur={handleInputBlur}
-              onFocus={handleInputFocus}
+              onBlur={setIsEditingFalse}
+              onFocus={setIsEditingTrue}
               onInput={handleInput}
             />
             <Box className={`${!isEditing ? "" : "opacity-0"}`}>
@@ -83,7 +83,7 @@ export function Price() {
           </Stack>
           <Stack
             className={`cursor-pointer flex-row justify-center gap-x-1 ${isPriceVisible ? "hidden" : "flex"}`}
-            onClick={togglePriceSection}
+            onClick={setIsPriceVisibleTrue}
           >
             <Typography variant="h3">
               Guest price before taxes $6,077
@@ -164,7 +164,7 @@ export function Price() {
           </Stack>
           <Stack
             className={`mt-10 cursor-pointer flex-row justify-center gap-x-1 text-center ${isPriceVisible ? "flex" : "hidden"}`}
-            onClick={togglePriceSection}
+            onClick={setIsPriceVisibleTrue}
           >
             <Typography variant="h3">Show less</Typography>
             <Box>
@@ -177,15 +177,15 @@ export function Price() {
             disableRipple
             className="p-0 text-xs font-normal text-text-secondary"
             variant="text"
-            onClick={handleOpenMoreAboutPricingDialog}
+            onClick={() => setMoreAboutPricingDialogIsOpenTrue()}
           >
             Learn more about pricing
           </Button>
           <MoreAboutPricingDialog
             handleCloseMoreAboutPricingDialog={
-              handleCloseMoreAboutPricingDialog
+              setMoreAboutPricingDialogIsOpenFalse
             }
-            isMoreAboutPricingDialogOpen={isMoreAboutPricingDialogOpen}
+            isMoreAboutPricingDialogOpen={moreAboutPricingDialogIsOpen}
           />
         </Box>
       </Stack>

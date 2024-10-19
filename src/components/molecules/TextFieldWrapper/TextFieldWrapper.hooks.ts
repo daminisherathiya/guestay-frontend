@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 
+import { useToggle } from "@/hooks/useToggle/useToggle";
+
 import { useTextFieldWrapperProps } from "./TextFieldWrapper.types";
 
 export function useTextFieldWrapper({ value }: useTextFieldWrapperProps) {
+  const { value: showPassword, toggle: setShowPasswordTrue } = useToggle({
+    initialValue: false,
+  });
+
   const [inputValue, setInputValue] = useState<string | null>(
     value ? value : null,
   );
@@ -10,10 +16,6 @@ export function useTextFieldWrapper({ value }: useTextFieldWrapperProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -29,10 +31,10 @@ export function useTextFieldWrapper({ value }: useTextFieldWrapperProps) {
 
   return {
     handleChange,
-    handleClickShowPassword,
     handleMouseDownPassword,
     handleMouseUpPassword,
     inputValue,
+    setShowPasswordTrue,
     showPassword,
   };
 }

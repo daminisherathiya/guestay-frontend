@@ -1,39 +1,38 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
+
+import { useBoolean } from "@/hooks/useBoolean/useBoolean";
 
 export const useHeader = () => {
-  const [hasScrolled, setHasScrolled] = useState(false);
-  const [openQuestionsDrawer, setOpenQuestionsDrawer] = useState(false);
-  const [isSignUpDialogOpen, setSignUpDialogOpen] = useState(false);
-  const [isLoginDialogOpen, setLoginDialogOpen] = useState(false);
+  const {
+    value: hasScrolled,
+    setTrue: setHasScrolledTrue,
+    setFalse: setHasScrolledFalse,
+  } = useBoolean({ initialValue: false });
 
-  const toggleQuestionsDrawer = (newOpenQuestionsDrawer: boolean) => () => {
-    setOpenQuestionsDrawer(newOpenQuestionsDrawer);
-  };
+  const {
+    value: questionsDrawerIsOpen,
+    setTrue: setQuestionsDrawerIsOpenTrue,
+    setFalse: setQuestionsDrawerIsOpenFalse,
+  } = useBoolean({ initialValue: false });
 
-  const handleCloseSignUpDialog = useCallback(() => {
-    setSignUpDialogOpen(false);
-  }, []);
+  const {
+    value: signUpDialogIsOpen,
+    setTrue: setSignUpDialogIsOpenTrue,
+    setFalse: setSignUpDialogIsOpenFalse,
+  } = useBoolean({ initialValue: false });
 
-  const handleCloseLoginDialog = useCallback(() => {
-    setLoginDialogOpen(false);
-  }, []);
-
-  const handleOpenSignUpDialog = useCallback(() => {
-    handleCloseLoginDialog();
-    setSignUpDialogOpen(true);
-  }, [handleCloseLoginDialog]);
-
-  const handleOpenLoginDialog = useCallback(() => {
-    handleCloseSignUpDialog();
-    setLoginDialogOpen(true);
-  }, [handleCloseSignUpDialog]);
+  const {
+    value: loginDialogIsOpen,
+    setTrue: setLoginDialogIsOpenTrue,
+    setFalse: setLoginDialogIsOpenFalse,
+  } = useBoolean({ initialValue: false });
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
-        setHasScrolled(true);
+        setHasScrolledTrue();
       } else {
-        setHasScrolled(false);
+        setHasScrolledFalse();
       }
     };
 
@@ -42,17 +41,18 @@ export const useHeader = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [setHasScrolledFalse, setHasScrolledTrue]);
 
   return {
-    handleCloseLoginDialog,
-    handleCloseSignUpDialog,
-    handleOpenLoginDialog,
-    handleOpenSignUpDialog,
     hasScrolled,
-    isLoginDialogOpen,
-    isSignUpDialogOpen,
-    openQuestionsDrawer,
-    toggleQuestionsDrawer,
+    loginDialogIsOpen,
+    questionsDrawerIsOpen,
+    setLoginDialogIsOpenFalse,
+    setLoginDialogIsOpenTrue,
+    setQuestionsDrawerIsOpenFalse,
+    setQuestionsDrawerIsOpenTrue,
+    setSignUpDialogIsOpenFalse,
+    setSignUpDialogIsOpenTrue,
+    signUpDialogIsOpen,
   };
 };

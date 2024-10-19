@@ -1,34 +1,33 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+import { useBoolean } from "@/hooks/useBoolean/useBoolean";
+import { useToggle } from "@/hooks/useToggle/useToggle";
 
 export function useListings() {
-  const [isManageListingDialogOpen, setManageListingDialogOpen] =
-    useState(false);
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState<string>("");
   const searchInputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleOpenManageListingDialog = () => {
-    setManageListingDialogOpen(true);
-  };
+  const {
+    value: isSearching,
+    setTrue: setIsSearchingTrue,
+    setFalse: setIsSearchingFalse,
+  } = useBoolean({ initialValue: false });
 
-  const handleCloseManageListingDialog = () => {
-    setManageListingDialogOpen(false);
-  };
+  const {
+    value: manageListingDialogIsOpen,
+    setTrue: setManageListingDialogIsOpenTrue,
+    setFalse: setManageListingDialogIsOpenFalse,
+  } = useBoolean({ initialValue: false });
 
-  const [isListingsListView, setIsListingsListView] = useState(true);
+  const { value: isListingsListView, toggle: setIsListingsListViewTrue } =
+    useToggle({
+      initialValue: true,
+    });
 
-  const toggleListingsView = () => {
-    setIsListingsListView(!isListingsListView);
-  };
-
-  const handleSearchIconClick = () => {
-    setIsSearching(true);
-  };
-
-  const handleCloseClick = () => {
-    setIsSearching(false);
+  const handleCloseClick = useCallback(() => {
+    setIsSearchingFalse();
     setSearchText("");
-  };
+  }, [setIsSearchingFalse]);
 
   useEffect(() => {
     if (isSearching && searchInputRef.current) {
@@ -36,24 +35,17 @@ export function useListings() {
     }
   }, [isSearching]);
 
-  // const router = useRouter();
-
-  // // Function to handle redirection
-  // const handleRedirect = () => {
-  //   router.push("/become-a-host");
-  // };
-
   return {
     handleCloseClick,
-    handleCloseManageListingDialog,
-    handleOpenManageListingDialog,
-    handleSearchIconClick,
     isListingsListView,
-    isManageListingDialogOpen,
     isSearching,
+    manageListingDialogIsOpen,
     searchInputRef,
     searchText,
+    setIsListingsListViewTrue,
+    setIsSearchingTrue,
+    setManageListingDialogIsOpenFalse,
+    setManageListingDialogIsOpenTrue,
     setSearchText,
-    toggleListingsView,
   };
 }

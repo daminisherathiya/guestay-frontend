@@ -15,16 +15,18 @@ import { useHeader } from "./Header.hooks";
 
 export function Header() {
   const {
-    handleCloseLoginDialog,
-    handleCloseSignUpDialog,
-    handleOpenLoginDialog,
-    handleOpenSignUpDialog,
     hasScrolled,
-    isLoginDialogOpen,
-    isSignUpDialogOpen,
-    openQuestionsDrawer,
-    toggleQuestionsDrawer,
+    loginDialogIsOpen,
+    questionsDrawerIsOpen,
+    setLoginDialogIsOpenFalse,
+    setLoginDialogIsOpenTrue,
+    setQuestionsDrawerIsOpenFalse,
+    setQuestionsDrawerIsOpenTrue,
+    setSignUpDialogIsOpenFalse,
+    setSignUpDialogIsOpenTrue,
+    signUpDialogIsOpen,
   } = useHeader();
+
   return (
     <header
       className={`fixed top-0 z-10 w-full bg-common-white ${hasScrolled ? "border-b border-b-common-black/10" : ""}`}
@@ -45,7 +47,7 @@ export function Header() {
             <Button
               className="rounded-3xl hover:bg-common-white"
               variant="outlined"
-              onClick={toggleQuestionsDrawer(true)}
+              onClick={() => setQuestionsDrawerIsOpenTrue()}
             >
               Questions?
             </Button>
@@ -53,10 +55,12 @@ export function Header() {
               anchor="right"
               classes={{ paper: "w-[23.4375rem]" }}
               className="w-96"
-              open={openQuestionsDrawer}
-              onClose={toggleQuestionsDrawer(false)}
+              open={questionsDrawerIsOpen}
+              onClose={() => setQuestionsDrawerIsOpenFalse()}
             >
-              <QuestionsDrawer onClose={toggleQuestionsDrawer(false)} />
+              <QuestionsDrawer
+                onClose={() => setQuestionsDrawerIsOpenFalse()}
+              />
             </Drawer>
             <Button
               className="rounded-3xl hover:bg-common-white"
@@ -67,26 +71,38 @@ export function Header() {
             <Button
               className="rounded-3xl"
               variant="outlined"
-              onClick={handleOpenLoginDialog}
+              onClick={() => {
+                setSignUpDialogIsOpenFalse();
+                setLoginDialogIsOpenTrue();
+              }}
             >
               Login
             </Button>
             <LoginDialog
-              handleCloseLoginDialog={handleCloseLoginDialog}
-              handleOpenSignUpDialog={handleOpenSignUpDialog}
-              isLoginDialogOpen={isLoginDialogOpen}
+              handleCloseLoginDialog={setLoginDialogIsOpenFalse}
+              handleOpenSignUpDialog={() => {
+                setLoginDialogIsOpenFalse();
+                setSignUpDialogIsOpenTrue();
+              }}
+              isLoginDialogOpen={loginDialogIsOpen}
             />
             <Button
               className="rounded-3xl"
               variant="contained"
-              onClick={handleOpenSignUpDialog}
+              onClick={() => {
+                setLoginDialogIsOpenFalse();
+                setSignUpDialogIsOpenTrue();
+              }}
             >
               Sign up
             </Button>
             <SignUpDialog
-              handleCloseSignUpDialog={handleCloseSignUpDialog}
-              handleOpenLoginDialog={handleOpenLoginDialog}
-              isSignUpDialogOpen={isSignUpDialogOpen}
+              handleCloseSignUpDialog={setSignUpDialogIsOpenFalse}
+              handleOpenLoginDialog={() => {
+                setSignUpDialogIsOpenFalse();
+                setLoginDialogIsOpenTrue();
+              }}
+              isSignUpDialogOpen={signUpDialogIsOpen}
             />
           </Stack>
         </Stack>

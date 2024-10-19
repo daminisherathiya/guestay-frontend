@@ -49,10 +49,10 @@ export function TextFieldWrapper({
 }: TextFieldWrapperProps) {
   const {
     handleChange,
-    handleClickShowPassword,
     handleMouseDownPassword,
     handleMouseUpPassword,
     inputValue,
+    setShowPasswordTrue,
     showPassword,
   } = useTextFieldWrapper({ value });
 
@@ -89,7 +89,7 @@ export function TextFieldWrapper({
           endAdornment:
             type === "password" ? (
               <PasswordAdornment
-                handleClick={handleClickShowPassword}
+                handleClick={setShowPasswordTrue}
                 handleMouseDown={handleMouseDownPassword}
                 handleMouseUp={handleMouseUpPassword}
                 showPassword={showPassword}

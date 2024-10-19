@@ -1,19 +1,19 @@
 import { useCallback, useState } from "react";
 
+import { useBoolean } from "@/hooks/useBoolean/useBoolean";
+
 export function usePhotos() {
-  const [isUploadPhotosDialogOpen, setUploadPhotosDialogOpen] = useState(false);
+  const {
+    value: uploadPhotosDialogIsOpen,
+    setTrue: setUploadPhotosDialogIsOpenTrue,
+    setFalse: setUploadPhotosDialogIsOpenFalse,
+  } = useBoolean({ initialValue: false });
+
   const [selectedImages, setSelectedImages] = useState<
     { error?: string; file: File }[]
   >([]);
+
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
-
-  const handleOpenUploadPhotosDialog = () => {
-    setUploadPhotosDialogOpen(true);
-  };
-
-  const handleCloseUploadPhotosDialog = () => {
-    setUploadPhotosDialogOpen(false);
-  };
 
   const handleDeleteImage = useCallback((indexToDelete: number) => {
     setUploadedImages((prevImages) =>
@@ -60,7 +60,7 @@ export function usePhotos() {
       ...selectedImages.map((image) => image.file),
     ]);
     setSelectedImages([]);
-    handleCloseUploadPhotosDialog();
+    setUploadPhotosDialogIsOpenFalse();
   };
 
   // const imageUrls = useMemo(() => {
@@ -75,16 +75,16 @@ export function usePhotos() {
   // }, [imageUrls]);
 
   return {
-    handleCloseUploadPhotosDialog,
     handleDeleteImage,
     handleMakeCoverPhoto,
     handleMoveBackwards,
     handleMoveForwards,
-    handleOpenUploadPhotosDialog,
     handleUploadImages,
-    isUploadPhotosDialogOpen,
     selectedImages,
     setSelectedImages,
+    setUploadPhotosDialogIsOpenFalse,
+    setUploadPhotosDialogIsOpenTrue,
     uploadedImages,
+    uploadPhotosDialogIsOpen,
   };
 }

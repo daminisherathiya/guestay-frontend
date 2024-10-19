@@ -21,17 +21,17 @@ import { usePhotos } from "./Photos.hooks";
 
 export function Photos() {
   const {
-    handleCloseUploadPhotosDialog,
     handleDeleteImage,
     handleMakeCoverPhoto,
     handleMoveBackwards,
     handleMoveForwards,
-    handleOpenUploadPhotosDialog,
     handleUploadImages,
-    isUploadPhotosDialogOpen,
     selectedImages,
     setSelectedImages,
+    setUploadPhotosDialogIsOpenFalse,
+    setUploadPhotosDialogIsOpenTrue,
     uploadedImages,
+    uploadPhotosDialogIsOpen,
   } = usePhotos();
 
   return (
@@ -70,7 +70,7 @@ export function Photos() {
             <Box>
               <IconButton
                 className="size-11 bg-action-hover"
-                onClick={handleOpenUploadPhotosDialog}
+                onClick={setUploadPhotosDialogIsOpenTrue}
               >
                 <PlusIcon className="!size-4" />
               </IconButton>
@@ -109,7 +109,7 @@ export function Photos() {
                   <Button
                     className="size-full min-h-56 flex-col items-center justify-center rounded-xl border border-dashed border-text-secondary p-10 hover:border-2 hover:border-solid hover:bg-common-white"
                     variant="outlined"
-                    onClick={handleOpenUploadPhotosDialog}
+                    onClick={setUploadPhotosDialogIsOpenTrue}
                   >
                     <ImageOutlinedIcon className="mx-auto !size-10 text-text-secondary" />
                   </Button>
@@ -119,7 +119,7 @@ export function Photos() {
               <Button
                 className="size-full min-h-56 flex-col items-center justify-center rounded-xl border border-dashed border-text-secondary p-10 hover:border-2 hover:border-solid hover:bg-common-white"
                 variant="outlined"
-                onClick={handleOpenUploadPhotosDialog}
+                onClick={setUploadPhotosDialogIsOpenTrue}
               >
                 <PlusIcon className="mx-auto !size-9 text-text-secondary" />
                 <Typography
@@ -143,16 +143,16 @@ export function Photos() {
             <Button
               className="bg-common-white hover:bg-action-hover"
               variant="outlined"
-              onClick={handleOpenUploadPhotosDialog}
+              onClick={setUploadPhotosDialogIsOpenTrue}
             >
               Add photos
             </Button>
           </Box>
         )}
         <UploadPhotosDialog
-          handleCloseUploadPhotosDialog={handleCloseUploadPhotosDialog}
+          handleCloseUploadPhotosDialog={setUploadPhotosDialogIsOpenFalse}
           handleUploadImages={handleUploadImages}
-          isUploadPhotosDialogOpen={isUploadPhotosDialogOpen}
+          isUploadPhotosDialogOpen={uploadPhotosDialogIsOpen}
           selectedImages={selectedImages}
           setSelectedImages={setSelectedImages}
         />

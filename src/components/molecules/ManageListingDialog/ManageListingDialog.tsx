@@ -12,12 +12,12 @@ import { ManageListingDialogProps } from "./ManageListingDialog.types";
 
 export function ManageListingDialog({
   handleCloseManageListingDialog,
-  isManageListingDialogOpen,
+  manageListingDialogIsOpen,
 }: ManageListingDialogProps) {
   return (
     <DialogWrapper
       handleCloseDialog={handleCloseManageListingDialog}
-      isDialogOpen={isManageListingDialogOpen}
+      isDialogOpen={manageListingDialogIsOpen}
       maxWidth="xs"
       title=""
     >

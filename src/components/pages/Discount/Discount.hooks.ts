@@ -1,15 +1,11 @@
-import { useState } from "react";
+import { useBoolean } from "@/hooks/useBoolean/useBoolean";
 
 export function useDiscount() {
-  const [isDiscountsDialogOpen, setDiscountsDialogOpen] = useState(false);
-
-  const handleOpenDiscountsDialog = () => {
-    setDiscountsDialogOpen(true);
-  };
-
-  const handleCloseDiscountsDialog = () => {
-    setDiscountsDialogOpen(false);
-  };
+  const {
+    value: discountsDialogIsOpen,
+    setTrue: setDiscountsDialogIsOpenTrue,
+    setFalse: setDiscountsDialogIsOpenFalse,
+  } = useBoolean({ initialValue: false });
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
@@ -21,9 +17,9 @@ export function useDiscount() {
     e.target.value = value;
   };
   return {
-    handleCloseDiscountsDialog,
+    discountsDialogIsOpen,
     handleInput,
-    handleOpenDiscountsDialog,
-    isDiscountsDialogOpen,
+    setDiscountsDialogIsOpenFalse,
+    setDiscountsDialogIsOpenTrue,
   };
 }

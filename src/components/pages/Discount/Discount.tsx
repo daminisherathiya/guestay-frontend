@@ -13,10 +13,10 @@ import { useDiscount } from "./Discount.hooks";
 
 export function Discount() {
   const {
-    handleCloseDiscountsDialog,
+    discountsDialogIsOpen,
     handleInput,
-    handleOpenDiscountsDialog,
-    isDiscountsDialogOpen,
+    setDiscountsDialogIsOpenFalse,
+    setDiscountsDialogIsOpenTrue,
   } = useDiscount();
 
   return (
@@ -144,13 +144,13 @@ export function Discount() {
             disableRipple
             className="p-0 text-xs font-normal text-text-secondary"
             variant="text"
-            onClick={handleOpenDiscountsDialog}
+            onClick={setDiscountsDialogIsOpenTrue}
           >
             Learn more
           </Button>
           <DiscountsDialog
-            handleCloseDiscountsDialog={handleCloseDiscountsDialog}
-            isDiscountsDialogOpen={isDiscountsDialogOpen}
+            discountsDialogIsOpen={discountsDialogIsOpen}
+            handleCloseDiscountsDialog={setDiscountsDialogIsOpenFalse}
           />
         </Typography>
       </Box>

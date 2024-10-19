@@ -7,12 +7,12 @@ import { DiscountsDialogProps } from "./DiscountsDialog.types";
 
 export function DiscountsDialog({
   handleCloseDiscountsDialog,
-  isDiscountsDialogOpen,
+  discountsDialogIsOpen,
 }: DiscountsDialogProps) {
   return (
     <DialogWrapper
       handleCloseDialog={handleCloseDiscountsDialog}
-      isDialogOpen={isDiscountsDialogOpen}
+      isDialogOpen={discountsDialogIsOpen}
       maxWidth="xs"
       title="Discounts"
     >

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export function useTitle() {
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState<string>("");
   const handleTitleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value;
     if (newValue.length <= 32) {

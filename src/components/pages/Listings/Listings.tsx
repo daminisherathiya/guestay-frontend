@@ -24,16 +24,16 @@ import { useListings } from "./Listings.hooks";
 export function Listings() {
   const {
     handleCloseClick,
-    handleCloseManageListingDialog,
-    handleOpenManageListingDialog,
-    handleSearchIconClick,
     isListingsListView,
     isSearching,
+    manageListingDialogIsOpen,
     searchInputRef,
-    isManageListingDialogOpen,
     searchText,
+    setIsListingsListViewTrue,
+    setIsSearchingTrue,
+    setManageListingDialogIsOpenFalse,
+    setManageListingDialogIsOpenTrue,
     setSearchText,
-    toggleListingsView,
   } = useListings();
 
   return (
@@ -47,7 +47,7 @@ export function Listings() {
             {!isSearching ? (
               <IconButton
                 className="size-11 bg-action-hover hover:bg-divider"
-                onClick={handleSearchIconClick}
+                onClick={setIsSearchingTrue}
               >
                 <SearchIcon className="size-5 text-text-primary" />
               </IconButton>
@@ -89,7 +89,7 @@ export function Listings() {
           <Box>
             <IconButton
               className="size-11 bg-action-hover hover:bg-divider"
-              onClick={toggleListingsView}
+              onClick={setIsListingsListViewTrue}
             >
               {isListingsListView ? (
                 <GridViewIcon className="size-5 text-text-primary" />
@@ -110,16 +110,16 @@ export function Listings() {
       </Stack>
       {isListingsListView ? (
         <ListingsListView
-          handleOpenManageListingDialog={handleOpenManageListingDialog}
+          handleOpenManageListingDialog={setManageListingDialogIsOpenTrue}
         />
       ) : (
         <ListingsGridView
-          handleOpenManageListingDialog={handleOpenManageListingDialog}
+          handleOpenManageListingDialog={setManageListingDialogIsOpenTrue}
         />
       )}
       <ManageListingDialog
-        handleCloseManageListingDialog={handleCloseManageListingDialog}
-        isManageListingDialogOpen={isManageListingDialogOpen}
+        handleCloseManageListingDialog={setManageListingDialogIsOpenFalse}
+        manageListingDialogIsOpen={manageListingDialogIsOpen}
       />
     </Container>
   );

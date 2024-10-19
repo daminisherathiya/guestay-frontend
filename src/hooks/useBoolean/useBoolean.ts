@@ -1,10 +1,8 @@
 import { useCallback, useState } from "react";
 
-interface useBooleanProps {
-  initialValue: boolean;
-}
+import { useBooleanProps } from "./useBoolean.types";
 
-function useBoolean({ initialValue = false }: useBooleanProps) {
+export function useBoolean({ initialValue = false }: useBooleanProps) {
   const [value, setValue] = useState<boolean>(initialValue);
 
   const setTrue = useCallback(() => setValue(true), []);
@@ -13,5 +11,3 @@ function useBoolean({ initialValue = false }: useBooleanProps) {
 
   return { setFalse, setTrue, toggle, value };
 }
-
-export default useBoolean;

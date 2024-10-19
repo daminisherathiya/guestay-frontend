@@ -13,6 +13,7 @@ export function ListingsGridView({
   return (
     <Grid2 container spacing={3}>
       <Grid2
+        className="cursor-pointer"
         // eslint-disable-next-line sort-keys
         size={{ "2xs": 12, sm: 6, lg: 4 }}
         onClick={handleOpenManageListingDialog}
@@ -44,6 +45,7 @@ export function ListingsGridView({
         </Box>
       </Grid2>
       <Grid2
+        className="cursor-pointer"
         // eslint-disable-next-line sort-keys
         size={{ "2xs": 12, sm: 6, lg: 4 }}
         onClick={handleOpenManageListingDialog}
@@ -75,6 +77,7 @@ export function ListingsGridView({
         </Box>
       </Grid2>
       <Grid2
+        className="cursor-pointer"
         // eslint-disable-next-line sort-keys
         size={{ "2xs": 12, sm: 6, lg: 4 }}
         onClick={handleOpenManageListingDialog}
@@ -106,6 +109,7 @@ export function ListingsGridView({
         </Box>
       </Grid2>
       <Grid2
+        className="cursor-pointer"
         // eslint-disable-next-line sort-keys
         size={{ "2xs": 12, sm: 6, lg: 4 }}
         onClick={handleOpenManageListingDialog}
@@ -137,6 +141,7 @@ export function ListingsGridView({
         </Box>
       </Grid2>
       <Grid2
+        className="cursor-pointer"
         // eslint-disable-next-line sort-keys
         size={{ "2xs": 12, sm: 6, lg: 4 }}
         onClick={handleOpenManageListingDialog}
@@ -168,6 +173,7 @@ export function ListingsGridView({
         </Box>
       </Grid2>
       <Grid2
+        className="cursor-pointer"
         // eslint-disable-next-line sort-keys
         size={{ "2xs": 12, sm: 6, lg: 4 }}
         onClick={handleOpenManageListingDialog}

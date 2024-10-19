@@ -16,9 +16,9 @@ import { useReceipt } from "./Receipt.hook";
 
 export function Receipt() {
   const {
-    handleCloseFullReceiptPreviewDialog,
-    handleOpenFullReceiptPreviewDialog,
-    isFullReceiptPreviewDialogOpen,
+    fullReceiptPreviewDialogIsOpen,
+    setFullReceiptPreviewDialogIsOpenFalse,
+    setFullReceiptPreviewDialogIsOpenTrue,
   } = useReceipt();
 
   return (
@@ -50,7 +50,7 @@ export function Receipt() {
             <Button
               disableRipple
               className="w-full flex-col items-start rounded-2xl border border-common-black/5 p-4 text-start no-underline shadow-button"
-              onClick={handleOpenFullReceiptPreviewDialog}
+              onClick={setFullReceiptPreviewDialogIsOpenTrue}
             >
               <Box className="relative w-full">
                 <Image
@@ -96,9 +96,9 @@ export function Receipt() {
             </Button>
             <FullReceiptPreviewDialog
               handleCloseFullReceiptPreviewDialog={
-                handleCloseFullReceiptPreviewDialog
+                setFullReceiptPreviewDialogIsOpenFalse
               }
-              isFullReceiptPreviewDialogOpen={isFullReceiptPreviewDialogOpen}
+              isFullReceiptPreviewDialogOpen={fullReceiptPreviewDialogIsOpen}
             />
           </Grid2>
           {/* eslint-disable-next-line sort-keys */}
