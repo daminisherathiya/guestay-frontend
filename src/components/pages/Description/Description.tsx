@@ -7,7 +7,7 @@ import { Typography } from "@/components/atoms/Typography";
 
 import { useDescription } from "./Description.hooks";
 
-export function DescriptionRenamed() {
+export function Description() {
   const { handleTitleChange, title } = useDescription();
 
   return (

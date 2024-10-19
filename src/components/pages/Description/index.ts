@@ -1,1 +1,1 @@
-export * from "./DescriptionRenamed";
+export * from "./Description";

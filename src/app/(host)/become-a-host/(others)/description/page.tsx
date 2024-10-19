@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
-import { DescriptionRenamed } from "@/components/pages/Description/DescriptionRenamed";
+import { Description } from "@/components/pages/Description/Description";
 
 export const metadata: Metadata = {
   title: "Describe your place - Guestay",
 };
 
 export default function DescriptionPage() {
-  return <DescriptionRenamed />;
+  return <Description />;
 }
