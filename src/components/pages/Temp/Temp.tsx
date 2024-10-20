@@ -5,18 +5,15 @@ import { type GetTempObjectsResponseType } from "@/apis/getTempObjects/getTempOb
 import { useQuery } from "@/hooks/useQuery";
 
 export function Temp() {
-  const { data, isLoading, isFirstLoading, isFetching, SnackbarAlert } = useQuery<
-    GetTempObjectsResponseType,
-    Error,
-    GetTempObjectsResponseType
-  >(
-    {
-      initialData: [],
-      queryFn: getTempObjects,
-      queryKey: ["temp-objects"],
-    },
-    { showSnackbarIsOpenOnFailure: true, showSnackbarIsOpenOnSuccess: true },
-  );
+  const { data, isLoading, isFirstLoading, isFetching, SnackbarAlert } =
+    useQuery<GetTempObjectsResponseType, Error, GetTempObjectsResponseType>(
+      {
+        initialData: [],
+        queryFn: getTempObjects,
+        queryKey: ["temp-objects"],
+      },
+      { showSnackbarIsOpenOnFailure: true, showSnackbarIsOpenOnSuccess: true },
+    );
 
   return (
     <>

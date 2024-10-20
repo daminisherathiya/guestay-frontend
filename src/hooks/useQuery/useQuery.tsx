@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   UseQueryOptions,
@@ -12,7 +12,9 @@ import { ReactQueryCustomOptionsType } from "@/types/ReactQuery.types";
 export function useQuery<TQueryFnData, TError extends Error, TData>(
   useQueryOptions: UseQueryOptions<TQueryFnData, TError, TData>,
   customOptions?: ReactQueryCustomOptionsType,
-): UseQueryResult<TData, TError> & { SnackbarAlert: JSX.Element } & {isFirstLoading: boolean} {
+): UseQueryResult<TData, TError> & { SnackbarAlert: JSX.Element } & {
+  isFirstLoading: boolean;
+} {
   const {
     showSnackbarIsOpenOnSuccess = false,
     showSnackbarIsOpenOnFailure = true,
