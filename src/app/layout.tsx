@@ -4,10 +4,12 @@ import localFont from "next/font/local";
 
 import { CssBaseline } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { Toolbar } from "@/components/atoms/Toolbar";
 import { Header } from "@/components/organisms/Header/Header";
-import { ThemeProvider as CustomThemeProvider } from "@/theme/ThemeProvider";
+import { QueryProvider as CustomQueryProvider } from "@/providers/QueryProvider";
+import { ThemeProvider as CustomThemeProvider } from "@/providers/ThemeProvider";
 
 import "../globals.css";
 
@@ -62,10 +64,15 @@ export default function RootLayout({
       >
         <AppRouterCacheProvider>
           <CustomThemeProvider>
-            <CssBaseline />
-            <Header />
-            <Toolbar className="min-h-[5.75rem]" />
-            {children}
+            <CustomQueryProvider>
+              <CssBaseline />
+              <Header />
+              <Toolbar className="min-h-[5.75rem]" />
+              {children}
+              {process.env.NODE_ENV !== "production" && (
+                <ReactQueryDevtools initialIsOpen={false} />
+              )}
+            </CustomQueryProvider>
           </CustomThemeProvider>
         </AppRouterCacheProvider>
       </body>

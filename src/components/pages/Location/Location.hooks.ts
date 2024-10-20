@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-import { LocationAddressDetails } from "@/types/common.types";
+import { type AddressDetailsType } from "@/types/Location.types";
 
 export function useLocation() {
   const [selectedPlaceDetails, setSelectedPlaceDetails] =
-    useState<LocationAddressDetails | null>(null);
+    useState<AddressDetailsType | null>(null);
 
   const [focusedInputIndex, setFocusedInputIndex] = useState<null | number>(
     null,

@@ -47,7 +47,10 @@ export const palette = {
   },
   // info: {},
   success: {
-    main: "#00ff00",
+    contrastText: "#ffffff",
+    dark: "#1b5e20",
+    light: "#4caf50",
+    main: "#2e7d32",
   },
   text: {
     disabled: "#222222",

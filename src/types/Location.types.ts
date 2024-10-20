@@ -1,4 +1,4 @@
-export interface LocationAddressDetails {
+export interface AddressDetailsType {
   city: { longName: string; shortName: string };
   country: { longName: string; shortName: string };
   flatHouse: { longName: string; shortName: string };

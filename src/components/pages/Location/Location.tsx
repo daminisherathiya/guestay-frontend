@@ -9,7 +9,7 @@ import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 import { CountrySelect } from "@/components/molecules/CountrySelect/CountrySelect";
 import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper/TextFieldWrapper";
-import { LocationAddressDetails } from "@/types/common.types";
+import { type AddressDetailsType } from "@/types/Location.types";
 
 import { LocationInputWithAutocompleteService } from "./components/LocationInputWithAutocompleteService";
 import { confirmAddressTextFields } from "./Location.const";
@@ -71,7 +71,7 @@ export function Location() {
           <Box className="mt-4">
             {confirmAddressTextFields.map((confirmAddressTextField, index) => {
               const fieldKey =
-                confirmAddressTextField.key as keyof LocationAddressDetails;
+                confirmAddressTextField.key as keyof AddressDetailsType;
               const value = selectedPlaceDetails
                 ? (selectedPlaceDetails[fieldKey]?.shortName ?? "")
                 : "";
