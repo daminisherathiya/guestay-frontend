@@ -15,8 +15,10 @@ export function Discount() {
   const {
     discountsDialogIsOpen,
     handleInput,
+    monthlyDiscount,
     setDiscountsDialogIsOpenFalse,
     setDiscountsDialogIsOpenTrue,
+    weeklyDiscount,
   } = useDiscount();
 
   return (
@@ -80,7 +82,7 @@ export function Discount() {
                   id="outlined-basic"
                   slotProps={{
                     input: {
-                      classes: { input: "w-6 py-2 pl-3" },
+                      classes: { input: "w-6 py-2 pl-3 text-right" },
                       className:
                         "pl-0 font-bold bg-common-white rounded-lg text-lg pr-3",
                       endAdornment: (
@@ -88,13 +90,14 @@ export function Discount() {
                       ),
                     },
                   }}
+                  value={weeklyDiscount}
                   variant="outlined"
-                  onInput={handleInput}
+                  onChange={(event) => handleInput(event, "weekly")}
                 />
                 <Box>
-                  <Typography>New listing promotion</Typography>
+                  <Typography>Weekly discount</Typography>
                   <Typography className="text-text-secondary" variant="body2">
-                    Offer 20% off your first 3 bookings
+                    For stays of 7 nights or more
                   </Typography>
                 </Box>
               </Stack>
@@ -113,7 +116,7 @@ export function Discount() {
                   id="outlined-basic"
                   slotProps={{
                     input: {
-                      classes: { input: "w-6 py-2 pl-3" },
+                      classes: { input: "w-6 py-2 pl-3 text-right" },
                       className:
                         "pl-0 font-bold bg-common-white rounded-lg text-lg pr-3",
                       endAdornment: (
@@ -121,13 +124,14 @@ export function Discount() {
                       ),
                     },
                   }}
+                  value={monthlyDiscount}
                   variant="outlined"
-                  onInput={handleInput}
+                  onChange={(event) => handleInput(event, "monthly")}
                 />
                 <Box>
-                  <Typography>New listing promotion</Typography>
+                  <Typography>Monthly discount</Typography>
                   <Typography className="text-text-secondary" variant="body2">
-                    Offer 20% off your first 3 bookings
+                    For stays of 28 nights or more
                   </Typography>
                 </Box>
               </Stack>

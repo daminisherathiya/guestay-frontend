@@ -2,22 +2,22 @@ import { useState } from "react";
 
 import { useBoolean } from "@/hooks/useBoolean";
 
-export function useLoginDialog() {
+export function useForgotPasswordDialog() {
   const [focusedInputIndex, setFocusedInputIndex] = useState<number | null>(
     null,
   );
 
   const {
-    value: ForgotPasswordDialogIsOpen,
-    setTrue: setForgotPasswordDialogIsOpenTrue,
-    setFalse: setForgotPasswordDialogIsOpenFalse,
+    value: ResetPasswordDialogIsOpen,
+    setTrue: setResetPasswordDialogIsOpenTrue,
+    setFalse: setResetPasswordDialogIsOpenFalse,
   } = useBoolean({ initialValue: false });
 
   return {
     focusedInputIndex,
-    ForgotPasswordDialogIsOpen,
+    ResetPasswordDialogIsOpen,
     setFocusedInputIndex,
-    setForgotPasswordDialogIsOpenFalse,
-    setForgotPasswordDialogIsOpenTrue,
+    setResetPasswordDialogIsOpenFalse,
+    setResetPasswordDialogIsOpenTrue,
   };
 }
