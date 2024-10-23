@@ -1,5 +1,7 @@
 import axios, { type AxiosRequestConfig } from "axios";
 
+import { getAuthenticationToken } from "@/utils/localStorage";
+
 const axiosInstance = axios.create({
   baseURL: "https://guestay.webarysites.com/api_owner/",
   headers: {
@@ -7,6 +9,30 @@ const axiosInstance = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    if (!config.data) {
+      config.data = {};
+    }
+
+    if (typeof config.data === "object") {
+      const authenticationToken = getAuthenticationToken();
+
+      if (authenticationToken) {
+        config.data = {
+          ...config.data,
+          auth_token: authenticationToken,
+        };
+      }
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
 export const axiosApi = async ({
   data,
