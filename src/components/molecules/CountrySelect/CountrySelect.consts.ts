@@ -25,7 +25,6 @@ export const countries: readonly CountryType[] = [
     code: "AU",
     label: "Australia",
     phone: "61",
-    suggested: true,
   },
   { code: "AW", label: "Aruba", phone: "297" },
   { code: "AX", label: "Alland Islands", phone: "358" },
@@ -58,7 +57,6 @@ export const countries: readonly CountryType[] = [
     code: "CA",
     label: "Canada",
     phone: "1",
-    suggested: true,
   },
   {
     code: "CC",
@@ -98,7 +96,6 @@ export const countries: readonly CountryType[] = [
     code: "DE",
     label: "Germany",
     phone: "49",
-    suggested: true,
   },
   { code: "DJ", label: "Djibouti", phone: "253" },
   { code: "DK", label: "Denmark", phone: "45" },
@@ -133,7 +130,6 @@ export const countries: readonly CountryType[] = [
     code: "FR",
     label: "France",
     phone: "33",
-    suggested: true,
   },
   { code: "GA", label: "Gabon", phone: "241" },
   { code: "GB", label: "United Kingdom", phone: "44" },
@@ -193,7 +189,6 @@ export const countries: readonly CountryType[] = [
     code: "JP",
     label: "Japan",
     phone: "81",
-    suggested: true,
   },
   { code: "KE", label: "Kenya", phone: "254" },
   { code: "KG", label: "Kyrgyzstan", phone: "996" },
@@ -388,7 +383,6 @@ export const countries: readonly CountryType[] = [
     code: "US",
     label: "United States",
     phone: "1",
-    suggested: true,
   },
   { code: "UY", label: "Uruguay", phone: "598" },
   { code: "UZ", label: "Uzbekistan", phone: "998" },
@@ -424,3 +418,7 @@ export const countries: readonly CountryType[] = [
   { code: "ZM", label: "Zambia", phone: "260" },
   { code: "ZW", label: "Zimbabwe", phone: "263" },
 ];
+
+export const defaultCountry = countries.find(
+  (country) => country.label === "United States",
+)!;

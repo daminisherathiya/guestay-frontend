@@ -5,21 +5,37 @@ import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
 import { ResetPasswordDialog } from "../ResetPasswordDialog";
 import { TextFieldWrapper } from "../TextFieldWrapper";
 
-import { forgotPasswordTextFields } from "./ForgotPasswordDialog.consts";
 import { useForgotPasswordDialog } from "./ForgotPasswordDialog.hooks";
 import { ForgotPasswordDialogProps } from "./ForgotPasswordDialog.types";
+import { Grid2 } from "@/components/atoms/Grid2";
+import { useForm } from "react-hook-form";
+import { LoadingButton } from "@/components/atoms/LoadingButton";
 
 export function ForgotPasswordDialog({
   handleCloseForgotPasswordDialog,
   isForgotPasswordDialogOpen,
 }: ForgotPasswordDialogProps) {
   const {
-    focusedInputIndex,
+    control,
+    formState: { isValid },
+    handleSubmit,
+  } = useForm({
+    defaultValues: {
+      password: "Damini@123",
+      userName: "damini.sherathiya",
+    },
+    mode: "onChange",
+  });
+
+  const {
     ResetPasswordDialogIsOpen,
-    setFocusedInputIndex,
     setResetPasswordDialogIsOpenFalse,
     setResetPasswordDialogIsOpenTrue,
   } = useForgotPasswordDialog();
+
+  const onSubmit = (data) => {
+    console.log(data)
+  }
 
   return (
     <>
@@ -33,23 +49,32 @@ export function ForgotPasswordDialog({
           Enter your email address and we&apos;ll send you a link to reset your
           password.
         </Typography>
-        {forgotPasswordTextFields.map((forgotPasswordTextField, index) => (
-          <TextFieldWrapper
-            key={forgotPasswordTextField.key}
-            focusedInputIndex={focusedInputIndex}
-            handleBlur={() => setFocusedInputIndex(null)}
-            handleFocus={() => setFocusedInputIndex(index)}
-            index={index}
-            label={forgotPasswordTextField.label}
-            totalFields={forgotPasswordTextFields.length}
-            type={forgotPasswordTextField.type}
-            value=""
-          />
-        ))}
-        <Button
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+          <Grid2 container spacing={2}>
+            <Grid2 size={12}>
+              <TextFieldWrapper
+                control={control}
+                label="Email"
+                name="email"
+                rules={{
+                  pattern: {
+                    message: "Invalid email address",
+                    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+                  },
+                  required: "Email is required",
+                }}
+              />
+            </Grid2>
+          </Grid2>
+        </form>
+        <LoadingButton
           className="mt-4 w-full text-common-white"
           color="secondary"
           size="large"
+          disabled={!isValid}
+          // loading={signupAPIIsLoading}
+          loadingIndicator="Reset ..."
+          type="submit"
           variant="contained"
           onClick={() => {
             setResetPasswordDialogIsOpenTrue();
@@ -57,7 +82,7 @@ export function ForgotPasswordDialog({
           }}
         >
           Send Reset Link
-        </Button>
+        </LoadingButton>
       </DialogWrapper>
       <ResetPasswordDialog
         handleCloseResetPasswordDialog={setResetPasswordDialogIsOpenFalse}

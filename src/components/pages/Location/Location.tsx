@@ -78,13 +78,7 @@ export function Location() {
               return (
                 <TextFieldWrapper
                   key={index}
-                  focusedInputIndex={focusedInputIndex}
-                  handleBlur={() => setFocusedInputIndex(null)}
-                  handleFocus={() => setFocusedInputIndex(index)}
-                  index={index}
                   label={confirmAddressTextField.label}
-                  totalFields={confirmAddressTextFields.length}
-                  value={value}
                 />
               );
             })}

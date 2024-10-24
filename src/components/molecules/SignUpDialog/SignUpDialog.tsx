@@ -1,29 +1,70 @@
+import { useEffect } from "react";
+
 import AppleIcon from "@mui/icons-material/Apple";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import MailOutlineOutlinedIcon from "@mui/icons-material/MailOutlineOutlined";
+import { useForm } from "react-hook-form";
 
+import { signUpApi } from "@/apis/account/signUpApi";
+import { SignUpApiDataType } from "@/apis/account/signUpApi/signUpApi.types";
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
 import { Divider } from "@/components/atoms/Divider";
+import { Grid2 } from "@/components/atoms/Grid2";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
 import GoogleIcon from "/public/images/google.svg";
 
+import { defaultCountry } from "../CountrySelect/CountrySelect.consts";
+import { CountryType } from "../CountrySelect/CountrySelect.types";
 import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
 import { SocialButton } from "../SocialButton";
 import { TextFieldWrapper } from "../TextFieldWrapper/TextFieldWrapper";
 
-import { signUpTextFields } from "./SignUpDialog.consts";
-import { useSignUpDialog } from "./SignUpDialog.hooks";
 import { SignUpDialogProps } from "./SignUpDialog.types";
+import { LoadingButton } from "@/components/atoms/LoadingButton";
 
 export function SignUpDialog({
   handleCloseSignUpDialog,
   handleOpenLoginDialog,
   isSignUpDialogOpen,
 }: SignUpDialogProps) {
-  const { focusedInputIndex, setFocusedInputIndex } = useSignUpDialog();
+  const {
+    control,
+    formState: { isValid },
+    handleSubmit,
+    trigger,
+    watch,
+  } = useForm({
+    defaultValues: {
+      confirmPassword: "Damini@123",
+      country: defaultCountry,
+      email: "daminisherathiya@gmail.com",
+      firstName: "Damini",
+      lastName: "Sherathiya",
+      password: "Damini@123",
+      phoneNumber: "9876543210",
+      profilePicture: "",
+      userName: "damini.sherathiya",
+    },
+    mode: "onChange",
+  });
+
+  const country = watch("country");
+  const password = watch("password");
+
+  useEffect(() => {
+    trigger("confirmPassword");
+  }, [password, trigger]);
+
+  const onSubmit = async (
+    data: Omit<SignUpApiDataType, "countryCode"> & {
+      country: CountryType;
+    },
+  ) => {
+    await signUpApi({ data: { ...data, countryCode: country.phone } });
+  };
 
   return (
     <DialogWrapper
@@ -36,33 +77,118 @@ export function SignUpDialog({
         Welcome to Airbnb
       </Typography>
       <Box className="space-y-4">
-        <Box>
-          {signUpTextFields.map((signUpTextField, index) => (
-            <TextFieldWrapper
-              key={signUpTextField.key}
-              focusedInputIndex={focusedInputIndex}
-              handleBlur={() => setFocusedInputIndex(null)}
-              handleFocus={() => setFocusedInputIndex(index)}
-              index={index}
-              label={signUpTextField.label}
-              startAdornment={
-                signUpTextField.startAdornment
-                  ? signUpTextField.startAdornment
-                  : undefined
-              }
-              totalFields={signUpTextFields.length}
-              type={signUpTextField.type}
-            />
-          ))}
-        </Box>
-        <Button
-          className="w-full text-common-white"
-          color="secondary"
-          size="large"
-          variant="contained"
-        >
-          Sign Up
-        </Button>
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+          <Grid2 container spacing={2}>
+            <Grid2 size={6}>
+              <TextFieldWrapper
+                control={control}
+                label="First Name"
+                name="firstName"
+                rules={{ required: "First name is required" }}
+              />
+            </Grid2>
+            <Grid2 size={6}>
+              <TextFieldWrapper
+                control={control}
+                label="Last Name"
+                name="lastName"
+                rules={{ required: "Last name is required" }}
+              />
+            </Grid2>
+            <Grid2 size={12}>
+              <TextFieldWrapper
+                control={control}
+                label="Username"
+                name="userName"
+                rules={{ required: "Username is required" }}
+              />
+            </Grid2>
+            <Grid2 size={12}>
+              <TextFieldWrapper
+                control={control}
+                label="Email"
+                name="email"
+                rules={{
+                  pattern: {
+                    message: "Invalid email address",
+                    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+                  },
+                  required: "Email is required",
+                }}
+              />
+            </Grid2>
+            <Grid2 size={12}>
+              <TextFieldWrapper
+                control={control}
+                label="Password"
+                name="password"
+                rules={{
+                  minLength: {
+                    message: "Password must be at least 8 characters long",
+                    value: 8,
+                  },
+                  pattern: {
+                    message:
+                      "Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
+                    value:
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[^\s]{8,}$/,
+                  },
+                  required: "Password is required",
+                }}
+                type="password"
+              />
+            </Grid2>
+            <Grid2 size={12}>
+              <TextFieldWrapper
+                control={control}
+                label="Confirm Password"
+                name="confirmPassword"
+                rules={{
+                  validate: (value) =>
+                    value === password || "Passwords do not match",
+                }}
+                type="password"
+              />
+            </Grid2>
+            <Grid2 size={12}>
+              <TextFieldWrapper
+                control={control}
+                label="Country/Region"
+                name="country"
+                rules={{ required: "Country is required" }}
+                type="country-select"
+              />
+            </Grid2>
+            <Grid2 size={12}>
+              <TextFieldWrapper
+                control={control}
+                label="Phone Number"
+                name="phoneNumber"
+                rules={{
+                  pattern: {
+                    message: "Enter a number between 1 and 10 digits long",
+                    value: /^\d{1,10}$/,
+                  },
+                  required: "Phone number is required",
+                }}
+                startAdornment={<span>+{country.phone}</span>}
+                type="tel"
+              />
+            </Grid2>
+          </Grid2>
+          <LoadingButton
+            className="w-full text-common-white"
+            color="secondary"
+            disabled={!isValid}
+            // loading={signupAPIIsLoading}
+            loadingIndicator="Sign in ..."
+            size="large"
+            type="submit"
+            variant="contained"
+          >
+            Sign Up
+          </LoadingButton>
+        </form>
         <Stack className="flex-row items-center justify-center gap-1">
           <Typography variant="body2">Already a User? </Typography>
           <Button

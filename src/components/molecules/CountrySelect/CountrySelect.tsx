@@ -11,16 +11,17 @@ import { TextField } from "@/components/atoms/TextField";
 import { countries } from "./CountrySelect.consts";
 import { CountrySelectProps } from "./CountrySelect.types";
 
-export function CountrySelect({
-  index = 0,
-  focusedInputIndex = 0,
-  totalFields = 1,
-}: CountrySelectProps) {
+export function CountrySelect({ value, onChange }: CountrySelectProps) {
   return (
     <Autocomplete
       autoHighlight
-      getOptionLabel={(option) => option.label}
-      id="country-select"
+      disableClearable
+      getOptionLabel={(option) => {
+        return option.label;
+      }}
+      isOptionEqualToValue={(option, value) => {
+        return option.phone === value.phone;
+      }}
       options={countries}
       popupIcon={<KeyboardArrowDownIcon />}
       renderInput={(params) => (
@@ -30,18 +31,8 @@ export function CountrySelect({
           slotProps={{
             input: {
               ...params.InputProps,
-              classes: {
-                focused: "before:border-y-common-transparent",
-              },
-              className: `before:h-full ${
-                index === 0 ? "before:rounded-t-lg" : ""
-              } ${
-                index === totalFields - 1
-                  ? "before:rounded-b-lg before:!border-b"
-                  : ""
-              } ${
-                focusedInputIndex === index - 1 ? "before:border-t-0" : ""
-              } bg-common-white before:border-x before:border-b-0 before:border-t before:border-common-black/45 before:transition-none after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none`,
+              className:
+                "bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none",
             },
           }}
           variant="filled"
@@ -65,6 +56,8 @@ export function CountrySelect({
           </Box>
         );
       }}
+      value={value}
+      onChange={onChange}
     />
   );
 }

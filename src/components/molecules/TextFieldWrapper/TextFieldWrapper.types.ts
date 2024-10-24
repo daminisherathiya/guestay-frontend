@@ -1,14 +1,12 @@
-export interface TextFieldWrapperProps {
-  endAdornment?: React.ReactNode;
-  focusedInputIndex: number | null;
-  handleBlur: (index: number | null) => void;
-  handleFocus: (index: number) => void;
-  index: number;
-  label: string;
-  startAdornment?: React.ReactNode;
-  totalFields: number;
-  type?: string;
-  value?: string;
-}
+import { Control, FieldValues, RegisterOptions } from "react-hook-form";
 
-export type useTextFieldWrapperProps = Pick<TextFieldWrapperProps, "value">;
+export interface TextFieldWrapperProps<T extends FieldValues> {
+  control: Control<T>;
+  endAdornment?: React.ReactNode;
+  error?: string;
+  label: string;
+  name: string;
+  rules: RegisterOptions;
+  startAdornment?: React.ReactNode;
+  type?: string;
+}

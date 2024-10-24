@@ -6,7 +6,6 @@ const axiosInstance = axios.create({
   baseURL: "https://guestay.webarysites.com/api_owner/",
   headers: {
     Authorization: "GuesTayOwnerPortal2K24",
-    "Content-Type": "application/json",
   },
 });
 
@@ -34,18 +33,41 @@ axiosInstance.interceptors.request.use(
   },
 );
 
+const convertToFormData = (
+  data: Record<string, string | Blob | File>,
+): FormData => {
+  const formData = new FormData();
+
+  Object.keys(data).forEach((key) => {
+    formData.append(key, data[key]);
+  });
+
+  return formData;
+};
+
 export const axiosApi = async ({
   data,
   headers,
   method,
   params,
   url,
+  isFormData = true,
   ...others
-}: AxiosRequestConfig) => {
+}: AxiosRequestConfig & { isFormData?: boolean }) => {
   try {
+    let requestData = data;
+    if (isFormData && data && typeof data === "object") {
+      requestData = convertToFormData(data);
+    }
+
+    const contentType = isFormData ? "multipart/form-data" : "application/json";
+
     const response = await axiosInstance({
-      data,
-      headers,
+      data: requestData,
+      headers: {
+        ...headers,
+        "Content-Type": contentType,
+      },
       method,
       params,
       url,
