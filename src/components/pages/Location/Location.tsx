@@ -9,11 +9,11 @@ import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 import { CountrySelect } from "@/components/molecules/CountrySelect/CountrySelect";
 import { defaultCountry } from "@/components/molecules/CountrySelect/CountrySelect.consts";
-import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper/TextFieldWrapper";
-import { type AddressDetailsType } from "@/types/Location.types";
+// import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper/TextFieldWrapper";
+// import { type AddressDetailsType } from "@/types/Location.types";
 
 import { LocationInputWithAutocompleteService } from "./components/LocationInputWithAutocompleteService";
-import { confirmAddressTextFields } from "./Location.const";
+// import { confirmAddressTextFields } from "./Location.const";
 import { useLocation } from "./Location.hooks";
 
 export function Location() {
@@ -65,7 +65,7 @@ export function Location() {
           </Typography>
           <CountrySelect value={defaultCountry} onChange={() => {}} />
           <Box className="mt-4">
-            {confirmAddressTextFields.map((confirmAddressTextField, index) => {
+            {/* {confirmAddressTextFields.map((confirmAddressTextField, index) => {
               const fieldKey =
                 confirmAddressTextField.key as keyof AddressDetailsType;
               const value = selectedPlaceDetails
@@ -77,7 +77,7 @@ export function Location() {
                   label={confirmAddressTextField.label}
                 />
               );
-            })}
+            })} */}
           </Box>
         </Box>
       )}

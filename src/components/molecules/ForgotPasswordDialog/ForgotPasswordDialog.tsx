@@ -21,8 +21,7 @@ export function ForgotPasswordDialog({
     handleSubmit,
   } = useForm({
     defaultValues: {
-      password: "Damini@123",
-      userName: "damini.sherathiya",
+      email: "",
     },
     mode: "onChange",
   });
@@ -33,7 +32,7 @@ export function ForgotPasswordDialog({
     setResetPasswordDialogIsOpenTrue,
   } = useForgotPasswordDialog();
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: {}) => {
     console.log(data);
   };
 

@@ -44,7 +44,7 @@ export function LoginDialog({
     setForgotPasswordDialogIsOpenTrue,
   } = useLoginDialog();
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: {}) => {
     console.log(data);
   };
 
@@ -66,7 +66,7 @@ export function LoginDialog({
                 <TextFieldWrapper
                   control={control}
                   label="Username"
-                  name="username"
+                  name="userName"
                   rules={{ required: "Username is required" }}
                 />
               </Grid2>

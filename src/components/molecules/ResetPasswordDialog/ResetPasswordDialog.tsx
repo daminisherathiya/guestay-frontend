@@ -35,7 +35,7 @@ export function ResetPasswordDialog({
     trigger("confirmPassword");
   }, [password, trigger]);
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: {}) => {
     console.log(data);
   };
 
