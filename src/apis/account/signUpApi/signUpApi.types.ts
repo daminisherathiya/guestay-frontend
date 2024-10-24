@@ -13,3 +13,7 @@ export interface SignUpApiDataType {
 export interface SignUpApiType {
   data: SignUpApiDataType;
 }
+
+export interface SignUpAPIResponseType {
+  recordId: number;
+}

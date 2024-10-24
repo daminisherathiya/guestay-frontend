@@ -1,13 +1,13 @@
 import AppleIcon from "@mui/icons-material/Apple";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import MailOutlineOutlinedIcon from "@mui/icons-material/MailOutlineOutlined";
-import { Checkbox, FormControlLabel } from "@mui/material";
 import { useForm } from "react-hook-form";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
 import { Divider } from "@/components/atoms/Divider";
 import { Grid2 } from "@/components/atoms/Grid2";
+import { LoadingButton } from "@/components/atoms/LoadingButton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
@@ -20,7 +20,6 @@ import GoogleIcon from "/public/images/google.svg";
 
 import { useLoginDialog } from "./LoginDialog.hooks";
 import { LoginDialogProps } from "./LoginDialog.types";
-import { LoadingButton } from "@/components/atoms/LoadingButton";
 
 export function LoginDialog({
   handleCloseLoginDialog,
@@ -46,8 +45,8 @@ export function LoginDialog({
   } = useLoginDialog();
 
   const onSubmit = (data) => {
-    console.log(data)
-  }
+    console.log(data);
+  };
 
   return (
     <>
@@ -81,19 +80,19 @@ export function LoginDialog({
               </Grid2>
             </Grid2>
             <LoadingButton
-              className="w-full text-common-white"
+              className="w-full"
               color="secondary"
-              size="large"
               disabled={!isValid}
-              // loading={signupAPIIsLoading}
               loadingIndicator="Login ..."
+              size="large"
               type="submit"
               variant="contained"
+              // loading={signupAPIIsLoading}
             >
               Login
             </LoadingButton>
           </form>
-          <Stack className="flex-row justify-between flex-wrap gap-3">
+          <Stack className="flex-row flex-wrap justify-between gap-3">
             <Stack className="flex-row items-center justify-center gap-1">
               <Typography variant="body2">Are you a new User? </Typography>
               <Button

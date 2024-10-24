@@ -8,6 +8,7 @@ import { Container } from "@/components/atoms/Container";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 import { CountrySelect } from "@/components/molecules/CountrySelect/CountrySelect";
+import { defaultCountry } from "@/components/molecules/CountrySelect/CountrySelect.consts";
 import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper/TextFieldWrapper";
 import { type AddressDetailsType } from "@/types/Location.types";
 
@@ -16,12 +17,7 @@ import { confirmAddressTextFields } from "./Location.const";
 import { useLocation } from "./Location.hooks";
 
 export function Location() {
-  const {
-    focusedInputIndex,
-    selectedPlaceDetails,
-    setFocusedInputIndex,
-    setSelectedPlaceDetails,
-  } = useLocation();
+  const { selectedPlaceDetails, setSelectedPlaceDetails } = useLocation();
 
   return (
     <Container maxWidth="2xl">
@@ -67,7 +63,7 @@ export function Location() {
             Your address is only shared with guests after they’ve made a
             reservation.
           </Typography>
-          <CountrySelect />
+          <CountrySelect value={defaultCountry} onChange={() => {}} />
           <Box className="mt-4">
             {confirmAddressTextFields.map((confirmAddressTextField, index) => {
               const fieldKey =

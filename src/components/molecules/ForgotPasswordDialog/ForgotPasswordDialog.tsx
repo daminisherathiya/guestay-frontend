@@ -1,4 +1,7 @@
-import { Button } from "@/components/atoms/Button";
+import { useForm } from "react-hook-form";
+
+import { Grid2 } from "@/components/atoms/Grid2";
+import { LoadingButton } from "@/components/atoms/LoadingButton";
 import { Typography } from "@/components/atoms/Typography";
 
 import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
@@ -7,9 +10,6 @@ import { TextFieldWrapper } from "../TextFieldWrapper";
 
 import { useForgotPasswordDialog } from "./ForgotPasswordDialog.hooks";
 import { ForgotPasswordDialogProps } from "./ForgotPasswordDialog.types";
-import { Grid2 } from "@/components/atoms/Grid2";
-import { useForm } from "react-hook-form";
-import { LoadingButton } from "@/components/atoms/LoadingButton";
 
 export function ForgotPasswordDialog({
   handleCloseForgotPasswordDialog,
@@ -34,8 +34,8 @@ export function ForgotPasswordDialog({
   } = useForgotPasswordDialog();
 
   const onSubmit = (data) => {
-    console.log(data)
-  }
+    console.log(data);
+  };
 
   return (
     <>
@@ -68,18 +68,18 @@ export function ForgotPasswordDialog({
           </Grid2>
         </form>
         <LoadingButton
-          className="mt-4 w-full text-common-white"
+          className="mt-4 w-full"
           color="secondary"
-          size="large"
           disabled={!isValid}
-          // loading={signupAPIIsLoading}
           loadingIndicator="Reset ..."
+          size="large"
           type="submit"
           variant="contained"
           onClick={() => {
             setResetPasswordDialogIsOpenTrue();
             handleCloseForgotPasswordDialog();
           }}
+          // loading={signupAPIIsLoading}
         >
           Send Reset Link
         </LoadingButton>

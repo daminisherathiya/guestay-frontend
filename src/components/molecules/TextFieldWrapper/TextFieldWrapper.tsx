@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import { Controller } from "react-hook-form";
+import { Controller, FieldValues } from "react-hook-form";
 
 import { InputAdornment } from "@/components/atoms/InputAdornment";
 
@@ -9,7 +9,7 @@ import { PasswordAdornment } from "./PasswordAdornment";
 import { useTextFieldWrapper } from "./TextFieldWrapper.hooks";
 import { TextFieldWrapperProps } from "./TextFieldWrapper.types";
 
-export function TextFieldWrapper<T>({
+export function TextFieldWrapper<T extends FieldValues>({
   control,
   endAdornment,
   label,

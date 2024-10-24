@@ -11,7 +11,12 @@ import {
 import { SnackbarAlert as SnackbarAlertComponent } from "@/components/molecules/SnackbarAlert";
 import { ReactQueryCustomOptionsType } from "@/types/ReactQuery.types";
 
-export function useMutation<TData, TError extends Error, TVariables, TContext>(
+export function useMutation<
+  TData,
+  TError extends Error,
+  TVariables,
+  TContext = unknown,
+>(
   mutationOptions: UseMutationOptions<TData, TError, TVariables, TContext>,
   customOptions?: ReactQueryCustomOptionsType,
 ): UseMutationResult<TData, TError, TVariables, TContext> & {
