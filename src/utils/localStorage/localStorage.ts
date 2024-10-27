@@ -1,0 +1,30 @@
+import { UserDataType } from "@/types/User.types";
+
+import {
+  AUTHENTICATION_TOKEN_STRING,
+  USER_DETAILS_STRING,
+} from "./localStorage.const";
+import {
+  setAuthenticationTokenType,
+  setUserDetailsType,
+} from "./localStorage.types";
+
+export const getAuthenticationToken = () => {
+  return localStorage.getItem(AUTHENTICATION_TOKEN_STRING);
+};
+
+export const setAuthenticationToken = ({
+  authenticationToken,
+}: setAuthenticationTokenType) => {
+  return localStorage.setItem(AUTHENTICATION_TOKEN_STRING, authenticationToken);
+};
+
+export const getUserDetails = (): UserDataType => {
+  const userDetailsString = localStorage.getItem(USER_DETAILS_STRING);
+  const userDetails = JSON.parse(userDetailsString as string);
+  return userDetails;
+};
+
+export const setUserDetails = ({ userDetails }: setUserDetailsType) => {
+  return localStorage.setItem(USER_DETAILS_STRING, JSON.stringify(userDetails));
+};

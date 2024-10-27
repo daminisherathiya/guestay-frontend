@@ -1,6 +1,6 @@
 import axios, { type AxiosRequestConfig } from "axios";
 
-import { getAuthenticationToken } from "@/utils/localStorage";
+import { getAuthenticationToken } from "@/utils/localStorage/localStorage";
 
 const axiosInstance = axios.create({
   baseURL: "https://guestay.webarysites.com/api_owner/",
@@ -11,18 +11,20 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    if (!config.data) {
-      config.data = {};
-    }
+    const authenticationToken = getAuthenticationToken();
 
-    if (typeof config.data === "object") {
-      const authenticationToken = getAuthenticationToken();
-
-      if (authenticationToken) {
+    if (authenticationToken) {
+      if (config.data instanceof FormData) {
+        config.data.append("auth_token", authenticationToken);
+      } else if (typeof config.data === "object" && config.data !== null) {
         config.data = {
           ...config.data,
           auth_token: authenticationToken,
         };
+      } else {
+        const formData = new FormData();
+        formData.append("auth_token", authenticationToken);
+        config.data = formData;
       }
     }
 
@@ -84,8 +86,6 @@ export const axiosApi = async ({
 
     return response.data;
   } catch (error) {
-    console.log("🚀 ~ error:", error);
-
     if (axios.isAxiosError(error)) {
       if (error.response) {
         // Handle known server responses

@@ -3,3 +3,8 @@ export interface LoginDialogProps {
   handleOpenSignUpDialog: () => void;
   isLoginDialogOpen: boolean;
 }
+
+export type UseLoginDialogProps = Pick<
+  LoginDialogProps,
+  "handleCloseLoginDialog"
+>;

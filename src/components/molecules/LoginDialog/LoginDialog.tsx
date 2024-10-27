@@ -1,7 +1,6 @@
 import AppleIcon from "@mui/icons-material/Apple";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import MailOutlineOutlinedIcon from "@mui/icons-material/MailOutlineOutlined";
-import { useForm } from "react-hook-form";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
@@ -28,25 +27,15 @@ export function LoginDialog({
 }: LoginDialogProps) {
   const {
     control,
-    formState: { isValid },
-    handleSubmit,
-  } = useForm({
-    defaultValues: {
-      password: "Damini@123",
-      userName: "damini.sherathiya",
-    },
-    mode: "onChange",
-  });
-
-  const {
     ForgotPasswordDialogIsOpen,
+    handleSubmit,
+    isValid,
+    logInApiIsPending,
+    LogInApiSnackbarAlert,
+    onSubmit,
     setForgotPasswordDialogIsOpenFalse,
     setForgotPasswordDialogIsOpenTrue,
-  } = useLoginDialog();
-
-  const onSubmit = (data: {}) => {
-    console.log(data);
-  };
+  } = useLoginDialog({ handleCloseLoginDialog });
 
   return (
     <>
@@ -65,9 +54,9 @@ export function LoginDialog({
               <Grid2 size={12}>
                 <TextFieldWrapper
                   control={control}
-                  label="Username"
-                  name="userName"
-                  rules={{ required: "Username is required" }}
+                  label="Email/Username"
+                  name="email"
+                  rules={{ required: "Email/Username is required" }}
                 />
               </Grid2>
               <Grid2 size={12}>
@@ -83,11 +72,11 @@ export function LoginDialog({
               className="w-full"
               color="secondary"
               disabled={!isValid}
+              loading={logInApiIsPending}
               loadingIndicator="Login ..."
               size="large"
               type="submit"
               variant="contained"
-              // loading={signupAPIIsLoading}
             >
               Login
             </LoadingButton>
@@ -135,6 +124,7 @@ export function LoginDialog({
         handleCloseForgotPasswordDialog={setForgotPasswordDialogIsOpenFalse}
         isForgotPasswordDialogOpen={ForgotPasswordDialogIsOpen}
       />
+      {LogInApiSnackbarAlert}
     </>
   );
 }
