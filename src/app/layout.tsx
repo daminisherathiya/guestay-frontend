@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { Toolbar } from "@/components/atoms/Toolbar";
 import { Header } from "@/components/organisms/Header/Header";
+import { AuthenticationProvider } from "@/providers/AuthenticationProvider/AuthenticationProvider";
 import { QueryProvider as CustomQueryProvider } from "@/providers/QueryProvider";
 import { ThemeProvider as CustomThemeProvider } from "@/providers/ThemeProvider";
 
@@ -65,13 +66,15 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <CustomThemeProvider>
             <CustomQueryProvider>
-              <CssBaseline />
-              <Header />
-              <Toolbar className="min-h-[5.75rem]" />
-              {children}
-              {process.env.NODE_ENV !== "production" && (
-                <ReactQueryDevtools initialIsOpen={false} />
-              )}
+              <AuthenticationProvider>
+                <CssBaseline />
+                <Header />
+                <Toolbar className="min-h-[5.75rem]" />
+                {children}
+                {process.env.NODE_ENV !== "production" && (
+                  <ReactQueryDevtools initialIsOpen={false} />
+                )}
+              </AuthenticationProvider>
             </CustomQueryProvider>
           </CustomThemeProvider>
         </AppRouterCacheProvider>

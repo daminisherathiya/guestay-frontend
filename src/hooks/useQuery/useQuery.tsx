@@ -18,6 +18,7 @@ export function useQuery<TQueryFnData, TError extends Error, TData>(
   const {
     showSnackbarIsOpenOnSuccess = false,
     showSnackbarIsOpenOnFailure = true,
+    successMessage = "",
   } = customOptions || {};
 
   const mergedQueryOptions = {
@@ -36,7 +37,8 @@ export function useQuery<TQueryFnData, TError extends Error, TData>(
   useEffect(() => {
     if (queryResult.isSuccess && showSnackbarIsOpenOnSuccess) {
       setSnackbarIsOpen(true);
-      setAlertMessage(JSON.stringify(queryResult.data));
+      // setAlertMessage(JSON.stringify(queryResult.data));
+      setAlertMessage(successMessage);
       setAlertSeverity("success");
     } else if (queryResult.isError && showSnackbarIsOpenOnFailure) {
       setSnackbarIsOpen(true);
@@ -54,6 +56,7 @@ export function useQuery<TQueryFnData, TError extends Error, TData>(
     queryResult.isSuccess,
     showSnackbarIsOpenOnFailure,
     showSnackbarIsOpenOnSuccess,
+    successMessage,
   ]);
 
   const SnackbarAlert = (

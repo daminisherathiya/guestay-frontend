@@ -1,12 +1,12 @@
 import { UserDataType } from "@/types/User.types";
 
-export interface LoginApiDataType {
+export interface LogInApiDataType {
   email: string;
   password: string;
 }
 
-export interface LoginApiType {
-  data: LoginApiDataType;
+export interface LogInApiType {
+  data: LogInApiDataType;
 }
 
 export interface LogInAPIResponseType {

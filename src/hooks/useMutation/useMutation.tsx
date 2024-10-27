@@ -25,6 +25,7 @@ export function useMutation<
   const {
     showSnackbarIsOpenOnSuccess = false,
     showSnackbarIsOpenOnFailure = true,
+    successMessage = "",
   } = customOptions || {};
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
@@ -38,7 +39,8 @@ export function useMutation<
   useEffect(() => {
     if (mutationResult.isSuccess && showSnackbarIsOpenOnSuccess) {
       setSnackbarIsOpen(true);
-      setAlertMessage(JSON.stringify(mutationResult.data));
+      // setAlertMessage(JSON.stringify(mutationResult.data));
+      setAlertMessage(successMessage);
       setAlertSeverity("success");
     } else if (mutationResult.isError && showSnackbarIsOpenOnFailure) {
       setSnackbarIsOpen(true);
@@ -56,6 +58,7 @@ export function useMutation<
     mutationResult.isSuccess,
     showSnackbarIsOpenOnSuccess,
     showSnackbarIsOpenOnFailure,
+    successMessage,
   ]);
 
   const SnackbarAlert = (

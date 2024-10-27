@@ -9,8 +9,8 @@ import {
   setUserDetailsType,
 } from "./localStorage.types";
 
-export const getAuthenticationToken = () => {
-  return localStorage.getItem(AUTHENTICATION_TOKEN_STRING);
+export const hasAuthenticationToken = () => {
+  return !!localStorage.getItem(AUTHENTICATION_TOKEN_STRING);
 };
 
 export const setAuthenticationToken = ({
@@ -19,12 +19,20 @@ export const setAuthenticationToken = ({
   return localStorage.setItem(AUTHENTICATION_TOKEN_STRING, authenticationToken);
 };
 
-export const getUserDetails = (): UserDataType => {
-  const userDetailsString = localStorage.getItem(USER_DETAILS_STRING);
-  const userDetails = JSON.parse(userDetailsString as string);
-  return userDetails;
+export const getAuthenticationToken = () => {
+  return localStorage.getItem(AUTHENTICATION_TOKEN_STRING);
+};
+
+export const removeAuthenticationToken = () => {
+  localStorage.removeItem(AUTHENTICATION_TOKEN_STRING);
 };
 
 export const setUserDetails = ({ userDetails }: setUserDetailsType) => {
   return localStorage.setItem(USER_DETAILS_STRING, JSON.stringify(userDetails));
+};
+
+export const getUserDetails = (): UserDataType => {
+  const userDetailsString = localStorage.getItem(USER_DETAILS_STRING);
+  const userDetails = JSON.parse(userDetailsString as string);
+  return userDetails;
 };

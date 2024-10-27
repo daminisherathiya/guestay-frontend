@@ -1,1 +1,1 @@
-export * from "./YourSpaceTabs"
+export * from "./YourSpaceTabs";

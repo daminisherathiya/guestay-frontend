@@ -2,18 +2,16 @@ import { useEffect } from "react";
 
 import { useForm } from "react-hook-form";
 
-import { loginApi } from "@/apis/account/loginApi";
+import { logInApi } from "@/apis/account/loginApi";
 import {
   LogInAPIResponseType,
-  LoginApiDataType,
-  LoginApiType,
+  LogInApiDataType,
+  LogInApiType,
 } from "@/apis/account/loginApi/loginApi.types";
+import { useAuthentication } from "@/hooks/useAuthentication";
 import { useBoolean } from "@/hooks/useBoolean";
 import { useMutation } from "@/hooks/useMutation";
-import {
-  setAuthenticationToken,
-  setUserDetails,
-} from "@/utils/localStorage/localStorage";
+import { setUserDetails } from "@/utils/localStorage/localStorage";
 
 import { UseLoginDialogProps } from "./LoginDialog.types";
 
@@ -34,30 +32,32 @@ export function useLoginDialog({
 
   ////////
 
+  const { handleLogIn } = useAuthentication();
+
   const {
     data: logInApiData,
     mutate: logInApiMutate,
     isPending: logInApiIsPending,
     isSuccess: logInApiIsSuccess,
     SnackbarAlert: LogInApiSnackbarAlert,
-  } = useMutation<LogInAPIResponseType, Error, LoginApiType>({
-    mutationFn: loginApi,
+  } = useMutation<LogInAPIResponseType, Error, LogInApiType>({
+    mutationFn: logInApi,
     mutationKey: ["login"],
   });
 
-  const onSubmit = (data: LoginApiDataType) => {
+  const onSubmit = (data: LogInApiDataType) => {
     logInApiMutate({ data });
   };
 
   useEffect(() => {
     if (logInApiIsSuccess) {
       handleCloseLoginDialog();
-      setAuthenticationToken({
+      handleLogIn({
         authenticationToken: logInApiData.data.auth_token,
       });
       setUserDetails({ userDetails: logInApiData.data.userData });
     }
-  }, [handleCloseLoginDialog, logInApiIsSuccess, logInApiData]);
+  }, [handleCloseLoginDialog, handleLogIn, logInApiIsSuccess, logInApiData]);
 
   const {
     value: ForgotPasswordDialogIsOpen,

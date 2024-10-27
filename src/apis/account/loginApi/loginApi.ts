@@ -1,8 +1,8 @@
 import { axiosApi } from "@/axios/axios";
 
-import { type LoginApiType } from "./loginApi.types";
+import { type LogInApiType } from "./loginApi.types";
 
-export const loginApi = async ({ data }: LoginApiType) => {
+export const logInApi = async ({ data }: LogInApiType) => {
   return await axiosApi({
     data: {
       email: data.email,

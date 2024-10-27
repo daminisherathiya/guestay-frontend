@@ -1,3 +1,5 @@
+"use client";
+
 import { Grid2 } from "@/components/atoms/Grid2";
 import { LoadingButton } from "@/components/atoms/LoadingButton";
 import { Typography } from "@/components/atoms/Typography";
@@ -5,7 +7,7 @@ import { Typography } from "@/components/atoms/Typography";
 import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
 import { TextFieldWrapper } from "../TextFieldWrapper";
 
-import { useResetPasswordDialog } from "./ResetPasswordDialog.hook";
+import { useResetPasswordDialog } from "./ResetPasswordDialog.hooks";
 import { ResetPasswordDialogProps } from "./ResetPasswordDialog.types";
 
 export function ResetPasswordDialog({

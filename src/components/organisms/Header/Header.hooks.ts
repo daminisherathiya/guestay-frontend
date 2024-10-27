@@ -1,8 +1,11 @@
 import { useEffect } from "react";
 
+import { useAuthentication } from "@/hooks/useAuthentication";
 import { useBoolean } from "@/hooks/useBoolean/useBoolean";
 
 export const useHeader = () => {
+  const { isAuthenticated } = useAuthentication();
+
   const {
     value: hasScrolled,
     setTrue: setHasScrolledTrue,
@@ -45,6 +48,7 @@ export const useHeader = () => {
 
   return {
     hasScrolled,
+    isAuthenticated,
     loginDialogIsOpen,
     questionsDrawerIsOpen,
     setLoginDialogIsOpenFalse,

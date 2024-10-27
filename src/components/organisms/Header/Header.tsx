@@ -1,12 +1,27 @@
 "use client";
 
+import React from "react";
+
 import Image from "next/image";
+
+import HelpIcon from "@mui/icons-material/Help";
+import HomeIcon from "@mui/icons-material/Home";
+import LogoutIcon from "@mui/icons-material/Logout";
+import PersonAdd from "@mui/icons-material/PersonAdd";
+import ScienceIcon from "@mui/icons-material/Science";
+import { Avatar, ListItemIcon, Menu, Tooltip } from "@mui/material";
+import { GridMenuIcon } from "@mui/x-data-grid";
+
+import UserAccount from "/public/images/UserAccount.svg";
 
 import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
+import { Divider } from "@/components/atoms/Divider";
 import { Drawer } from "@/components/atoms/Drawer";
+import { MenuItem } from "@/components/atoms/MenuItem";
 import { Stack } from "@/components/atoms/Stack";
 import { LoginDialog } from "@/components/molecules/LoginDialog/LoginDialog";
+import { Logout } from "@/components/molecules/Logout";
 import { SignUpDialog } from "@/components/molecules/SignUpDialog/SignUpDialog";
 
 import { QuestionsDrawer } from "../QuestionsDrawer/QuestionsDrawer";
@@ -16,6 +31,7 @@ import { useHeader } from "./Header.hooks";
 export function Header() {
   const {
     hasScrolled,
+    isAuthenticated,
     loginDialogIsOpen,
     questionsDrawerIsOpen,
     setLoginDialogIsOpenFalse,
@@ -26,6 +42,15 @@ export function Header() {
     setSignUpDialogIsOpenTrue,
     signUpDialogIsOpen,
   } = useHeader();
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <header
@@ -68,7 +93,7 @@ export function Header() {
             >
               Exit
             </Button>
-            {/* <Tooltip title="Account settings">
+            <Tooltip title="Account settings">
               <Button
                 aria-controls={open ? "account-menu" : undefined}
                 aria-expanded={open ? "true" : undefined}
@@ -77,7 +102,7 @@ export function Header() {
                 variant="outlined"
                 onClick={handleClick}
               >
-                <MenuIcon className="size-5" />
+                <GridMenuIcon className="size-5" />
                 <Avatar className="size-8 bg-common-white text-text-secondary">
                   <UserAccount />
                 </Avatar>
@@ -120,17 +145,27 @@ export function Header() {
               onClick={handleClose}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>
-                <ListItemIcon>
-                  <Logout />{" "}
-                </ListItemIcon>
-                Log in
-              </MenuItem>
-              <MenuItem onClick={handleClose}>
+              <MenuItem
+                onClick={() => {
+                  setLoginDialogIsOpenFalse();
+                  setSignUpDialogIsOpenTrue();
+                }}
+              >
                 <ListItemIcon>
                   <PersonAdd />
                 </ListItemIcon>
                 Sign up
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setSignUpDialogIsOpenFalse();
+                  setLoginDialogIsOpenTrue();
+                }}
+              >
+                <ListItemIcon>
+                  <LogoutIcon />{" "}
+                </ListItemIcon>
+                Log in
               </MenuItem>
               <Divider />
               <MenuItem onClick={handleClose}>
@@ -151,17 +186,32 @@ export function Header() {
                 </ListItemIcon>
                 Help Centre
               </MenuItem>
-            </Menu> */}
-            <Button
-              className="rounded-3xl"
-              variant="outlined"
-              onClick={() => {
-                setSignUpDialogIsOpenFalse();
-                setLoginDialogIsOpenTrue();
-              }}
-            >
-              Login
-            </Button>
+            </Menu>
+            {!isAuthenticated && (
+              <>
+                <Button
+                  className="rounded-3xl"
+                  variant="outlined"
+                  onClick={() => {
+                    setSignUpDialogIsOpenFalse();
+                    setLoginDialogIsOpenTrue();
+                  }}
+                >
+                  Login
+                </Button>
+                <Button
+                  className="rounded-3xl"
+                  variant="contained"
+                  onClick={() => {
+                    setLoginDialogIsOpenFalse();
+                    setSignUpDialogIsOpenTrue();
+                  }}
+                >
+                  Sign up
+                </Button>
+              </>
+            )}
+            {isAuthenticated && <Logout />}
             <LoginDialog
               handleCloseLoginDialog={setLoginDialogIsOpenFalse}
               handleOpenSignUpDialog={() => {
@@ -170,16 +220,6 @@ export function Header() {
               }}
               isLoginDialogOpen={loginDialogIsOpen}
             />
-            <Button
-              className="rounded-3xl"
-              variant="contained"
-              onClick={() => {
-                setLoginDialogIsOpenFalse();
-                setSignUpDialogIsOpenTrue();
-              }}
-            >
-              Sign up
-            </Button>
             <SignUpDialog
               handleCloseSignUpDialog={setSignUpDialogIsOpenFalse}
               handleOpenLoginDialog={() => {

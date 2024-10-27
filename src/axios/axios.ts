@@ -80,7 +80,7 @@ export const axiosApi = async ({
     if (response.status === 200 && response.data.success === 0) {
       const errorMessage = response.data.errorMessage || "An error occurred";
       throw new Error(
-        `API Error: ${errorMessage} (Error Code: ${response.data.errorCode})`,
+        `Error: ${errorMessage} (Error Code: ${response.data.errorCode})`,
       );
     }
 

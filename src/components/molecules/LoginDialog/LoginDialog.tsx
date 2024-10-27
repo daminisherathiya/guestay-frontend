@@ -118,13 +118,13 @@ export function LoginDialog({
             label="Continue with email"
           />
         </Box>
+        {LogInApiSnackbarAlert}
       </DialogWrapper>
 
       <ForgotPasswordDialog
         handleCloseForgotPasswordDialog={setForgotPasswordDialogIsOpenFalse}
         isForgotPasswordDialogOpen={ForgotPasswordDialogIsOpen}
       />
-      {LogInApiSnackbarAlert}
     </>
   );
 }

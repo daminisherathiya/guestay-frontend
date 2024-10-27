@@ -23,7 +23,7 @@ export function useResetPasswordDialog({
       confirmPassword: "Damini@123",
       newPassword: "Damini@123",
       oldPassword: "",
-      userId: getUserDetails().id,
+      userId: "",
     },
     mode: "onChange",
   });
@@ -48,18 +48,19 @@ export function useResetPasswordDialog({
     },
     {
       showSnackbarIsOpenOnSuccess: true,
+      successMessage: "Your password has been successfully reset!",
     },
   );
 
   const onSubmit = (data: changePasswordApiDataType) => {
-    changePasswordApiMutate({ data });
+    changePasswordApiMutate({ data: { ...data, userId: getUserDetails().id } });
   };
 
   useEffect(() => {
     if (changePasswordApiIsSuccess) {
       handleCloseResetPasswordDialog();
     }
-  });
+  }, [changePasswordApiIsSuccess, handleCloseResetPasswordDialog]);
 
   return {
     changePasswordApiIsPending,

@@ -12,7 +12,7 @@ import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
 import { FullReceiptPreviewDialog } from "./components/FullReceiptPreviewDialog";
-import { useReceipt } from "./Receipt.hook";
+import { useReceipt } from "./Receipt.hooks";
 
 export function Receipt() {
   const {

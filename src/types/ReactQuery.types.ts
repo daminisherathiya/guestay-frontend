@@ -1,4 +1,13 @@
-export interface ReactQueryCustomOptionsType {
+interface ReactQueryCustomOptionsBaseType {
   showSnackbarIsOpenOnFailure?: boolean;
-  showSnackbarIsOpenOnSuccess?: boolean;
 }
+
+export type ReactQueryCustomOptionsType =
+  | (ReactQueryCustomOptionsBaseType & {
+      showSnackbarIsOpenOnSuccess?: false;
+      successMessage?: string;
+    })
+  | (ReactQueryCustomOptionsBaseType & {
+      showSnackbarIsOpenOnSuccess: true;
+      successMessage: string;
+    });
