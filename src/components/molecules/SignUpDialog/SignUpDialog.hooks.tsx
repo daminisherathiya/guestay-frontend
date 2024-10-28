@@ -27,15 +27,15 @@ export function useSignUpDialog({
     watch,
   } = useForm({
     defaultValues: {
-      confirmPassword: "Damini@123",
+      confirmPassword: "",
       country: defaultCountry,
-      email: "daminisherathiya@gmail.com",
-      firstName: "Damini",
-      lastName: "Sherathiya",
-      password: "Damini@123",
-      phoneNumber: "9876543210",
+      email: "",
+      firstName: "",
+      lastName: "",
+      password: "",
+      phoneNumber: "",
       profilePicture: "",
-      userName: "damini.sherathiya",
+      userName: "",
     },
     mode: "onChange",
   });

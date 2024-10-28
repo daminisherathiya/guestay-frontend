@@ -14,7 +14,6 @@ export function useLogout() {
 
   const {
     mutate: logOutApiMutate,
-    isPending: logOutApiIsPending,
     isSuccess: logOutApiIsSuccess,
     SnackbarAlert: LogOutApiSnackbarAlert,
   } = useMutation<LogOutAPIResponseType, Error, LogOutApiType>({
@@ -23,6 +22,8 @@ export function useLogout() {
   });
 
   const onSubmit = () => {
+    handleLogOut();
+    return;
     logOutApiMutate({ data: { userId: getUserDetails().id } });
   };
 
@@ -32,5 +33,5 @@ export function useLogout() {
     }
   }, [handleLogOut, logOutApiIsSuccess]);
 
-  return { logOutApiIsPending, LogOutApiSnackbarAlert, onSubmit };
+  return { LogOutApiSnackbarAlert, onSubmit };
 }

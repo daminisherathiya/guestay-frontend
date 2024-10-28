@@ -11,7 +11,6 @@ import {
 import { useAuthentication } from "@/hooks/useAuthentication";
 import { useBoolean } from "@/hooks/useBoolean";
 import { useMutation } from "@/hooks/useMutation";
-import { setUserDetails } from "@/utils/localStorage/localStorage";
 
 import { UseLoginDialogProps } from "./LoginDialog.types";
 
@@ -24,8 +23,8 @@ export function useLoginDialog({
     handleSubmit,
   } = useForm({
     defaultValues: {
-      email: "damini.sherathiya",
-      password: "Damini@123",
+      email: "",
+      password: "",
     },
     mode: "onChange",
   });
@@ -54,8 +53,8 @@ export function useLoginDialog({
       handleCloseLoginDialog();
       handleLogIn({
         authenticationToken: logInApiData.data.auth_token,
+        userDetails: logInApiData.data.userData,
       });
-      setUserDetails({ userDetails: logInApiData.data.userData });
     }
   }, [handleCloseLoginDialog, handleLogIn, logInApiIsSuccess, logInApiData]);
 

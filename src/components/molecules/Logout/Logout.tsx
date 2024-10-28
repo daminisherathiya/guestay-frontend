@@ -1,21 +1,21 @@
-import { LoadingButton } from "@/components/atoms/LoadingButton";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { ListItemIcon } from "@mui/material";
+
+import { MenuItem } from "@/components/atoms/MenuItem";
 
 import { useLogout } from "./Logout.hooks";
 
 export function Logout() {
-  const { logOutApiIsPending, LogOutApiSnackbarAlert, onSubmit } = useLogout();
+  const { LogOutApiSnackbarAlert, onSubmit } = useLogout();
 
   return (
     <>
-      <LoadingButton
-        className="rounded-3xl"
-        loading={logOutApiIsPending}
-        loadingIndicator="Login ..."
-        variant="contained"
-        onClick={onSubmit}
-      >
+      <MenuItem onClick={onSubmit}>
+        <ListItemIcon>
+          <LogoutIcon />{" "}
+        </ListItemIcon>
         Logout
-      </LoadingButton>
+      </MenuItem>
       {LogOutApiSnackbarAlert}
     </>
   );

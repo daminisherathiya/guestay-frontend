@@ -3,10 +3,15 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
 
 import { CircularProgress } from "@/components/atoms/CircularProgress";
+import { Stack } from "@/components/atoms/Stack";
+import { UserDataType } from "@/types/User.types";
 import {
+  getUserDetails,
   hasAuthenticationToken,
   removeAuthenticationToken,
-  setAuthenticationToken,
+  removeUserDetails,
+  setAuthenticationToken as setAuthenticationTokenInLocalstorage,
+  setUserDetails as setUserDetailsInLocalstorage,
 } from "@/utils/localStorage/localStorage";
 
 import {
@@ -19,6 +24,7 @@ export const AuthenticationContext = createContext<AuthenticationContextType>({
   handleLogIn: () => {},
   handleLogOut: () => {},
   isAuthenticated: false,
+  userDetails: null,
 });
 
 export const AuthenticationProvider = ({
@@ -26,17 +32,40 @@ export const AuthenticationProvider = ({
 }: AuthenticationProviderProps) => {
   const [authenticationStateIsLoading, setAuthenticationStateIsLoading] =
     useState<boolean>(true);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [userDetails, setUserDetails] = useState<UserDataType | null>(null);
+
   console.log("🚀 ~ isAuthenticated:", isAuthenticated);
 
   useEffect(() => {
-    setIsAuthenticated(hasAuthenticationToken());
+    const authenticationTokenIsPresent = hasAuthenticationToken();
+    const useDetials = getUserDetails();
+
+    if (authenticationTokenIsPresent && useDetials) {
+      setIsAuthenticated(true);
+      setUserDetails(useDetials);
+    } else {
+      setIsAuthenticated(false);
+      setUserDetails(null);
+    }
+
     setAuthenticationStateIsLoading(false);
   }, []);
 
   const handleLogIn = useCallback(
-    ({ authenticationToken }: { authenticationToken: string }) => {
-      setAuthenticationToken({ authenticationToken: authenticationToken });
+    ({
+      authenticationToken,
+      userDetails,
+    }: {
+      authenticationToken: string;
+      userDetails: UserDataType;
+    }) => {
+      setAuthenticationTokenInLocalstorage({
+        authenticationToken: authenticationToken,
+      });
+      setUserDetailsInLocalstorage({ userDetails });
+
+      setUserDetails(userDetails);
       setIsAuthenticated(true);
     },
     [],
@@ -44,6 +73,7 @@ export const AuthenticationProvider = ({
 
   const handleLogOut = useCallback(() => {
     removeAuthenticationToken();
+    removeUserDetails();
     setIsAuthenticated(false);
   }, []);
 
@@ -54,10 +84,13 @@ export const AuthenticationProvider = ({
         handleLogIn,
         handleLogOut,
         isAuthenticated,
+        userDetails,
       }}
     >
       {authenticationStateIsLoading ? (
-        <CircularProgress className="mx-auto" />
+        <Stack className="items-center justify-center" sx={{ height: "100vh" }}>
+          <CircularProgress className="mx-auto" />
+        </Stack>
       ) : (
         children
       )}

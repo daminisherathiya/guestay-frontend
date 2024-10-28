@@ -36,3 +36,7 @@ export const getUserDetails = (): UserDataType => {
   const userDetails = JSON.parse(userDetailsString as string);
   return userDetails;
 };
+
+export const removeUserDetails = () => {
+  localStorage.removeItem(USER_DETAILS_STRING);
+};

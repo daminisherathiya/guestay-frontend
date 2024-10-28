@@ -4,7 +4,7 @@ import { useAuthentication } from "@/hooks/useAuthentication";
 import { useBoolean } from "@/hooks/useBoolean/useBoolean";
 
 export const useHeader = () => {
-  const { isAuthenticated } = useAuthentication();
+  const { isAuthenticated, userDetails } = useAuthentication();
 
   const {
     value: hasScrolled,
@@ -30,6 +30,12 @@ export const useHeader = () => {
     setFalse: setLoginDialogIsOpenFalse,
   } = useBoolean({ initialValue: false });
 
+  const {
+    value: ResetPasswordDialogIsOpen,
+    setTrue: setResetPasswordDialogIsOpenTrue,
+    setFalse: setResetPasswordDialogIsOpenFalse,
+  } = useBoolean({ initialValue: false });
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
@@ -51,12 +57,16 @@ export const useHeader = () => {
     isAuthenticated,
     loginDialogIsOpen,
     questionsDrawerIsOpen,
+    ResetPasswordDialogIsOpen,
     setLoginDialogIsOpenFalse,
     setLoginDialogIsOpenTrue,
     setQuestionsDrawerIsOpenFalse,
     setQuestionsDrawerIsOpenTrue,
+    setResetPasswordDialogIsOpenFalse,
+    setResetPasswordDialogIsOpenTrue,
     setSignUpDialogIsOpenFalse,
     setSignUpDialogIsOpenTrue,
     signUpDialogIsOpen,
+    userDetails,
   };
 };

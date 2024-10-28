@@ -7,9 +7,10 @@ import Image from "next/image";
 import HelpIcon from "@mui/icons-material/Help";
 import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout";
+import PasswordIcon from "@mui/icons-material/Password";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import ScienceIcon from "@mui/icons-material/Science";
-import { Avatar, ListItemIcon, Menu, Tooltip } from "@mui/material";
+import { Avatar, Link, ListItemIcon, Menu, Tooltip } from "@mui/material";
 import { GridMenuIcon } from "@mui/x-data-grid";
 
 import UserAccount from "/public/images/UserAccount.svg";
@@ -22,6 +23,7 @@ import { MenuItem } from "@/components/atoms/MenuItem";
 import { Stack } from "@/components/atoms/Stack";
 import { LoginDialog } from "@/components/molecules/LoginDialog/LoginDialog";
 import { Logout } from "@/components/molecules/Logout";
+import { ResetPasswordDialog } from "@/components/molecules/ResetPasswordDialog";
 import { SignUpDialog } from "@/components/molecules/SignUpDialog/SignUpDialog";
 
 import { QuestionsDrawer } from "../QuestionsDrawer/QuestionsDrawer";
@@ -34,14 +36,19 @@ export function Header() {
     isAuthenticated,
     loginDialogIsOpen,
     questionsDrawerIsOpen,
+    ResetPasswordDialogIsOpen,
     setLoginDialogIsOpenFalse,
     setLoginDialogIsOpenTrue,
     setQuestionsDrawerIsOpenFalse,
     setQuestionsDrawerIsOpenTrue,
+    setResetPasswordDialogIsOpenTrue,
+    setResetPasswordDialogIsOpenFalse,
     setSignUpDialogIsOpenFalse,
     setSignUpDialogIsOpenTrue,
     signUpDialogIsOpen,
+    userDetails,
   } = useHeader();
+  console.log("🚀 ~ Header ~ userDetails:", userDetails);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -52,22 +59,26 @@ export function Header() {
     setAnchorEl(null);
   };
 
+  const getInitial = (name: string) => name.charAt(0).toUpperCase();
+
   return (
     <header
       className={`fixed top-0 z-10 w-full bg-common-white ${hasScrolled ? "border-b border-b-common-black/10" : ""}`}
     >
       <Container maxWidth="2xl">
         <Stack className="flex-row items-center justify-between pb-4 pt-6 md:pb-5 md:pt-8">
-          <picture>
-            <source media="(min-width: 576px)" srcSet="/images/logo.svg" />
-            <Image
-              alt="Logo"
-              className="w-7 sm:w-36"
-              height={32}
-              src="/images/logoIcon.svg"
-              width={140}
-            />
-          </picture>
+          <Link href="/">
+            <picture>
+              <source media="(min-width: 576px)" srcSet="/images/logo.svg" />
+              <Image
+                alt="Logo"
+                className="w-7 sm:w-36"
+                height={32}
+                src="/images/logoIcon.svg"
+                width={140}
+              />
+            </picture>
+          </Link>
           <Stack className="flex-row gap-4">
             <Button
               className="rounded-3xl hover:bg-common-white"
@@ -103,8 +114,14 @@ export function Header() {
                 onClick={handleClick}
               >
                 <GridMenuIcon className="size-5" />
-                <Avatar className="size-8 bg-common-white text-text-secondary">
-                  <UserAccount />
+                <Avatar
+                  className={`size-8 ${!isAuthenticated ? "bg-common-white text-text-secondary" : "bg-primary-main text-sm text-common-white"}`}
+                >
+                  {!isAuthenticated ? (
+                    <UserAccount />
+                  ) : (
+                    getInitial(userDetails?.fname as string)
+                  )}
                 </Avatar>
               </Button>
             </Tooltip>
@@ -117,27 +134,27 @@ export function Header() {
                 paper: {
                   elevation: 0,
                   sx: {
-                    overflow: "visible",
-                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                    mt: 1.5,
                     "& .MuiAvatar-root": {
-                      width: 32,
                       height: 32,
                       ml: -0.5,
                       mr: 1,
+                      width: 32,
                     },
                     "&::before": {
+                      bgcolor: "background.paper",
                       content: '""',
                       display: "block",
-                      position: "absolute",
-                      top: 0,
-                      right: 14,
-                      width: 10,
                       height: 10,
-                      bgcolor: "background.paper",
+                      position: "absolute",
+                      right: 14,
+                      top: 0,
                       transform: "translateY(-50%) rotate(45deg)",
+                      width: 10,
                       zIndex: 0,
                     },
+                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                    mt: 1.5,
+                    overflow: "visible",
                   },
                 },
               }}
@@ -145,28 +162,46 @@ export function Header() {
               onClick={handleClose}
               onClose={handleClose}
             >
-              <MenuItem
-                onClick={() => {
-                  setLoginDialogIsOpenFalse();
-                  setSignUpDialogIsOpenTrue();
-                }}
-              >
-                <ListItemIcon>
-                  <PersonAdd />
-                </ListItemIcon>
-                Sign up
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  setSignUpDialogIsOpenFalse();
-                  setLoginDialogIsOpenTrue();
-                }}
-              >
-                <ListItemIcon>
-                  <LogoutIcon />{" "}
-                </ListItemIcon>
-                Log in
-              </MenuItem>
+              {!isAuthenticated && [
+                <MenuItem
+                  key="Sign up"
+                  onClick={() => {
+                    setLoginDialogIsOpenFalse();
+                    setSignUpDialogIsOpenTrue();
+                  }}
+                >
+                  <ListItemIcon>
+                    <PersonAdd />
+                  </ListItemIcon>
+                  Sign up
+                </MenuItem>,
+                <MenuItem
+                  key="Log in"
+                  onClick={() => {
+                    setSignUpDialogIsOpenFalse();
+                    setLoginDialogIsOpenTrue();
+                  }}
+                >
+                  <ListItemIcon>
+                    <LogoutIcon />{" "}
+                  </ListItemIcon>
+                  Log in
+                </MenuItem>,
+              ]}
+              {isAuthenticated && (
+                <MenuItem
+                  key="Log in"
+                  onClick={() => {
+                    setResetPasswordDialogIsOpenTrue();
+                  }}
+                >
+                  <ListItemIcon>
+                    <PasswordIcon />{" "}
+                  </ListItemIcon>
+                  Reset Password
+                </MenuItem>
+              )}
+              {isAuthenticated && <Logout />}
               <Divider />
               <MenuItem onClick={handleClose}>
                 <ListItemIcon>
@@ -187,33 +222,9 @@ export function Header() {
                 Help Centre
               </MenuItem>
             </Menu>
-            {!isAuthenticated && (
-              <>
-                <Button
-                  className="rounded-3xl"
-                  variant="outlined"
-                  onClick={() => {
-                    setSignUpDialogIsOpenFalse();
-                    setLoginDialogIsOpenTrue();
-                  }}
-                >
-                  Login
-                </Button>
-                <Button
-                  className="rounded-3xl"
-                  variant="contained"
-                  onClick={() => {
-                    setLoginDialogIsOpenFalse();
-                    setSignUpDialogIsOpenTrue();
-                  }}
-                >
-                  Sign up
-                </Button>
-              </>
-            )}
-            {isAuthenticated && <Logout />}
             <LoginDialog
               handleCloseLoginDialog={setLoginDialogIsOpenFalse}
+              handleOpenLoginDialog={setLoginDialogIsOpenTrue}
               handleOpenSignUpDialog={() => {
                 setLoginDialogIsOpenFalse();
                 setSignUpDialogIsOpenTrue();
@@ -227,6 +238,10 @@ export function Header() {
                 setLoginDialogIsOpenTrue();
               }}
               isSignUpDialogOpen={signUpDialogIsOpen}
+            />
+            <ResetPasswordDialog
+              handleCloseResetPasswordDialog={setResetPasswordDialogIsOpenFalse}
+              isResetPasswordDialogOpen={ResetPasswordDialogIsOpen}
             />
           </Stack>
         </Stack>

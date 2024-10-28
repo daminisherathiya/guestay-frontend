@@ -8,13 +8,13 @@ import {
   paswordResetApiResponseType,
   paswordResetApiType,
 } from "@/apis/account/paswordResetApi/paswordResetApi.types";
-import { useBoolean } from "@/hooks/useBoolean";
 import { useMutation } from "@/hooks/useMutation";
 
 import { useForgotPasswordDialogProps } from "./ForgotPasswordDialog.types";
 
 export function useForgotPasswordDialog({
   handleCloseForgotPasswordDialog,
+  handleOpenLoginDialog,
 }: useForgotPasswordDialogProps) {
   const {
     control,
@@ -22,7 +22,7 @@ export function useForgotPasswordDialog({
     handleSubmit,
   } = useForm({
     defaultValues: {
-      email: "daminisherathiya@gmail.com",
+      email: "",
     },
     mode: "onChange",
   });
@@ -33,7 +33,7 @@ export function useForgotPasswordDialog({
     mutate: paswordResetApiMutate,
     isPending: paswordResetApiIsPending,
     isSuccess: paswordResetApiIsSuccess,
-    SnackbarAlert: paswordResetApiSnackbarAlert,
+    SnackbarAlert: PaswordResetApiSnackbarAlert,
   } = useMutation<paswordResetApiResponseType, Error, paswordResetApiType>({
     mutationFn: paswordResetApi,
     mutationKey: ["password-reset"],
@@ -44,21 +44,15 @@ export function useForgotPasswordDialog({
     paswordResetApiMutate({ data });
   };
 
-  const {
-    value: ResetPasswordDialogIsOpen,
-    setTrue: setResetPasswordDialogIsOpenTrue,
-    setFalse: setResetPasswordDialogIsOpenFalse,
-  } = useBoolean({ initialValue: false });
-
   useEffect(() => {
     if (paswordResetApiIsSuccess) {
       handleCloseForgotPasswordDialog();
-      setResetPasswordDialogIsOpenTrue();
+      handleOpenLoginDialog();
     }
   }, [
     paswordResetApiIsSuccess,
     handleCloseForgotPasswordDialog,
-    setResetPasswordDialogIsOpenTrue,
+    handleOpenLoginDialog,
   ]);
 
   return {
@@ -67,8 +61,6 @@ export function useForgotPasswordDialog({
     isValid,
     onSubmit,
     paswordResetApiIsPending,
-    paswordResetApiSnackbarAlert,
-    ResetPasswordDialogIsOpen,
-    setResetPasswordDialogIsOpenFalse,
+    PaswordResetApiSnackbarAlert,
   };
 }

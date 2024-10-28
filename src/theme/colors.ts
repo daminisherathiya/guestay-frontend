@@ -10,10 +10,10 @@ export const palette = {
   action: {
     active: "#222222",
     disabled: "#ffffff",
-    disabledBackground: "#dddddd",
+    disabledBackground: "#bababa",
     focus: "#00ff00",
     hover: "#f7f7f7",
-    selected: "#00ff00",
+    selected: "rgba(0, 0, 0, 0.08)",
   },
   background: {
     default: "#ffffff",
@@ -27,7 +27,10 @@ export const palette = {
   },
   divider: "#dddddd",
   error: {
-    main: "#c13515",
+    main: "#d32f2f",
+    light: "#ef5350",
+    dark: "#c62828",
+    contrastText: "#fff",
   },
   primary: {
     contrastText: "#ffffff",
@@ -42,15 +45,17 @@ export const palette = {
     main: "#f06a55",
   },
   warning: {
-    light: "#fcf2e8",
-    main: "#e07912",
+    main: "#ed6c02",
+    light: "#ff9800",
+    dark: "#e65100",
+    contrastText: "#fff",
   },
   // info: {},
   success: {
-    contrastText: "#ffffff",
-    dark: "#1b5e20",
-    light: "#4caf50",
     main: "#2e7d32",
+    light: "#4caf50",
+    dark: "#1b5e20",
+    contrastText: "#fff",
   },
   text: {
     disabled: "#222222",

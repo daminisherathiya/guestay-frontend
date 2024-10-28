@@ -22,6 +22,7 @@ import { LoginDialogProps } from "./LoginDialog.types";
 
 export function LoginDialog({
   handleCloseLoginDialog,
+  handleOpenLoginDialog,
   handleOpenSignUpDialog,
   isLoginDialogOpen,
 }: LoginDialogProps) {
@@ -54,9 +55,9 @@ export function LoginDialog({
               <Grid2 size={12}>
                 <TextFieldWrapper
                   control={control}
-                  label="Email/Username"
+                  label="Email"
                   name="email"
-                  rules={{ required: "Email/Username is required" }}
+                  rules={{ required: "Email is required" }}
                 />
               </Grid2>
               <Grid2 size={12}>
@@ -123,6 +124,7 @@ export function LoginDialog({
 
       <ForgotPasswordDialog
         handleCloseForgotPasswordDialog={setForgotPasswordDialogIsOpenFalse}
+        handleOpenLoginDialog={handleOpenLoginDialog}
         isForgotPasswordDialogOpen={ForgotPasswordDialogIsOpen}
       />
     </>

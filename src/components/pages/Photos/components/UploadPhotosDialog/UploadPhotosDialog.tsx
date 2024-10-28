@@ -95,7 +95,7 @@ const ImageGrid = ({
             <DeleteIcon className="text-common-white" height={16} width={16} />
           </IconButton>
           {imageData.error && (
-            <Stack className="absolute bottom-2 left-2 flex-row items-center gap-1 bg-warning-light px-1.5 py-0.5">
+            <Stack className="absolute bottom-2 left-2 flex-row items-center gap-1 rounded bg-warning-light px-1.5 py-0.5">
               <Box className="size-2 shrink-0 rounded-full bg-warning-main"></Box>
               <Typography className="text-xs font-bold" variant="body2">
                 {imageData.error}

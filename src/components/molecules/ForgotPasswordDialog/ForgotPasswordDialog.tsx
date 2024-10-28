@@ -3,7 +3,6 @@ import { LoadingButton } from "@/components/atoms/LoadingButton";
 import { Typography } from "@/components/atoms/Typography";
 
 import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
-import { ResetPasswordDialog } from "../ResetPasswordDialog";
 import { TextFieldWrapper } from "../TextFieldWrapper";
 
 import { useForgotPasswordDialog } from "./ForgotPasswordDialog.hooks";
@@ -11,6 +10,7 @@ import { ForgotPasswordDialogProps } from "./ForgotPasswordDialog.types";
 
 export function ForgotPasswordDialog({
   handleCloseForgotPasswordDialog,
+  handleOpenLoginDialog,
   isForgotPasswordDialogOpen,
 }: ForgotPasswordDialogProps) {
   const {
@@ -19,11 +19,10 @@ export function ForgotPasswordDialog({
     isValid,
     onSubmit,
     paswordResetApiIsPending,
-    paswordResetApiSnackbarAlert,
-    ResetPasswordDialogIsOpen,
-    setResetPasswordDialogIsOpenFalse,
+    PaswordResetApiSnackbarAlert,
   } = useForgotPasswordDialog({
     handleCloseForgotPasswordDialog,
+    handleOpenLoginDialog,
   });
 
   return (
@@ -60,20 +59,16 @@ export function ForgotPasswordDialog({
             color="secondary"
             disabled={!isValid}
             loading={paswordResetApiIsPending}
-            loadingIndicator="Reset ..."
+            loadingIndicator="Sending ..."
             size="large"
             type="submit"
             variant="contained"
           >
-            Send Reset Link
+            Send
           </LoadingButton>
         </form>
+        {PaswordResetApiSnackbarAlert}
       </DialogWrapper>
-      <ResetPasswordDialog
-        handleCloseResetPasswordDialog={setResetPasswordDialogIsOpenFalse}
-        isResetPasswordDialogOpen={ResetPasswordDialogIsOpen}
-      />
-      {paswordResetApiSnackbarAlert}
     </>
   );
 }

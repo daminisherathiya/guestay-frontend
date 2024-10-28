@@ -20,8 +20,8 @@ export function useResetPasswordDialog({
     watch,
   } = useForm({
     defaultValues: {
-      confirmPassword: "Damini@123",
-      newPassword: "Damini@123",
+      confirmPassword: "",
+      newPassword: "",
       oldPassword: "",
       userId: "",
     },
@@ -40,7 +40,7 @@ export function useResetPasswordDialog({
     mutate: changePasswordApiMutate,
     isPending: changePasswordApiIsPending,
     isSuccess: changePasswordApiIsSuccess,
-    SnackbarAlert: changePasswordApiSnackbarAlert,
+    SnackbarAlert: ChangePasswordApiSnackbarAlert,
   } = useMutation(
     {
       mutationFn: changePasswordApi,
@@ -64,7 +64,7 @@ export function useResetPasswordDialog({
 
   return {
     changePasswordApiIsPending,
-    changePasswordApiSnackbarAlert,
+    ChangePasswordApiSnackbarAlert,
     control,
     handleSubmit,
     isValid,
