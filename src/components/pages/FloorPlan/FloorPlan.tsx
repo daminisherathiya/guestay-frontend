@@ -24,6 +24,7 @@ import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
 import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper";
+import { useOverview } from "@/hooks/useStaticFooter";
 
 import { floorPlanItems } from "./FloorPlan.consts";
 import { useFloorPlan } from "./FloorPlan.hooks";
@@ -96,6 +97,8 @@ export function FloorPlan() {
   const handleRemoveBedroom = (id: number) => {
     setBedrooms(bedrooms.filter((bedroom) => bedroom.id !== id));
   };
+
+  const { Footer } = useOverview();
 
   return (
     <>
@@ -262,6 +265,7 @@ export function FloorPlan() {
           </Box>
         </Box>
       </Container>
+      {Footer}
       {BedTypesApiSnackbarAlert}
     </>
   );

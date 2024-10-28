@@ -11,6 +11,7 @@ import { IconButton } from "@/components/atoms/IconButton";
 import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
+import { useOverview } from "@/hooks/useStaticFooter";
 
 import { MoreAboutPricingDialog } from "./components/MoreAboutPricingDialog";
 import { usePrice } from "./Price.hooks";
@@ -35,6 +36,8 @@ export function Price() {
     toggleExpansion,
     value,
   } = usePrice();
+
+  const { Footer } = useOverview();
 
   return (
     <>
@@ -194,6 +197,7 @@ export function Price() {
           </Box>
         </Stack>
       </Container>
+      {Footer}
       {globalPricesApiSnackbarAlert}
     </>
   );

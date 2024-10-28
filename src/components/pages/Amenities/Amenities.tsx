@@ -9,6 +9,7 @@ import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
 import { Grid2 } from "@/components/atoms/Grid2";
 import { Typography } from "@/components/atoms/Typography";
+import { useOverview } from "@/hooks/useStaticFooter";
 
 import { useAmenities } from "./Amenities.hooks";
 
@@ -20,6 +21,8 @@ export function Amenities() {
     handleButtonClick,
     selectedOptions,
   } = useAmenities();
+
+  const { Footer } = useOverview();
 
   return (
     <>
@@ -85,6 +88,7 @@ export function Amenities() {
           )}
         </Box>
       </Container>
+      {Footer}
       {AmenitiesApiSnackbarAlert}
     </>
   );
