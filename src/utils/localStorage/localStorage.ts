@@ -48,3 +48,7 @@ export const setPropertyIdToEdit = ({
 }: setPropertyIdToEditType) => {
   return localStorage.setItem(PROPERTY_ID_TO_EDIT_STRING, propertyIdToEdit);
 };
+
+export const getPropertyIdToEdit = () => {
+  return localStorage.getItem(PROPERTY_ID_TO_EDIT_STRING);
+};

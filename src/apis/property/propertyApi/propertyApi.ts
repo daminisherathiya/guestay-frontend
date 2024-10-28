@@ -5,7 +5,7 @@ import { propertyApiType } from "./propertyApi.type";
 export const propertyApi = async ({ data }: propertyApiType) => {
   return await axiosApi({
     data: {
-      // property_id: ,
+      property_id: data.propertyId,
       user_id: data.userId,
     },
     method: "post",

@@ -1,5 +1,5 @@
 export interface propertyApiDataType {
-  property_id: string;
+  propertyId: string;
   userId: string;
 }
 
@@ -12,6 +12,7 @@ export interface PropertyType {
   icon: string;
   id: string;
   title: string;
+  type: string;
 }
 
 export interface propertyApiResponseType {

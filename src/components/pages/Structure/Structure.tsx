@@ -14,10 +14,13 @@ import { useStructure } from "./Structure.hooks";
 
 export function Structure() {
   const {
+    Footer,
     handleOptionSelection,
+    isLoading,
+    PropertyApiSnackbarAlert,
     propertyTypeApiData,
-    propertyTypeApiIsFirstLoading,
     PropertyTypeApiSnackbarAlert,
+    SavePropertyApiSnackbarAlert,
     selectedOption,
   } = useStructure();
 
@@ -28,7 +31,7 @@ export function Structure() {
           <Typography className="mb-8" component="h1" variant="h1">
             Which of these best describes your place?
           </Typography>
-          {propertyTypeApiIsFirstLoading ? (
+          {isLoading ? (
             <Grid2 container spacing={2}>
               {Array.from({ length: 9 }).map((_, index) => (
                 <Grid2 key={index} size={{ "2xs": 12, md: 4, sm: 6 }}>
@@ -47,7 +50,7 @@ export function Structure() {
                   <Button
                     disableRipple
                     className={`size-full flex-col items-start p-4 hover:border-common-transparent hover:bg-common-white hover:shadow-black ${
-                      selectedOption === propertyType.title
+                      selectedOption === propertyType.id
                         ? "border-common-transparent bg-background-highlight shadow-black"
                         : ""
                     }`}
@@ -75,7 +78,10 @@ export function Structure() {
           )}
         </Box>
       </Container>
+      {Footer}
+      {PropertyApiSnackbarAlert}
       {PropertyTypeApiSnackbarAlert}
+      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

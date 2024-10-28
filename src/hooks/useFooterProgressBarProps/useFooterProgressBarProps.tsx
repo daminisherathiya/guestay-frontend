@@ -7,7 +7,10 @@ import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
 import { LinearProgress } from "@/components/atoms/LinearProgress";
+import { LoadingButton } from "@/components/atoms/LoadingButton";
 import { Stack } from "@/components/atoms/Stack";
+
+import { useFooterProgressBarProps } from "./useFooterProgressBarProps.types";
 
 interface FooterDetailsType {
   backUrl: string;
@@ -162,7 +165,11 @@ const urlToFooterDetails: Record<string, FooterDetailsType> = {
 };
 /* eslint-enable sort-keys */
 
-export function FooterProgressBar() {
+export function useFooterProgressBar({
+  onSubmit,
+  isDisabled,
+  isLoading,
+}: useFooterProgressBarProps) {
   const pathname = usePathname();
 
   const footerDetails = urlToFooterDetails[pathname] || {
@@ -171,7 +178,7 @@ export function FooterProgressBar() {
     progressPercentage: { setp1: 0, setp2: 0, setp3: 0 },
   };
 
-  return (
+  const Footer = (
     <Box className="fixed bottom-0 z-10 w-full bg-common-white">
       <Stack className="flex-row gap-x-1.5">
         <LinearProgress
@@ -203,14 +210,22 @@ export function FooterProgressBar() {
             </Link>
           </Box>
           <Box>
-            <Link href={footerDetails.nextUrl}>
-              <Button size="large" variant="contained">
-                Next
-              </Button>
-            </Link>
+            <LoadingButton
+              disabled={isDisabled}
+              loading={isLoading}
+              loadingIndicator="Saving..."
+              size="large"
+              type="submit"
+              variant="contained"
+              onClick={onSubmit}
+            >
+              Next
+            </LoadingButton>
           </Box>
         </Stack>
       </Container>
     </Box>
   );
+
+  return { Footer, nextUrl: footerDetails.nextUrl };
 }

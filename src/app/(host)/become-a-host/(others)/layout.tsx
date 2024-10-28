@@ -1,6 +1,6 @@
 import { Box } from "@/components/atoms/Box";
 import { Toolbar } from "@/components/atoms/Toolbar";
-import { FooterProgressBar } from "@/components/organisms/FooterProgressBar/FooterProgressBar";
+// import { FooterProgressBar } from "@/hooks/useFooterProgressBarProps/useFooterProgressBarProps";
 
 export default function ListingLayout({
   children,
@@ -13,9 +13,9 @@ export default function ListingLayout({
         <Box className="my-5 flex size-full grow flex-col items-center justify-center md:my-10">
           {children}
         </Box>
-        <Box className="w-full">
+        {/* <Box className="w-full">
           <FooterProgressBar />
-        </Box>
+        </Box> */}
       </Box>
       <Toolbar className="min-h-[5.375rem]" />
     </>
