@@ -13,7 +13,7 @@ import ScienceIcon from "@mui/icons-material/Science";
 import { Avatar, Link, ListItemIcon, Menu, Tooltip } from "@mui/material";
 import { GridMenuIcon } from "@mui/x-data-grid";
 
-import UserAccount from "/public/images/UserAccount.svg";
+import UserAccount from "/public/images/userAccount.svg";
 
 import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
