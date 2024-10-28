@@ -9,10 +9,8 @@ import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 import { CountrySelect } from "@/components/molecules/CountrySelect/CountrySelect";
 import { defaultCountry } from "@/components/molecules/CountrySelect/CountrySelect.consts";
-
 // import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper/TextFieldWrapper";
 // import { type AddressDetailsType } from "@/types/Location.types";
-
 import { useOverview } from "@/hooks/useStaticFooter";
 
 import { LocationInputWithAutocompleteService } from "./components/LocationInputWithAutocompleteService";
