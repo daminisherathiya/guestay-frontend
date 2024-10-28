@@ -43,8 +43,15 @@ const bedOptions: Option[] = [
 ];
 
 export function FloorPlan() {
-  const { counters, displayValue, handleDecrease, handleIncrease } =
-    useFloorPlan();
+  const {
+    bedTypesApiData,
+    bedTypesApiIsFirstLoading,
+    BedTypesApiSnackbarAlert,
+    counters,
+    displayValue,
+    handleDecrease,
+    handleIncrease,
+  } = useFloorPlan();
 
   const {
     control,
@@ -91,164 +98,171 @@ export function FloorPlan() {
   };
 
   return (
-    <Container maxWidth="2xl">
-      <Box className="mx-auto max-w-2xl">
-        <Typography className="mb-2" component="h1" variant="h1">
-          Share some basics about your place
-        </Typography>
-        <Typography
-          className="mb-8 text-text-secondary"
-          component="h3"
-          variant="h3"
-        >
-          You&apos;ll add more details later, such as bed types.
-        </Typography>
-        <Box>
-          {floorPlanItems.map((floorPlanItem, index) => (
-            <Stack
-              key={index}
-              className="flex-row items-center justify-between border-b-divider py-6 [&:not(:last-child)]:border-b"
-            >
-              <Typography component="p" variant="h3">
-                {floorPlanItem.name}
-              </Typography>
-              <Stack className="w-[6.5rem] flex-row items-center justify-between">
-                <IconButton
-                  className={`flex size-8 items-center justify-center border border-solid border-divider ${
-                    counters[floorPlanItem.field] === 0
-                      ? "pointer-events-none opacity-30"
-                      : ""
-                  }`}
-                  disabled={counters[floorPlanItem.field] === 0}
-                  onClick={() => handleDecrease(floorPlanItem.field)}
-                >
-                  <Image
-                    alt="Minue"
-                    height={12}
-                    src="/images/minus.svg"
-                    width={12}
-                  />
-                </IconButton>
-                <Typography>
-                  {displayValue(
-                    counters[floorPlanItem.field],
-                    floorPlanItem.max,
-                    floorPlanItem.field,
-                  )}
+    <>
+      <Container maxWidth="2xl">
+        <Box className="mx-auto max-w-2xl">
+          <Typography className="mb-2" component="h1" variant="h1">
+            Share some basics about your place
+          </Typography>
+          <Typography
+            className="mb-8 text-text-secondary"
+            component="h3"
+            variant="h3"
+          >
+            You&apos;ll add more details later, such as bed types.
+          </Typography>
+          <Box>
+            {floorPlanItems.map((floorPlanItem, index) => (
+              <Stack
+                key={index}
+                className="flex-row items-center justify-between border-b-divider py-6 [&:not(:last-child)]:border-b"
+              >
+                <Typography component="p" variant="h3">
+                  {floorPlanItem.name}
                 </Typography>
-                <IconButton
-                  className={`flex size-8 items-center justify-center border border-solid border-divider ${
-                    counters[floorPlanItem.field] === floorPlanItem.max
-                      ? "pointer-events-none opacity-30"
-                      : ""
-                  }`}
-                  disabled={counters[floorPlanItem.field] === floorPlanItem.max}
-                  onClick={() =>
-                    handleIncrease(floorPlanItem.field, floorPlanItem.max)
-                  }
-                >
-                  <Image
-                    alt="Minue"
-                    height={12}
-                    src="/images/plus.svg"
-                    width={12}
-                  />
-                </IconButton>
-              </Stack>
-            </Stack>
-          ))}
-        </Box>
-        <Divider />
-        <Typography className="py-6 " component="p" variant="h3">
-          Bedrooms
-        </Typography>
-        <Box className="space-y-4">
-          {bedrooms.map((bedroom, index) => (
-            <Grid2 key={index} container className="items-end" spacing={2}>
-              <Grid2 size={6}>
-                <TextFieldWrapper
-                  control={control}
-                  label="Bedroom Name"
-                  name="bedroomName"
-                />
-              </Grid2>
-              <Grid2 size={6}>
-                <FormControl fullWidth variant="filled">
-                  <InputLabel id="demo-simple-select-label">
-                    Bedroom Count
-                  </InputLabel>
-                  <Select
-                    className="bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none"
-                    IconComponent={KeyboardArrowDownIcon}
-                    id="demo-simple-select"
-                    label="Bedroom Count"
-                    labelId="demo-simple-select-label"
-                    value={bedroomType}
-                    onChange={handleChange}
+                <Stack className="w-[6.5rem] flex-row items-center justify-between">
+                  <IconButton
+                    className={`flex size-8 items-center justify-center border border-solid border-divider ${
+                      counters[floorPlanItem.field] === 0
+                        ? "pointer-events-none opacity-30"
+                        : ""
+                    }`}
+                    disabled={counters[floorPlanItem.field] === 0}
+                    onClick={() => handleDecrease(floorPlanItem.field)}
                   >
-                    <MenuItem value="full">Count as full bedroom</MenuItem>
-                    <MenuItem value="half">Count as half bedroom</MenuItem>
-                    <MenuItem value="none">Do not count as bedroom</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid2>
-              <Grid2 size={11}>
-                <Autocomplete
-                  multiple
-                  filterSelectedOptions={false}
-                  getOptionLabel={(option) =>
-                    option && option.label ? option.label : ""
-                  }
-                  options={bedOptions}
-                  popupIcon={<KeyboardArrowDownIcon />}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Select Bed Types"
-                      slotProps={{
-                        input: {
-                          ...params.InputProps,
-                          className: `${params.InputProps.className} bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none`,
-                        },
-                      }}
-                      variant="filled"
+                    <Image
+                      alt="Minue"
+                      height={12}
+                      src="/images/minus.svg"
+                      width={12}
                     />
-                  )}
-                  renderTags={(value, getTagProps) =>
-                    value.map((option, index) => {
-                      const { key, ...restTagProps } = getTagProps({ index });
-                      return (
-                        <Chip
-                          key={key}
-                          label={option.label}
-                          {...restTagProps}
-                          className={`${restTagProps.className} h-6`}
-                        />
-                      );
-                    })
-                  }
-                  value={selectedOptions}
-                  onChange={handleChangebed}
-                />
-              </Grid2>
-              {bedrooms.length > 1 && (
-                <Grid2 size={1}>
-                  <Stack className="flex-row justify-end">
-                    <IconButton onClick={() => handleRemoveBedroom(bedroom.id)}>
-                      <CloseIcon />
-                    </IconButton>
-                  </Stack>
+                  </IconButton>
+                  <Typography>
+                    {displayValue(
+                      counters[floorPlanItem.field],
+                      floorPlanItem.max,
+                      floorPlanItem.field,
+                    )}
+                  </Typography>
+                  <IconButton
+                    className={`flex size-8 items-center justify-center border border-solid border-divider ${
+                      counters[floorPlanItem.field] === floorPlanItem.max
+                        ? "pointer-events-none opacity-30"
+                        : ""
+                    }`}
+                    disabled={
+                      counters[floorPlanItem.field] === floorPlanItem.max
+                    }
+                    onClick={() =>
+                      handleIncrease(floorPlanItem.field, floorPlanItem.max)
+                    }
+                  >
+                    <Image
+                      alt="Minue"
+                      height={12}
+                      src="/images/plus.svg"
+                      width={12}
+                    />
+                  </IconButton>
+                </Stack>
+              </Stack>
+            ))}
+          </Box>
+          <Divider />
+          <Typography className="py-6 " component="p" variant="h3">
+            Bedrooms
+          </Typography>
+          <Box className="space-y-4">
+            {bedrooms.map((bedroom, index) => (
+              <Grid2 key={index} container className="items-end" spacing={2}>
+                <Grid2 size={6}>
+                  <TextFieldWrapper
+                    control={control}
+                    label="Bedroom Name"
+                    name="bedroomName"
+                  />
                 </Grid2>
-              )}
-            </Grid2>
-          ))}
+                <Grid2 size={6}>
+                  <FormControl fullWidth variant="filled">
+                    <InputLabel id="demo-simple-select-label">
+                      Bedroom Count
+                    </InputLabel>
+                    <Select
+                      className="bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none"
+                      IconComponent={KeyboardArrowDownIcon}
+                      id="demo-simple-select"
+                      label="Bedroom Count"
+                      labelId="demo-simple-select-label"
+                      value={bedroomType}
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="full">Count as full bedroom</MenuItem>
+                      <MenuItem value="half">Count as half bedroom</MenuItem>
+                      <MenuItem value="none">Do not count as bedroom</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid2>
+                <Grid2 size={11}>
+                  <Autocomplete
+                    multiple
+                    filterSelectedOptions={false}
+                    getOptionLabel={(option) =>
+                      option && option.label ? option.label : ""
+                    }
+                    options={bedOptions}
+                    popupIcon={<KeyboardArrowDownIcon />}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Select Bed Types"
+                        slotProps={{
+                          input: {
+                            ...params.InputProps,
+                            className: `${params.InputProps.className} bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none`,
+                          },
+                        }}
+                        variant="filled"
+                      />
+                    )}
+                    renderTags={(value, getTagProps) =>
+                      value.map((option, index) => {
+                        const { key, ...restTagProps } = getTagProps({ index });
+                        return (
+                          <Chip
+                            key={key}
+                            label={option.label}
+                            {...restTagProps}
+                            className={`${restTagProps.className} h-6`}
+                          />
+                        );
+                      })
+                    }
+                    value={selectedOptions}
+                    onChange={handleChangebed}
+                  />
+                </Grid2>
+                {bedrooms.length > 1 && (
+                  <Grid2 size={1}>
+                    <Stack className="flex-row justify-end">
+                      <IconButton
+                        onClick={() => handleRemoveBedroom(bedroom.id)}
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                    </Stack>
+                  </Grid2>
+                )}
+              </Grid2>
+            ))}
+          </Box>
+          <Box className="mt-6" size={12}>
+            <Button variant="contained" onClick={handleAddBedroom}>
+              Add Bedroom
+            </Button>
+          </Box>
         </Box>
-        <Box className="mt-6" size={12}>
-          <Button variant="contained" onClick={handleAddBedroom}>
-            Add Bedroom
-          </Button>
-        </Box>
-      </Box>
-    </Container>
+      </Container>
+      {BedTypesApiSnackbarAlert}
+    </>
   );
 }

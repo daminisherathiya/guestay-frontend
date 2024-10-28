@@ -1,5 +1,10 @@
 import { useState } from "react";
 
+import { amenitiesApi } from "@/apis/property/amenitiesApi";
+import { amenitiesAPIResponseType } from "@/apis/property/amenitiesApi/amenitiesApi.type";
+import { useQuery } from "@/hooks/useQuery";
+import { getUserDetails } from "@/utils/localStorage/localStorage";
+
 export function useAmenities() {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
@@ -12,5 +17,25 @@ export function useAmenities() {
       setSelectedOptions((prevSelected) => [...prevSelected, value]);
     }
   };
-  return { handleButtonClick, selectedOptions };
+
+  const {
+    data: amenitiesApiData,
+    isFirstLoading: amenitiesApiIsFirstLoading,
+    isSuccess: amenitiesApiIsSuccess,
+    SnackbarAlert: AmenitiesApiSnackbarAlert,
+  } = useQuery<amenitiesAPIResponseType, Error, amenitiesAPIResponseType>({
+    initialData: { data: [] },
+    queryFn: () => {
+      return amenitiesApi({ data: { userId: getUserDetails().id } });
+    },
+    queryKey: ["amenities"],
+  });
+
+  return {
+    amenitiesApiData,
+    amenitiesApiIsFirstLoading,
+    AmenitiesApiSnackbarAlert,
+    handleButtonClick,
+    selectedOptions,
+  };
 }

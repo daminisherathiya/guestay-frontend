@@ -9,6 +9,11 @@ const nextConfig = {
         pathname: "/**",
         protocol: "https",
       },
+      {
+        hostname: "guestay.webarysites.com",
+        pathname: "/**",
+        protocol: "https",
+      },
     ],
   },
   webpack(config) {

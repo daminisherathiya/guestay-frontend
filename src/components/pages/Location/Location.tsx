@@ -17,55 +17,62 @@ import { LocationInputWithAutocompleteService } from "./components/LocationInput
 import { useLocation } from "./Location.hooks";
 
 export function Location() {
-  const { selectedPlaceDetails, setSelectedPlaceDetails } = useLocation();
+  const {
+    locationsApiData,
+    locationsApiIsFirstLoading,
+    LocationsApiSnackbarAlert,
+    selectedPlaceDetails,
+    setSelectedPlaceDetails,
+  } = useLocation();
 
   return (
-    <Container maxWidth="2xl">
-      {selectedPlaceDetails === null ? (
-        <Box className="mx-auto max-w-2xl">
-          <Typography className="mb-2" component="h1" variant="h1">
-            Where&apos;s your place located?
-          </Typography>
-          <Typography
-            className="mb-10 text-text-secondary"
-            component="h3"
-            variant="h3"
-          >
-            Your address is only shared with guests after they&apos;ve made a
-            reservation.
-          </Typography>
+    <>
+      <Container maxWidth="2xl">
+        {selectedPlaceDetails === null ? (
+          <Box className="mx-auto max-w-2xl">
+            <Typography className="mb-2" component="h1" variant="h1">
+              Where&apos;s your place located?
+            </Typography>
+            <Typography
+              className="mb-10 text-text-secondary"
+              component="h3"
+              variant="h3"
+            >
+              Your address is only shared with guests after they&apos;ve made a
+              reservation.
+            </Typography>
 
-          <Box className="relative inline-block w-full">
-            <Image
-              alt="Static Map"
-              className="w-full md:rounded-2xl"
-              height={500}
-              src="/images/staticmap.png"
-              width={630}
-            />
-            <Stack className="absolute top-7 w-full items-center md:top-11">
-              <LocationInputWithAutocompleteService
-                setSelectedPlaceDetails={setSelectedPlaceDetails}
-              ></LocationInputWithAutocompleteService>
-            </Stack>
+            <Box className="relative inline-block w-full">
+              <Image
+                alt="Static Map"
+                className="w-full md:rounded-2xl"
+                height={500}
+                src="/images/staticmap.png"
+                width={630}
+              />
+              <Stack className="absolute top-7 w-full items-center md:top-11">
+                <LocationInputWithAutocompleteService
+                  setSelectedPlaceDetails={setSelectedPlaceDetails}
+                ></LocationInputWithAutocompleteService>
+              </Stack>
+            </Box>
           </Box>
-        </Box>
-      ) : (
-        <Box className="mx-auto max-w-3xl">
-          <Typography className="mb-2" component="h1" variant="h1">
-            Confirm your address
-          </Typography>
-          <Typography
-            className="mb-10 text-text-secondary"
-            component="h3"
-            variant="h3"
-          >
-            Your address is only shared with guests after they’ve made a
-            reservation.
-          </Typography>
-          <CountrySelect value={defaultCountry} onChange={() => {}} />
-          <Box className="mt-4">
-            {/* {confirmAddressTextFields.map((confirmAddressTextField, index) => {
+        ) : (
+          <Box className="mx-auto max-w-3xl">
+            <Typography className="mb-2" component="h1" variant="h1">
+              Confirm your address
+            </Typography>
+            <Typography
+              className="mb-10 text-text-secondary"
+              component="h3"
+              variant="h3"
+            >
+              Your address is only shared with guests after they’ve made a
+              reservation.
+            </Typography>
+            <CountrySelect value={defaultCountry} onChange={() => {}} />
+            <Box className="mt-4">
+              {/* {confirmAddressTextFields.map((confirmAddressTextField, index) => {
               const fieldKey =
                 confirmAddressTextField.key as keyof AddressDetailsType;
               const value = selectedPlaceDetails
@@ -78,13 +85,15 @@ export function Location() {
                 />
               );
             })} */}
+            </Box>
           </Box>
-        </Box>
-      )}
-      <Script
-        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
-        strategy="lazyOnload"
-      />
-    </Container>
+        )}
+        <Script
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
+          strategy="lazyOnload"
+        />
+      </Container>
+      {LocationsApiSnackbarAlert}
+    </>
   );
 }
