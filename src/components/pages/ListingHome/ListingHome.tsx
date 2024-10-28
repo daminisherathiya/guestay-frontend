@@ -12,6 +12,7 @@ import { Container } from "@/components/atoms/Container";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
+import { NUMBER_OF_PROPERTIES_TO_SHOW } from "./ListingHome.const";
 import { useListingHome } from "./ListingHome.hook";
 
 export function ListingHome() {
@@ -41,7 +42,7 @@ export function ListingHome() {
         <Button
           key={listingProperty.id}
           disableRipple
-          className={`w-full justify-start gap-4 rounded-xl p-6 text-start ${showMore && index >= 2 ? "hidden" : ""}`}
+          className={`w-full justify-start gap-4 rounded-xl p-6 text-start ${showMore && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
           variant="outlined"
           onClick={() => {
             return setPropertyIdToEdit({
@@ -77,13 +78,16 @@ export function ListingHome() {
             {listingPropertiesApiIsFirstLoading
               ? getSkeleton()
               : getPropertiesList()}
-            <Button
-              className="p-0 hover:bg-common-white"
-              variant="text"
-              onClick={toggleShowMore}
-            >
-              {showMore ? "Show all" : "Show less"}
-            </Button>
+            {(listingPropertiesApiData?.data || []).length >
+              NUMBER_OF_PROPERTIES_TO_SHOW && (
+              <Button
+                className="p-0 hover:bg-common-white"
+                variant="text"
+                onClick={toggleShowMore}
+              >
+                {showMore ? "Show all" : "Show less"}
+              </Button>
+            )}
           </Box>
           <Typography className="mb-4" component="h2" variant="h2">
             Start a new listing

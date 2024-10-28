@@ -12,3 +12,5 @@ export const currentStepToNextStepUrl: Record<string, string> = {
   discount: "/become-a-host/receipt",
   draft: "/become-a-host/receipt",
 };
+
+export const NUMBER_OF_PROPERTIES_TO_SHOW = 2;
