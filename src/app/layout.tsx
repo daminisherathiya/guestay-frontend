@@ -7,6 +7,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { Toolbar } from "@/components/atoms/Toolbar";
+import { AuthenticationLoader } from "@/components/molecules/AuthenticationLoader";
 import { Header } from "@/components/organisms/Header/Header";
 import { AuthenticationProvider } from "@/providers/AuthenticationProvider/AuthenticationProvider";
 import { QueryProvider as CustomQueryProvider } from "@/providers/QueryProvider";
@@ -70,7 +71,7 @@ export default function RootLayout({
                 <CssBaseline />
                 <Header />
                 <Toolbar className="min-h-[6.375rem]" />
-                {children}
+                <AuthenticationLoader>{children}</AuthenticationLoader>
                 {process.env.NODE_ENV !== "production" && (
                   <ReactQueryDevtools initialIsOpen={false} />
                 )}

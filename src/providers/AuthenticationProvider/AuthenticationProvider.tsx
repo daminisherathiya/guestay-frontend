@@ -2,8 +2,6 @@
 
 import React, { createContext, useCallback, useEffect, useState } from "react";
 
-import { CircularProgress } from "@/components/atoms/CircularProgress";
-import { Stack } from "@/components/atoms/Stack";
 import { UserDataType } from "@/types/User.types";
 import {
   getUserDetails,
@@ -87,13 +85,7 @@ export const AuthenticationProvider = ({
         userDetails,
       }}
     >
-      {authenticationStateIsLoading ? (
-        <Stack className="items-center justify-center" sx={{ height: "100vh" }}>
-          <CircularProgress className="mx-auto" />
-        </Stack>
-      ) : (
-        children
-      )}
+      {children}
     </AuthenticationContext.Provider>
   );
 };
