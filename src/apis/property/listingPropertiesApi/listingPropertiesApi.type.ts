@@ -8,6 +8,7 @@ export interface listingPropertiesApiType {
 
 export interface ListingPropertiesType {
   id: string;
+  listing_steps: string;
   title: string;
 }
 

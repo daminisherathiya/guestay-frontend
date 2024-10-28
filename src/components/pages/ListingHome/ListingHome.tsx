@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -18,6 +19,9 @@ export function ListingHome() {
     listingPropertiesApiData,
     listingPropertiesApiIsFirstLoading,
     ListingPropertiesApiSnackbarAlert,
+    setPropertyIdToEdit,
+    showMore,
+    toggleShowMore,
   } = useListingHome();
 
   const getSkeleton = () => {
@@ -29,6 +33,34 @@ export function ListingHome() {
         variant="rectangular"
       />
     ));
+  };
+
+  const getPropertiesList = () => {
+    return (listingPropertiesApiData?.data || []).map(
+      (listingProperty, index) => (
+        <Button
+          key={listingProperty.id}
+          disableRipple
+          className={`w-full justify-start gap-4 rounded-xl p-6 text-start ${showMore && index >= 2 ? "hidden" : ""}`}
+          variant="outlined"
+          onClick={() => {
+            return setPropertyIdToEdit({
+              listing_step: listingProperty.listing_steps,
+              propertyIdToEdit: listingProperty.id,
+            });
+          }}
+        >
+          <Image
+            alt="home"
+            className="rounded"
+            height={44}
+            src="/images/home.jpg"
+            width={44}
+          />
+          <Typography>{listingProperty.title}</Typography>
+        </Button>
+      ),
+    );
   };
 
   return (
@@ -44,28 +76,13 @@ export function ListingHome() {
           <Box className="mb-16 space-y-3">
             {listingPropertiesApiIsFirstLoading
               ? getSkeleton()
-              : (listingPropertiesApiData?.data || []).map(
-                (listingPropertie) => (
-                  <Button
-                    key={listingPropertie.id}
-                    disableRipple
-                    className="w-full justify-start gap-4 rounded-xl p-6 text-start"
-                    variant="outlined"
-                  >
-                    <Image
-                      alt="home"
-                      className="rounded"
-                      height={44}
-                      src="/images/home.jpg"
-                      width={44}
-                    />
-                    <Typography>{listingPropertie.title}</Typography>
-                  </Button>
-                ),
-              )}
-
-            <Button className="p-0 hover:bg-common-white" variant="text">
-              Show all
+              : getPropertiesList()}
+            <Button
+              className="p-0 hover:bg-common-white"
+              variant="text"
+              onClick={toggleShowMore}
+            >
+              {showMore ? "Show all" : "Show less"}
             </Button>
           </Box>
           <Typography className="mb-4" component="h2" variant="h2">

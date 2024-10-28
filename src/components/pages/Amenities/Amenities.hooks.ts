@@ -21,7 +21,6 @@ export function useAmenities() {
   const {
     data: amenitiesApiData,
     isFirstLoading: amenitiesApiIsFirstLoading,
-    isSuccess: amenitiesApiIsSuccess,
     SnackbarAlert: AmenitiesApiSnackbarAlert,
   } = useQuery<amenitiesAPIResponseType, Error, amenitiesAPIResponseType>({
     initialData: { data: [] },

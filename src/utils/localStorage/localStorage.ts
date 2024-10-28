@@ -2,10 +2,12 @@ import { UserDataType } from "@/types/User.types";
 
 import {
   AUTHENTICATION_TOKEN_STRING,
+  PROPERTY_ID_TO_EDIT_STRING,
   USER_DETAILS_STRING,
 } from "./localStorage.const";
 import {
   setAuthenticationTokenType,
+  setPropertyIdToEditType,
   setUserDetailsType,
 } from "./localStorage.types";
 
@@ -39,4 +41,10 @@ export const getUserDetails = (): UserDataType => {
 
 export const removeUserDetails = () => {
   localStorage.removeItem(USER_DETAILS_STRING);
+};
+
+export const setPropertyIdToEdit = ({
+  propertyIdToEdit,
+}: setPropertyIdToEditType) => {
+  return localStorage.setItem(PROPERTY_ID_TO_EDIT_STRING, propertyIdToEdit);
 };

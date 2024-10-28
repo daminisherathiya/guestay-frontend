@@ -9,7 +9,6 @@ export function useStructure() {
   const {
     data: propertyTypeApiData,
     isFirstLoading: propertyTypeApiIsFirstLoading,
-    isSuccess: propertyTypeApiIsSuccess,
     SnackbarAlert: PropertyTypeApiSnackbarAlert,
   } = useQuery<propertyTypeApiResponseType, Error, propertyTypeApiResponseType>(
     {
@@ -23,12 +22,14 @@ export function useStructure() {
 
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
-  const handleButtonClick = (value: string) => {
+  const handleOptionSelection = (value: string) => {
     setSelectedOption(value);
   };
 
+  const onSubmit = () => {};
+
   return {
-    handleButtonClick,
+    handleOptionSelection,
     propertyTypeApiData,
     propertyTypeApiIsFirstLoading,
     PropertyTypeApiSnackbarAlert,

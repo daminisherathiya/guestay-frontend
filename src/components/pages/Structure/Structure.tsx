@@ -14,7 +14,7 @@ import { useStructure } from "./Structure.hooks";
 
 export function Structure() {
   const {
-    handleButtonClick,
+    handleOptionSelection,
     propertyTypeApiData,
     propertyTypeApiIsFirstLoading,
     PropertyTypeApiSnackbarAlert,
@@ -52,7 +52,7 @@ export function Structure() {
                         : ""
                     }`}
                     variant="outlined"
-                    onClick={() => handleButtonClick(propertyType.title)}
+                    onClick={() => handleOptionSelection(propertyType.id)}
                   >
                     {propertyType.icon ? (
                       <Image
