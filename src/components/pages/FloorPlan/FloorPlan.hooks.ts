@@ -11,7 +11,7 @@ export function useFloorPlan() {
   const {
     data: bedTypesApiData,
     isFirstLoading: bedTypesApiIsFirstLoading,
-    isSuccess: bedTypesApiIsSuccess,
+    // isSuccess: bedTypesApiIsSuccess,
     SnackbarAlert: BedTypesApiSnackbarAlert,
   } = useQuery<bedTypesApiResponseType, Error, bedTypesApiResponseType>({
     initialData: { data: [] },

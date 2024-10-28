@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 
-import { globalPricesApiResponseType } from "@/apis/property/amenitiesApi/amenitiesApi.type";
 import { globalPricesApi } from "@/apis/property/globalPricesApi";
+import { globalPricesApiResponseType } from "@/apis/property/globalPricesApi/globalPricesApi.type";
 import { useBoolean } from "@/hooks/useBoolean/useBoolean";
 import { useQuery } from "@/hooks/useQuery";
 import { useToggle } from "@/hooks/useToggle/useToggle";
@@ -11,7 +11,7 @@ export function usePrice() {
   const {
     data: globalPricesApiData,
     isFirstLoading: globalPricesApiIsFirstLoading,
-    isSuccess: globalPricesApiIsSuccess,
+    // isSuccess: globalPricesApiIsSuccess,
     SnackbarAlert: globalPricesApiSnackbarAlert,
   } = useQuery<globalPricesApiResponseType, Error, globalPricesApiResponseType>(
     {

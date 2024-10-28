@@ -18,8 +18,8 @@ import { usePrice } from "./Price.hooks";
 export function Price() {
   const {
     expanded,
-    globalPricesApiData,
-    globalPricesApiIsFirstLoading,
+    // globalPricesApiData,
+    // globalPricesApiIsFirstLoading,
     globalPricesApiSnackbarAlert,
     handleEditClick,
     handleInput,

@@ -18,8 +18,8 @@ import { useLocation } from "./Location.hooks";
 
 export function Location() {
   const {
-    locationsApiData,
-    locationsApiIsFirstLoading,
+    // locationsApiData,
+    // locationsApiIsFirstLoading,
     LocationsApiSnackbarAlert,
     selectedPlaceDetails,
     setSelectedPlaceDetails,

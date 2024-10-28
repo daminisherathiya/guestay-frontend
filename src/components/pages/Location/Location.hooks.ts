@@ -13,7 +13,7 @@ export function useLocation() {
   const {
     data: locationsApiData,
     isFirstLoading: locationsApiIsFirstLoading,
-    isSuccess: locationsApiIsSuccess,
+    // isSuccess: locationsApiIsSuccess,
     SnackbarAlert: LocationsApiSnackbarAlert,
   } = useQuery<locationsAPIResponseType, Error, locationsAPIResponseType>({
     initialData: { data: [] },

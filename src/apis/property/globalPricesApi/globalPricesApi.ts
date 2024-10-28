@@ -1,6 +1,6 @@
 import { axiosApi } from "@/axios/axios";
 
-import { globalPricesApiType } from "../amenitiesApi/amenitiesApi.type";
+import { globalPricesApiType } from "./globalPricesApi.type";
 
 export const globalPricesApi = async ({ data }: globalPricesApiType) => {
   return await axiosApi({

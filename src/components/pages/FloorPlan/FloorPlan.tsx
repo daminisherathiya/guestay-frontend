@@ -44,8 +44,8 @@ const bedOptions: Option[] = [
 
 export function FloorPlan() {
   const {
-    bedTypesApiData,
-    bedTypesApiIsFirstLoading,
+    // bedTypesApiData,
+    // bedTypesApiIsFirstLoading,
     BedTypesApiSnackbarAlert,
     counters,
     displayValue,
