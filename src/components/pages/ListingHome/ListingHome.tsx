@@ -46,7 +46,7 @@ export function ListingHome() {
           variant="outlined"
           onClick={() => {
             return setPropertyIdToEdit({
-              listing_step: listingProperty.listing_steps,
+              listingSteps: listingProperty.listing_steps,
               propertyIdToEdit: listingProperty.id,
             });
           }}

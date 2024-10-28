@@ -21,15 +21,18 @@ export function useListingHome() {
   });
 
   const setPropertyIdToEdit = ({
+    listingSteps,
     propertyIdToEdit,
-    listing_step,
   }: {
-    listing_step: string;
+    listingSteps: string;
     propertyIdToEdit: string;
   }) => {
-    console.log("🚀 ~ useListingHome ~ listing_step:", listing_step);
+    console.log("🚀 ~ useListingHome ~ listingSteps:", listingSteps);
+    const listingStepsParts = listingSteps.split(",");
+    const listingStep = listingStepsParts[listingStepsParts.length - 1];
+
     setPropertyIdToEditInLocalStorage({ propertyIdToEdit });
-    router.push(currentStepToNextStepUrl[listing_step]);
+    router.push(currentStepToNextStepUrl[listingStep]);
   };
 
   const {
