@@ -92,8 +92,8 @@ export function ResetPasswordDialog({
             Reset Password
           </LoadingButton>
         </form>
+        {ChangePasswordApiSnackbarAlert}
       </DialogWrapper>
-      {ChangePasswordApiSnackbarAlert}
     </>
   );
 }

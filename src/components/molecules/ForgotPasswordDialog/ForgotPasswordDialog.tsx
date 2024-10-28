@@ -47,7 +47,7 @@ export function ForgotPasswordDialog({
                 rules={{
                   pattern: {
                     message: "Invalid email address",
-                    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+                    value: /^[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
                   },
                   required: "Email is required",
                 }}

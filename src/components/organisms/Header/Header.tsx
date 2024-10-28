@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useCallback } from "react";
 
 import Image from "next/image";
 
@@ -60,6 +60,16 @@ export function Header() {
   };
 
   const getInitial = (name: string) => name.charAt(0).toUpperCase();
+
+  const handleOpenLoginDialog = useCallback(() => {
+    setSignUpDialogIsOpenFalse();
+    setLoginDialogIsOpenTrue();
+  }, [setSignUpDialogIsOpenFalse, setLoginDialogIsOpenTrue]);
+
+  const handleOpenSignUpDialog = useCallback(() => {
+    setLoginDialogIsOpenFalse();
+    setSignUpDialogIsOpenTrue();
+  }, [setLoginDialogIsOpenFalse, setSignUpDialogIsOpenTrue]);
 
   return (
     <header
@@ -225,18 +235,12 @@ export function Header() {
             <LoginDialog
               handleCloseLoginDialog={setLoginDialogIsOpenFalse}
               handleOpenLoginDialog={setLoginDialogIsOpenTrue}
-              handleOpenSignUpDialog={() => {
-                setLoginDialogIsOpenFalse();
-                setSignUpDialogIsOpenTrue();
-              }}
+              handleOpenSignUpDialog={handleOpenSignUpDialog}
               isLoginDialogOpen={loginDialogIsOpen}
             />
             <SignUpDialog
               handleCloseSignUpDialog={setSignUpDialogIsOpenFalse}
-              handleOpenLoginDialog={() => {
-                setSignUpDialogIsOpenFalse();
-                setLoginDialogIsOpenTrue();
-              }}
+              handleOpenLoginDialog={handleOpenLoginDialog}
               isSignUpDialogOpen={signUpDialogIsOpen}
             />
             <ResetPasswordDialog
