@@ -5,7 +5,7 @@ import Image from "next/image";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Select from "@mui/material/Select";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
 import { Autocomplete } from "@/components/atoms/Autocomplete";
 import { Box } from "@/components/atoms/Box";
@@ -23,67 +23,27 @@ import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
 import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper";
-import { useOverview } from "@/hooks/useStaticFooter";
 
 import { floorPlanItems } from "./FloorPlan.consts";
 import { useFloorPlan } from "./FloorPlan.hooks";
 
-interface BedroomFormValues {
-  bedrooms: {
-    bedroomCount: string;
-    bedroomName: string;
-    bedroomTypes: { label: string; value: string }[];
-  }[];
-}
-
 export function FloorPlan() {
   const {
+    bedrooms,
     bedTypesApiData,
     bedTypesApiIsFirstLoading,
     BedTypesApiSnackbarAlert,
+    control,
     counters,
     displayValue,
+    Footer,
+    handleAddBedroom,
     handleDecrease,
     handleIncrease,
-  } = useFloorPlan();
-
-  const {
-    control,
-    // formState: { isValid },
-    // handleSubmit,
-    watch,
-  } = useForm<BedroomFormValues>({
-    defaultValues: {
-      bedrooms: [
-        {
-          bedroomCount: "1",
-          bedroomName: "Bedroom 1",
-          bedroomTypes: [],
-        },
-      ],
-    },
-    mode: "onChange",
-  });
-  const watchedBedrooms = watch("bedrooms");
-  console.log("🚀 ~ Watched Bedrooms:", watchedBedrooms);
-
-  const {
-    fields: bedrooms,
-    append,
+    PropertyApiSnackbarAlert,
     remove,
-  } = useFieldArray({
-    control,
-    name: "bedrooms",
-  });
-
-  const handleAddBedroom = () => {
-    console.log("🚀 ~ handleAddBedroom ~ bedrooms.length:", bedrooms.length);
-    append({
-      bedroomCount: "1",
-      bedroomName: `Bedroom ${bedrooms.length + 1}`,
-      bedroomTypes: [],
-    });
-  };
+    SavePropertyApiSnackbarAlert,
+  } = useFloorPlan();
 
   // const [bedroomType, setBedroomType] = useState("");
 
@@ -106,7 +66,7 @@ export function FloorPlan() {
   //   setSelectedOptions(updatedSelections);
   // };
 
-  const { Footer } = useOverview();
+  // const { Footer } = useOverview();
 
   return (
     <>
@@ -151,8 +111,8 @@ export function FloorPlan() {
                   <Typography>
                     {displayValue(
                       counters[floorPlanItem.field],
-                      floorPlanItem.max,
-                      floorPlanItem.field,
+                      // floorPlanItem.max,
+                      // floorPlanItem.field,
                     )}
                   </Typography>
                   <IconButton
@@ -298,6 +258,8 @@ export function FloorPlan() {
       </Container>
       {Footer}
       {BedTypesApiSnackbarAlert}
+      {PropertyApiSnackbarAlert}
+      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

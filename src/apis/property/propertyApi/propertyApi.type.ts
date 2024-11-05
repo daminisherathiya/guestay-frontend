@@ -9,6 +9,9 @@ export interface propertyApiType {
 
 export interface PropertyType {
   amenities: string;
+  bedrooms: string;
+  bedrooms_info: string;
+  cribs: string;
   description: string;
   discount_rate: Array<number>;
   id: string;

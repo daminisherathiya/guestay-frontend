@@ -18,7 +18,7 @@ export const savePropertyApi = async ({ data }: SavePropertyApiType) => {
       no_of_couples: data.noOfCouples,
       no_of_children: data.noOfChildren,
       num_of_people: data.numOfPeople,
-      bedroom: data.bedroom,
+      bedrooms: data.bedrooms,
       beds: data.beds,
       baths: data.baths,
       cribs: data.cribs,

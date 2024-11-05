@@ -20,11 +20,11 @@ export interface SavePropertyApiDataType {
   address?: string;
   latitude?: number;
   longitude?: number;
-  bedroomsInfo?: object;
+  bedroomsInfo?: string;
   noOfCouples?: number;
   noOfChildren?: number;
   numOfPeople?: number;
-  bedroom?: number;
+  bedrooms?: number;
   beds?: number;
   baths?: number;
   cribs?: number;

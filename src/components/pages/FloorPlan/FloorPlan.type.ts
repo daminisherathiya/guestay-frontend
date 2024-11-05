@@ -6,8 +6,14 @@ export interface CounterItem {
 
 export interface CounterState {
   bathrooms: number;
-  bedrooms: number;
-  beds: number;
   cribs: number;
-  guests: number;
+}
+
+export interface BedroomFormValues {
+  bedrooms: {
+    bedroomCount: string;
+    bedroomName: string;
+    bedroomTypes: { id: string; num_of_beds: string; num_of_people: string }[];
+    displayOrder: string;
+  }[];
 }
