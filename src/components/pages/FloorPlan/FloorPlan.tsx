@@ -1,12 +1,10 @@
 "use client";
 
-import { useId, useState } from "react";
-
 import Image from "next/image";
 
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 
 import { Autocomplete } from "@/components/atoms/Autocomplete";
@@ -29,21 +27,6 @@ import { useOverview } from "@/hooks/useStaticFooter";
 
 import { floorPlanItems } from "./FloorPlan.consts";
 import { useFloorPlan } from "./FloorPlan.hooks";
-
-interface Option {
-  id?: string;
-  label: string;
-  value: string;
-}
-
-const bedOptions: Option[] = [
-  { label: "Single Bed", value: "single" },
-  { label: "Double Bed", value: "double" },
-  { label: "Queen Bed", value: "queen" },
-  { label: "King Bed", value: "king" },
-  { label: "Sofa Bed", value: "sofa" },
-  { label: "Loft Bed", value: "loft" },
-];
 
 interface BedroomFormValues {
   bedrooms: {
