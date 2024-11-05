@@ -1,5 +1,6 @@
 "use client";
 
+import NotFound from "@/app/not-found";
 import { CircularProgress } from "@/components/atoms/CircularProgress";
 import { Stack } from "@/components/atoms/Stack";
 import { useAuthentication } from "@/hooks/useAuthentication";
@@ -7,7 +8,7 @@ import { useAuthentication } from "@/hooks/useAuthentication";
 import { AuthenticationLoaderProps } from "./AuthenticationLoader.types";
 
 export function AuthenticationLoader({ children }: AuthenticationLoaderProps) {
-  const { authenticationStateIsLoading } = useAuthentication();
+  const { authenticationStateIsLoading, isAuthenticated } = useAuthentication();
 
   if (authenticationStateIsLoading) {
     return (
@@ -15,6 +16,10 @@ export function AuthenticationLoader({ children }: AuthenticationLoaderProps) {
         <CircularProgress disableShrink className="mx-auto" />
       </Stack>
     );
+  }
+
+  if (!isAuthenticated) {
+    return <NotFound />;
   }
 
   return <>{children}</>;

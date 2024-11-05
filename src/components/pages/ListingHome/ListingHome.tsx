@@ -19,7 +19,6 @@ export function ListingHome() {
   const {
     listingPropertiesApiData,
     listingPropertiesApiIsFirstLoading,
-    ListingPropertiesApiSnackbarAlert,
     setPropertyIdToEdit,
     showMore,
     toggleShowMore,
@@ -37,6 +36,10 @@ export function ListingHome() {
   };
 
   const getPropertiesList = () => {
+    if (listingPropertiesApiData?.data?.length === 0) {
+      return <Typography>No property listings to finish</Typography>;
+    }
+
     return (listingPropertiesApiData?.data || []).map(
       (listingProperty, index) => (
         <Button
@@ -111,7 +114,6 @@ export function ListingHome() {
           </Box>
         </Box>
       </Container>
-      {ListingPropertiesApiSnackbarAlert}
     </>
   );
 }

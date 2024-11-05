@@ -9,12 +9,16 @@ import {
 import { SnackbarAlert as SnackbarAlertComponent } from "@/components/molecules/SnackbarAlert";
 import { ReactQueryCustomOptionsType } from "@/types/ReactQuery.types";
 
+import { useAuthentication } from "../useAuthentication";
+
 export function useQuery<TQueryFnData, TError extends Error, TData>(
   useQueryOptions: UseQueryOptions<TQueryFnData, TError, TData>,
   customOptions?: ReactQueryCustomOptionsType,
 ): UseQueryResult<TData, TError> & { SnackbarAlert: JSX.Element } & {
   isFirstLoading: boolean;
 } {
+  const { handleLogOut } = useAuthentication();
+
   const {
     showSnackbarIsOpenOnSuccess = false,
     showSnackbarIsOpenOnFailure = true,
@@ -23,6 +27,7 @@ export function useQuery<TQueryFnData, TError extends Error, TData>(
 
   const mergedQueryOptions = {
     refetchOnWindowFocus: false,
+    retry: 0,
     ...useQueryOptions,
   };
 
@@ -49,7 +54,17 @@ export function useQuery<TQueryFnData, TError extends Error, TData>(
       );
       setAlertSeverity("error");
     }
+
+    if (
+      queryResult.isError &&
+      queryResult.error.message.includes(
+        "Authorization token not verified. (Error Code: 10301)",
+      )
+    ) {
+      handleLogOut();
+    }
   }, [
+    handleLogOut,
     queryResult.data,
     queryResult.error,
     queryResult.isError,

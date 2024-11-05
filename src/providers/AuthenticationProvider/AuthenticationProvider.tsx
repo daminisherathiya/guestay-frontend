@@ -2,6 +2,8 @@
 
 import React, { createContext, useCallback, useEffect, useState } from "react";
 
+import { useQueryClient } from "@tanstack/react-query";
+
 import { UserDataType } from "@/types/User.types";
 import {
   getUserDetails,
@@ -28,6 +30,8 @@ export const AuthenticationContext = createContext<AuthenticationContextType>({
 export const AuthenticationProvider = ({
   children,
 }: AuthenticationProviderProps) => {
+  const queryClient = useQueryClient();
+
   const [authenticationStateIsLoading, setAuthenticationStateIsLoading] =
     useState<boolean>(true);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -73,7 +77,8 @@ export const AuthenticationProvider = ({
     removeAuthenticationToken();
     removeUserDetails();
     setIsAuthenticated(false);
-  }, []);
+    queryClient.clear();
+  }, [queryClient]);
 
   return (
     <AuthenticationContext.Provider
