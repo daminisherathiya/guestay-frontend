@@ -8,5 +8,6 @@ export interface CounterState {
   bathrooms: number;
   bedrooms: number;
   beds: number;
+  cribs: number;
   guests: number;
 }

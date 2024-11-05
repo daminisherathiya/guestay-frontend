@@ -7,7 +7,6 @@ import { Container } from "@/components/atoms/Container";
 import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
-import { useOverview } from "@/hooks/useStaticFooter";
 
 import { DiscountsDialog } from "./components/DiscountsDialog";
 import { useDiscount } from "./Discount.hooks";
@@ -15,14 +14,16 @@ import { useDiscount } from "./Discount.hooks";
 export function Discount() {
   const {
     discountsDialogIsOpen,
+    Footer,
     handleInput,
+    // isLoading,
     monthlyDiscount,
+    PropertyApiSnackbarAlert,
+    SavePropertyApiSnackbarAlert,
     setDiscountsDialogIsOpenFalse,
     setDiscountsDialogIsOpenTrue,
     weeklyDiscount,
   } = useDiscount();
-
-  const { Footer } = useOverview();
 
   return (
     <>
@@ -170,6 +171,8 @@ export function Discount() {
         </Box>
       </Container>
       {Footer}
+      {PropertyApiSnackbarAlert}
+      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

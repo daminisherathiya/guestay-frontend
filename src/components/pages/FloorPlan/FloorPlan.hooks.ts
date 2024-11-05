@@ -25,6 +25,7 @@ export function useFloorPlan() {
     bathrooms: 1,
     bedrooms: 1,
     beds: 1,
+    cribs: 1,
     guests: 1,
   });
 
@@ -79,6 +80,7 @@ export function useFloorPlan() {
   ) => {
     return field === "guests" && value === max ? `${value}+` : value;
   };
+
   return {
     bedTypesApiData,
     bedTypesApiIsFirstLoading,

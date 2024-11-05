@@ -2,6 +2,7 @@
 
 import EditIcon from "@mui/icons-material/Edit";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Skeleton } from "@mui/material";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
@@ -25,6 +26,7 @@ export function Price() {
     handleInput,
     inputRef,
     isEditing,
+    isLoading,
     isPriceVisible,
     moreAboutPricingDialogIsOpen,
     PropertyApiSnackbarAlert,
@@ -56,36 +58,49 @@ export function Price() {
           </Box>
           <Stack className="flex max-h-96 flex-1 justify-center">
             <Stack className="flex-row items-baseline justify-center">
-              <TextField
-                autoComplete="off"
-                id="outlined-basic"
-                inputRef={inputRef}
-                slotProps={{
-                  input: {
-                    classes: { input: "py-0", notchedOutline: "border-none" },
-                    className:
-                      "pl-0 text-5xl sm:text-6xl md:text-7xl font-bold max-w-72",
-                    startAdornment: (
-                      <Typography className="text-5xl font-bold sm:text-6xl md:text-7xl">
-                        $
-                      </Typography>
-                    ),
-                  },
-                }}
-                value={value}
-                variant="outlined"
-                onBlur={setIsEditingFalse}
-                onFocus={setIsEditingTrue}
-                onInput={handleInput}
-              />
-              <Box className={`${!isEditing ? "" : "opacity-0"}`}>
-                <IconButton
-                  className="size-8 border border-solid border-divider"
-                  onClick={handleEditClick}
-                >
-                  <EditIcon className="size-4" />
-                </IconButton>
-              </Box>
+              {isLoading ? (
+                <Skeleton
+                  className="w-full rounded-lg"
+                  height={103}
+                  variant="rectangular"
+                />
+              ) : (
+                <>
+                  <TextField
+                    autoComplete="off"
+                    id="outlined-basic"
+                    inputRef={inputRef}
+                    slotProps={{
+                      input: {
+                        classes: {
+                          input: "py-0",
+                          notchedOutline: "border-none",
+                        },
+                        className:
+                          "pl-0 text-5xl sm:text-6xl md:text-7xl font-bold max-w-72",
+                        startAdornment: (
+                          <Typography className="text-5xl font-bold sm:text-6xl md:text-7xl">
+                            $
+                          </Typography>
+                        ),
+                      },
+                    }}
+                    value={value}
+                    variant="outlined"
+                    onBlur={setIsEditingFalse}
+                    onFocus={setIsEditingTrue}
+                    onInput={handleInput}
+                  />
+                  <Box className={`${!isEditing ? "" : "opacity-0"}`}>
+                    <IconButton
+                      className="size-8 border border-solid border-divider"
+                      onClick={handleEditClick}
+                    >
+                      <EditIcon className="size-4" />
+                    </IconButton>
+                  </Box>
+                </>
+              )}
             </Stack>
             <Stack
               className={`cursor-pointer flex-row justify-center gap-x-1 ${isPriceVisible ? "hidden" : "flex"}`}

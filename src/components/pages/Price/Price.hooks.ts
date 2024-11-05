@@ -112,8 +112,7 @@ export function usePrice() {
     });
   };
 
-  const isLoading =
-    propertyApiIsFirstLoading || globalPricesApiIsFirstLoading || !value;
+  const isLoading = propertyApiIsFirstLoading || globalPricesApiIsFirstLoading;
 
   const { Footer, nextUrl } = useFooterProgressBar({
     isDisabled: isLoading,
@@ -136,6 +135,7 @@ export function usePrice() {
     handleInput,
     inputRef,
     isEditing,
+    isLoading,
     isPriceVisible,
     moreAboutPricingDialogIsOpen,
     PropertyApiSnackbarAlert,

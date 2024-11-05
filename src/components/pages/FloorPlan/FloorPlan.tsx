@@ -30,9 +30,9 @@ import { useFloorPlan } from "./FloorPlan.hooks";
 
 interface BedroomFormValues {
   bedrooms: {
+    bedroomCount: string;
     bedroomName: string;
-    bedroomType: string;
-    selectedOptions: { label: string; value: string }[];
+    bedroomTypes: { label: string; value: string }[];
   }[];
 }
 
@@ -46,7 +46,6 @@ export function FloorPlan() {
     handleDecrease,
     handleIncrease,
   } = useFloorPlan();
-  console.log("🚀 ~ FloorPlan ~ bedTypesApiData:", bedTypesApiData);
 
   const {
     control,
@@ -57,9 +56,9 @@ export function FloorPlan() {
     defaultValues: {
       bedrooms: [
         {
+          bedroomCount: "1",
           bedroomName: "Bedroom 1",
-          bedroomType: "1",
-          selectedOptions: [],
+          bedroomTypes: [],
         },
       ],
     },
@@ -80,9 +79,9 @@ export function FloorPlan() {
   const handleAddBedroom = () => {
     console.log("🚀 ~ handleAddBedroom ~ bedrooms.length:", bedrooms.length);
     append({
+      bedroomCount: "1",
       bedroomName: `Bedroom ${bedrooms.length + 1}`,
-      bedroomType: "1",
-      selectedOptions: [],
+      bedroomTypes: [],
     });
   };
 
@@ -199,7 +198,7 @@ export function FloorPlan() {
                     <InputLabel>Bedroom Count</InputLabel>
                     <Controller
                       control={control}
-                      name={`bedrooms.${index}.bedroomType`}
+                      name={`bedrooms.${index}.bedroomCount`}
                       render={({ field }) => (
                         <Select
                           {...field}
@@ -220,7 +219,7 @@ export function FloorPlan() {
                 <Grid2 size={bedrooms.length > 1 ? 11 : 12}>
                   <Controller
                     control={control}
-                    name={`bedrooms.${index}.selectedOptions`}
+                    name={`bedrooms.${index}.bedroomTypes`}
                     render={({ field }) => (
                       <Autocomplete
                         {...field}

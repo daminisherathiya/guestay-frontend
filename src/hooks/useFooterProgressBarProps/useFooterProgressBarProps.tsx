@@ -166,6 +166,7 @@ const urlToFooterDetails: Record<string, FooterDetailsType> = {
 /* eslint-enable sort-keys */
 
 export function useFooterProgressBar({
+  buttonText = "Next",
   onSubmit,
   isDisabled,
   isLoading,
@@ -211,6 +212,7 @@ export function useFooterProgressBar({
           </Box>
           <Box>
             <LoadingButton
+              className={`${buttonText === "Publish" ? "bg-secondary-main" : ""}`}
               disabled={isDisabled}
               loading={isLoading}
               loadingIndicator="Saving..."
@@ -219,7 +221,7 @@ export function useFooterProgressBar({
               variant="contained"
               onClick={onSubmit}
             >
-              Next
+              {buttonText}
             </LoadingButton>
           </Box>
         </Stack>

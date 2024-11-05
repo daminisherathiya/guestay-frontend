@@ -10,6 +10,7 @@ export interface propertyApiType {
 export interface PropertyType {
   amenities: string;
   description: string;
+  discount_rate: Array<number>;
   id: string;
   images: string;
   title: string;

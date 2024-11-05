@@ -1,6 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { useRouter } from "next/navigation";
 
 import { useBoolean } from "@/hooks/useBoolean/useBoolean";
+import { useFooterProgressBar } from "@/hooks/useFooterProgressBarProps";
+import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
+import {
+  getPropertyIdToEdit,
+  getUserDetails,
+} from "@/utils/localStorage/localStorage";
 
 export function useDiscount() {
   const {
@@ -9,28 +17,41 @@ export function useDiscount() {
     setFalse: setDiscountsDialogIsOpenFalse,
   } = useBoolean({ initialValue: false });
 
+  const {
+    // propertyApiData,
+    propertyApiIsFirstLoading,
+    // propertyApiIsSuccess,
+    PropertyApiSnackbarAlert,
+    savePropertyApiIsPending,
+    savePropertyApiIsSuccess,
+    savePropertyApiMutate,
+    SavePropertyApiSnackbarAlert,
+  } = usePropertyToEdit();
+
   const [weeklyDiscount, setWeeklyDiscount] = useState(8);
   const [monthlyDiscount, setMonthlyDiscount] = useState(15);
+
+  // useEffect(() => {
+  //   if (propertyApiIsSuccess) {
+  //     setWeeklyDiscount(propertyApiData?.data[0]?.discount_rate[0] || []);
+  //     setMonthlyDiscount(propertyApiData?.data[0]?.discount_rate[1] || []);
+  //   }
+  // }, [propertyApiData, propertyApiIsSuccess]);
 
   const handleInput = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     type: "weekly" | "monthly",
   ) => {
-    // Ensure the target is an HTMLInputElement
     if (!(e.target instanceof HTMLInputElement)) return;
 
     let value = e.target.value;
 
-    // Sanitize the input to allow only numbers and limit to two digits
     value = value.replace(/[^0-9]/g, "");
     if (value.length > 2) {
       value = value.slice(0, 2);
     }
-
-    // Set the sanitized value back to the input
     e.target.value = value;
 
-    // Update the corresponding state based on the type
     if (type === "weekly") {
       setWeeklyDiscount(parseInt(value, 10) || 0);
     } else if (type === "monthly") {
@@ -38,10 +59,44 @@ export function useDiscount() {
     }
   };
 
+  ////////
+
+  const router = useRouter();
+
+  const onSubmit = () => {
+    savePropertyApiMutate({
+      data: {
+        discountDays: [7, 30],
+        discountRate: [weeklyDiscount, monthlyDiscount],
+        listingStep: "discount",
+        propertyId: getPropertyIdToEdit() as string,
+        userId: getUserDetails().id,
+      },
+    });
+  };
+
+  const isLoading = propertyApiIsFirstLoading;
+
+  const { Footer, nextUrl } = useFooterProgressBar({
+    isDisabled: isLoading,
+    isLoading: savePropertyApiIsPending,
+    onSubmit: onSubmit,
+  });
+
+  useEffect(() => {
+    if (savePropertyApiIsSuccess) {
+      router.push(nextUrl);
+    }
+  }, [nextUrl, router, savePropertyApiIsSuccess]);
+
   return {
     discountsDialogIsOpen,
+    Footer,
     handleInput,
+    isLoading,
     monthlyDiscount,
+    PropertyApiSnackbarAlert,
+    SavePropertyApiSnackbarAlert,
     setDiscountsDialogIsOpenFalse,
     setDiscountsDialogIsOpenTrue,
     weeklyDiscount,
