@@ -18,9 +18,9 @@ export function usePhotos() {
   } = useBoolean({ initialValue: false });
 
   const {
-    propertyApiData,
+    // propertyApiData,
     propertyApiIsFirstLoading,
-    propertyApiIsSuccess,
+    // propertyApiIsSuccess,
     PropertyApiSnackbarAlert,
     savePropertyApiIsPending,
     savePropertyApiIsSuccess,
