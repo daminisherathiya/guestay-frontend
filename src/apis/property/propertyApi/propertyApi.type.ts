@@ -8,8 +8,7 @@ export interface propertyApiType {
 }
 
 export interface PropertyType {
-  category: string;
-  icon: string;
+  amenities: string;
   id: string;
   title: string;
   type: string;

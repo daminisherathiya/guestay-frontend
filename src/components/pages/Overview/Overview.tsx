@@ -7,10 +7,10 @@ import { Container } from "@/components/atoms/Container";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-import { useOverview } from "../../../hooks/useStaticFooter/useStaticFooter";
+import { useOverview } from "./Overview.hooks";
 
 export function Overview() {
-  const { Footer } = useOverview();
+  const { Footer, SavePropertyApiSnackbarAlert } = useOverview();
 
   return (
     <>
@@ -111,6 +111,7 @@ export function Overview() {
         </Stack>
       </Container>
       {Footer}
+      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

@@ -1,12 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { useRouter } from "next/navigation";
 
 import { amenitiesApi } from "@/apis/property/amenitiesApi";
 import { amenitiesAPIResponseType } from "@/apis/property/amenitiesApi/amenitiesApi.type";
+import { useFooterProgressBar } from "@/hooks/useFooterProgressBarProps";
+import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
 import { useQuery } from "@/hooks/useQuery";
-import { getUserDetails } from "@/utils/localStorage/localStorage";
+import {
+  getPropertyIdToEdit,
+  getUserDetails,
+} from "@/utils/localStorage/localStorage";
 
 export function useAmenities() {
+  const {
+    propertyApiData,
+    propertyApiIsFirstLoading,
+    propertyApiIsSuccess,
+    PropertyApiSnackbarAlert,
+    savePropertyApiIsPending,
+    savePropertyApiIsSuccess,
+    savePropertyApiMutate,
+    SavePropertyApiSnackbarAlert,
+  } = usePropertyToEdit();
+
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (propertyApiIsSuccess) {
+      setSelectedOptions(propertyApiData?.data[0]?.amenities.split(",") || []);
+    }
+  }, [propertyApiData, propertyApiIsSuccess]);
 
   const handleButtonClick = (value: string) => {
     if (selectedOptions.includes(value)) {
@@ -30,11 +54,44 @@ export function useAmenities() {
     queryKey: ["amenities"],
   });
 
+  ////////
+
+  const router = useRouter();
+
+  const onSubmit = () => {
+    savePropertyApiMutate({
+      data: {
+        amenities: selectedOptions.join(","),
+        listingStep: "amenities",
+        propertyId: getPropertyIdToEdit() as string,
+        userId: getUserDetails().id,
+      },
+    });
+  };
+
+  const isLoading =
+    propertyApiIsFirstLoading || amenitiesApiIsFirstLoading || !selectedOptions;
+
+  const { Footer, nextUrl } = useFooterProgressBar({
+    isDisabled: isLoading,
+    isLoading: savePropertyApiIsPending,
+    onSubmit: onSubmit,
+  });
+
+  useEffect(() => {
+    if (savePropertyApiIsSuccess) {
+      router.push(nextUrl);
+    }
+  }, [nextUrl, router, savePropertyApiIsSuccess]);
+
   return {
     amenitiesApiData,
-    amenitiesApiIsFirstLoading,
     AmenitiesApiSnackbarAlert,
+    Footer,
     handleButtonClick,
+    isLoading,
+    PropertyApiSnackbarAlert,
+    SavePropertyApiSnackbarAlert,
     selectedOptions,
   };
 }

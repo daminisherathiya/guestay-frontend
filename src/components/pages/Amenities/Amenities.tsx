@@ -9,20 +9,20 @@ import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
 import { Grid2 } from "@/components/atoms/Grid2";
 import { Typography } from "@/components/atoms/Typography";
-import { useOverview } from "@/hooks/useStaticFooter";
 
 import { useAmenities } from "./Amenities.hooks";
 
 export function Amenities() {
   const {
     amenitiesApiData,
-    amenitiesApiIsFirstLoading,
     AmenitiesApiSnackbarAlert,
+    Footer,
     handleButtonClick,
+    isLoading,
+    PropertyApiSnackbarAlert,
+    SavePropertyApiSnackbarAlert,
     selectedOptions,
   } = useAmenities();
-
-  const { Footer } = useOverview();
 
   return (
     <>
@@ -41,7 +41,7 @@ export function Amenities() {
           <Typography className="mb-5 font-medium" component="h3" variant="h3">
             What about these guest favourites?
           </Typography>
-          {amenitiesApiIsFirstLoading ? (
+          {isLoading ? (
             <Grid2 container spacing={2}>
               {Array.from({ length: 9 }).map((_, index) => (
                 <Grid2 key={index} size={{ "2xs": 12, md: 4, sm: 6 }}>
@@ -60,12 +60,12 @@ export function Amenities() {
                   <Button
                     disableRipple
                     className={`size-full flex-col items-start p-4 hover:border-common-transparent hover:bg-common-white hover:shadow-black ${
-                      selectedOptions.includes(amenity.title)
+                      selectedOptions.includes(amenity.id)
                         ? "border-common-transparent bg-background-highlight shadow-black"
                         : ""
                     }`}
                     variant="outlined"
-                    onClick={() => handleButtonClick(amenity.title)}
+                    onClick={() => handleButtonClick(amenity.id)}
                   >
                     {amenity.icon ? (
                       <Image
@@ -90,6 +90,8 @@ export function Amenities() {
       </Container>
       {Footer}
       {AmenitiesApiSnackbarAlert}
+      {PropertyApiSnackbarAlert}
+      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

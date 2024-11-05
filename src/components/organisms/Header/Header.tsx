@@ -1,7 +1,5 @@
 "use client";
 
-import React, { useCallback } from "react";
-
 import Image from "next/image";
 
 import HelpIcon from "@mui/icons-material/Help";
@@ -32,48 +30,34 @@ import { useHeader } from "./Header.hooks";
 
 export function Header() {
   const {
-    hasScrolled,
+    accountMenuAnchor,
+    closeAccountMenu,
+    getUserInitial,
+    handleOpenLoginDialog,
+    handleOpenSignUpDialog,
+    isAccountMenuOpen,
     isAuthenticated,
+    isScrolled,
     loginDialogIsOpen,
+    openAccountMenu,
     questionsDrawerIsOpen,
     ResetPasswordDialogIsOpen,
     setLoginDialogIsOpenFalse,
     setLoginDialogIsOpenTrue,
     setQuestionsDrawerIsOpenFalse,
     setQuestionsDrawerIsOpenTrue,
-    setResetPasswordDialogIsOpenTrue,
     setResetPasswordDialogIsOpenFalse,
+    setResetPasswordDialogIsOpenTrue,
     setSignUpDialogIsOpenFalse,
     setSignUpDialogIsOpenTrue,
+    showExitButton,
     signUpDialogIsOpen,
     userDetails,
   } = useHeader();
-  console.log("🚀 ~ Header ~ userDetails:", userDetails);
-
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const getInitial = (name: string) => name.charAt(0).toUpperCase();
-
-  const handleOpenLoginDialog = useCallback(() => {
-    setSignUpDialogIsOpenFalse();
-    setLoginDialogIsOpenTrue();
-  }, [setSignUpDialogIsOpenFalse, setLoginDialogIsOpenTrue]);
-
-  const handleOpenSignUpDialog = useCallback(() => {
-    setLoginDialogIsOpenFalse();
-    setSignUpDialogIsOpenTrue();
-  }, [setLoginDialogIsOpenFalse, setSignUpDialogIsOpenTrue]);
 
   return (
     <header
-      className={`fixed top-0 z-10 w-full bg-common-white ${hasScrolled ? "border-b border-b-common-black/10" : ""}`}
+      className={`fixed top-0 z-10 w-full bg-common-white ${isScrolled ? "border-b border-b-common-black/10" : ""}`}
     >
       <Container maxWidth="2xl">
         <Stack className="flex-row items-center justify-between pb-4 pt-6 md:pb-5 md:pt-8">
@@ -108,20 +92,23 @@ export function Header() {
                 onClose={() => setQuestionsDrawerIsOpenFalse()}
               />
             </Drawer>
-            <Button
-              className="rounded-3xl hover:bg-common-white"
-              variant="outlined"
-            >
-              Exit
-            </Button>
+            {showExitButton && (
+              <Button
+                className="rounded-3xl hover:bg-common-white"
+                href="/become-a-host"
+                variant="outlined"
+              >
+                Exit
+              </Button>
+            )}
             <Tooltip title="Account settings">
               <Button
-                aria-controls={open ? "account-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
+                aria-controls={isAccountMenuOpen ? "account-menu" : undefined}
+                aria-expanded={isAccountMenuOpen ? "true" : undefined}
                 aria-haspopup="true"
                 className="gap-3 rounded-pill p-2 pl-3 hover:bg-common-white"
                 variant="outlined"
-                onClick={handleClick}
+                onClick={openAccountMenu}
               >
                 <GridMenuIcon className="size-5" />
                 <Avatar
@@ -130,16 +117,16 @@ export function Header() {
                   {!isAuthenticated ? (
                     <UserAccount />
                   ) : (
-                    getInitial(userDetails?.fname as string)
+                    getUserInitial(userDetails?.fname as string)
                   )}
                 </Avatar>
               </Button>
             </Tooltip>
             <Menu
-              anchorEl={anchorEl}
+              anchorEl={accountMenuAnchor}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               id="account-menu"
-              open={open}
+              open={isAccountMenuOpen}
               slotProps={{
                 paper: {
                   elevation: 0,
@@ -169,8 +156,8 @@ export function Header() {
                 },
               }}
               transformOrigin={{ horizontal: "right", vertical: "top" }}
-              onClick={handleClose}
-              onClose={handleClose}
+              onClick={closeAccountMenu}
+              onClose={closeAccountMenu}
             >
               {!isAuthenticated && [
                 <MenuItem
@@ -213,19 +200,19 @@ export function Header() {
               )}
               {isAuthenticated && <Logout />}
               <Divider />
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={closeAccountMenu}>
                 <ListItemIcon>
                   <HomeIcon fontSize="small" />
                 </ListItemIcon>
                 Guestay your home
               </MenuItem>
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={closeAccountMenu}>
                 <ListItemIcon>
                   <ScienceIcon fontSize="small" />
                 </ListItemIcon>
                 Host an experience
               </MenuItem>
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={closeAccountMenu}>
                 <ListItemIcon>
                   <HelpIcon fontSize="small" />
                 </ListItemIcon>

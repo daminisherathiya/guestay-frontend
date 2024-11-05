@@ -7,12 +7,13 @@ import Image from "next/image";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 
 import { Autocomplete } from "@/components/atoms/Autocomplete";
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
 import { Chip } from "@/components/atoms/Chip";
+import { CircularProgress } from "@/components/atoms/CircularProgress";
 import { Container } from "@/components/atoms/Container";
 import { Divider } from "@/components/atoms/Divider";
 import { FormControl } from "@/components/atoms/FormControl";
@@ -34,6 +35,7 @@ interface Option {
   label: string;
   value: string;
 }
+
 const bedOptions: Option[] = [
   { label: "Single Bed", value: "single" },
   { label: "Double Bed", value: "double" },
@@ -43,60 +45,84 @@ const bedOptions: Option[] = [
   { label: "Loft Bed", value: "loft" },
 ];
 
+interface BedroomFormValues {
+  bedrooms: {
+    bedroomName: string;
+    bedroomType: string;
+    selectedOptions: { label: string; value: string }[];
+  }[];
+}
+
 export function FloorPlan() {
   const {
-    // bedTypesApiData,
-    // bedTypesApiIsFirstLoading,
+    bedTypesApiData,
+    bedTypesApiIsFirstLoading,
     BedTypesApiSnackbarAlert,
     counters,
     displayValue,
     handleDecrease,
     handleIncrease,
   } = useFloorPlan();
+  console.log("🚀 ~ FloorPlan ~ bedTypesApiData:", bedTypesApiData);
 
   const {
     control,
     // formState: { isValid },
     // handleSubmit,
-  } = useForm({
+    watch,
+  } = useForm<BedroomFormValues>({
     defaultValues: {
-      bedroomName: "Bedroom 1",
+      bedrooms: [
+        {
+          bedroomName: "Bedroom 1",
+          bedroomType: "1",
+          selectedOptions: [],
+        },
+      ],
     },
     mode: "onChange",
   });
-  const [bedroomType, setBedroomType] = useState("");
+  const watchedBedrooms = watch("bedrooms");
+  console.log("🚀 ~ Watched Bedrooms:", watchedBedrooms);
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setBedroomType(event.target.value as string);
-  };
-
-  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
-  const idPrefix = useId();
-
-  const handleChangebed = (
-    event: React.SyntheticEvent<Element, Event>,
-    newValue: Option[],
-  ) => {
-    const updatedSelections = newValue.map((option, index) => ({
-      ...option,
-      id: option.id || `${idPrefix}-${index}`,
-    }));
-    setSelectedOptions(updatedSelections);
-  };
-
-  const [bedrooms, setBedrooms] = useState([{ id: 1, name: "Bedroom 1" }]);
+  const {
+    fields: bedrooms,
+    append,
+    remove,
+  } = useFieldArray({
+    control,
+    name: "bedrooms",
+  });
 
   const handleAddBedroom = () => {
-    const newBedroom = {
-      id: bedrooms.length + 1,
-      name: `Bedroom ${bedrooms.length + 1}`,
-    };
-    setBedrooms((prevBedroom) => [...prevBedroom, newBedroom]);
+    console.log("🚀 ~ handleAddBedroom ~ bedrooms.length:", bedrooms.length);
+    append({
+      bedroomName: `Bedroom ${bedrooms.length + 1}`,
+      bedroomType: "1",
+      selectedOptions: [],
+    });
   };
 
-  const handleRemoveBedroom = (id: number) => {
-    setBedrooms(bedrooms.filter((bedroom) => bedroom.id !== id));
-  };
+  // const [bedroomType, setBedroomType] = useState("");
+
+  // const handleChange = (event: SelectChangeEvent) => {
+  //   setBedroomType(event.target.value as string);
+  // };
+
+  // const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
+
+  // const idPrefix = useId();
+
+  // const handleChangebed = (
+  //   event: React.SyntheticEvent<Element, Event>,
+  //   newValue: Option[],
+  // ) => {
+  //   const updatedSelections = newValue.map((option, index) => ({
+  //     ...option,
+  //     id: option.id || `${idPrefix}-${index}`,
+  //   }));
+  //   setSelectedOptions(updatedSelections);
+  // };
 
   const { Footer } = useOverview();
 
@@ -177,79 +203,102 @@ export function FloorPlan() {
           </Typography>
           <Box className="space-y-4">
             {bedrooms.map((bedroom, index) => (
-              <Grid2 key={index} container className="items-end" spacing={2}>
+              <Grid2 key={index} container className="items-center" spacing={2}>
                 <Grid2 size={6}>
                   <TextFieldWrapper
                     control={control}
                     label="Bedroom Name"
-                    name="bedroomName"
+                    name={`bedrooms.${index}.bedroomName`}
                   />
                 </Grid2>
                 <Grid2 size={6}>
                   <FormControl fullWidth variant="filled">
-                    <InputLabel id="demo-simple-select-label">
-                      Bedroom Count
-                    </InputLabel>
-                    <Select
-                      className="bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none"
-                      IconComponent={KeyboardArrowDownIcon}
-                      id="demo-simple-select"
-                      label="Bedroom Count"
-                      labelId="demo-simple-select-label"
-                      value={bedroomType}
-                      onChange={handleChange}
-                    >
-                      <MenuItem value="full">Count as full bedroom</MenuItem>
-                      <MenuItem value="half">Count as half bedroom</MenuItem>
-                      <MenuItem value="none">Do not count as bedroom</MenuItem>
-                    </Select>
+                    <InputLabel>Bedroom Count</InputLabel>
+                    <Controller
+                      control={control}
+                      name={`bedrooms.${index}.bedroomType`}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          className="bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none"
+                          IconComponent={KeyboardArrowDownIcon}
+                          label="Bedroom Count"
+                          // value={bedroomType}
+                          // onChange={handleChange}
+                        >
+                          <MenuItem value="1">Count as full bedroom</MenuItem>
+                          <MenuItem value="0.5">Count as half bedroom</MenuItem>
+                          <MenuItem value="0">Do not count as bedroom</MenuItem>
+                        </Select>
+                      )}
+                    />
                   </FormControl>
                 </Grid2>
-                <Grid2 size={11}>
-                  <Autocomplete
-                    multiple
-                    filterSelectedOptions={false}
-                    getOptionLabel={(option) =>
-                      option && option.label ? option.label : ""
-                    }
-                    options={bedOptions}
-                    popupIcon={<KeyboardArrowDownIcon />}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Select Bed Types"
-                        slotProps={{
-                          input: {
-                            ...params.InputProps,
-                            className: `${params.InputProps.className} bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none`,
-                          },
-                        }}
-                        variant="filled"
+                <Grid2 size={bedrooms.length > 1 ? 11 : 12}>
+                  <Controller
+                    control={control}
+                    name={`bedrooms.${index}.selectedOptions`}
+                    render={({ field }) => (
+                      <Autocomplete
+                        {...field}
+                        multiple
+                        filterSelectedOptions={false}
+                        getOptionLabel={(option) => option.title}
+                        loading={bedTypesApiIsFirstLoading}
+                        options={bedTypesApiData?.data || []}
+                        popupIcon={<KeyboardArrowDownIcon />}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Select Bed Types"
+                            slotProps={{
+                              input: {
+                                ...params.InputProps,
+                                className: `${params.InputProps.className} bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none`,
+                                endAdornment: (
+                                  <>
+                                    {bedTypesApiIsFirstLoading ? (
+                                      <CircularProgress
+                                        className="absolute right-10 top-1/2 -translate-y-1/2"
+                                        color="inherit"
+                                        size={20}
+                                      />
+                                    ) : null}
+                                    {params.InputProps.endAdornment}
+                                  </>
+                                ),
+                              },
+                            }}
+                            variant="filled"
+                          />
+                        )}
+                        renderTags={(value, getTagProps) =>
+                          value.map((option, index) => {
+                            const { key, ...restTagProps } = getTagProps({
+                              index,
+                            });
+                            return (
+                              <Chip
+                                key={key}
+                                label={option.title}
+                                {...restTagProps}
+                                className={`${restTagProps.className} h-7`}
+                              />
+                            );
+                          })
+                        }
+                        // value={selectedOptions}
+                        // onChange={handleChangebed}
+                        value={field.value || []}
+                        onChange={(_, newValue) => field.onChange(newValue)}
                       />
                     )}
-                    renderTags={(value, getTagProps) =>
-                      value.map((option, index) => {
-                        const { key, ...restTagProps } = getTagProps({ index });
-                        return (
-                          <Chip
-                            key={key}
-                            label={option.label}
-                            {...restTagProps}
-                            className={`${restTagProps.className} h-6`}
-                          />
-                        );
-                      })
-                    }
-                    value={selectedOptions}
-                    onChange={handleChangebed}
                   />
                 </Grid2>
                 {bedrooms.length > 1 && (
                   <Grid2 size={1}>
                     <Stack className="flex-row justify-end">
-                      <IconButton
-                        onClick={() => handleRemoveBedroom(bedroom.id)}
-                      >
+                      <IconButton onClick={() => remove(index)}>
                         <CloseIcon />
                       </IconButton>
                     </Stack>
