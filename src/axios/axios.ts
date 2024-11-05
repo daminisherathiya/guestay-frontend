@@ -36,12 +36,19 @@ axiosInstance.interceptors.request.use(
 );
 
 const convertToFormData = (
-  data: Record<string, string | Blob | File>,
+  data: Record<string, string | Blob | File | File[]>,
 ): FormData => {
   const formData = new FormData();
 
   Object.keys(data).forEach((key) => {
-    formData.append(key, data[key]);
+    const value = data[key];
+    if (Array.isArray(value)) {
+      value.forEach((item) => {
+        formData.append(key, item);
+      });
+    } else {
+      formData.append(key, value);
+    }
   });
 
   return formData;

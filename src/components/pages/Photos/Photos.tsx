@@ -14,19 +14,20 @@ import { Typography } from "@/components/atoms/Typography";
 
 import PlusIcon from "/public/images/plus.svg";
 
-import { useOverview } from "@/hooks/useStaticFooter";
-
 import { UploadedPhoto } from "./components/UploadedPhoto";
 import { UploadPhotosDialog } from "./components/UploadPhotosDialog";
 import { usePhotos } from "./Photos.hooks";
 
 export function Photos() {
   const {
+    Footer,
     handleDeleteImage,
     handleMakeCoverPhoto,
     handleMoveBackwards,
     handleMoveForwards,
     handleUploadImages,
+    PropertyApiSnackbarAlert,
+    SavePropertyApiSnackbarAlert,
     selectedImages,
     setSelectedImages,
     setUploadPhotosDialogIsOpenFalse,
@@ -34,8 +35,6 @@ export function Photos() {
     uploadedImages,
     uploadPhotosDialogIsOpen,
   } = usePhotos();
-
-  const { Footer } = useOverview();
 
   return (
     <>
@@ -163,6 +162,8 @@ export function Photos() {
         </Box>
       </Container>
       {Footer}
+      {PropertyApiSnackbarAlert}
+      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

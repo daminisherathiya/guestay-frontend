@@ -1,6 +1,14 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+
+import { useRouter } from "next/navigation";
 
 import { useBoolean } from "@/hooks/useBoolean/useBoolean";
+import { useFooterProgressBar } from "@/hooks/useFooterProgressBarProps";
+import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
+import {
+  getPropertyIdToEdit,
+  getUserDetails,
+} from "@/utils/localStorage/localStorage";
 
 export function usePhotos() {
   const {
@@ -9,11 +17,28 @@ export function usePhotos() {
     setFalse: setUploadPhotosDialogIsOpenFalse,
   } = useBoolean({ initialValue: false });
 
+  const {
+    propertyApiData,
+    propertyApiIsFirstLoading,
+    propertyApiIsSuccess,
+    PropertyApiSnackbarAlert,
+    savePropertyApiIsPending,
+    savePropertyApiIsSuccess,
+    savePropertyApiMutate,
+    SavePropertyApiSnackbarAlert,
+  } = usePropertyToEdit();
+
   const [selectedImages, setSelectedImages] = useState<
     { error?: string; file: File }[]
   >([]);
 
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+
+  // useEffect(() => {
+  //   if (propertyApiIsSuccess) {
+  //     // setUploadedImages(propertyApiData?.data[0]?.images.split(",") || []);
+  //   }
+  // }, [propertyApiData, propertyApiIsSuccess]);
 
   const handleDeleteImage = useCallback((indexToDelete: number) => {
     setUploadedImages((prevImages) =>
@@ -74,12 +99,44 @@ export function usePhotos() {
   //   };
   // }, [imageUrls]);
 
+  ////////
+
+  const router = useRouter();
+
+  const onSubmit = () => {
+    savePropertyApiMutate({
+      data: {
+        images: uploadedImages,
+        listingStep: "images",
+        propertyId: getPropertyIdToEdit() as string,
+        userId: getUserDetails().id,
+      },
+    });
+  };
+
+  const isLoading = propertyApiIsFirstLoading || !uploadedImages;
+
+  const { Footer, nextUrl } = useFooterProgressBar({
+    isDisabled: isLoading,
+    isLoading: savePropertyApiIsPending,
+    onSubmit: onSubmit,
+  });
+
+  useEffect(() => {
+    if (savePropertyApiIsSuccess) {
+      router.push(nextUrl);
+    }
+  }, [nextUrl, router, savePropertyApiIsSuccess]);
+
   return {
+    Footer,
     handleDeleteImage,
     handleMakeCoverPhoto,
     handleMoveBackwards,
     handleMoveForwards,
     handleUploadImages,
+    PropertyApiSnackbarAlert,
+    SavePropertyApiSnackbarAlert,
     selectedImages,
     setSelectedImages,
     setUploadPhotosDialogIsOpenFalse,

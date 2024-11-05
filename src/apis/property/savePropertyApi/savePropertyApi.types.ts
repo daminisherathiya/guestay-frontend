@@ -29,7 +29,7 @@ export interface SavePropertyApiDataType {
   baths?: number;
   cribs?: number;
   amenities?: string;
-  images?: string[];
+  images?: File[];
   title?: string;
   description?: string;
   weekdaysPrice?: number;

@@ -19,8 +19,8 @@ import { usePrice } from "./Price.hooks";
 export function Price() {
   const {
     expanded,
+    Footer,
     // globalPricesApiData,
-    // globalPricesApiIsFirstLoading,
     globalPricesApiSnackbarAlert,
     handleEditClick,
     handleInput,
@@ -28,6 +28,8 @@ export function Price() {
     isEditing,
     isPriceVisible,
     moreAboutPricingDialogIsOpen,
+    PropertyApiSnackbarAlert,
+    SavePropertyApiSnackbarAlert,
     setIsEditingFalse,
     setIsEditingTrue,
     setIsPriceVisibleTrue,
@@ -37,7 +39,7 @@ export function Price() {
     value,
   } = usePrice();
 
-  const { Footer } = useOverview();
+  // const { Footer } = useOverview();
 
   return (
     <>
@@ -119,8 +121,8 @@ export function Price() {
                         <Typography variant="h3">$5,325</Typography>
                       </Stack>
                       <Stack className="flex-row justify-between gap-2">
-                        <Typography variant="h3">Base price</Typography>
-                        <Typography variant="h3">$5,325</Typography>
+                        <Typography variant="h3">Guest service fee</Typography>
+                        <Typography variant="h3">$5</Typography>
                       </Stack>
                     </Box>
                     <Divider className="mb-4 mt-2 pt-2" />
@@ -199,6 +201,8 @@ export function Price() {
       </Container>
       {Footer}
       {globalPricesApiSnackbarAlert}
+      {PropertyApiSnackbarAlert}
+      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

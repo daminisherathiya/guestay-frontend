@@ -9,9 +9,12 @@ export interface propertyApiType {
 
 export interface PropertyType {
   amenities: string;
+  description: string;
   id: string;
+  images: string;
   title: string;
   type: string;
+  weekdays_price: string;
 }
 
 export interface propertyApiResponseType {
