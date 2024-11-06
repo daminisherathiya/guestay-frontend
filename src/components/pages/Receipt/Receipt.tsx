@@ -10,19 +10,21 @@ import { Container } from "@/components/atoms/Container";
 import { Grid2 } from "@/components/atoms/Grid2";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
-import { useOverview } from "@/hooks/useStaticFooter";
 
 import { FullReceiptPreviewDialog } from "./components/FullReceiptPreviewDialog";
 import { useReceipt } from "./Receipt.hooks";
 
 export function Receipt() {
   const {
+    Footer,
     fullReceiptPreviewDialogIsOpen,
+    property,
+    propertyApiIsSuccess,
+    PropertyApiSnackbarAlert,
+    SavePropertyApiSnackbarAlert,
     setFullReceiptPreviewDialogIsOpenFalse,
     setFullReceiptPreviewDialogIsOpenTrue,
   } = useReceipt();
-
-  const { Footer } = useOverview();
 
   return (
     <>
@@ -71,7 +73,7 @@ export function Receipt() {
                 <Stack className="mt-4 w-full flex-row justify-between">
                   <Box>
                     <Typography className="mb-1 font-medium" variant="body2">
-                      The Orchard House
+                      {property?.title || ""}
                     </Typography>
                     <Typography variant="body2">
                       <Typography
@@ -79,14 +81,14 @@ export function Receipt() {
                         component="span"
                         variant="body2"
                       >
-                        $5,325
+                        ${parseInt(property?.weekdays_price || "0")}
                       </Typography>{" "}
                       <Typography
                         className="font-bold"
                         component="span"
                         variant="body2"
                       >
-                        $5,325
+                        ${parseInt(property?.weekdays_price || "0")}
                       </Typography>{" "}
                       night
                     </Typography>
@@ -103,6 +105,8 @@ export function Receipt() {
                   setFullReceiptPreviewDialogIsOpenFalse
                 }
                 isFullReceiptPreviewDialogOpen={fullReceiptPreviewDialogIsOpen}
+                property={property}
+                propertyApiIsSuccess={propertyApiIsSuccess}
               />
             </Grid2>
             {/* eslint-disable-next-line sort-keys */}
@@ -189,6 +193,8 @@ export function Receipt() {
         </Box>
       </Container>
       {Footer}
+      {PropertyApiSnackbarAlert}
+      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

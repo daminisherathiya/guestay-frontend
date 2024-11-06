@@ -1,5 +1,7 @@
 "use client";
 
+import { useMemo } from "react";
+
 import { useRouter } from "next/navigation";
 
 import { listingPropertiesApi } from "@/apis/property/listingPropertiesApi";
@@ -51,8 +53,14 @@ export function useListingHome() {
     queryKey: ["listing-properties"],
   });
 
+  const listingProperties = useMemo(() => {
+    return (listingPropertiesApiData?.data || []).filter(
+      (listingProperty) => !listingProperty.listing_steps.includes("draft"),
+    );
+  }, [listingPropertiesApiData]);
+
   return {
-    listingPropertiesApiData,
+    listingProperties,
     listingPropertiesApiIsFirstLoading,
     ListingPropertiesApiSnackbarAlert,
     setPropertyIdToEdit,

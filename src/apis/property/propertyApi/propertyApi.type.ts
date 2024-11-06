@@ -10,12 +10,17 @@ export interface propertyApiType {
 export interface PropertyType {
   amenities: string;
   baths: string;
+  bedrooms: string;
   bedrooms_info: string;
+  beds: string;
   cribs: string;
   description: string;
   discount_rate: Array<number>;
   id: string;
   images: string;
+  location: string;
+  no_of_couples: string;
+  num_of_people: string;
   title: string;
   type: string;
   weekdays_price: string;
@@ -23,7 +28,7 @@ export interface PropertyType {
 
 export interface propertyApiResponseType {
   data: {
-    discount: string;
+    discount: string | { discount_days: string; discount_rate: string }[];
     property: PropertyType[];
   };
 }

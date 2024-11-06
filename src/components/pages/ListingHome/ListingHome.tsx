@@ -18,7 +18,7 @@ import { useListingHome } from "./ListingHome.hook";
 
 export function ListingHome() {
   const {
-    listingPropertiesApiData,
+    listingProperties,
     listingPropertiesApiIsFirstLoading,
     setPropertyIdToEdit,
     showMore,
@@ -37,35 +37,33 @@ export function ListingHome() {
   };
 
   const getPropertiesList = () => {
-    if (listingPropertiesApiData?.data?.length === 0) {
+    if (listingProperties.length === 0) {
       return <Typography>No property listings to finish</Typography>;
     }
 
-    return (listingPropertiesApiData?.data || []).map(
-      (listingProperty, index) => (
-        <Button
-          key={listingProperty.id}
-          disableRipple
-          className={`w-full justify-start gap-4 rounded-xl p-6 text-start ${showMore && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
-          variant="outlined"
-          onClick={() => {
-            return setPropertyIdToEdit({
-              listingSteps: listingProperty.listing_steps,
-              propertyIdToEdit: listingProperty.id,
-            });
-          }}
-        >
-          <Image
-            alt="home"
-            className="rounded"
-            height={44}
-            src="/images/home.jpg"
-            width={44}
-          />
-          <Typography>{listingProperty.title}</Typography>
-        </Button>
-      ),
-    );
+    return listingProperties.map((listingProperty, index) => (
+      <Button
+        key={listingProperty.id}
+        disableRipple
+        className={`w-full justify-start gap-4 rounded-xl p-6 text-start ${showMore && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
+        variant="outlined"
+        onClick={() => {
+          return setPropertyIdToEdit({
+            listingSteps: listingProperty.listing_steps,
+            propertyIdToEdit: listingProperty.id,
+          });
+        }}
+      >
+        <Image
+          alt="home"
+          className="rounded"
+          height={44}
+          src="/images/home.jpg"
+          width={44}
+        />
+        <Typography>{listingProperty.title}</Typography>
+      </Button>
+    ));
   };
 
   return (
@@ -82,8 +80,7 @@ export function ListingHome() {
             {listingPropertiesApiIsFirstLoading
               ? getSkeleton()
               : getPropertiesList()}
-            {(listingPropertiesApiData?.data || []).length >
-              NUMBER_OF_PROPERTIES_TO_SHOW && (
+            {listingProperties.length > NUMBER_OF_PROPERTIES_TO_SHOW && (
               <Button
                 className="p-0 hover:bg-common-white"
                 variant="text"

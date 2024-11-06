@@ -23,6 +23,7 @@ import { LoginDialog } from "@/components/molecules/LoginDialog/LoginDialog";
 import { Logout } from "@/components/molecules/Logout";
 import { ResetPasswordDialog } from "@/components/molecules/ResetPasswordDialog";
 import { SignUpDialog } from "@/components/molecules/SignUpDialog/SignUpDialog";
+import { getUserInitial } from "@/utils/common";
 
 import { QuestionsDrawer } from "../QuestionsDrawer/QuestionsDrawer";
 
@@ -32,7 +33,6 @@ export function Header() {
   const {
     accountMenuAnchor,
     closeAccountMenu,
-    getUserInitial,
     handleOpenLoginDialog,
     handleOpenSignUpDialog,
     isAccountMenuOpen,

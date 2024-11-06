@@ -107,7 +107,7 @@ export function Price() {
               onClick={setIsPriceVisibleTrue}
             >
               <Typography variant="h3">
-                Guest price before taxes $6,077
+                Guest price before taxes ${value}
               </Typography>
               <Box>
                 <KeyboardArrowDownIcon />
@@ -130,7 +130,7 @@ export function Price() {
                     <Box className="space-y-2">
                       <Stack className="flex-row justify-between gap-2">
                         <Typography variant="h3">Base price</Typography>
-                        <Typography variant="h3">$5,325</Typography>
+                        <Typography variant="h3">${value}</Typography>
                       </Stack>
                       <Stack className="flex-row justify-between gap-2">
                         <Typography variant="h3">Guest service fee</Typography>
@@ -163,7 +163,7 @@ export function Price() {
                     <Box className="space-y-2">
                       <Stack className="flex-row justify-between gap-2">
                         <Typography variant="h3">Base price</Typography>
-                        <Typography variant="h3">$5,325</Typography>
+                        <Typography variant="h3">${value}</Typography>
                       </Stack>
                       <Stack className="flex-row justify-between gap-2">
                         <Typography variant="h3">Host service fee</Typography>

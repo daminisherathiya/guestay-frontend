@@ -132,7 +132,7 @@ const urlToFooterDetails: Record<string, FooterDetailsType> = {
     progressPercentage: {
       setp1: 100,
       setp2: 100,
-      setp3: 1 * 25,
+      setp3: 1 * 33,
     },
   },
   "/become-a-host/discount": {
@@ -141,16 +141,16 @@ const urlToFooterDetails: Record<string, FooterDetailsType> = {
     progressPercentage: {
       setp1: 100,
       setp2: 100,
-      setp3: 2 * 25,
+      setp3: 2 * 33,
     },
   },
   "/become-a-host/receipt": {
     backUrl: "/become-a-host/discount",
-    nextUrl: "/become-a-host/publish",
+    nextUrl: "/become-a-host/",
     progressPercentage: {
       setp1: 100,
       setp2: 100,
-      setp3: 3 * 25,
+      setp3: 100,
     },
   },
   "/become-a-host/publish": {

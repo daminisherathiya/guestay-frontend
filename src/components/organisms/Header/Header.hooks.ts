@@ -68,8 +68,6 @@ export const useHeader = () => {
     setAccountMenuAnchor(null);
   };
 
-  const getUserInitial = (name: string) => name.charAt(0).toUpperCase();
-
   const handleOpenLoginDialog = useCallback(() => {
     setSignUpDialogIsOpenFalse();
     setLoginDialogIsOpenTrue();
@@ -87,7 +85,6 @@ export const useHeader = () => {
   return {
     accountMenuAnchor,
     closeAccountMenu,
-    getUserInitial,
     handleOpenLoginDialog,
     handleOpenSignUpDialog,
     isAccountMenuOpen,

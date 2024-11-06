@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Checkbox } from "@mui/material";
+import { Controller } from "react-hook-form";
 
 import { Box } from "@/components/atoms/Box";
 import { Container } from "@/components/atoms/Container";
@@ -13,16 +14,16 @@ import { useDiscount } from "./Discount.hooks";
 
 export function Discount() {
   const {
+    control,
     discountsDialogIsOpen,
     Footer,
-    handleInput,
     // isLoading,
-    monthlyDiscount,
+    isMonthlyDiscountEnabled,
+    isWeeklyDiscountEnabled,
     PropertyApiSnackbarAlert,
     SavePropertyApiSnackbarAlert,
     setDiscountsDialogIsOpenFalse,
     setDiscountsDialogIsOpenTrue,
-    weeklyDiscount,
   } = useDiscount();
 
   return (
@@ -41,7 +42,7 @@ export function Discount() {
             reviews.
           </Typography>
           <Box className="space-y-6">
-            <Box className="rounded-xl border border-divider bg-action-hover p-4 md:px-6 md:py-8">
+            {/* <Box className="rounded-xl border border-divider bg-action-hover p-4 md:px-6 md:py-8">
               <Stack className="flex-row items-center justify-between gap-4">
                 <Stack className="flex-row items-center gap-4">
                   <TextField
@@ -79,29 +80,40 @@ export function Discount() {
                   sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
                 />
               </Stack>
-            </Box>
+            </Box> */}
             <Box className="rounded-xl border border-divider bg-action-hover p-4 md:px-6 md:py-8">
               <Stack className="flex-row items-center justify-between gap-4">
                 <Stack className="flex-row items-center gap-4">
-                  <TextField
-                    autoComplete="off"
-                    className="shrink-0"
-                    id="outlined-basic"
-                    slotProps={{
-                      input: {
-                        classes: { input: "w-6 py-2 pl-3 text-right" },
-                        className:
-                          "pl-0 font-bold bg-common-white rounded-lg text-lg pr-3",
-                        endAdornment: (
-                          <Typography className="text-lg font-bold">
-                            %
-                          </Typography>
-                        ),
-                      },
-                    }}
-                    value={weeklyDiscount}
-                    variant="outlined"
-                    onChange={(event) => handleInput(event, "weekly")}
+                  <Controller
+                    control={control}
+                    name="weeklyDiscount"
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        autoComplete="off"
+                        className="shrink-0"
+                        disabled={!isWeeklyDiscountEnabled}
+                        id="outlined-basic"
+                        slotProps={{
+                          input: {
+                            classes: {
+                              input: `w-6 py-2 pl-3 text-right ${!isWeeklyDiscountEnabled ? "cursor-not-allowed" : ""}`,
+                              notchedOutline: !isWeeklyDiscountEnabled
+                                ? "border-common-black/25"
+                                : "",
+                            },
+                            className: `pl-0 font-bold bg-common-white rounded-lg text-lg pr-3 ${!isWeeklyDiscountEnabled ? "opacity-30 bg-action-hover" : ""}`,
+                            endAdornment: (
+                              <Typography className="text-lg font-bold">
+                                %
+                              </Typography>
+                            ),
+                          },
+                        }}
+                        variant="outlined"
+                        // onChange={(event) => handleInput(event, "weekly")}
+                      />
+                    )}
                   />
                   <Box>
                     <Typography>Weekly discount</Typography>
@@ -110,34 +122,52 @@ export function Discount() {
                     </Typography>
                   </Box>
                 </Stack>
-                <Checkbox
-                  defaultChecked
-                  sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+                <Controller
+                  control={control}
+                  name="weeklyDiscountChecked"
+                  render={({ field }) => (
+                    <Checkbox
+                      {...field}
+                      defaultChecked
+                      sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+                    />
+                  )}
                 />
               </Stack>
             </Box>
             <Box className="rounded-xl border border-divider bg-action-hover p-4 md:px-6 md:py-8">
               <Stack className="flex-row items-center justify-between gap-4">
                 <Stack className="flex-row items-center gap-4">
-                  <TextField
-                    autoComplete="off"
-                    className="shrink-0"
-                    id="outlined-basic"
-                    slotProps={{
-                      input: {
-                        classes: { input: "w-6 py-2 pl-3 text-right" },
-                        className:
-                          "pl-0 font-bold bg-common-white rounded-lg text-lg pr-3",
-                        endAdornment: (
-                          <Typography className="text-lg font-bold">
-                            %
-                          </Typography>
-                        ),
-                      },
-                    }}
-                    value={monthlyDiscount}
-                    variant="outlined"
-                    onChange={(event) => handleInput(event, "monthly")}
+                  <Controller
+                    control={control}
+                    name="monthlyDiscount"
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        autoComplete="off"
+                        className="shrink-0"
+                        disabled={!isMonthlyDiscountEnabled}
+                        id="outlined-basic"
+                        slotProps={{
+                          input: {
+                            classes: {
+                              input: `w-6 py-2 pl-3 text-right ${!isMonthlyDiscountEnabled ? "cursor-not-allowed" : ""}`,
+                              notchedOutline: !isMonthlyDiscountEnabled
+                                ? "border-common-black/25"
+                                : "",
+                            },
+                            className: `pl-0 font-bold bg-common-white rounded-lg text-lg pr-3 ${!isMonthlyDiscountEnabled ? "opacity-30 bg-action-hover" : ""}`,
+                            endAdornment: (
+                              <Typography className="text-lg font-bold">
+                                %
+                              </Typography>
+                            ),
+                          },
+                        }}
+                        variant="outlined"
+                        // onChange={(event) => handleInput(event, "monthly")}
+                      />
+                    )}
                   />
                   <Box>
                     <Typography>Monthly discount</Typography>
@@ -146,9 +176,16 @@ export function Discount() {
                     </Typography>
                   </Box>
                 </Stack>
-                <Checkbox
-                  defaultChecked
-                  sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+                <Controller
+                  control={control}
+                  name="monthlyDiscountChecked"
+                  render={({ field }) => (
+                    <Checkbox
+                      {...field}
+                      defaultChecked
+                      sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+                    />
+                  )}
                 />
               </Stack>
             </Box>
