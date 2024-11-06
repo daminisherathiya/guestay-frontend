@@ -31,7 +31,9 @@ export interface PropertyType {
 
 export interface propertyApiResponseType {
   data: {
-    discount: string | { discount_days: string; discount_rate: string }[];
+    discount:
+      | string
+      | { discount_days: string; discount_rate: string; id: string }[];
     property: PropertyType[];
   };
 }

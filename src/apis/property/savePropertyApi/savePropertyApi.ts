@@ -29,6 +29,7 @@ export const savePropertyApi = async ({ data }: SavePropertyApiType) => {
       weekdays_price: data.weekdaysPrice,
       discount_days: data.discountDays,
       discount_rate: data.discountRate,
+      discount_id: data.discountIds,
     },
     method: "post",
     url: "/property/save/",

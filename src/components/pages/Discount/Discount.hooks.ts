@@ -12,6 +12,8 @@ import {
   getUserDetails,
 } from "@/utils/localStorage/localStorage";
 
+import { DiscountFormType } from "./Discount.types";
+
 export function useDiscount() {
   const {
     value: discountsDialogIsOpen,
@@ -37,12 +39,15 @@ export function useDiscount() {
     // trigger,
     watch,
     reset,
-  } = useForm({
+  } = useForm<DiscountFormType>({
     defaultValues: {
       monthlyDiscount: 15,
       monthlyDiscountChecked: true,
+      monthlyDiscountId: null,
+
       weeklyDiscount: 8,
       weeklyDiscountChecked: true,
+      weeklyDiscountId: null,
     },
     mode: "onChange",
   });
@@ -51,8 +56,11 @@ export function useDiscount() {
     if (propertyApiIsSuccess) {
       let monthlyDiscount = 0;
       const monthlyDiscountChecked = true;
+      let monthlyDiscountId = null;
+
       let weeklyDiscount = 0;
       const weeklyDiscountChecked = true;
+      let weeklyDiscountId = null;
 
       if (Array.isArray(propertyApiData?.data?.discount)) {
         const discounts = propertyApiData?.data?.discount.reverse();
@@ -63,6 +71,9 @@ export function useDiscount() {
         weeklyDiscount = discountForSevenDays
           ? parseInt(discountForSevenDays.discount_rate)
           : 8;
+        weeklyDiscountId = discountForSevenDays
+          ? discountForSevenDays.id
+          : null;
 
         const discountForTwentyEightDays = discounts.find(
           (discount) => discount.discount_days === "28",
@@ -70,16 +81,28 @@ export function useDiscount() {
         monthlyDiscount = discountForTwentyEightDays
           ? parseInt(discountForTwentyEightDays.discount_rate)
           : 15;
+        monthlyDiscountId = discountForTwentyEightDays
+          ? discountForTwentyEightDays.id
+          : null;
       }
+
+      console.log("🚀 ~ useEffect ~ weeklyDiscountId:", weeklyDiscountId);
+      console.log("🚀 ~ useEffect ~ monthlyDiscountId:", monthlyDiscountId);
 
       reset({
         monthlyDiscount: monthlyDiscount,
         monthlyDiscountChecked: monthlyDiscountChecked,
+        monthlyDiscountId: monthlyDiscountId,
+
         weeklyDiscount: weeklyDiscount,
         weeklyDiscountChecked: weeklyDiscountChecked,
+        weeklyDiscountId: weeklyDiscountId,
       });
     }
   }, [propertyApiData, propertyApiIsSuccess, reset]);
+
+  const weeklyDiscountId = watch("weeklyDiscountId");
+  const monthlyDiscountId = watch("monthlyDiscountId");
 
   // const handleInput = (
   //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -110,6 +133,10 @@ export function useDiscount() {
     savePropertyApiMutate({
       data: {
         discountDays: [7, 28],
+        discountIds:
+          weeklyDiscountId !== null && monthlyDiscountId !== null
+            ? [weeklyDiscountId, monthlyDiscountId]
+            : undefined,
         discountRate: [watch("weeklyDiscount"), watch("monthlyDiscount")],
         listingStep: "discount",
         propertyId: getPropertyIdToEdit() as string,

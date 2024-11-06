@@ -35,6 +35,7 @@ export interface SavePropertyApiDataType {
   weekdaysPrice?: number;
   discountDays?: number[];
   discountRate?: number[];
+  discountIds?: string[];
 }
 
 export interface SavePropertyApiType {
