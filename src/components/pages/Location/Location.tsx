@@ -17,10 +17,10 @@ import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper/TextFi
 // import { type AddressDetailsType } from "@/types/Location.types";
 
 import DraggableMap from "./components/DraggableMap/DraggableMap";
+import { INITIAL_MAP_POSITION } from "./components/DraggableMap/DraggableMap.consts";
 import { LocationInputWithAutocompleteService } from "./components/LocationInputWithAutocompleteService";
 // import { confirmAddressTextFields } from "./Location.const";
 import { useLocation } from "./Location.hooks";
-import { INITIAL_MAP_POSITION } from "./components/DraggableMap/DraggableMap.consts";
 
 export function Location() {
   const {
