@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Script from "next/script";
 
-import { useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
 import { Autocomplete } from "@/components/atoms/Autocomplete";
 import { Box } from "@/components/atoms/Box";
@@ -11,58 +11,34 @@ import { Container } from "@/components/atoms/Container";
 import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
-import { CountrySelect } from "@/components/molecules/CountrySelect/CountrySelect";
-import { defaultCountry } from "@/components/molecules/CountrySelect/CountrySelect.consts";
+// import { CountrySelect } from "@/components/molecules/CountrySelect/CountrySelect";
+// import { defaultCountry } from "@/components/molecules/CountrySelect/CountrySelect.consts";
 import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper/TextFieldWrapper";
-import { useOverview } from "@/hooks/useStaticFooter";
 // import { type AddressDetailsType } from "@/types/Location.types";
 
+import DraggableMap from "./components/DraggableMap/DraggableMap";
 import { LocationInputWithAutocompleteService } from "./components/LocationInputWithAutocompleteService";
 // import { confirmAddressTextFields } from "./Location.const";
 import { useLocation } from "./Location.hooks";
+import { INITIAL_MAP_POSITION } from "./components/DraggableMap/DraggableMap.consts";
 
 export function Location() {
   const {
+    control,
+    Footer,
+    latitude,
     locations,
     // locationsApiData,
     // locationsApiIsFirstLoading,
     LocationsApiSnackbarAlert,
-    selectedPlaceDetails,
+    longitude,
+    PropertyApiSnackbarAlert,
+    SavePropertyApiSnackbarAlert,
+    // selectedPlaceDetails,
+    setLatitude,
+    setLongitude,
     setSelectedPlaceDetails,
   } = useLocation();
-
-  const { Footer } = useOverview();
-
-  const {
-    control,
-    // formState: { isValid },
-    // handleSubmit,
-    // trigger,
-    // watch,
-  } = useForm({
-    defaultValues: {
-      city: selectedPlaceDetails
-        ? (selectedPlaceDetails["city"]?.shortName ?? "")
-        : "",
-      flatHouse: selectedPlaceDetails
-        ? (selectedPlaceDetails["flatHouse"]?.shortName ?? "")
-        : "",
-      landmark: selectedPlaceDetails
-        ? (selectedPlaceDetails["landmark"]?.shortName ?? "")
-        : "",
-      locality: selectedPlaceDetails
-        ? (selectedPlaceDetails["locality"]?.shortName ?? "")
-        : "",
-      pinCode: "",
-      state: selectedPlaceDetails
-        ? (selectedPlaceDetails["state"]?.shortName ?? "")
-        : "",
-      street: selectedPlaceDetails
-        ? (selectedPlaceDetails["street"]?.shortName ?? "")
-        : "",
-    },
-    mode: "onChange",
-  });
 
   return (
     <>
@@ -111,68 +87,59 @@ export function Location() {
               reservation.
             </Typography>
             <Box className="space-y-4">
-              <Autocomplete
-                open
-                getOptionLabel={(option) => option.label}
-                options={locations}
-                renderInput={(params) => (
-                  <TextField {...params} label="Select Location" />
+              <Controller
+                control={control}
+                name="locationId"
+                render={({ field }) => (
+                  <Autocomplete
+                    // open
+                    {...field}
+                    disableClearable
+                    getOptionLabel={(option) => {
+                      return option.label;
+                    }}
+                    options={locations}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Select Location" />
+                    )}
+                    renderOption={(props, option) => {
+                      return (
+                        <li
+                          {...props}
+                          key={option.id}
+                          className={option.parent !== "0" ? "ml-6" : "ml-2"}
+                        >
+                          {option.label}
+                        </li>
+                      );
+                    }}
+                    value={
+                      locations.find(
+                        (location) => location.id === field.value,
+                      ) || null
+                    }
+                    onChange={(_, newValue) => {
+                      field.onChange(newValue ? newValue.id : null);
+                    }}
+                  />
                 )}
-                renderOption={(props, option) => {
-                  return (
-                    <li
-                      {...props}
-                      className={option.parent !== "0" ? "ml-6" : "ml-2"}
-                    >
-                      {option.label}
-                    </li>
-                  );
-                }}
               />
-              <CountrySelect value={defaultCountry} onChange={() => {}} />
+              {/* <CountrySelect value={defaultCountry} onChange={() => {}} /> */}
               <TextFieldWrapper
                 control={control}
-                label="Flat, house, etc. (if applicable)"
-                name="flatHouse"
-                rules={{ required: "First name is required" }}
-              />
-              <TextFieldWrapper
-                control={control}
-                label="Street address"
-                name="street"
-                rules={{ required: "First name is required" }}
-              />
-              <TextFieldWrapper
-                control={control}
-                label="Nearby landmark (if applicable)"
-                name="landmark"
-                rules={{ required: "First name is required" }}
-              />
-              <TextFieldWrapper
-                control={control}
-                label="District/locality (if applicable)"
-                name="locality"
-                rules={{ required: "First name is required" }}
-              />
-              <TextFieldWrapper
-                control={control}
-                label="City / town"
-                name="city"
-                rules={{ required: "First name is required" }}
-              />
-              <TextFieldWrapper
-                control={control}
-                label="State/union territory"
-                name="state"
-                rules={{ required: "First name is required" }}
-              />
-              <TextFieldWrapper
-                control={control}
-                label="PIN code"
-                name="pinCode"
-                rules={{ required: "First name is required" }}
+                label="Address"
+                name="address"
+                rules={{ required: "Address is required" }}
               />
             </Box>
+            <div>Latitude: {latitude || INITIAL_MAP_POSITION.lat}</div>
+            <div>Longitude: {longitude || INITIAL_MAP_POSITION.lng}</div>
+            <DraggableMap
+              latitude={latitude}
+              longitude={longitude}
+              setLatitude={setLatitude}
+              setLongitude={setLongitude}
+            />
           </Box>
         )}
         <Script
@@ -182,6 +149,8 @@ export function Location() {
       </Container>
       {Footer}
       {LocationsApiSnackbarAlert}
+      {PropertyApiSnackbarAlert}
+      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

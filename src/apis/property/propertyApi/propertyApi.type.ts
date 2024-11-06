@@ -8,6 +8,7 @@ export interface propertyApiType {
 }
 
 export interface PropertyType {
+  address: string;
   amenities: string;
   baths: string;
   bedrooms: string;
@@ -18,7 +19,9 @@ export interface PropertyType {
   discount_rate: Array<number>;
   id: string;
   images: string;
+  latitude: string;
   location: string;
+  longitude: string;
   no_of_couples: string;
   num_of_people: string;
   title: string;

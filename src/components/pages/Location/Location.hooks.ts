@@ -1,22 +1,47 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
+import { useRouter } from "next/navigation";
+
+import { useForm } from "react-hook-form";
 
 import { locationsApi } from "@/apis/property/locationsApi";
 import {
   LocationType,
   locationsAPIResponseType,
 } from "@/apis/property/locationsApi/locationsApi.type";
+import { useFooterProgressBar } from "@/hooks/useFooterProgressBarProps";
+import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
 import { useQuery } from "@/hooks/useQuery";
 import { type AddressDetailsType } from "@/types/Location.types";
-import { getUserDetails } from "@/utils/localStorage/localStorage";
+import {
+  getPropertyIdToEdit,
+  getUserDetails,
+} from "@/utils/localStorage/localStorage";
+
+import { INITIAL_MAP_POSITION } from "./components/DraggableMap/DraggableMap.consts";
+import { LocationFormType } from "./Location.types";
 
 export function useLocation() {
+  const {
+    propertyApiData,
+    propertyApiIsFirstLoading,
+    propertyApiIsSuccess,
+    PropertyApiSnackbarAlert,
+    savePropertyApiIsPending,
+    savePropertyApiIsSuccess,
+    savePropertyApiMutate,
+    SavePropertyApiSnackbarAlert,
+  } = usePropertyToEdit();
+
+  ////////
+
   const [selectedPlaceDetails, setSelectedPlaceDetails] =
     useState<AddressDetailsType | null>(null);
 
   const {
     data: locationsApiData,
     isFirstLoading: locationsApiIsFirstLoading,
-    // isSuccess: locationsApiIsSuccess,
+    isSuccess: locationsApiIsSuccess,
     SnackbarAlert: LocationsApiSnackbarAlert,
   } = useQuery<locationsAPIResponseType, Error, locationsAPIResponseType>({
     initialData: { data: [] },
@@ -62,12 +87,118 @@ export function useLocation() {
     });
   }, [locationsApiData]);
 
+  const {
+    control,
+    // formState: { isValid },
+    // handleSubmit,
+    // trigger,
+    setValue,
+    watch,
+  } = useForm<LocationFormType>({
+    defaultValues: {
+      address: "",
+      locationId: null,
+      // city: selectedPlaceDetails
+      //   ? (selectedPlaceDetails["city"]?.shortName ?? "")
+      //   : "",
+      // flatHouse: selectedPlaceDetails
+      //   ? (selectedPlaceDetails["flatHouse"]?.shortName ?? "")
+      //   : "",
+      // landmark: selectedPlaceDetails
+      //   ? (selectedPlaceDetails["landmark"]?.shortName ?? "")
+      //   : "",
+      // locality: selectedPlaceDetails
+      //   ? (selectedPlaceDetails["locality"]?.shortName ?? "")
+      //   : "",
+      // pinCode: "",
+      // state: selectedPlaceDetails
+      //   ? (selectedPlaceDetails["state"]?.shortName ?? "")
+      //   : "",
+      // street: selectedPlaceDetails
+      //   ? (selectedPlaceDetails["street"]?.shortName ?? "")
+      //   : "",
+    },
+    mode: "onChange",
+  });
+
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (locationsApiIsSuccess && propertyApiIsSuccess) {
+      setValue("address", propertyApiData?.data.property[0].address || "");
+      setValue(
+        "locationId",
+        propertyApiData?.data.property[0].location || null,
+      );
+      setLatitude(
+        parseFloat(
+          propertyApiData?.data.property[0].latitude ||
+            String(INITIAL_MAP_POSITION.lat),
+        ),
+      );
+      setLongitude(
+        parseFloat(
+          propertyApiData?.data.property[0].longitude ||
+            String(INITIAL_MAP_POSITION.lng),
+        ),
+      );
+    }
+  }, [locationsApiIsSuccess, propertyApiData, propertyApiIsSuccess, setValue]);
+
+  const address = watch("address");
+  const locationId = watch("locationId");
+
+  ////////
+
+  const router = useRouter();
+
+  const onSubmit = () => {
+    savePropertyApiMutate({
+      data: {
+        address: address,
+        latitude: latitude || INITIAL_MAP_POSITION.lat,
+        listingStep: "location",
+        location: locationId as string,
+        longitude: longitude || INITIAL_MAP_POSITION.lng,
+        propertyId: getPropertyIdToEdit() as string,
+        userId: getUserDetails().id,
+      },
+    });
+  };
+
+  const isLoading =
+    propertyApiIsFirstLoading ||
+    locationsApiIsFirstLoading ||
+    !address ||
+    !locationId;
+
+  const { Footer, nextUrl } = useFooterProgressBar({
+    isDisabled: isLoading,
+    isLoading: savePropertyApiIsPending,
+    onSubmit: onSubmit,
+  });
+
+  useEffect(() => {
+    if (savePropertyApiIsSuccess) {
+      router.push(nextUrl);
+    }
+  }, [nextUrl, router, savePropertyApiIsSuccess]);
+
   return {
+    control,
+    Footer,
+    latitude,
     locations,
     locationsApiData,
     locationsApiIsFirstLoading,
     LocationsApiSnackbarAlert,
+    longitude,
+    PropertyApiSnackbarAlert,
+    SavePropertyApiSnackbarAlert,
     selectedPlaceDetails,
+    setLatitude,
+    setLongitude,
     setSelectedPlaceDetails,
   };
 }
