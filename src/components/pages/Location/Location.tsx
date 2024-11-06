@@ -5,9 +5,11 @@ import Script from "next/script";
 
 import { useForm } from "react-hook-form";
 
+import { Autocomplete } from "@/components/atoms/Autocomplete";
 import { Box } from "@/components/atoms/Box";
 import { Container } from "@/components/atoms/Container";
 import { Stack } from "@/components/atoms/Stack";
+import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
 import { CountrySelect } from "@/components/molecules/CountrySelect/CountrySelect";
 import { defaultCountry } from "@/components/molecules/CountrySelect/CountrySelect.consts";
@@ -21,6 +23,7 @@ import { useLocation } from "./Location.hooks";
 
 export function Location() {
   const {
+    locations,
     // locationsApiData,
     // locationsApiIsFirstLoading,
     LocationsApiSnackbarAlert,
@@ -108,6 +111,24 @@ export function Location() {
               reservation.
             </Typography>
             <Box className="space-y-4">
+              <Autocomplete
+                open
+                getOptionLabel={(option) => option.label}
+                options={locations}
+                renderInput={(params) => (
+                  <TextField {...params} label="Select Location" />
+                )}
+                renderOption={(props, option) => {
+                  return (
+                    <li
+                      {...props}
+                      className={option.parent !== "0" ? "ml-6" : "ml-2"}
+                    >
+                      {option.label}
+                    </li>
+                  );
+                }}
+              />
               <CountrySelect value={defaultCountry} onChange={() => {}} />
               <TextFieldWrapper
                 control={control}
