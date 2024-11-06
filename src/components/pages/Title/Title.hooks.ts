@@ -56,7 +56,7 @@ export function useTitle() {
   const isLoading = propertyApiIsFirstLoading;
 
   const { Footer, nextUrl } = useFooterProgressBar({
-    isDisabled: isLoading,
+    isDisabled: isLoading || title.trim().length === 0,
     isLoading: savePropertyApiIsPending,
     onSubmit: onSubmit,
   });

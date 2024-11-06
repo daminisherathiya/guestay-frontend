@@ -1,5 +1,6 @@
 export interface DialogWrapperProps {
   children: React.ReactNode;
+  className?: { paper: string };
   customHeader?: React.ReactNode;
   dialogActions?: React.ReactNode;
   dialogActionsClassName?: string;

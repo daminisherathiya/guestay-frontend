@@ -26,6 +26,8 @@ export function Receipt() {
     setFullReceiptPreviewDialogIsOpenTrue,
   } = useReceipt();
 
+  const coverImage = property?.images.split(",")[0] || "";
+
   return (
     <>
       <Container maxWidth="2xl">
@@ -63,7 +65,7 @@ export function Receipt() {
                     alt="Cover picture"
                     className="max-h-80 w-full rounded-lg object-cover"
                     height={320}
-                    src="/images/aa.jpg"
+                    src={`https://guestay.webarysites.com/file/1000/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${coverImage}`}
                     width={320}
                   />
                   <Box className="absolute left-4 top-4 rounded border border-common-black/5 bg-common-white px-2 py-1 text-sm leading-4 shadow-button">
@@ -101,6 +103,7 @@ export function Receipt() {
                 </Stack>
               </Button>
               <FullReceiptPreviewDialog
+                coverImage={coverImage}
                 handleCloseFullReceiptPreviewDialog={
                   setFullReceiptPreviewDialogIsOpenFalse
                 }

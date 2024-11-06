@@ -1,6 +1,7 @@
 import { PropertyType } from "@/apis/property/propertyApi/propertyApi.type";
 
 export interface FullReceiptPreviewDialogProps {
+  coverImage: string;
   handleCloseFullReceiptPreviewDialog: () => void;
   isFullReceiptPreviewDialogOpen: boolean;
   property: PropertyType | null;

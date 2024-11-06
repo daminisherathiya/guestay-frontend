@@ -9,6 +9,7 @@ import { useFooterProgressBar } from "@/hooks/useFooterProgressBarProps";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
 import { useQuery } from "@/hooks/useQuery";
 import { useToggle } from "@/hooks/useToggle/useToggle";
+import { removeLeadingZeros } from "@/utils/common";
 import {
   getPropertyIdToEdit,
   getUserDetails,
@@ -38,7 +39,7 @@ export function usePrice() {
           String(parseInt(propertyApiData?.data?.property[0].weekdays_price)),
         );
       }
-      setValue(price);
+      setValue(removeLeadingZeros(price));
     }
   }, [propertyApiData, propertyApiIsSuccess]);
 
@@ -93,7 +94,7 @@ export function usePrice() {
       value = value.slice(0, 5);
     }
     e.target.value = value;
-    setValue(formatNumberWithCommas(value));
+    setValue(formatNumberWithCommas(removeLeadingZeros(value)));
   };
   const toggleExpansion = (buttonIndex: number) => {
     setExpanded(buttonIndex);
@@ -121,7 +122,7 @@ export function usePrice() {
   const isLoading = propertyApiIsFirstLoading || globalPricesApiIsFirstLoading;
 
   const { Footer, nextUrl } = useFooterProgressBar({
-    isDisabled: isLoading,
+    isDisabled: isLoading || Number(value) < 1,
     isLoading: savePropertyApiIsPending,
     onSubmit: onSubmit,
   });

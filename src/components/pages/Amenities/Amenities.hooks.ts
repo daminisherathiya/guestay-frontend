@@ -25,11 +25,14 @@ export function useAmenities() {
   } = usePropertyToEdit();
 
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  console.log("🚀 ~ useAmenities ~ selectedOptions:", selectedOptions);
 
   useEffect(() => {
     if (propertyApiIsSuccess) {
       setSelectedOptions(
-        propertyApiData?.data.property[0].amenities.split(",") || [],
+        propertyApiData?.data.property[0].amenities
+          ? propertyApiData?.data.property[0].amenities.split(",")
+          : [],
       );
     }
   }, [propertyApiData, propertyApiIsSuccess]);
@@ -71,11 +74,10 @@ export function useAmenities() {
     });
   };
 
-  const isLoading =
-    propertyApiIsFirstLoading || amenitiesApiIsFirstLoading || !selectedOptions;
+  const isLoading = propertyApiIsFirstLoading || amenitiesApiIsFirstLoading;
 
   const { Footer, nextUrl } = useFooterProgressBar({
-    isDisabled: isLoading,
+    isDisabled: isLoading || selectedOptions.length === 0,
     isLoading: savePropertyApiIsPending,
     onSubmit: onSubmit,
   });

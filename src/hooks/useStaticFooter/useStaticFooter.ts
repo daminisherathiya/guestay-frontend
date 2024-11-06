@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import { useFooterProgressBar } from "@/hooks/useFooterProgressBarProps";
 
-export function useOverview() {
+export function useStaticFooter() {
   const router = useRouter();
 
   const onSubmit = () => {

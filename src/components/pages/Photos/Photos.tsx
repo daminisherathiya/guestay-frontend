@@ -3,6 +3,7 @@
 import Image from "next/image";
 
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
+import { Skeleton } from "@mui/material";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
@@ -26,6 +27,7 @@ export function Photos() {
     handleMoveBackwards,
     handleMoveForwards,
     handleUploadImages,
+    isLoading,
     PropertyApiSnackbarAlert,
     SavePropertyApiSnackbarAlert,
     selectedImages,
@@ -81,13 +83,16 @@ export function Photos() {
             )}
           </Stack>
 
-          {uploadedImages && uploadedImages.length > 0 ? (
+          {isLoading ? (
+            <Skeleton
+              className="h-[60vh] max-h-[31.25rem] w-full rounded-lg"
+              variant="rectangular"
+            />
+          ) : uploadedImages && uploadedImages.length > 0 ? (
             <Grid2 container spacing={2}>
               {uploadedImages.map((image, index) => {
                 // const imageUrl = `https://guestay.webarysites.com/data/properties_images/${image.name}`;
                 const imageUrl = URL.createObjectURL(image);
-                console.log("🚀 ~ uploadedImages.map ~ image:", image);
-                console.log("🚀 ~ uploadedImages.map ~ imageUrl:", imageUrl);
 
                 return (
                   <Grid2

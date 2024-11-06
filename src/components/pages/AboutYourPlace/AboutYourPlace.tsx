@@ -3,10 +3,10 @@ import { Box } from "@/components/atoms/Box";
 import { Container } from "@/components/atoms/Container";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
-import { useOverview } from "@/hooks/useStaticFooter";
+import { useStaticFooter } from "@/hooks/useStaticFooter";
 
 export function AboutYourPlace() {
-  const { Footer } = useOverview();
+  const { Footer } = useStaticFooter();
 
   return (
     <>

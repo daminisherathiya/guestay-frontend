@@ -5,6 +5,8 @@ import {
   AmeinityType,
   amenitiesAPIResponseType,
 } from "@/apis/property/amenitiesApi/amenitiesApi.type";
+import { locationsApi } from "@/apis/property/locationsApi";
+import { locationsAPIResponseType } from "@/apis/property/locationsApi/locationsApi.type";
 import { useQuery } from "@/hooks/useQuery";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
@@ -41,9 +43,29 @@ export function useFullReceiptPreviewDialog({
     }
   }, [amenitiesApiIsSuccess, property, amenitiesApiData, propertyApiIsSuccess]);
 
+  ////////
+
+  const {
+    data: locationsApiData,
+    isFirstLoading: locationsApiIsFirstLoading,
+    SnackbarAlert: LocationsApiSnackbarAlert,
+  } = useQuery<locationsAPIResponseType, Error, locationsAPIResponseType>({
+    initialData: { data: [] },
+    queryFn: () => {
+      return locationsApi({ data: { userId: getUserDetails().id } });
+    },
+    queryKey: ["locations"],
+  });
+
+  ////////
+
+  const isLoading = amenitiesApiIsFirstLoading || locationsApiIsFirstLoading;
+
   return {
-    amenitiesApiIsFirstLoading,
     AmenitiesApiSnackbarAlert,
+    isLoading,
+    locationsApiData,
+    LocationsApiSnackbarAlert,
     selectedAmenities,
   };
 }

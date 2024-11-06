@@ -77,7 +77,7 @@ export function Price() {
                           notchedOutline: "border-none",
                         },
                         className:
-                          "pl-0 text-5xl sm:text-6xl md:text-7xl font-bold max-w-72",
+                          "pl-0 text-5xl sm:text-6xl md:text-7xl font-bold max-w-80",
                         startAdornment: (
                           <Typography className="text-5xl font-bold sm:text-6xl md:text-7xl">
                             $

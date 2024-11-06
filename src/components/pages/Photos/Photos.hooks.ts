@@ -36,6 +36,9 @@ export function usePhotos() {
 
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
 
+  const { value: imagesAreLoading, setFalse: setImagesAreLoadingFalse } =
+    useBoolean({ initialValue: true });
+
   useEffect(() => {
     async function loadUploadedImages() {
       if (propertyApiIsSuccess) {
@@ -49,7 +52,7 @@ export function usePhotos() {
             const file = await urlToFile(
               // `/_next/image?url=https://guestay.webarysites.com/data/properties_images/${imageName}&w=64&q=75`,
               // `https://guestay.webarysites.com/data/properties_images/${imageName}`,
-              `https://guestay.webarysites.com/file/0/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${imageName}`,
+              `https://guestay.webarysites.com/file/1000/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${imageName}`,
               imageName,
             );
             console.log("🚀 ~ imageNames.map ~ file:", file);
@@ -57,10 +60,11 @@ export function usePhotos() {
           }),
         );
         setUploadedImages(imageFiles);
+        setImagesAreLoadingFalse();
       }
     }
     loadUploadedImages();
-  }, [propertyApiData, propertyApiIsSuccess]);
+  }, [propertyApiData, propertyApiIsSuccess, setImagesAreLoadingFalse]);
 
   const handleDeleteImage = useCallback((indexToDelete: number) => {
     setUploadedImages((prevImages) =>
@@ -136,10 +140,10 @@ export function usePhotos() {
     });
   };
 
-  const isLoading = propertyApiIsFirstLoading || !uploadedImages;
+  const isLoading = propertyApiIsFirstLoading || imagesAreLoading;
 
   const { Footer, nextUrl } = useFooterProgressBar({
-    isDisabled: isLoading,
+    isDisabled: isLoading || uploadedImages.length < 5,
     isLoading: savePropertyApiIsPending,
     onSubmit: onSubmit,
   });
@@ -157,6 +161,7 @@ export function usePhotos() {
     handleMoveBackwards,
     handleMoveForwards,
     handleUploadImages,
+    isLoading,
     PropertyApiSnackbarAlert,
     SavePropertyApiSnackbarAlert,
     selectedImages,
