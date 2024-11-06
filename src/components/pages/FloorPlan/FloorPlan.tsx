@@ -40,10 +40,12 @@ export function FloorPlan() {
     handleAddBedroom,
     handleDecrease,
     handleIncrease,
+    isLoading,
     PropertyApiSnackbarAlert,
     remove,
     SavePropertyApiSnackbarAlert,
   } = useFloorPlan();
+  console.log("🚀 ~ FloorPlan ~ bedrooms:", bedrooms);
 
   // const [bedroomType, setBedroomType] = useState("");
 
@@ -94,11 +96,11 @@ export function FloorPlan() {
                 <Stack className="w-[6.5rem] flex-row items-center justify-between">
                   <IconButton
                     className={`flex size-8 items-center justify-center border border-solid border-divider ${
-                      counters[floorPlanItem.field] === 0
+                      counters[floorPlanItem.field] === 0 || isLoading
                         ? "pointer-events-none opacity-30"
                         : ""
                     }`}
-                    disabled={counters[floorPlanItem.field] === 0}
+                    disabled={counters[floorPlanItem.field] === 0 || isLoading}
                     onClick={() => handleDecrease(floorPlanItem.field)}
                   >
                     <Image
@@ -109,27 +111,25 @@ export function FloorPlan() {
                     />
                   </IconButton>
                   <Typography>
-                    {displayValue(
-                      counters[floorPlanItem.field],
-                      // floorPlanItem.max,
-                      // floorPlanItem.field,
-                    )}
+                    {displayValue(counters[floorPlanItem.field])}
                   </Typography>
                   <IconButton
                     className={`flex size-8 items-center justify-center border border-solid border-divider ${
-                      counters[floorPlanItem.field] === floorPlanItem.max
+                      counters[floorPlanItem.field] === floorPlanItem.max ||
+                      isLoading
                         ? "pointer-events-none opacity-30"
                         : ""
                     }`}
                     disabled={
-                      counters[floorPlanItem.field] === floorPlanItem.max
+                      counters[floorPlanItem.field] === floorPlanItem.max ||
+                      isLoading
                     }
                     onClick={() =>
                       handleIncrease(floorPlanItem.field, floorPlanItem.max)
                     }
                   >
                     <Image
-                      alt="Minue"
+                      alt="Plus"
                       height={12}
                       src="/images/plus.svg"
                       width={12}
@@ -150,7 +150,7 @@ export function FloorPlan() {
                   <TextFieldWrapper
                     control={control}
                     label="Bedroom Name"
-                    name={`bedrooms.${index}.bedroomName`}
+                    name={`bedrooms.${index}.name`}
                   />
                 </Grid2>
                 <Grid2 size={6}>
@@ -158,14 +158,13 @@ export function FloorPlan() {
                     <InputLabel>Bedroom Count</InputLabel>
                     <Controller
                       control={control}
-                      name={`bedrooms.${index}.bedroomCount`}
+                      name={`bedrooms.${index}.bed_count`}
                       render={({ field }) => (
                         <Select
                           {...field}
                           className="bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none"
                           IconComponent={KeyboardArrowDownIcon}
                           label="Bedroom Count"
-                          // value={bedroomType}
                           // onChange={handleChange}
                         >
                           <MenuItem value="1">Count as full bedroom</MenuItem>
@@ -179,7 +178,7 @@ export function FloorPlan() {
                 <Grid2 size={bedrooms.length > 1 ? 11 : 12}>
                   <Controller
                     control={control}
-                    name={`bedrooms.${index}.bedroomTypes`}
+                    name={`bedrooms.${index}.type`}
                     render={({ field }) => (
                       <Autocomplete
                         {...field}
@@ -250,7 +249,11 @@ export function FloorPlan() {
             ))}
           </Box>
           <Box className="mt-6" size={12}>
-            <Button variant="contained" onClick={handleAddBedroom}>
+            <Button
+              disabled={isLoading}
+              variant="contained"
+              onClick={handleAddBedroom}
+            >
               Add Bedroom
             </Button>
           </Box>

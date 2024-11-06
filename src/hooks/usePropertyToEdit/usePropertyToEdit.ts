@@ -19,7 +19,6 @@ export function usePropertyToEdit() {
     isSuccess: propertyApiIsSuccess,
     SnackbarAlert: PropertyApiSnackbarAlert,
   } = useQuery<propertyApiResponseType, Error, propertyApiResponseType>({
-    initialData: { data: [] },
     queryFn: () => {
       return propertyApi({
         data: {

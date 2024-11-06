@@ -32,7 +32,13 @@ export function usePrice() {
 
   useEffect(() => {
     if (propertyApiIsSuccess) {
-      setValue(propertyApiData?.data[0]?.weekdays_price || "");
+      let price = "0";
+      if (propertyApiData?.data?.property[0].weekdays_price) {
+        price = formatNumberWithCommas(
+          String(parseInt(propertyApiData?.data?.property[0].weekdays_price)),
+        );
+      }
+      setValue(price);
     }
   }, [propertyApiData, propertyApiIsSuccess]);
 

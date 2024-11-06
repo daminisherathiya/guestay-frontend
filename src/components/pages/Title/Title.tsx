@@ -51,7 +51,7 @@ export function Title() {
                 onChange={handleTitleChange}
               />
               <Typography className="pt-4 text-text-secondary" variant="body2">
-                {title.length}/32
+                {title.length}/50
               </Typography>
             </>
           )}

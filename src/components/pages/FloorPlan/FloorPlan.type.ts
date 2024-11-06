@@ -11,9 +11,9 @@ export interface CounterState {
 
 export interface BedroomFormValues {
   bedrooms: {
-    bedroomCount: string;
-    bedroomName: string;
-    bedroomTypes: { id: string; num_of_beds: string; num_of_people: string }[];
-    displayOrder: string;
+    bed_count: string;
+    display_order: string;
+    name: string;
+    type: { id: string; num_of_beds: string; num_of_people: string }[];
   }[];
 }

@@ -78,33 +78,28 @@ export function useFloorPlan() {
     });
   };
 
-  const displayValue = (
-    value: number,
-    // max: number,
-    // field: keyof CounterState,
-  ) => {
+  const displayValue = (value: number) => {
     return value;
-    // return field === "guests" && value === max ? `${value}+` : value;
   };
 
   const { control, watch, setValue } = useForm<BedroomFormValues>({
     defaultValues: {
       bedrooms: [
         {
-          bedroomCount: "1",
-          bedroomName: "Bedroom 1",
-          bedroomTypes: [],
-          displayOrder: "0",
+          bed_count: "0",
+          display_order: "0",
+          name: "Bedroom 1",
+          type: [],
         },
       ],
     },
     mode: "onChange",
   });
-  const watchedBedrooms = watch("bedrooms") as BedroomFormValues["bedrooms"];
-  console.log("🚀 ~ Watched Bedrooms:", watchedBedrooms);
+  const bedrooms = watch("bedrooms") as BedroomFormValues["bedrooms"];
+  console.log("🚀 ~ bedrooms:", bedrooms);
 
   const {
-    fields: bedrooms,
+    // fields: bedrooms,
     append,
     remove,
   } = useFieldArray({
@@ -115,31 +110,32 @@ export function useFloorPlan() {
   const handleAddBedroom = () => {
     console.log("🚀 ~ handleAddBedroom ~ bedrooms.length:", bedrooms.length);
     append({
-      bedroomCount: "1",
-      bedroomName: `Bedroom ${bedrooms.length + 1}`,
-      bedroomTypes: [],
-      displayOrder: String(bedrooms.length),
+      bed_count: "0",
+      display_order: String(bedrooms.length),
+      name: `Bedroom ${bedrooms.length + 1}`,
+      type: [],
     });
   };
 
   useEffect(() => {
     if (propertyApiIsSuccess) {
-      console.log(
-        "🚀 ~ useEffect ~ propertyApiData:",
-        propertyApiData?.data[0],
-      );
       setCounters({
-        bathrooms: propertyApiData?.data[0]?.bedrooms
-          ? Number(propertyApiData?.data[0]?.bedrooms)
+        bathrooms: propertyApiData?.data?.property[0].baths
+          ? Number(propertyApiData?.data?.property[0].baths)
           : 0,
-        cribs: propertyApiData?.data[0]?.cribs
-          ? Number(propertyApiData?.data[0]?.cribs)
+        cribs: propertyApiData?.data?.property[0].cribs
+          ? Number(propertyApiData?.data?.property[0].cribs)
           : 0,
       });
+      console.log(
+        "🚀 ~ useEffect ~ JSON.parse(propertyApiData?.data?.property[0]?.bedrooms_info || '[]'):",
+        JSON.parse(propertyApiData?.data?.property[0]?.bedrooms_info || "[]"),
+      );
       setValue(
         "bedrooms",
-        JSON.parse(propertyApiData?.data[0]?.bedrooms_info || "[]"),
+        JSON.parse(propertyApiData?.data?.property[0]?.bedrooms_info || "[]"),
       );
+      // setValue("bedrooms", []);
     }
   }, [propertyApiData, propertyApiIsSuccess, setValue]);
 
@@ -165,22 +161,24 @@ export function useFloorPlan() {
     savePropertyApiMutate({
       data: {
         baths: counters.bathrooms,
-        bedrooms: watchedBedrooms.length,
-        bedroomsInfo: JSON.stringify(watchedBedrooms),
-        beds: watchedBedrooms.reduce((total, bedroom) => {
-          return total + Number(bedroom.bedroomCount);
+        bedrooms: bedrooms.reduce((total, bedroom) => {
+          return total + bedroom.bed_count !== "0" ? 1 : 0;
+        }, 0),
+        bedroomsInfo: JSON.stringify(bedrooms),
+        beds: bedrooms.reduce((total, bedroom) => {
+          return total + Number(bedroom.bed_count);
         }, 0),
         cribs: counters.cribs,
         listingStep: "bedroom_info",
         noOfChildren: counters.cribs,
-        noOfCouples: watchedBedrooms.reduce((total, bedroom) => {
-          const coupleBeds = bedroom.bedroomTypes.filter(
+        noOfCouples: bedrooms.reduce((total, bedroom) => {
+          const coupleBeds = bedroom.type.filter(
             (bedType) => bedType.num_of_people === "2",
           ).length;
           return total + coupleBeds;
         }, 0),
-        numOfPeople: watchedBedrooms.reduce((total, bedroom) => {
-          const coupleBeds = bedroom.bedroomTypes.filter(
+        numOfPeople: bedrooms.reduce((total, bedroom) => {
+          const coupleBeds = bedroom.type.filter(
             (bedType) => bedType.num_of_people !== "2",
           ).length;
           return total + coupleBeds;
@@ -219,6 +217,7 @@ export function useFloorPlan() {
     handleAddBedroom,
     handleDecrease,
     handleIncrease,
+    isLoading,
     PropertyApiSnackbarAlert,
     remove,
     SavePropertyApiSnackbarAlert,

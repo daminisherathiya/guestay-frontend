@@ -29,7 +29,7 @@ export function useStructure() {
 
   useEffect(() => {
     if (propertyApiIsSuccess) {
-      setSelectedOption(propertyApiData?.data[0]?.type || null);
+      setSelectedOption(propertyApiData?.data.property[0].type || null);
     }
   }, [propertyApiData, propertyApiIsSuccess]);
 

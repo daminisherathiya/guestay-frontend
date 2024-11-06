@@ -10,6 +10,8 @@ import {
   getUserDetails,
 } from "@/utils/localStorage/localStorage";
 
+import { urlToFile } from "./Photos.utils";
+
 export function usePhotos() {
   const {
     value: uploadPhotosDialogIsOpen,
@@ -18,9 +20,9 @@ export function usePhotos() {
   } = useBoolean({ initialValue: false });
 
   const {
-    // propertyApiData,
+    propertyApiData,
     propertyApiIsFirstLoading,
-    // propertyApiIsSuccess,
+    propertyApiIsSuccess,
     PropertyApiSnackbarAlert,
     savePropertyApiIsPending,
     savePropertyApiIsSuccess,
@@ -34,11 +36,25 @@ export function usePhotos() {
 
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
 
-  // useEffect(() => {
-  //   if (propertyApiIsSuccess) {
-  //     // setUploadedImages(propertyApiData?.data[0]?.images.split(",") || []);
-  //   }
-  // }, [propertyApiData, propertyApiIsSuccess]);
+  useEffect(() => {
+    async function loadUploadedImages() {
+      if (propertyApiIsSuccess) {
+        const imageNames =
+          propertyApiData?.data?.property[0].images.split(",") || [];
+
+        const imageFiles = await Promise.all(
+          imageNames.map((imageName) =>
+            urlToFile(
+              `https://guestay.webarysites.com/data/properties_images/${imageName}`,
+              imageName,
+            ),
+          ),
+        );
+        setUploadedImages(imageFiles);
+      }
+    }
+    loadUploadedImages();
+  }, [propertyApiData, propertyApiIsSuccess]);
 
   const handleDeleteImage = useCallback((indexToDelete: number) => {
     setUploadedImages((prevImages) =>

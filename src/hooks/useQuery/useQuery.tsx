@@ -26,8 +26,10 @@ export function useQuery<TQueryFnData, TError extends Error, TData>(
   } = customOptions || {};
 
   const mergedQueryOptions = {
+    cacheTime: 0,
     refetchOnWindowFocus: false,
     retry: 0,
+    staleTime: 0,
     ...useQueryOptions,
   };
 

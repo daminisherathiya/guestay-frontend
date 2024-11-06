@@ -66,6 +66,7 @@ export function LoginDialog({
                   label="Password"
                   name="password"
                   rules={{ required: "Password is required" }}
+                  type="password"
                 />
               </Grid2>
             </Grid2>

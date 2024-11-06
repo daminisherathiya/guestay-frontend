@@ -11,6 +11,7 @@ import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
+import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { NUMBER_OF_PROPERTIES_TO_SHOW } from "./ListingHome.const";
 import { useListingHome } from "./ListingHome.hook";
@@ -72,7 +73,7 @@ export function ListingHome() {
       <Container maxWidth="2xl">
         <Box className="mx-auto max-w-2xl">
           <Typography className="mb-8" component="h1" variant="h1">
-            Welcome back, Damini
+            Welcome back, {getUserDetails().fname}
           </Typography>
           <Typography className="mb-4" component="h2" variant="h2">
             Finish your listing

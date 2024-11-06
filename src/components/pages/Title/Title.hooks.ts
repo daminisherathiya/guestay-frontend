@@ -25,16 +25,16 @@ export function useTitle() {
 
   useEffect(() => {
     if (propertyApiIsSuccess) {
-      setTitle(propertyApiData?.data[0]?.title || "");
+      setTitle(propertyApiData?.data?.property[0].title || "");
     }
   }, [propertyApiData, propertyApiIsSuccess]);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value;
-    if (newValue.length <= 32) {
+    if (newValue.length <= 50) {
       setTitle(newValue);
     } else {
-      setTitle(newValue.slice(0, 32));
+      setTitle(newValue.slice(0, 50));
     }
   };
 

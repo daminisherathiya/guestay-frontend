@@ -25,7 +25,7 @@ export function useDescription() {
 
   useEffect(() => {
     if (propertyApiIsSuccess) {
-      setDescription(propertyApiData?.data[0]?.description || "");
+      setDescription(propertyApiData?.data?.property[0].description || "");
     }
   }, [propertyApiData, propertyApiIsSuccess]);
 

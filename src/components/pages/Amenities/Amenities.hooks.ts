@@ -28,7 +28,9 @@ export function useAmenities() {
 
   useEffect(() => {
     if (propertyApiIsSuccess) {
-      setSelectedOptions(propertyApiData?.data[0]?.amenities.split(",") || []);
+      setSelectedOptions(
+        propertyApiData?.data.property[0].amenities.split(",") || [],
+      );
     }
   }, [propertyApiData, propertyApiIsSuccess]);
 

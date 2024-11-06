@@ -9,7 +9,7 @@ export interface propertyApiType {
 
 export interface PropertyType {
   amenities: string;
-  bedrooms: string;
+  baths: string;
   bedrooms_info: string;
   cribs: string;
   description: string;
@@ -22,5 +22,8 @@ export interface PropertyType {
 }
 
 export interface propertyApiResponseType {
-  data: PropertyType[];
+  data: {
+    discount: string;
+    property: PropertyType[];
+  };
 }
