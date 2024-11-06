@@ -159,19 +159,26 @@ export function FloorPlan() {
                     <Controller
                       control={control}
                       name={`bedrooms.${index}.bed_count`}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          className="bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none"
-                          IconComponent={KeyboardArrowDownIcon}
-                          label="Bedroom Count"
-                          // onChange={handleChange}
-                        >
-                          <MenuItem value="1">Count as full bedroom</MenuItem>
-                          <MenuItem value="0.5">Count as half bedroom</MenuItem>
-                          <MenuItem value="0">Do not count as bedroom</MenuItem>
-                        </Select>
-                      )}
+                      render={({ field }) => {
+                        console.log("🚀 ~ FloorPlan ~ field:", field);
+                        return (
+                          <Select
+                            {...field}
+                            className="bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none"
+                            IconComponent={KeyboardArrowDownIcon}
+                            label="Bedroom Count"
+                            // onChange={handleChange}
+                          >
+                            <MenuItem value="1">Count as full bedroom</MenuItem>
+                            <MenuItem value="0.5">
+                              Count as half bedroom
+                            </MenuItem>
+                            <MenuItem value="0">
+                              Do not count as bedroom
+                            </MenuItem>
+                          </Select>
+                        );
+                      }}
                     />
                   </FormControl>
                 </Grid2>

@@ -39,16 +39,22 @@ export function usePhotos() {
   useEffect(() => {
     async function loadUploadedImages() {
       if (propertyApiIsSuccess) {
-        const imageNames =
-          propertyApiData?.data?.property[0].images.split(",") || [];
+        const imageNames = propertyApiData?.data?.property[0].images
+          ? propertyApiData?.data?.property[0].images.split(",")
+          : [];
 
         const imageFiles = await Promise.all(
-          imageNames.map((imageName) =>
-            urlToFile(
-              `https://guestay.webarysites.com/data/properties_images/${imageName}`,
+          imageNames.map(async (imageName) => {
+            console.log("🚀 ~ imageNames.map ~ imageName:", imageName);
+            const file = await urlToFile(
+              // `/_next/image?url=https://guestay.webarysites.com/data/properties_images/${imageName}&w=64&q=75`,
+              // `https://guestay.webarysites.com/data/properties_images/${imageName}`,
+              `https://guestay.webarysites.com/file/0/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${imageName}`,
               imageName,
-            ),
-          ),
+            );
+            console.log("🚀 ~ imageNames.map ~ file:", file);
+            return file;
+          }),
         );
         setUploadedImages(imageFiles);
       }

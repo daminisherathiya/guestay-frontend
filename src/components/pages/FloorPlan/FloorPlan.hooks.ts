@@ -82,11 +82,11 @@ export function useFloorPlan() {
     return value;
   };
 
-  const { control, watch, setValue } = useForm<BedroomFormValues>({
+  const { control, watch, reset } = useForm<BedroomFormValues>({
     defaultValues: {
       bedrooms: [
         {
-          bed_count: "0",
+          bed_count: "1",
           display_order: "0",
           name: "Bedroom 1",
           type: [],
@@ -96,21 +96,16 @@ export function useFloorPlan() {
     mode: "onChange",
   });
   const bedrooms = watch("bedrooms") as BedroomFormValues["bedrooms"];
-  console.log("🚀 ~ bedrooms:", bedrooms);
+  console.log("🚀 ~ useFloorPlan ~ bedrooms:", bedrooms);
 
-  const {
-    // fields: bedrooms,
-    append,
-    remove,
-  } = useFieldArray({
+  const { append, remove } = useFieldArray({
     control,
     name: "bedrooms",
   });
 
   const handleAddBedroom = () => {
-    console.log("🚀 ~ handleAddBedroom ~ bedrooms.length:", bedrooms.length);
     append({
-      bed_count: "0",
+      bed_count: "1",
       display_order: String(bedrooms.length),
       name: `Bedroom ${bedrooms.length + 1}`,
       type: [],
@@ -127,17 +122,13 @@ export function useFloorPlan() {
           ? Number(propertyApiData?.data?.property[0].cribs)
           : 0,
       });
-      console.log(
-        "🚀 ~ useEffect ~ JSON.parse(propertyApiData?.data?.property[0]?.bedrooms_info || '[]'):",
-        JSON.parse(propertyApiData?.data?.property[0]?.bedrooms_info || "[]"),
+      const bedrooms = JSON.parse(
+        propertyApiData?.data?.property[0]?.bedrooms_info || "[]",
       );
-      setValue(
-        "bedrooms",
-        JSON.parse(propertyApiData?.data?.property[0]?.bedrooms_info || "[]"),
-      );
-      // setValue("bedrooms", []);
+      console.log("🚀 ~ useEffect ~ bedrooms:", bedrooms);
+      reset({ bedrooms: bedrooms });
     }
-  }, [propertyApiData, propertyApiIsSuccess, setValue]);
+  }, [propertyApiData, propertyApiIsSuccess, reset]);
 
   ////////
 

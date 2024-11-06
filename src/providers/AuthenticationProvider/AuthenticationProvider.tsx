@@ -37,8 +37,6 @@ export const AuthenticationProvider = ({
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [userDetails, setUserDetails] = useState<UserDataType | null>(null);
 
-  console.log("🚀 ~ isAuthenticated:", isAuthenticated);
-
   useEffect(() => {
     const authenticationTokenIsPresent = hasAuthenticationToken();
     const useDetials = getUserDetails();

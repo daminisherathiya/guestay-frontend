@@ -28,7 +28,7 @@ export function FileUploadButton({
         {children}
         <input
           multiple
-          accept=".png,.jpg,.jpeg,.webp"
+          accept=".png,.jpg,.jpeg"
           className="absolute bottom-0 left-0 size-px overflow-hidden whitespace-nowrap"
           type="file"
           onChange={handleFileChange}

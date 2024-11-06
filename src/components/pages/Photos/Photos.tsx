@@ -84,8 +84,11 @@ export function Photos() {
           {uploadedImages && uploadedImages.length > 0 ? (
             <Grid2 container spacing={2}>
               {uploadedImages.map((image, index) => {
-                const imageUrl = `https://guestay.webarysites.com/data/properties_images/${image.name}`;
-                console.log("🚀 ~ {uploadedImages.map ~ imageUrl:", imageUrl);
+                // const imageUrl = `https://guestay.webarysites.com/data/properties_images/${image.name}`;
+                const imageUrl = URL.createObjectURL(image);
+                console.log("🚀 ~ uploadedImages.map ~ image:", image);
+                console.log("🚀 ~ uploadedImages.map ~ imageUrl:", imageUrl);
+
                 return (
                   <Grid2
                     key={index}
