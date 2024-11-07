@@ -13,7 +13,7 @@ import {
   setPropertyIdToEdit as setPropertyIdToEditInLocalStorage,
 } from "@/utils/localStorage/localStorage";
 
-import { currentStepToNextStepUrl } from "./ListingHome.const";
+import { getNextListingStepUrl } from "./ListingHome.utils";
 
 export function useListingHome() {
   const router = useRouter();
@@ -26,15 +26,15 @@ export function useListingHome() {
     listingSteps,
     propertyIdToEdit,
   }: {
-    listingSteps: string;
+    listingSteps: string | null;
     propertyIdToEdit: string;
   }) => {
-    console.log("🚀 ~ useListingHome ~ listingSteps:", listingSteps);
-    const listingStepsParts = listingSteps.split(",");
-    const listingStep = listingStepsParts[listingStepsParts.length - 1];
+    const nextListingStepUrl = getNextListingStepUrl({
+      providedListingSteps: listingSteps || "",
+    });
 
     setPropertyIdToEditInLocalStorage({ propertyIdToEdit });
-    router.push(currentStepToNextStepUrl[listingStep]);
+    router.push(nextListingStepUrl);
   };
 
   const {
@@ -55,7 +55,9 @@ export function useListingHome() {
 
   const listingProperties = useMemo(() => {
     return (listingPropertiesApiData?.data || []).filter(
-      (listingProperty) => !listingProperty.listing_steps.includes("draft"),
+      (listingProperty) =>
+        listingProperty.status === "draft" &&
+        !(listingProperty.listing_steps || "").includes("draft"),
     );
   }, [listingPropertiesApiData]);
 
