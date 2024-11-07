@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react";
 
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { useFieldArray, useForm } from "react-hook-form";
 
 import { bedTypesApi } from "@/apis/property/bedTypesApi";
-import { bedTypesApiResponseType } from "@/apis/property/bedTypesApi/bedTypesApi.type";
-import { useFooterProgressBar } from "@/hooks/useFooterProgressBarProps";
+import { bedTypesApiResponseType } from "@/apis/property/bedTypesApi/bedTypesApi.types";
+import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
 import { useQuery } from "@/hooks/useQuery";
-import {
-  getPropertyIdToEdit,
-  getUserDetails,
-} from "@/utils/localStorage/localStorage";
+import { getUserDetails } from "@/utils/localStorage/localStorage";
 
-import { BedroomFormValues, CounterState } from "./FloorPlan.type";
+import { BedroomFormValues, CounterState } from "./FloorPlan.types";
 
 export function useFloorPlan() {
+  const { propertyId }: { propertyId: string } = useParams();
+
   const {
     propertyApiData,
     propertyApiIsFirstLoading,
@@ -174,7 +173,7 @@ export function useFloorPlan() {
           ).length;
           return total + coupleBeds;
         }, 0),
-        propertyId: getPropertyIdToEdit() as string,
+        propertyId: propertyId,
         userId: getUserDetails().id,
       },
     });

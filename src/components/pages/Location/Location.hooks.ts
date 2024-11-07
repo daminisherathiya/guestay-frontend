@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { useForm } from "react-hook-form";
 
@@ -8,20 +8,19 @@ import { locationsApi } from "@/apis/property/locationsApi";
 import {
   LocationType,
   locationsAPIResponseType,
-} from "@/apis/property/locationsApi/locationsApi.type";
-import { useFooterProgressBar } from "@/hooks/useFooterProgressBarProps";
+} from "@/apis/property/locationsApi/locationsApi.types";
+import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
 import { useQuery } from "@/hooks/useQuery";
 import { type AddressDetailsType } from "@/types/Location.types";
-import {
-  getPropertyIdToEdit,
-  getUserDetails,
-} from "@/utils/localStorage/localStorage";
+import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { INITIAL_MAP_POSITION } from "./components/DraggableMap/DraggableMap.consts";
 import { LocationFormType } from "./Location.types";
 
 export function useLocation() {
+  const { propertyId }: { propertyId: string } = useParams();
+
   const {
     propertyApiData,
     propertyApiIsFirstLoading,
@@ -142,7 +141,7 @@ export function useLocation() {
         listingStep: "location",
         location: locationId as string,
         longitude: longitude || INITIAL_MAP_POSITION.lng,
-        propertyId: getPropertyIdToEdit() as string,
+        propertyId: propertyId,
         userId: getUserDetails().id,
       },
     });

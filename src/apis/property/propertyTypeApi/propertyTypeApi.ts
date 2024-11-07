@@ -1,6 +1,6 @@
 import { axiosApi } from "@/axios/axios";
 
-import { propertyTypeApiType } from "./propertyTypeApi.type";
+import { propertyTypeApiType } from "./propertyTypeApi.types";
 
 export const propertyTypeApi = async ({ data }: propertyTypeApiType) => {
   return await axiosApi({

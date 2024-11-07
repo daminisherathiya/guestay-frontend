@@ -4,9 +4,9 @@ import { amenitiesApi } from "@/apis/property/amenitiesApi";
 import {
   AmeinityType,
   amenitiesAPIResponseType,
-} from "@/apis/property/amenitiesApi/amenitiesApi.type";
+} from "@/apis/property/amenitiesApi/amenitiesApi.types";
 import { locationsApi } from "@/apis/property/locationsApi";
-import { locationsAPIResponseType } from "@/apis/property/locationsApi/locationsApi.type";
+import { locationsAPIResponseType } from "@/apis/property/locationsApi/locationsApi.types";
 import { useQuery } from "@/hooks/useQuery";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 

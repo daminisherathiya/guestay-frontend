@@ -1,5 +1,7 @@
+import { useParams } from "next/navigation";
+
 import { propertyApi } from "@/apis/property/propertyApi";
-import { propertyApiResponseType } from "@/apis/property/propertyApi/propertyApi.type";
+import { propertyApiResponseType } from "@/apis/property/propertyApi/propertyApi.types";
 import { savePropertyApi } from "@/apis/property/savePropertyApi";
 import {
   SavePropertyAPIResponseType,
@@ -7,12 +9,11 @@ import {
 } from "@/apis/property/savePropertyApi/savePropertyApi.types";
 import { useQuery } from "@/hooks//useQuery";
 import { useMutation } from "@/hooks/useMutation";
-import {
-  getPropertyIdToEdit,
-  getUserDetails,
-} from "@/utils/localStorage/localStorage";
+import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 export function usePropertyToEdit() {
+  const { propertyId }: { propertyId: string } = useParams();
+
   const {
     data: propertyApiData,
     isFirstLoading: propertyApiIsFirstLoading,
@@ -22,12 +23,12 @@ export function usePropertyToEdit() {
     queryFn: () => {
       return propertyApi({
         data: {
-          propertyId: getPropertyIdToEdit() as string,
+          propertyId: propertyId,
           userId: getUserDetails().id,
         },
       });
     },
-    queryKey: ["property", getPropertyIdToEdit()],
+    queryKey: ["property", propertyId],
   });
 
   const {

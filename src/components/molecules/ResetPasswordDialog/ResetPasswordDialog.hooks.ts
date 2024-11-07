@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import { changePasswordApi } from "@/apis/account/changePasswordApi";
-import { changePasswordApiDataType } from "@/apis/account/changePasswordApi/changePasswordApi.type";
+import { changePasswordApiDataType } from "@/apis/account/changePasswordApi/changePasswordApi.types";
 import { useMutation } from "@/hooks/useMutation";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 

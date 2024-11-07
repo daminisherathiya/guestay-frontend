@@ -7,7 +7,3 @@ export interface setAuthenticationTokenType {
 export interface setUserDetailsType {
   userDetails: UserDataType;
 }
-
-export interface setPropertyIdToEditType {
-  propertyIdToEdit: string;
-}

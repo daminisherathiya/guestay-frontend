@@ -1,20 +1,19 @@
 import { useEffect } from "react";
 
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { useForm } from "react-hook-form";
 
 import { useBoolean } from "@/hooks/useBoolean/useBoolean";
-import { useFooterProgressBar } from "@/hooks/useFooterProgressBarProps";
+import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
-import {
-  getPropertyIdToEdit,
-  getUserDetails,
-} from "@/utils/localStorage/localStorage";
+import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { DiscountFormType } from "./Discount.types";
 
 export function useDiscount() {
+  const { propertyId }: { propertyId: string } = useParams();
+
   const {
     value: discountsDialogIsOpen,
     setTrue: setDiscountsDialogIsOpenTrue,
@@ -139,7 +138,7 @@ export function useDiscount() {
             : undefined,
         discountRate: [watch("weeklyDiscount"), watch("monthlyDiscount")],
         listingStep: "discount",
-        propertyId: getPropertyIdToEdit() as string,
+        propertyId: propertyId,
         userId: getUserDetails().id,
       },
     });

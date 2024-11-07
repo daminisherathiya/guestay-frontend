@@ -1,18 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { useBoolean } from "@/hooks/useBoolean/useBoolean";
-import { useFooterProgressBar } from "@/hooks/useFooterProgressBarProps";
+import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
-import {
-  getPropertyIdToEdit,
-  getUserDetails,
-} from "@/utils/localStorage/localStorage";
+import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { urlToFile } from "./Photos.utils";
 
 export function usePhotos() {
+  const { propertyId }: { propertyId: string } = useParams();
+
   const {
     value: uploadPhotosDialogIsOpen,
     setTrue: setUploadPhotosDialogIsOpenTrue,
@@ -134,7 +133,7 @@ export function usePhotos() {
       data: {
         images: uploadedImages,
         listingStep: "images",
-        propertyId: getPropertyIdToEdit() as string,
+        propertyId: propertyId,
         userId: getUserDetails().id,
       },
     });

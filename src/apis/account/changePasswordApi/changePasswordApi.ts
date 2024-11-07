@@ -1,6 +1,6 @@
 import { axiosApi } from "@/axios";
 
-import { changePasswordApiType } from "./changePasswordApi.type";
+import { changePasswordApiType } from "./changePasswordApi.types";
 
 export const changePasswordApi = async ({ data }: changePasswordApiType) => {
   return await axiosApi({

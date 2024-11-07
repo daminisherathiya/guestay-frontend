@@ -7,7 +7,7 @@ import { Box } from "@/components/atoms/Box";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-import { paginationModel, rows } from "./ListingsListView.const";
+import { paginationModel, rows } from "./ListingsListView.consts";
 import { ListingsListViewProps } from "./ListingsListView.types";
 
 const columns: GridColDef[] = [

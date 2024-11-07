@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-import { useFooterProgressBar } from "@/hooks/useFooterProgressBarProps";
+import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 
 export function useStaticFooter() {
   const router = useRouter();

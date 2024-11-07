@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
-import { PropertyType } from "@/apis/property/propertyApi/propertyApi.type";
+import { PropertyType } from "@/apis/property/propertyApi/propertyApi.types";
 import { useBoolean } from "@/hooks/useBoolean/useBoolean";
-import { useFooterProgressBar } from "@/hooks/useFooterProgressBarProps";
+import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
-import {
-  getPropertyIdToEdit,
-  getUserDetails,
-} from "@/utils/localStorage/localStorage";
+import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 export function useReceipt() {
+  const { propertyId }: { propertyId: string } = useParams();
+
   const {
     propertyApiData,
     propertyApiIsFirstLoading,
@@ -45,7 +44,7 @@ export function useReceipt() {
     savePropertyApiMutate({
       data: {
         listingStep: "draft",
-        propertyId: getPropertyIdToEdit() as string,
+        propertyId: propertyId,
         userId: getUserDetails().id,
       },
     });

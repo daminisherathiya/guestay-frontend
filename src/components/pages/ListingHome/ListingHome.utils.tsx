@@ -1,4 +1,8 @@
-import { ALL_LISTING_STEPS, LISTING_STEP_TO_URL } from "./ListingHome.const";
+import {
+  ALL_LISTING_STEPS,
+  LISTING_STEP_TO_URL,
+  PROPERTY_ID_STR,
+} from "./ListingHome.consts";
 import {
   findFirstMissingListingStepType,
   getNextListingStepUrlType,
@@ -19,8 +23,12 @@ export const findFirstMissingListingStep = ({
 };
 
 export const getNextListingStepUrl = ({
+  propertyIdToEdit,
   providedListingSteps,
 }: getNextListingStepUrlType) => {
-  const nextListingStep = findFirstMissingListingStep({ providedListingSteps });
-  return LISTING_STEP_TO_URL[nextListingStep];
+  const nextListingStep = findFirstMissingListingStep({
+    providedListingSteps,
+  });
+  const nextListingStepMaskedUrl = LISTING_STEP_TO_URL[nextListingStep];
+  return nextListingStepMaskedUrl.replace(PROPERTY_ID_STR, propertyIdToEdit);
 };

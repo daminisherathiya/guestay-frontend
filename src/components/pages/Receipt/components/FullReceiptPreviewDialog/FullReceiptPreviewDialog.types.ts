@@ -1,4 +1,4 @@
-import { PropertyType } from "@/apis/property/propertyApi/propertyApi.type";
+import { PropertyType } from "@/apis/property/propertyApi/propertyApi.types";
 
 export interface FullReceiptPreviewDialogProps {
   coverImage: string;

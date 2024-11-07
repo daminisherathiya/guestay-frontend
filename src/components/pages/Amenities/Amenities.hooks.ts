@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { amenitiesApi } from "@/apis/property/amenitiesApi";
-import { amenitiesAPIResponseType } from "@/apis/property/amenitiesApi/amenitiesApi.type";
-import { useFooterProgressBar } from "@/hooks/useFooterProgressBarProps";
+import { amenitiesAPIResponseType } from "@/apis/property/amenitiesApi/amenitiesApi.types";
+import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
 import { useQuery } from "@/hooks/useQuery";
-import {
-  getPropertyIdToEdit,
-  getUserDetails,
-} from "@/utils/localStorage/localStorage";
+import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 export function useAmenities() {
+  const { propertyId }: { propertyId: string } = useParams();
+
   const {
     propertyApiData,
     propertyApiIsFirstLoading,
@@ -68,7 +67,7 @@ export function useAmenities() {
       data: {
         amenities: selectedOptions.join(","),
         listingStep: "amenities",
-        propertyId: getPropertyIdToEdit() as string,
+        propertyId: propertyId,
         userId: getUserDetails().id,
       },
     });

@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { propertyTypeApi } from "@/apis/property/propertyTypeApi";
-import { propertyTypeApiResponseType } from "@/apis/property/propertyTypeApi/propertyTypeApi.type";
-import { useFooterProgressBar } from "@/hooks/useFooterProgressBarProps";
+import { propertyTypeApiResponseType } from "@/apis/property/propertyTypeApi/propertyTypeApi.types";
+import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
 import { useQuery } from "@/hooks/useQuery";
-import {
-  getPropertyIdToEdit,
-  getUserDetails,
-} from "@/utils/localStorage/localStorage";
+import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 export function useStructure() {
+  const { propertyId }: { propertyId: string } = useParams();
+
   const {
     propertyApiData,
     propertyApiIsFirstLoading,
@@ -61,7 +60,7 @@ export function useStructure() {
     savePropertyApiMutate({
       data: {
         listingStep: "type",
-        propertyId: getPropertyIdToEdit() as string,
+        propertyId: propertyId,
         type: selectedOption as string,
         userId: getUserDetails().id,
       },

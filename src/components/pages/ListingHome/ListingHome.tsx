@@ -13,14 +13,14 @@ import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
-import { NUMBER_OF_PROPERTIES_TO_SHOW } from "./ListingHome.const";
-import { useListingHome } from "./ListingHome.hook";
+import { NUMBER_OF_PROPERTIES_TO_SHOW } from "./ListingHome.consts";
+import { useListingHome } from "./ListingHome.hooks";
+import { getNextListingStepUrl } from "./ListingHome.utils";
 
 export function ListingHome() {
   const {
     listingProperties,
     listingPropertiesApiIsFirstLoading,
-    setPropertyIdToEdit,
     showMore,
     toggleShowMore,
   } = useListingHome();
@@ -48,10 +48,11 @@ export function ListingHome() {
         className={`w-full justify-start gap-4 rounded-xl p-6 text-start ${showMore && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
         variant="outlined"
         onClick={() => {
-          return setPropertyIdToEdit({
-            listingSteps: listingProperty.listing_steps,
+          const nextListingStepUrl = getNextListingStepUrl({
             propertyIdToEdit: listingProperty.id,
+            providedListingSteps: listingProperty.listing_steps || "",
           });
+          window.open(nextListingStepUrl, "_blank");
         }}
       >
         <Image

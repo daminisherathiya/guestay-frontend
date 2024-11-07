@@ -1,6 +1,6 @@
 import { axiosApi } from "@/axios/axios";
 
-import { locationsApiType } from "./locationsApi.type";
+import { locationsApiType } from "./locationsApi.types";
 
 export const locationsApi = async ({ data }: locationsApiType) => {
   return await axiosApi({

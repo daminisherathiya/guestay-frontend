@@ -2,40 +2,16 @@
 
 import { useMemo } from "react";
 
-import { useRouter } from "next/navigation";
-
 import { listingPropertiesApi } from "@/apis/property/listingPropertiesApi";
-import { listingPropertiesApiResponseType } from "@/apis/property/listingPropertiesApi/listingPropertiesApi.type";
+import { listingPropertiesApiResponseType } from "@/apis/property/listingPropertiesApi/listingPropertiesApi.types";
 import { useQuery } from "@/hooks/useQuery";
 import { useToggle } from "@/hooks/useToggle";
-import {
-  getUserDetails,
-  setPropertyIdToEdit as setPropertyIdToEditInLocalStorage,
-} from "@/utils/localStorage/localStorage";
-
-import { getNextListingStepUrl } from "./ListingHome.utils";
+import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 export function useListingHome() {
-  const router = useRouter();
-
   const { toggle: toggleShowMore, value: showMore } = useToggle({
     initialValue: true,
   });
-
-  const setPropertyIdToEdit = ({
-    listingSteps,
-    propertyIdToEdit,
-  }: {
-    listingSteps: string | null;
-    propertyIdToEdit: string;
-  }) => {
-    const nextListingStepUrl = getNextListingStepUrl({
-      providedListingSteps: listingSteps || "",
-    });
-
-    setPropertyIdToEditInLocalStorage({ propertyIdToEdit });
-    router.push(nextListingStepUrl);
-  };
 
   const {
     data: listingPropertiesApiData,
@@ -65,7 +41,6 @@ export function useListingHome() {
     listingProperties,
     listingPropertiesApiIsFirstLoading,
     ListingPropertiesApiSnackbarAlert,
-    setPropertyIdToEdit,
     showMore,
     toggleShowMore,
   };

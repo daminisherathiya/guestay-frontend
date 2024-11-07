@@ -1,6 +1,6 @@
 import { axiosApi } from "@/axios/axios";
 
-import { bedTypesApiType } from "./bedTypesApi.type";
+import { bedTypesApiType } from "./bedTypesApi.types";
 
 export const bedTypesApi = async ({ data }: bedTypesApiType) => {
   return await axiosApi({

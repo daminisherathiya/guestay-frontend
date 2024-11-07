@@ -3,5 +3,6 @@ export interface findFirstMissingListingStepType {
 }
 
 export interface getNextListingStepUrlType {
+  propertyIdToEdit: string;
   providedListingSteps: string;
 }

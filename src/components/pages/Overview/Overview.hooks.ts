@@ -7,12 +7,9 @@ import {
   SavePropertyAPIResponseType,
   SavePropertyApiType,
 } from "@/apis/property/savePropertyApi/savePropertyApi.types";
-import { useFooterProgressBar } from "@/hooks/useFooterProgressBarProps";
+import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { useMutation } from "@/hooks/useMutation";
-import {
-  getUserDetails,
-  setPropertyIdToEdit,
-} from "@/utils/localStorage/localStorage";
+import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 export function useOverview() {
   const {
@@ -46,10 +43,9 @@ export function useOverview() {
 
   useEffect(() => {
     if (savePropertyApiIsSuccess) {
-      setPropertyIdToEdit({
-        propertyIdToEdit: savePropertyApiData.data.recordId,
-      });
-      router.push(nextUrl);
+      router.push(
+        nextUrl.replace("undefined", savePropertyApiData.data.recordId),
+      );
     }
   }, [nextUrl, router, savePropertyApiIsSuccess, savePropertyApiData]);
 

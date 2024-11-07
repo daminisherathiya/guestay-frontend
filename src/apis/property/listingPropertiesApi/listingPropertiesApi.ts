@@ -1,6 +1,6 @@
 import { axiosApi } from "@/axios/axios";
 
-import { listingPropertiesApiType } from "./listingPropertiesApi.type";
+import { listingPropertiesApiType } from "./listingPropertiesApi.types";
 
 export const listingPropertiesApi = async ({
   data,

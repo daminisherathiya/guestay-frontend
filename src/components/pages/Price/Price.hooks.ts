@@ -1,21 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { globalPricesApi } from "@/apis/property/globalPricesApi";
-import { globalPricesApiResponseType } from "@/apis/property/globalPricesApi/globalPricesApi.type";
+import { globalPricesApiResponseType } from "@/apis/property/globalPricesApi/globalPricesApi.types";
 import { useBoolean } from "@/hooks/useBoolean/useBoolean";
-import { useFooterProgressBar } from "@/hooks/useFooterProgressBarProps";
+import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
 import { useQuery } from "@/hooks/useQuery";
 import { useToggle } from "@/hooks/useToggle/useToggle";
 import { removeLeadingZeros } from "@/utils/common";
-import {
-  getPropertyIdToEdit,
-  getUserDetails,
-} from "@/utils/localStorage/localStorage";
+import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 export function usePrice() {
+  const { propertyId }: { propertyId: string } = useParams();
+
   const [value, setValue] = useState<string>("2,439");
   const [expanded, setExpanded] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -112,7 +111,7 @@ export function usePrice() {
     savePropertyApiMutate({
       data: {
         listingStep: "price",
-        propertyId: getPropertyIdToEdit() as string,
+        propertyId: propertyId,
         userId: getUserDetails().id,
         weekdaysPrice: Number(value.replace(/,/g, "")),
       },
