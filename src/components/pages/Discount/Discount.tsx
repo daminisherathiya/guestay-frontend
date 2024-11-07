@@ -152,7 +152,8 @@ export function Discount() {
                       render={({ field }) => (
                         <Checkbox
                           {...field}
-                          defaultChecked
+                          // defaultChecked
+                          checked={field.value}
                           sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
                         />
                       )}
@@ -216,7 +217,8 @@ export function Discount() {
                       render={({ field }) => (
                         <Checkbox
                           {...field}
-                          defaultChecked
+                          // defaultChecked
+                          checked={field.value}
                           sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
                         />
                       )}

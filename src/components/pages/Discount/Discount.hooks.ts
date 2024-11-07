@@ -41,11 +41,11 @@ export function useDiscount() {
   } = useForm<DiscountFormType>({
     defaultValues: {
       monthlyDiscount: 15,
-      monthlyDiscountChecked: true,
+      monthlyDiscountChecked: false,
       monthlyDiscountId: null,
 
       weeklyDiscount: 8,
-      weeklyDiscountChecked: true,
+      weeklyDiscountChecked: false,
       weeklyDiscountId: null,
     },
     mode: "onChange",
@@ -53,12 +53,12 @@ export function useDiscount() {
 
   useEffect(() => {
     if (propertyApiIsSuccess) {
-      let monthlyDiscount = 0;
-      const monthlyDiscountChecked = true;
+      let monthlyDiscount = 15;
+      let monthlyDiscountChecked = false;
       let monthlyDiscountId = null;
 
-      let weeklyDiscount = 0;
-      const weeklyDiscountChecked = true;
+      let weeklyDiscount = 8;
+      let weeklyDiscountChecked = false;
       let weeklyDiscountId = null;
 
       if (Array.isArray(propertyApiData?.data?.discount)) {
@@ -73,6 +73,9 @@ export function useDiscount() {
         weeklyDiscountId = discountForSevenDays
           ? discountForSevenDays.id
           : null;
+        weeklyDiscountChecked = !!weeklyDiscountId;
+
+        ////////
 
         const discountForTwentyEightDays = discounts.find(
           (discount) => discount.discount_days === "28",
@@ -83,6 +86,7 @@ export function useDiscount() {
         monthlyDiscountId = discountForTwentyEightDays
           ? discountForTwentyEightDays.id
           : null;
+        monthlyDiscountChecked = !!monthlyDiscountId;
       }
 
       console.log("🚀 ~ useEffect ~ weeklyDiscountId:", weeklyDiscountId);
@@ -100,8 +104,20 @@ export function useDiscount() {
     }
   }, [propertyApiData, propertyApiIsSuccess, reset]);
 
+  const weeklyDiscount = watch("weeklyDiscount");
   const weeklyDiscountId = watch("weeklyDiscountId");
+  const weeklyDiscountChecked = watch("weeklyDiscountChecked");
+  console.log(
+    "🚀 ~ useDiscount ~ weeklyDiscountChecked:",
+    weeklyDiscountChecked,
+  );
+  const monthlyDiscount = watch("monthlyDiscount");
   const monthlyDiscountId = watch("monthlyDiscountId");
+  const monthlyDiscountChecked = watch("monthlyDiscountChecked");
+  console.log(
+    "🚀 ~ useDiscount ~ monthlyDiscountChecked:",
+    monthlyDiscountChecked,
+  );
 
   // const handleInput = (
   //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -129,14 +145,26 @@ export function useDiscount() {
   const router = useRouter();
 
   const onSubmit = () => {
+    const discountDays = [];
+    const discountIds = [];
+    const discountRate = [];
+
+    if (weeklyDiscountChecked) {
+      discountDays.push(7);
+      discountIds.push(weeklyDiscountId);
+      discountRate.push(weeklyDiscount);
+    }
+    if (monthlyDiscountChecked) {
+      discountDays.push(28);
+      discountIds.push(monthlyDiscountId);
+      discountRate.push(monthlyDiscount);
+    }
+
     savePropertyApiMutate({
       data: {
-        discountDays: [7, 28],
-        discountIds:
-          weeklyDiscountId !== null && monthlyDiscountId !== null
-            ? [weeklyDiscountId, monthlyDiscountId]
-            : undefined,
-        discountRate: [watch("weeklyDiscount"), watch("monthlyDiscount")],
+        discountDays: discountDays,
+        discountIds: discountIds.length ? discountIds : undefined,
+        discountRate: discountRate,
         listingStep: "discount",
         propertyId: propertyId,
         userId: getUserDetails().id,
@@ -163,8 +191,8 @@ export function useDiscount() {
     discountsDialogIsOpen,
     Footer,
     isLoading,
-    isMonthlyDiscountEnabled: watch("monthlyDiscountChecked"),
-    isWeeklyDiscountEnabled: watch("weeklyDiscountChecked"),
+    isMonthlyDiscountEnabled: monthlyDiscountChecked,
+    isWeeklyDiscountEnabled: weeklyDiscountChecked,
     PropertyApiSnackbarAlert,
     SavePropertyApiSnackbarAlert,
     setDiscountsDialogIsOpenFalse,
