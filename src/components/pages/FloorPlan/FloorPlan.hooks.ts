@@ -81,7 +81,7 @@ export function useFloorPlan() {
     return value;
   };
 
-  const { control, watch, reset } = useForm<BedroomFormValues>({
+  const { control, reset } = useForm<BedroomFormValues>({
     defaultValues: {
       bedrooms: [
         {
