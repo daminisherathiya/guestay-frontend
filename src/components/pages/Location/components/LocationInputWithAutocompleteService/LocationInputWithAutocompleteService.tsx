@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import NearMeIcon from "@mui/icons-material/NearMe";
-import { Avatar } from "@mui/material";
 
+import { Avatar } from "@/components/atoms/Avatar";
 import { Button } from "@/components/atoms/Button";
 import { Paper } from "@/components/atoms/Paper";
 import { Popper } from "@/components/atoms/Popper/Popper";

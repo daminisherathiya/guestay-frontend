@@ -2,12 +2,11 @@
 
 import Image from "next/image";
 
-import { Skeleton } from "@mui/material";
-
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
 import { Grid2 } from "@/components/atoms/Grid2";
+import { Skeleton } from "@/components/atoms/Skeleton";
 import { Typography } from "@/components/atoms/Typography";
 
 import { useAmenities } from "./Amenities.hooks";

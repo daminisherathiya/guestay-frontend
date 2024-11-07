@@ -3,12 +3,12 @@
 import Image from "next/image";
 
 import StarIcon from "@mui/icons-material/Star";
-import { Skeleton } from "@mui/material";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
 import { Grid2 } from "@/components/atoms/Grid2";
+import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 

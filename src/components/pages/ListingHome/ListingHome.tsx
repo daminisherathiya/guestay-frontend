@@ -4,11 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { Skeleton } from "@mui/material";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
+import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 import { getUserDetails } from "@/utils/localStorage/localStorage";

@@ -1,5 +1,4 @@
-import { Box } from "@mui/material";
-
+import { Box } from "@/components/atoms/Box";
 import { Typography } from "@/components/atoms/Typography";
 import { DialogWrapper } from "@/components/molecules/DialogWrapper/DialogWrapper";
 

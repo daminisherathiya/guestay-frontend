@@ -1,10 +1,12 @@
 "use client";
 
-import { Button, Checkbox, Skeleton } from "@mui/material";
 import { Controller } from "react-hook-form";
 
 import { Box } from "@/components/atoms/Box";
+import { Button } from "@/components/atoms/Button";
+import { Checkbox } from "@/components/atoms/Checkbox";
 import { Container } from "@/components/atoms/Container";
+import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";

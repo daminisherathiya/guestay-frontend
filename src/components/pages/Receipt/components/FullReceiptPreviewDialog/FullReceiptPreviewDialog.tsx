@@ -1,9 +1,12 @@
 import Image from "next/image";
 
-import { Avatar, Divider, Link, Skeleton } from "@mui/material";
+import { Link } from "@mui/material";
 
+import { Avatar } from "@/components/atoms/Avatar";
 import { Box } from "@/components/atoms/Box";
+import { Divider } from "@/components/atoms/Divider";
 import { Grid2 } from "@/components/atoms/Grid2";
+import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 import { DialogWrapper } from "@/components/molecules/DialogWrapper/DialogWrapper";

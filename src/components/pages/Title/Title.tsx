@@ -1,9 +1,8 @@
 "use client";
 
-import { Skeleton } from "@mui/material";
-
 import { Box } from "@/components/atoms/Box";
 import { Container } from "@/components/atoms/Container";
+import { Skeleton } from "@/components/atoms/Skeleton";
 import { TextareaAutosize } from "@/components/atoms/TextareaAutosize";
 import { Typography } from "@/components/atoms/Typography";
 

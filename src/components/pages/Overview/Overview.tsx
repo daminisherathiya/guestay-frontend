@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Box } from "@/components/atoms/Box";
 import { Container } from "@/components/atoms/Container";
 import { Stack } from "@/components/atoms/Stack";
+import { Toolbar } from "@/components/atoms/Toolbar";
 import { Typography } from "@/components/atoms/Typography";
 
 import { useOverview } from "./Overview.hooks";
@@ -110,6 +111,7 @@ export function Overview() {
           </Box>
         </Stack>
       </Container>
+      <Toolbar className="min-h-[5.375rem]" />
       {Footer}
       {SavePropertyApiSnackbarAlert}
     </>

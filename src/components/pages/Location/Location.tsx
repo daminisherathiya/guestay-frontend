@@ -4,12 +4,12 @@ import Image from "next/image";
 import Script from "next/script";
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { Grid2 } from "@mui/material";
 import { Controller } from "react-hook-form";
 
 import { Autocomplete } from "@/components/atoms/Autocomplete";
 import { Box } from "@/components/atoms/Box";
 import { Container } from "@/components/atoms/Container";
+import { Grid2 } from "@/components/atoms/Grid2";
 import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
