@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
+import { Box } from "@/components/atoms/Box";
 import { useBoolean } from "@/hooks/useBoolean";
 
 import { INITIAL_MAP_POSITION } from "./DraggableMap.consts";
@@ -25,7 +26,7 @@ const DraggableMap = ({
       if (typeof window !== "undefined" && window.google && mapRef.current) {
         const map = new google.maps.Map(mapRef.current, {
           center: INITIAL_MAP_POSITION,
-          zoom: 5,
+          zoom: 6,
         });
 
         const marker = new google.maps.Marker({
@@ -89,11 +90,7 @@ const DraggableMap = ({
     setMapCenterInitializedTrue,
   ]);
 
-  return (
-    <div>
-      <div ref={mapRef} style={{ height: "500px", width: "100%" }} />
-    </div>
-  );
+  return <Box ref={mapRef} className="h-[31.25rem] rounded-lg" />;
 };
 
 export default DraggableMap;

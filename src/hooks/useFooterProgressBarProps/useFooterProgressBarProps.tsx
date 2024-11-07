@@ -212,7 +212,7 @@ export function useFooterProgressBar({
           </Box>
           <Box>
             <LoadingButton
-              className={`${buttonText === "Publish" ? "bg-secondary-main" : ""}`}
+              className={`${buttonText === "Publish" || buttonText === "Get started" ? "bg-secondary-main" : ""}`}
               disabled={isDisabled}
               loading={isLoading}
               loadingIndicator="Saving..."

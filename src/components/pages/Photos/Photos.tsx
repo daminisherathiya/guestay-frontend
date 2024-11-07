@@ -42,46 +42,56 @@ export function Photos() {
     <>
       <Container maxWidth="2xl">
         <Box className="mx-auto max-w-2xl">
-          <Stack className="mb-8 flex-row items-center justify-between">
-            {uploadedImages.length === 0 ? (
-              <Box>
-                <Typography className="mb-2" component="h1" variant="h1">
-                  Add some photos of your house
-                </Typography>
+          {isLoading ? (
+            <Stack className="mb-8 flex-row items-center justify-between gap-4">
+              <Box className="grow">
+                <Skeleton className="w-full text-2xl" variant="text" />
+                <Skeleton className="w-2/3 text-2xl" variant="text" />
+              </Box>
+              <Skeleton className="size-11" variant="circular" />
+            </Stack>
+          ) : (
+            <Stack className="mb-8 flex-row items-center justify-between gap-2">
+              {uploadedImages.length === 0 ? (
+                <Box>
+                  <Typography className="mb-2" component="h1" variant="h1">
+                    Add some photos of your house
+                  </Typography>
 
-                <Typography
-                  className="text-text-secondary"
-                  component="h3"
-                  variant="h3"
-                >
-                  You&apos;ll need 5 photos to get started. You can add more or
-                  make changes later.
-                </Typography>
-              </Box>
-            ) : uploadedImages.length < 5 ? (
-              <>
-                <Typography component="h2" variant="h2">
-                  Choose at least 5 photos
-                </Typography>
-              </>
-            ) : (
-              <>
-                <Typography component="h2" variant="h2">
-                  Ta-da! How does this look?
-                </Typography>
-              </>
-            )}
-            {uploadedImages.length > 0 && (
-              <Box>
-                <IconButton
-                  className="size-11 bg-action-hover"
-                  onClick={setUploadPhotosDialogIsOpenTrue}
-                >
-                  <PlusIcon className="!size-4" />
-                </IconButton>
-              </Box>
-            )}
-          </Stack>
+                  <Typography
+                    className="text-text-secondary"
+                    component="h3"
+                    variant="h3"
+                  >
+                    You&apos;ll need 5 photos to get started. You can add more
+                    or make changes later.
+                  </Typography>
+                </Box>
+              ) : uploadedImages.length < 5 ? (
+                <>
+                  <Typography component="h2" variant="h2">
+                    Choose at least 5 photos
+                  </Typography>
+                </>
+              ) : (
+                <>
+                  <Typography component="h2" variant="h2">
+                    Ta-da! How does this look?
+                  </Typography>
+                </>
+              )}
+              {uploadedImages.length > 0 && (
+                <Box>
+                  <IconButton
+                    className="size-11 bg-action-hover"
+                    onClick={setUploadPhotosDialogIsOpenTrue}
+                  >
+                    <PlusIcon className="!size-4" />
+                  </IconButton>
+                </Box>
+              )}
+            </Stack>
+          )}
 
           {isLoading ? (
             <Skeleton

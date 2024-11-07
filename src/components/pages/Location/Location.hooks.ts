@@ -98,25 +98,6 @@ export function useLocation() {
     defaultValues: {
       address: "",
       locationId: null,
-      // city: selectedPlaceDetails
-      //   ? (selectedPlaceDetails["city"]?.shortName ?? "")
-      //   : "",
-      // flatHouse: selectedPlaceDetails
-      //   ? (selectedPlaceDetails["flatHouse"]?.shortName ?? "")
-      //   : "",
-      // landmark: selectedPlaceDetails
-      //   ? (selectedPlaceDetails["landmark"]?.shortName ?? "")
-      //   : "",
-      // locality: selectedPlaceDetails
-      //   ? (selectedPlaceDetails["locality"]?.shortName ?? "")
-      //   : "",
-      // pinCode: "",
-      // state: selectedPlaceDetails
-      //   ? (selectedPlaceDetails["state"]?.shortName ?? "")
-      //   : "",
-      // street: selectedPlaceDetails
-      //   ? (selectedPlaceDetails["street"]?.shortName ?? "")
-      //   : "",
     },
     mode: "onChange",
   });
@@ -190,7 +171,6 @@ export function useLocation() {
     Footer,
     latitude,
     locations,
-    locationsApiData,
     locationsApiIsFirstLoading,
     LocationsApiSnackbarAlert,
     longitude,

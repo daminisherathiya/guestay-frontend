@@ -69,6 +69,7 @@ export function useReceipt() {
   return {
     Footer,
     fullReceiptPreviewDialogIsOpen,
+    isLoading,
     property,
     propertyApiIsSuccess,
     PropertyApiSnackbarAlert,

@@ -3,6 +3,7 @@
 import Image from "next/image";
 
 import StarIcon from "@mui/icons-material/Star";
+import { Skeleton } from "@mui/material";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
@@ -18,6 +19,7 @@ export function Receipt() {
   const {
     Footer,
     fullReceiptPreviewDialogIsOpen,
+    isLoading,
     property,
     propertyApiIsSuccess,
     PropertyApiSnackbarAlert,
@@ -61,18 +63,26 @@ export function Receipt() {
                 onClick={setFullReceiptPreviewDialogIsOpenTrue}
               >
                 <Box className="relative w-full">
-                  <Image
-                    alt="Cover picture"
-                    className="max-h-80 w-full rounded-lg object-cover"
-                    height={320}
-                    src={`https://guestay.webarysites.com/file/1000/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${coverImage}`}
-                    width={320}
-                  />
+                  {isLoading ? (
+                    <Skeleton
+                      className="w-full rounded-lg"
+                      height={250}
+                      variant="rectangular"
+                    />
+                  ) : (
+                    <Image
+                      alt="Cover picture"
+                      className="max-h-80 w-full rounded-lg object-cover"
+                      height={320}
+                      src={`https://guestay.webarysites.com/file/1000/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${coverImage}`}
+                      width={320}
+                    />
+                  )}
                   <Box className="absolute left-4 top-4 rounded border border-common-black/5 bg-common-white px-2 py-1 text-sm leading-4 shadow-button">
                     Show preview
                   </Box>
                 </Box>
-                <Stack className="mt-4 w-full flex-row justify-between">
+                <Stack className="mt-4 w-full flex-row justify-between gap-1">
                   <Box>
                     <Typography className="mb-1 font-medium" variant="body2">
                       {property?.title || ""}
@@ -96,7 +106,7 @@ export function Receipt() {
                     </Typography>
                   </Box>
                   <Stack>
-                    <Typography variant="body2">
+                    <Typography className="text-nowrap" variant="body2">
                       New <StarIcon className="size-4" />
                     </Typography>
                   </Stack>

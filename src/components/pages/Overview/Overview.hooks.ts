@@ -38,6 +38,7 @@ export function useOverview() {
   };
 
   const { Footer, nextUrl } = useFooterProgressBar({
+    buttonText: "Get started",
     isDisabled: false,
     isLoading: savePropertyApiIsPending,
     onSubmit: onSubmit,

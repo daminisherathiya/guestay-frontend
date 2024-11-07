@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Script from "next/script";
 
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Grid2 } from "@mui/material";
 import { Controller } from "react-hook-form";
 
 import { Autocomplete } from "@/components/atoms/Autocomplete";
@@ -28,7 +30,6 @@ export function Location() {
     Footer,
     latitude,
     locations,
-    // locationsApiData,
     // locationsApiIsFirstLoading,
     LocationsApiSnackbarAlert,
     longitude,
@@ -86,60 +87,109 @@ export function Location() {
               Your address is only shared with guests after they’ve made a
               reservation.
             </Typography>
-            <Box className="space-y-4">
-              <Controller
-                control={control}
-                name="locationId"
-                render={({ field }) => (
-                  <Autocomplete
-                    // open
-                    {...field}
-                    disableClearable
-                    getOptionLabel={(option) => {
-                      return option.label;
-                    }}
-                    options={locations}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Select Location" />
-                    )}
-                    renderOption={(props, option) => {
-                      return (
-                        <li
-                          {...props}
-                          key={option.id}
-                          className={option.parent !== "0" ? "ml-6" : "ml-2"}
-                        >
-                          {option.label}
-                        </li>
-                      );
-                    }}
-                    value={
-                      locations.find(
-                        (location) => location.id === field.value,
-                      ) || null
-                    }
-                    onChange={(_, newValue) => {
-                      field.onChange(newValue ? newValue.id : null);
-                    }}
-                  />
-                )}
-              />
-              {/* <CountrySelect value={defaultCountry} onChange={() => {}} /> */}
-              <TextFieldWrapper
-                control={control}
-                label="Address"
-                name="address"
-                rules={{ required: "Address is required" }}
-              />
-            </Box>
-            <div>Latitude: {latitude || INITIAL_MAP_POSITION.lat}</div>
-            <div>Longitude: {longitude || INITIAL_MAP_POSITION.lng}</div>
-            <DraggableMap
-              latitude={latitude}
-              longitude={longitude}
-              setLatitude={setLatitude}
-              setLongitude={setLongitude}
-            />
+            <Grid2 container className="items-center" spacing={2}>
+              <Grid2 size={12}>
+                <Controller
+                  control={control}
+                  name="locationId"
+                  render={({ field }) => (
+                    <Autocomplete
+                      {...field}
+                      disableClearable
+                      classes={{ popper: "z-[1]" }}
+                      getOptionLabel={(option) => {
+                        return option.label;
+                      }}
+                      options={locations}
+                      popupIcon={<KeyboardArrowDownIcon />}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Select Location"
+                          slotProps={{
+                            input: {
+                              ...params.InputProps,
+                              className: `${params.InputProps.className} bg-common-white before:h-full before:rounded-lg before:border before:border-solid before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none`,
+                            },
+                          }}
+                          variant="filled"
+                        />
+                      )}
+                      renderOption={(props, option) => {
+                        const isSelected = field.value === option.id;
+                        return (
+                          <li
+                            {...props}
+                            key={option.id}
+                            className={`${option.parent !== "0" ? "pl-6" : "pl-2 font-medium"} cursor-pointer py-1 hover:bg-action-hover ${
+                              isSelected ? "bg-action-selected" : ""
+                            }`}
+                          >
+                            {option.label}
+                          </li>
+                        );
+                      }}
+                      value={
+                        locations.find(
+                          (location) => location.id === field.value,
+                        ) || null
+                      }
+                      onChange={(_, newValue) => {
+                        field.onChange(newValue ? newValue.id : null);
+                      }}
+                    />
+                  )}
+                />
+              </Grid2>
+              <Grid2 size={12}>
+                <TextFieldWrapper
+                  control={control}
+                  label="Address"
+                  name="address"
+                  rules={{ required: "Address is required" }}
+                />
+              </Grid2>
+              <Grid2 size={{ "2xs": 12, sm: 6 }}>
+                <TextField
+                  disabled
+                  className="w-full"
+                  label="Latitude"
+                  slotProps={{
+                    formHelperText: { className: "mt-0 mx-2" },
+                    input: {
+                      className:
+                        "bg-common-white before:h-full before:rounded-lg before:border before:border-solid before:border-common-black/45",
+                    },
+                  }}
+                  value={latitude || INITIAL_MAP_POSITION.lat}
+                  variant="filled"
+                />
+              </Grid2>
+              <Grid2 size={{ "2xs": 12, sm: 6 }}>
+                <TextField
+                  disabled
+                  className="w-full"
+                  label="Longitude"
+                  slotProps={{
+                    formHelperText: { className: "mt-0 mx-2" },
+                    input: {
+                      className:
+                        "bg-common-white before:h-full before:rounded-lg before:border before:border-solid before:border-common-black/45",
+                    },
+                  }}
+                  value={longitude || INITIAL_MAP_POSITION.lng}
+                  variant="filled"
+                />
+              </Grid2>
+              <Grid2 size={12}>
+                <DraggableMap
+                  latitude={latitude}
+                  longitude={longitude}
+                  setLatitude={setLatitude}
+                  setLongitude={setLongitude}
+                />
+              </Grid2>
+            </Grid2>
           </Box>
         )}
         <Script
