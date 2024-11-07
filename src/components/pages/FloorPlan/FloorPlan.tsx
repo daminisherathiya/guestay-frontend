@@ -41,35 +41,11 @@ export function FloorPlan() {
     handleAddBedroom,
     handleDecrease,
     handleIncrease,
+    handleRemoveBedroom,
     isLoading,
     PropertyApiSnackbarAlert,
-    remove,
     SavePropertyApiSnackbarAlert,
   } = useFloorPlan();
-  console.log("🚀 ~ FloorPlan ~ bedrooms:", bedrooms);
-
-  // const [bedroomType, setBedroomType] = useState("");
-
-  // const handleChange = (event: SelectChangeEvent) => {
-  //   setBedroomType(event.target.value as string);
-  // };
-
-  // const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
-
-  // const idPrefix = useId();
-
-  // const handleChangebed = (
-  //   event: React.SyntheticEvent<Element, Event>,
-  //   newValue: Option[],
-  // ) => {
-  //   const updatedSelections = newValue.map((option, index) => ({
-  //     ...option,
-  //     id: option.id || `${idPrefix}-${index}`,
-  //   }));
-  //   setSelectedOptions(updatedSelections);
-  // };
-
-  // const { Footer } = useOverview();
 
   return (
     <>
@@ -105,7 +81,7 @@ export function FloorPlan() {
                     onClick={() => handleDecrease(floorPlanItem.field)}
                   >
                     <Image
-                      alt="Minue"
+                      alt="Minus"
                       height={12}
                       src="/images/minus.svg"
                       width={12}
@@ -147,7 +123,7 @@ export function FloorPlan() {
           <Box className="space-y-4">
             {bedrooms.map((bedroom, index) => (
               <Box
-                key={bedroom.id}
+                key={index}
                 className="group relative rounded-lg border border-divider p-4"
               >
                 {isLoading ? (
@@ -189,28 +165,24 @@ export function FloorPlan() {
                         <Controller
                           control={control}
                           name={`bedrooms.${index}.bed_count`}
-                          render={({ field }) => {
-                            console.log("🚀 ~ FloorPlan ~ field:", field);
-                            return (
-                              <Select
-                                {...field}
-                                className="bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none"
-                                IconComponent={KeyboardArrowDownIcon}
-                                label="Bedroom Count"
-                                // onChange={handleChange}
-                              >
-                                <MenuItem value="1">
-                                  Count as full bedroom
-                                </MenuItem>
-                                <MenuItem value="0.5">
-                                  Count as half bedroom
-                                </MenuItem>
-                                <MenuItem value="0">
-                                  Do not count as bedroom
-                                </MenuItem>
-                              </Select>
-                            );
-                          }}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              className="bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none"
+                              IconComponent={KeyboardArrowDownIcon}
+                              label="Bedroom Count"
+                            >
+                              <MenuItem value="1">
+                                Count as full bedroom
+                              </MenuItem>
+                              <MenuItem value="0.5">
+                                Count as half bedroom
+                              </MenuItem>
+                              <MenuItem value="0">
+                                Do not count as bedroom
+                              </MenuItem>
+                            </Select>
+                          )}
                         />
                       </FormControl>
                     </Grid2>
@@ -234,7 +206,9 @@ export function FloorPlan() {
                                 slotProps={{
                                   input: {
                                     ...params.InputProps,
-                                    className: `${params.InputProps.className} bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none`,
+                                    className: `${
+                                      params.InputProps.className
+                                    } bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none`,
                                     endAdornment: (
                                       <>
                                         {bedTypesApiIsFirstLoading ? (
@@ -253,22 +227,15 @@ export function FloorPlan() {
                               />
                             )}
                             renderTags={(value, getTagProps) =>
-                              value.map((option, index) => {
-                                const { key, ...restTagProps } = getTagProps({
-                                  index,
-                                });
-                                return (
-                                  <Chip
-                                    key={key}
-                                    label={option.title}
-                                    {...restTagProps}
-                                    className={`${restTagProps.className} h-7`}
-                                  />
-                                );
-                              })
+                              value.map((option, index) => (
+                                <Chip
+                                  label={option.title}
+                                  {...getTagProps({ index })}
+                                  key={index}
+                                  className={`${getTagProps({ index }).className} h-7`}
+                                />
+                              ))
                             }
-                            // value={selectedOptions}
-                            // onChange={handleChangebed}
                             value={field.value || []}
                             onChange={(_, newValue) => field.onChange(newValue)}
                           />
@@ -278,7 +245,7 @@ export function FloorPlan() {
                     {bedrooms.length > 1 && (
                       <IconButton
                         className="absolute -right-4 -top-4 bg-action-hover sm:hidden group-hover:sm:inline-flex"
-                        onClick={() => remove(index)}
+                        onClick={() => handleRemoveBedroom(index)}
                       >
                         <CloseIcon className="size-5" />
                       </IconButton>

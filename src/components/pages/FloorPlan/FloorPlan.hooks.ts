@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";
 
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import { bedTypesApi } from "@/apis/property/bedTypesApi";
 import { bedTypesApiResponseType } from "@/apis/property/bedTypesApi/bedTypesApi.types";
@@ -31,87 +31,65 @@ export function useFloorPlan() {
     bathrooms: 0,
     cribs: 0,
   });
-  console.log("🚀 ~ useFloorPlan ~ counters:", counters);
 
   const handleIncrease = (field: keyof CounterState, maxLimit: number) => {
     setCounters((prevCounters) => {
-      if (field === "bathrooms") {
-        return {
-          ...prevCounters,
-          [field]:
-            prevCounters[field] < maxLimit
-              ? prevCounters[field] + 0.5
-              : prevCounters[field],
-        };
-      } else {
-        return {
-          ...prevCounters,
-          [field]:
-            prevCounters[field] < maxLimit
-              ? prevCounters[field] + 1
-              : prevCounters[field],
-        };
-      }
+      const increment = field === "bathrooms" ? 0.5 : 1;
+      return {
+        ...prevCounters,
+        [field]:
+          prevCounters[field] < maxLimit
+            ? prevCounters[field] + increment
+            : prevCounters[field],
+      };
     });
   };
 
   const handleDecrease = (field: keyof CounterState) => {
     setCounters((prevCounters) => {
-      if (field === "bathrooms") {
-        return {
-          ...prevCounters,
-          [field]:
-            prevCounters[field] > 0
-              ? prevCounters[field] - 0.5
-              : prevCounters[field],
-        };
-      } else {
-        return {
-          ...prevCounters,
-          [field]:
-            prevCounters[field] > 0
-              ? prevCounters[field] - 1
-              : prevCounters[field],
-        };
-      }
+      const decrement = field === "bathrooms" ? 0.5 : 1;
+      return {
+        ...prevCounters,
+        [field]:
+          prevCounters[field] > 0
+            ? prevCounters[field] - decrement
+            : prevCounters[field],
+      };
     });
   };
 
-  const displayValue = (value: number) => {
-    return value;
-  };
+  const displayValue = (value: number) => value;
 
-  const { control, reset } = useForm<BedroomFormValues>({
-    defaultValues: {
-      bedrooms: [
-        {
-          bed_count: "1",
-          display_order: "0",
-          name: "Bedroom 1",
-          type: [],
-        },
-      ],
-    },
-    mode: "onChange",
-  });
+  const { control, reset, setValue, watch, getValues } =
+    useForm<BedroomFormValues>({
+      defaultValues: {
+        bedrooms: [
+          {
+            bed_count: "1",
+            display_order: "0",
+            name: "Bedroom 1",
+            type: [],
+          },
+        ],
+      },
+      mode: "onChange",
+    });
 
-  const {
-    fields: bedrooms,
-    append,
-    remove,
-  } = useFieldArray({
-    control,
-    name: "bedrooms",
-  });
-  console.log("🚀 ~ useFloorPlan ~ bedrooms:", bedrooms);
+  const bedrooms = watch("bedrooms") || [];
 
   const handleAddBedroom = () => {
-    append({
+    const newBedroom = {
       bed_count: "1",
       display_order: String(bedrooms.length),
       name: `Bedroom ${bedrooms.length + 1}`,
       type: [],
-    });
+    };
+    setValue("bedrooms", [...bedrooms, newBedroom]);
+  };
+
+  const handleRemoveBedroom = (index: number) => {
+    const newBedrooms = bedrooms.filter((_, i) => i !== index);
+    setValue("bedrooms", newBedrooms);
   };
 
   useEffect(() => {
@@ -124,15 +102,12 @@ export function useFloorPlan() {
           ? Number(propertyApiData?.data?.property[0].cribs)
           : 0,
       });
-      const bedrooms = JSON.parse(
+      const propertyBedrooms = JSON.parse(
         propertyApiData?.data?.property[0]?.bedrooms_info || "[]",
       );
-      console.log("🚀 ~ useEffect ~ bedrooms:", bedrooms);
-      reset({ bedrooms: bedrooms });
+      reset({ bedrooms: propertyBedrooms });
     }
   }, [propertyApiData, propertyApiIsSuccess, reset]);
-
-  ////////
 
   const {
     data: bedTypesApiData,
@@ -151,16 +126,20 @@ export function useFloorPlan() {
   const router = useRouter();
 
   const onSubmit = () => {
+    const formValues = getValues();
+    const bedrooms = formValues.bedrooms || [];
     savePropertyApiMutate({
       data: {
         baths: counters.bathrooms,
-        bedrooms: bedrooms.reduce((total, bedroom) => {
-          return total + bedroom.bed_count !== "0" ? 1 : 0;
-        }, 0),
+        bedrooms: bedrooms.reduce(
+          (total, bedroom) => total + (bedroom.bed_count !== "0" ? 1 : 0),
+          0,
+        ),
         bedroomsInfo: JSON.stringify(bedrooms),
-        beds: bedrooms.reduce((total, bedroom) => {
-          return total + Number(bedroom.bed_count);
-        }, 0),
+        beds: bedrooms.reduce(
+          (total, bedroom) => total + Number(bedroom.bed_count),
+          0,
+        ),
         cribs: counters.cribs,
         listingStep: "bedroom_info",
         noOfChildren: counters.cribs,
@@ -171,10 +150,10 @@ export function useFloorPlan() {
           return total + coupleBeds;
         }, 0),
         numOfPeople: bedrooms.reduce((total, bedroom) => {
-          const coupleBeds = bedroom.type.filter(
+          const singleBeds = bedroom.type.filter(
             (bedType) => bedType.num_of_people !== "2",
           ).length;
-          return total + coupleBeds;
+          return total + singleBeds;
         }, 0),
         propertyId: propertyId,
         userId: getUserDetails().id,
@@ -183,8 +162,6 @@ export function useFloorPlan() {
   };
 
   const isLoading = propertyApiIsFirstLoading || bedTypesApiIsFirstLoading;
-  // const isLoading =
-  //   propertyApiIsFirstLoading || bedTypesApiIsFirstLoading || !selectedOption;
 
   const { Footer, nextUrl } = useFooterProgressBar({
     isDisabled: isLoading,
@@ -210,9 +187,9 @@ export function useFloorPlan() {
     handleAddBedroom,
     handleDecrease,
     handleIncrease,
+    handleRemoveBedroom,
     isLoading,
     PropertyApiSnackbarAlert,
-    remove,
     SavePropertyApiSnackbarAlert,
   };
 }
