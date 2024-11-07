@@ -137,7 +137,7 @@ export function Photos() {
                     </Button>
                   </Grid2>
                 ))}
-              <Grid2 size={6}>
+              <Grid2 size={{ "2xs": 12, sm: 6 }}>
                 <Button
                   className="size-full min-h-56 flex-col items-center justify-center rounded-xl border border-dashed border-text-secondary p-10 hover:border-2 hover:border-solid hover:bg-common-white"
                   variant="outlined"

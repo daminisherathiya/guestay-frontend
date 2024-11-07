@@ -73,7 +73,7 @@ export function Header() {
               />
             </picture>
           </Link>
-          <Stack className="flex-row gap-4">
+          <Stack className="flex-row gap-2 xs:gap-4">
             <Button
               className="rounded-3xl hover:bg-common-white"
               variant="outlined"
@@ -106,11 +106,11 @@ export function Header() {
                 aria-controls={isAccountMenuOpen ? "account-menu" : undefined}
                 aria-expanded={isAccountMenuOpen ? "true" : undefined}
                 aria-haspopup="true"
-                className="gap-3 rounded-pill p-2 pl-3 hover:bg-common-white"
+                className="min-w-0 gap-3 rounded-pill border-0 p-0 hover:bg-common-white xs:min-w-16 xs:border xs:p-2 xs:pl-3"
                 variant="outlined"
                 onClick={openAccountMenu}
               >
-                <GridMenuIcon className="size-5" />
+                <GridMenuIcon className="hidden size-5 xs:block" />
                 <Avatar
                   className={`size-8 ${!isAuthenticated ? "bg-common-white text-text-secondary" : "bg-primary-main text-sm text-common-white"}`}
                 >
