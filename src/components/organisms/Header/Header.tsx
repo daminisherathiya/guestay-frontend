@@ -112,7 +112,7 @@ export function Header() {
               >
                 <GridMenuIcon className="hidden size-5 xs:block" />
                 <Avatar
-                  className={`size-8 ${!isAuthenticated ? "bg-common-white text-text-secondary" : "bg-primary-main text-sm text-common-white"}`}
+                  className={`size-9 xs:size-8 ${!isAuthenticated ? "bg-common-white text-text-secondary" : "bg-primary-main text-sm text-common-white"}`}
                 >
                   {!isAuthenticated ? (
                     <UserAccount />
