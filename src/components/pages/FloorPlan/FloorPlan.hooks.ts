@@ -94,13 +94,16 @@ export function useFloorPlan() {
     },
     mode: "onChange",
   });
-  const bedrooms = watch("bedrooms") as BedroomFormValues["bedrooms"];
-  console.log("🚀 ~ useFloorPlan ~ bedrooms:", bedrooms);
 
-  const { append, remove } = useFieldArray({
+  const {
+    fields: bedrooms,
+    append,
+    remove,
+  } = useFieldArray({
     control,
     name: "bedrooms",
   });
+  console.log("🚀 ~ useFloorPlan ~ bedrooms:", bedrooms);
 
   const handleAddBedroom = () => {
     append({

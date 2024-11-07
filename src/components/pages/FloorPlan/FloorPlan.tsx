@@ -147,7 +147,7 @@ export function FloorPlan() {
           <Box className="space-y-4">
             {bedrooms.map((bedroom, index) => (
               <Box
-                key={index}
+                key={bedroom.id}
                 className="group relative rounded-lg border border-divider p-4"
               >
                 {isLoading ? (
