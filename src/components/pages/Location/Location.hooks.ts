@@ -134,7 +134,7 @@ export function useLocation() {
       return null;
     }
 
-    return locations.find((location) => location.id === locationId);
+    return locations.find((location) => location.id === locationId) || null;
   }, [locationId, locations]);
 
   const [locationHasChanged, setLocationHasChanged] = useState(false);
