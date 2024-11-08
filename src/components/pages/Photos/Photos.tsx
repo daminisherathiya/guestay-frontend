@@ -28,6 +28,7 @@ export function Photos() {
     handleMoveForwards,
     handleUploadImages,
     isLoading,
+    imageUrls,
     PropertyApiSnackbarAlert,
     SavePropertyApiSnackbarAlert,
     selectedImages,
@@ -102,7 +103,7 @@ export function Photos() {
             <Grid2 container spacing={2}>
               {uploadedImages.map((image, index) => {
                 // const imageUrl = `https://guestay.webarysites.com/data/properties_images/${image.name}`;
-                const imageUrl = URL.createObjectURL(image);
+                const imageUrl = imageUrls[index];
 
                 return (
                   <Grid2
