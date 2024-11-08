@@ -18,7 +18,7 @@ import { Typography } from "@/components/atoms/Typography";
 import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper/TextFieldWrapper";
 // import { type AddressDetailsType } from "@/types/Location.types";
 
-import DraggableMap from "./components/DraggableMap/DraggableMap";
+import { DraggableMap } from "./components/DraggableMap/DraggableMap";
 import { INITIAL_MAP_POSITION } from "./components/DraggableMap/DraggableMap.consts";
 import { LocationInputWithAutocompleteService } from "./components/LocationInputWithAutocompleteService";
 // import { confirmAddressTextFields } from "./Location.const";
@@ -29,6 +29,8 @@ export function Location() {
     control,
     Footer,
     latitude,
+    location,
+    locationHasChanged,
     locations,
     // locationsApiIsFirstLoading,
     LocationsApiSnackbarAlert,
@@ -37,6 +39,7 @@ export function Location() {
     SavePropertyApiSnackbarAlert,
     // selectedPlaceDetails,
     setLatitude,
+    setLocationHasChanged,
     setLongitude,
     setSelectedPlaceDetails,
   } = useLocation();
@@ -136,6 +139,7 @@ export function Location() {
                       }
                       onChange={(_, newValue) => {
                         field.onChange(newValue ? newValue.id : null);
+                        setLocationHasChanged(true);
                       }}
                     />
                   )}
@@ -161,7 +165,9 @@ export function Location() {
                         "bg-common-white before:h-full before:rounded-lg before:border before:border-solid before:border-common-black/45",
                     },
                   }}
-                  value={latitude || INITIAL_MAP_POSITION.lat}
+                  value={
+                    latitude !== null ? latitude : INITIAL_MAP_POSITION.lat
+                  }
                   variant="filled"
                 />
               </Grid2>
@@ -177,13 +183,17 @@ export function Location() {
                         "bg-common-white before:h-full before:rounded-lg before:border before:border-solid before:border-common-black/45",
                     },
                   }}
-                  value={longitude || INITIAL_MAP_POSITION.lng}
+                  value={
+                    longitude !== null ? longitude : INITIAL_MAP_POSITION.lng
+                  }
                   variant="filled"
                 />
               </Grid2>
               <Grid2 size={12}>
                 <DraggableMap
                   latitude={latitude}
+                  location={location}
+                  locationHasChanged={locationHasChanged}
                   longitude={longitude}
                   setLatitude={setLatitude}
                   setLongitude={setLongitude}

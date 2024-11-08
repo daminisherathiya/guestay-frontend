@@ -18,17 +18,19 @@ import { usePrice } from "./Price.hooks";
 
 export function Price() {
   const {
-    expanded,
+    commissionRates,
     Footer,
     // globalPricesApiData,
     globalPricesApiSnackbarAlert,
     handleEditClick,
     handleInput,
-    inputRef,
+    insurancePolicyPrice,
     isEditing,
     isLoading,
     isPriceVisible,
     moreAboutPricingDialogIsOpen,
+    price,
+    priceInputRef,
     PropertyApiSnackbarAlert,
     SavePropertyApiSnackbarAlert,
     setIsEditingFalse,
@@ -36,8 +38,6 @@ export function Price() {
     setIsPriceVisibleTrue,
     setMoreAboutPricingDialogIsOpenFalse,
     setMoreAboutPricingDialogIsOpenTrue,
-    toggleExpansion,
-    value,
   } = usePrice();
 
   return (
@@ -69,7 +69,7 @@ export function Price() {
                   <TextField
                     autoComplete="off"
                     id="outlined-basic"
-                    inputRef={inputRef}
+                    inputRef={priceInputRef}
                     slotProps={{
                       input: {
                         classes: {
@@ -85,7 +85,7 @@ export function Price() {
                         ),
                       },
                     }}
-                    value={value}
+                    value={price}
                     variant="outlined"
                     onBlur={setIsEditingFalse}
                     onFocus={setIsEditingTrue}
@@ -107,7 +107,7 @@ export function Price() {
               onClick={setIsPriceVisibleTrue}
             >
               <Typography variant="h3">
-                Guest price before taxes ${value}
+                Guest price before taxes ${price}
               </Typography>
               <Box>
                 <KeyboardArrowDownIcon />
@@ -119,32 +119,14 @@ export function Price() {
               <Button
                 disableRipple
                 className="inline-block p-0 no-underline hover:bg-common-white"
-                onClick={() => toggleExpansion(1)}
               >
                 <Box className="rounded-xl border-2 p-4">
-                  <Box
-                    className={`pt-2 ${
-                      expanded === 1 ? "h-full" : "h-0"
-                    } overflow-hidden`}
-                  >
-                    <Box className="space-y-2">
-                      <Stack className="flex-row justify-between gap-2">
-                        <Typography variant="h3">Base price</Typography>
-                        <Typography variant="h3">${value}</Typography>
-                      </Stack>
-                      <Stack className="flex-row justify-between gap-2">
-                        <Typography variant="h3">Guest service fee</Typography>
-                        <Typography variant="h3">$5</Typography>
-                      </Stack>
-                    </Box>
-                    <Divider className="mb-4 mt-2 pt-2" />
-                  </Box>
-                  <Stack className="flex-row justify-between gap-2 pb-2">
+                  <Stack className="flex-row justify-between gap-2">
                     <Typography className="text-left font-medium" variant="h3">
                       Guest price before taxes
                     </Typography>
                     <Typography className="font-medium" variant="h3">
-                      $5,325
+                      ${price}
                     </Typography>
                   </Stack>
                 </Box>
@@ -152,22 +134,25 @@ export function Price() {
               <Button
                 disableRipple
                 className="inline-block p-0 no-underline hover:bg-common-white"
-                onClick={() => toggleExpansion(2)}
               >
                 <Box className="rounded-xl border-2 p-4">
-                  <Box
-                    className={`pt-2 ${
-                      expanded === 2 ? "h-full" : "h-0"
-                    } overflow-hidden`}
-                  >
+                  <Box className="pt-2">
                     <Box className="space-y-2">
                       <Stack className="flex-row justify-between gap-2">
                         <Typography variant="h3">Base price</Typography>
-                        <Typography variant="h3">${value}</Typography>
+                        <Typography variant="h3">${price}</Typography>
                       </Stack>
                       <Stack className="flex-row justify-between gap-2">
-                        <Typography variant="h3">Host service fee</Typography>
-                        <Typography variant="h3">-$160</Typography>
+                        <Typography variant="h3">Commission Fee</Typography>
+                        <Typography variant="h3">
+                          -${commissionRates}
+                        </Typography>
+                      </Stack>
+                      <Stack className="flex-row justify-between gap-2">
+                        <Typography variant="h3">Insurance Policy</Typography>
+                        <Typography variant="h3">
+                          -${insurancePolicyPrice}
+                        </Typography>
                       </Stack>
                     </Box>
                     <Divider className="mb-4 mt-2 pt-2" />
@@ -177,14 +162,17 @@ export function Price() {
                       You earn
                     </Typography>
                     <Typography className="font-medium" variant="h3">
-                      $5,165
+                      $
+                      {parseFloat(price.replace(/,/g, "")) -
+                        commissionRates -
+                        parseFloat(insurancePolicyPrice)}
                     </Typography>
                   </Stack>
                 </Box>
               </Button>
             </Stack>
             <Stack
-              className={`mt-10 cursor-pointer flex-row justify-center gap-x-1 text-center ${isPriceVisible ? "flex" : "hidden"}`}
+              className={`mt-5 cursor-pointer flex-row justify-center gap-x-1 text-center ${isPriceVisible ? "flex" : "hidden"}`}
               onClick={setIsPriceVisibleTrue}
             >
               <Typography variant="h3">Show less</Typography>

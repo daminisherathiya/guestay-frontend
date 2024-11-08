@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";
 
@@ -34,6 +34,16 @@ export function usePhotos() {
   >([]);
 
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+
+  const imageUrls = useMemo(() => {
+    return uploadedImages.map((image) => URL.createObjectURL(image));
+  }, [uploadedImages]);
+
+  useEffect(() => {
+    return () => {
+      imageUrls.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [imageUrls]);
 
   const { value: imagesAreLoading, setFalse: setImagesAreLoadingFalse } =
     useBoolean({ initialValue: true });
@@ -160,6 +170,7 @@ export function usePhotos() {
     handleMoveBackwards,
     handleMoveForwards,
     handleUploadImages,
+    imageUrls,
     isLoading,
     PropertyApiSnackbarAlert,
     SavePropertyApiSnackbarAlert,

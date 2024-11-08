@@ -88,13 +88,13 @@ export function Receipt() {
                       {property?.title || ""}
                     </Typography>
                     <Typography variant="body2">
-                      <Typography
+                      {/* <Typography
                         className="text-text-secondary line-through"
                         component="span"
                         variant="body2"
                       >
                         ${parseInt(property?.weekdays_price || "0")}
-                      </Typography>{" "}
+                      </Typography>{" "} */}
                       <Typography
                         className="font-bold"
                         component="span"
