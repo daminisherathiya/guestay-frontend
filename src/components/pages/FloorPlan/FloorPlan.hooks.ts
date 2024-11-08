@@ -11,6 +11,7 @@ import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
 import { useQuery } from "@/hooks/useQuery";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
+import { BEDROOMS_INITIAL_VALUE } from "./FloorPlan.consts";
 import { BedroomFormValues, CounterState } from "./FloorPlan.types";
 
 export function useFloorPlan() {
@@ -63,14 +64,7 @@ export function useFloorPlan() {
   const { control, reset, setValue, watch, getValues } =
     useForm<BedroomFormValues>({
       defaultValues: {
-        bedrooms: [
-          {
-            bed_count: "1",
-            display_order: "0",
-            name: "Bedroom 1",
-            type: [],
-          },
-        ],
+        bedrooms: BEDROOMS_INITIAL_VALUE,
       },
       mode: "onChange",
     });
@@ -102,9 +96,13 @@ export function useFloorPlan() {
           ? Number(propertyApiData?.data?.property[0].cribs)
           : 0,
       });
-      const propertyBedrooms = JSON.parse(
+      let propertyBedrooms = JSON.parse(
         propertyApiData?.data?.property[0]?.bedrooms_info || "[]",
       );
+      propertyBedrooms = propertyBedrooms.length
+        ? propertyBedrooms
+        : BEDROOMS_INITIAL_VALUE;
+      console.log("🚀 ~ useEffect ~ propertyBedrooms:", propertyBedrooms);
       reset({ bedrooms: propertyBedrooms });
     }
   }, [propertyApiData, propertyApiIsSuccess, reset]);
