@@ -21,6 +21,7 @@ export function ListingHome() {
   const {
     listingProperties,
     listingPropertiesApiIsFirstLoading,
+    router,
     showMore,
     toggleShowMore,
   } = useListingHome();
@@ -52,7 +53,8 @@ export function ListingHome() {
             propertyIdToEdit: listingProperty.id,
             providedListingSteps: listingProperty.listing_steps || "",
           });
-          window.open(nextListingStepUrl, "_blank");
+          // window.open(nextListingStepUrl);
+          router.push(nextListingStepUrl);
         }}
       >
         <Image

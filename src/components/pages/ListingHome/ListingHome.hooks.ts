@@ -2,6 +2,8 @@
 
 import { useMemo } from "react";
 
+import { useRouter } from "next/navigation";
+
 import { listingPropertiesApi } from "@/apis/property/listingPropertiesApi";
 import { listingPropertiesApiResponseType } from "@/apis/property/listingPropertiesApi/listingPropertiesApi.types";
 import { useQuery } from "@/hooks/useQuery";
@@ -9,6 +11,8 @@ import { useToggle } from "@/hooks/useToggle";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 export function useListingHome() {
+  const router = useRouter();
+
   const { toggle: toggleShowMore, value: showMore } = useToggle({
     initialValue: true,
   });
@@ -41,6 +45,7 @@ export function useListingHome() {
     listingProperties,
     listingPropertiesApiIsFirstLoading,
     ListingPropertiesApiSnackbarAlert,
+    router,
     showMore,
     toggleShowMore,
   };
