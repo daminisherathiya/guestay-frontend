@@ -112,7 +112,8 @@ export function ListingHome() {
               Welcome back, {getUserDetails().fname}
             </Typography>
 
-            {listingUnfinishedProperties.length > 0 && (
+            {(listingUnfinishedProperties.length > 0 ||
+              listingPropertiesApiIsFirstLoading) && (
               <>
                 <Typography className="mb-4" component="h2" variant="h2">
                   Finish your listing
