@@ -42,6 +42,12 @@ export const useHeader = () => {
   } = useBoolean({ initialValue: false });
 
   useEffect(() => {
+    if (isAuthenticated === false) {
+      setLoginDialogIsOpenTrue();
+    }
+  }, [isAuthenticated, setLoginDialogIsOpenTrue]);
+
+  useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
         setIsScrolledTrue();

@@ -1,10 +1,10 @@
-import AppleIcon from "@mui/icons-material/Apple";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import MailOutlineOutlinedIcon from "@mui/icons-material/MailOutlineOutlined";
+// import AppleIcon from "@mui/icons-material/Apple";
+// import FacebookIcon from "@mui/icons-material/Facebook";
+// import MailOutlineOutlinedIcon from "@mui/icons-material/MailOutlineOutlined";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
-import { Divider } from "@/components/atoms/Divider";
+// import { Divider } from "@/components/atoms/Divider";
 import { Grid2 } from "@/components/atoms/Grid2";
 import { LoadingButton } from "@/components/atoms/LoadingButton";
 import { Stack } from "@/components/atoms/Stack";
@@ -12,10 +12,10 @@ import { Typography } from "@/components/atoms/Typography";
 
 import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
 import { ForgotPasswordDialog } from "../ForgotPasswordDialog";
-import { SocialButton } from "../SocialButton";
+// import { SocialButton } from "../SocialButton";
 import { TextFieldWrapper } from "../TextFieldWrapper/TextFieldWrapper";
 
-import GoogleIcon from "/public/images/google.svg";
+// import GoogleIcon from "/public/images/google.svg";
 
 import { useLoginDialog } from "./LoginDialog.hooks";
 import { LoginDialogProps } from "./LoginDialog.types";
@@ -105,7 +105,7 @@ export function LoginDialog({
               Forgot password?
             </Button>
           </Stack>
-          <Divider className="text-xs">Or</Divider>
+          {/* <Divider className="text-xs">Or</Divider>
           <SocialButton
             icon={<FacebookIcon className="text-facebook" />}
             label="Continue with Facebook"
@@ -118,7 +118,7 @@ export function LoginDialog({
           <SocialButton
             icon={<MailOutlineOutlinedIcon />}
             label="Continue with email"
-          />
+          /> */}
         </Box>
         {LogInApiSnackbarAlert}
       </DialogWrapper>

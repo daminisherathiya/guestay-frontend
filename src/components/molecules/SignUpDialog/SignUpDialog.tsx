@@ -1,19 +1,19 @@
-import AppleIcon from "@mui/icons-material/Apple";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import MailOutlineOutlinedIcon from "@mui/icons-material/MailOutlineOutlined";
+// import AppleIcon from "@mui/icons-material/Apple";
+// import FacebookIcon from "@mui/icons-material/Facebook";
+// import MailOutlineOutlinedIcon from "@mui/icons-material/MailOutlineOutlined";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
-import { Divider } from "@/components/atoms/Divider";
+// import { Divider } from "@/components/atoms/Divider";
 import { Grid2 } from "@/components/atoms/Grid2";
 import { LoadingButton } from "@/components/atoms/LoadingButton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-import GoogleIcon from "/public/images/google.svg";
+// import GoogleIcon from "/public/images/google.svg";
 
 import { DialogWrapper } from "../DialogWrapper/DialogWrapper";
-import { SocialButton } from "../SocialButton";
+// import { SocialButton } from "../SocialButton";
 import { TextFieldWrapper } from "../TextFieldWrapper/TextFieldWrapper";
 
 import { useSignUpDialog } from "./SignUpDialog.hooks";
@@ -97,12 +97,12 @@ export function SignUpDialog({
                       message: "Password must be at least 8 characters long",
                       value: 8,
                     },
-                    pattern: {
-                      message:
-                        "Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
-                      value:
-                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[^\s]{8,}$/,
-                    },
+                    // pattern: {
+                    //   message:
+                    //     "Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
+                    //   value:
+                    //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[^\s]{8,}$/,
+                    // },
                     required: "Password is required",
                   }}
                   type="password"
@@ -169,7 +169,7 @@ export function SignUpDialog({
               Login
             </Button>
           </Stack>
-          <Divider className="text-xs">Or</Divider>
+          {/* <Divider className="text-xs">Or</Divider>
           <SocialButton
             icon={<FacebookIcon className="text-facebook" />}
             label="Continue with Facebook"
@@ -182,7 +182,7 @@ export function SignUpDialog({
           <SocialButton
             icon={<MailOutlineOutlinedIcon />}
             label="Continue with email"
-          />
+          /> */}
         </Box>
         {SignUpApiSnackbarAlert}
       </DialogWrapper>

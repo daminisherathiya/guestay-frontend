@@ -30,10 +30,10 @@ export function useTitle() {
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value;
-    if (newValue.length <= 50) {
+    if (newValue.length <= 55) {
       setTitle(newValue);
     } else {
-      setTitle(newValue.slice(0, 50));
+      setTitle(newValue.slice(0, 55));
     }
   };
 

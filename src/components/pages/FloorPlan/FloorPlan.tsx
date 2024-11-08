@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Select from "@mui/material/Select";
@@ -20,12 +18,15 @@ import { IconButton } from "@/components/atoms/IconButton";
 import { InputLabel } from "@/components/atoms/InputLabel";
 import { MenuItem } from "@/components/atoms/MenuItem";
 import { Skeleton } from "@/components/atoms/Skeleton";
-import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
 import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper";
 
-import { floorPlanItems } from "./FloorPlan.consts";
+import { FloorPlanCounterItem } from "./components/FloorPlanCounterItem";
+import {
+  floorPlanItemsAfterBedrooms,
+  floorPlanItemsBeforeBedrooms,
+} from "./FloorPlan.consts";
 import { useFloorPlan } from "./FloorPlan.hooks";
 
 export function FloorPlan() {
@@ -62,62 +63,20 @@ export function FloorPlan() {
             You&apos;ll add more details later, such as bed types.
           </Typography>
           <Box>
-            {floorPlanItems.map((floorPlanItem, index) => (
-              <Stack
+            {floorPlanItemsBeforeBedrooms.map((floorPlanItem, index) => (
+              <FloorPlanCounterItem
                 key={index}
-                className="flex-row items-center justify-between border-b-divider py-6 [&:not(:last-child)]:border-b"
-              >
-                <Typography component="p" variant="h3">
-                  {floorPlanItem.name}
-                </Typography>
-                <Stack className="w-[6.5rem] flex-row items-center justify-between">
-                  <IconButton
-                    className={`flex size-8 items-center justify-center border border-solid border-divider ${
-                      counters[floorPlanItem.field] === 0 || isLoading
-                        ? "pointer-events-none opacity-30"
-                        : ""
-                    }`}
-                    disabled={counters[floorPlanItem.field] === 0 || isLoading}
-                    onClick={() => handleDecrease(floorPlanItem.field)}
-                  >
-                    <Image
-                      alt="Minus"
-                      height={12}
-                      src="/images/minus.svg"
-                      width={12}
-                    />
-                  </IconButton>
-                  <Typography>
-                    {displayValue(counters[floorPlanItem.field])}
-                  </Typography>
-                  <IconButton
-                    className={`flex size-8 items-center justify-center border border-solid border-divider ${
-                      counters[floorPlanItem.field] === floorPlanItem.max ||
-                      isLoading
-                        ? "pointer-events-none opacity-30"
-                        : ""
-                    }`}
-                    disabled={
-                      counters[floorPlanItem.field] === floorPlanItem.max ||
-                      isLoading
-                    }
-                    onClick={() =>
-                      handleIncrease(floorPlanItem.field, floorPlanItem.max)
-                    }
-                  >
-                    <Image
-                      alt="Plus"
-                      height={12}
-                      src="/images/plus.svg"
-                      width={12}
-                    />
-                  </IconButton>
-                </Stack>
-              </Stack>
+                counter={counters[floorPlanItem.field]}
+                displayValue={displayValue}
+                floorPlanItem={floorPlanItem}
+                handleDecrease={handleDecrease}
+                handleIncrease={handleIncrease}
+                isLoading={isLoading}
+              />
             ))}
           </Box>
           <Divider />
-          <Typography className="py-6 " component="p" variant="h3">
+          <Typography className="py-6" component="p" variant="h3">
             Bedrooms
           </Typography>
           <Box className="space-y-4">
@@ -255,7 +214,7 @@ export function FloorPlan() {
               </Box>
             ))}
           </Box>
-          <Box className="mt-6" size={12}>
+          <Box className="my-6" size={12}>
             <Button
               disabled={isLoading}
               variant="contained"
@@ -263,6 +222,20 @@ export function FloorPlan() {
             >
               Add Bedroom
             </Button>
+          </Box>
+          <Divider />
+          <Box>
+            {floorPlanItemsAfterBedrooms.map((floorPlanItem, index) => (
+              <FloorPlanCounterItem
+                key={index}
+                counter={counters[floorPlanItem.field]}
+                displayValue={displayValue}
+                floorPlanItem={floorPlanItem}
+                handleDecrease={handleDecrease}
+                handleIncrease={handleIncrease}
+                isLoading={isLoading}
+              />
+            ))}
           </Box>
         </Box>
       </Container>

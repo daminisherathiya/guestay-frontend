@@ -10,12 +10,21 @@ import { useQuery } from "@/hooks/useQuery";
 import { useToggle } from "@/hooks/useToggle";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
+import { checkIfPropertyIsFinished } from "./ListingHome.utils";
+
 export function useListingHome() {
   const router = useRouter();
 
-  const { toggle: toggleShowMore, value: showMore } = useToggle({
-    initialValue: true,
-  });
+  const { toggle: toggleUnfihishedShowMore, value: showMoreUnfihished } =
+    useToggle({
+      initialValue: true,
+    });
+
+  const { toggle: toggleFihishedShowMore, value: showMoreFihished } = useToggle(
+    {
+      initialValue: true,
+    },
+  );
 
   const {
     data: listingPropertiesApiData,
@@ -33,20 +42,27 @@ export function useListingHome() {
     queryKey: ["listing-properties"],
   });
 
-  const listingProperties = useMemo(() => {
+  const listingUnfinishedProperties = useMemo(() => {
     return (listingPropertiesApiData?.data || []).filter(
-      (listingProperty) =>
-        listingProperty.status === "draft" &&
-        !(listingProperty.listing_steps || "").includes("draft"),
+      (listingProperty) => !checkIfPropertyIsFinished({ listingProperty }),
+    );
+  }, [listingPropertiesApiData]);
+
+  const listingFinishedProperties = useMemo(() => {
+    return (listingPropertiesApiData?.data || []).filter((listingProperty) =>
+      checkIfPropertyIsFinished({ listingProperty }),
     );
   }, [listingPropertiesApiData]);
 
   return {
-    listingProperties,
+    listingFinishedProperties,
     listingPropertiesApiIsFirstLoading,
     ListingPropertiesApiSnackbarAlert,
+    listingUnfinishedProperties,
     router,
-    showMore,
-    toggleShowMore,
+    showMoreFihished,
+    showMoreUnfihished,
+    toggleFihishedShowMore,
+    toggleUnfihishedShowMore,
   };
 }

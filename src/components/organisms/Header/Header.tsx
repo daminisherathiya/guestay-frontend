@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 
-import HelpIcon from "@mui/icons-material/Help";
-import HomeIcon from "@mui/icons-material/Home";
+// import HelpIcon from "@mui/icons-material/Help";
+// import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PasswordIcon from "@mui/icons-material/Password";
 import PersonAdd from "@mui/icons-material/PersonAdd";
-import ScienceIcon from "@mui/icons-material/Science";
+// import ScienceIcon from "@mui/icons-material/Science";
 import { Avatar, Link, ListItemIcon, Menu, Tooltip } from "@mui/material";
 import { GridMenuIcon } from "@mui/x-data-grid";
 
@@ -15,8 +15,8 @@ import UserAccount from "/public/images/userAccount.svg";
 
 import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
-import { Divider } from "@/components/atoms/Divider";
-import { Drawer } from "@/components/atoms/Drawer";
+// import { Divider } from "@/components/atoms/Divider";
+// import { Drawer } from "@/components/atoms/Drawer";
 import { MenuItem } from "@/components/atoms/MenuItem";
 import { Stack } from "@/components/atoms/Stack";
 import { LoginDialog } from "@/components/molecules/LoginDialog/LoginDialog";
@@ -25,7 +25,7 @@ import { ResetPasswordDialog } from "@/components/molecules/ResetPasswordDialog"
 import { SignUpDialog } from "@/components/molecules/SignUpDialog/SignUpDialog";
 import { getUserInitial } from "@/utils/common";
 
-import { QuestionsDrawer } from "../QuestionsDrawer/QuestionsDrawer";
+// import { QuestionsDrawer } from "../QuestionsDrawer/QuestionsDrawer";
 
 import { useHeader } from "./Header.hooks";
 
@@ -40,12 +40,12 @@ export function Header() {
     isScrolled,
     loginDialogIsOpen,
     openAccountMenu,
-    questionsDrawerIsOpen,
+    // questionsDrawerIsOpen,
     ResetPasswordDialogIsOpen,
     setLoginDialogIsOpenFalse,
     setLoginDialogIsOpenTrue,
-    setQuestionsDrawerIsOpenFalse,
-    setQuestionsDrawerIsOpenTrue,
+    // setQuestionsDrawerIsOpenFalse,
+    // setQuestionsDrawerIsOpenTrue,
     setResetPasswordDialogIsOpenFalse,
     setResetPasswordDialogIsOpenTrue,
     setSignUpDialogIsOpenFalse,
@@ -74,7 +74,7 @@ export function Header() {
             </picture>
           </Link>
           <Stack className="flex-row gap-2 xs:gap-4">
-            <Button
+            {/* <Button
               className="rounded-3xl hover:bg-common-white"
               variant="outlined"
               onClick={() => setQuestionsDrawerIsOpenTrue()}
@@ -91,7 +91,7 @@ export function Header() {
               <QuestionsDrawer
                 onClose={() => setQuestionsDrawerIsOpenFalse()}
               />
-            </Drawer>
+            </Drawer> */}
             {showExitButton && (
               <Button
                 className="rounded-3xl hover:bg-common-white"
@@ -199,7 +199,7 @@ export function Header() {
                 </MenuItem>
               )}
               {isAuthenticated && <Logout />}
-              <Divider />
+              {/* <Divider />
               <MenuItem onClick={closeAccountMenu}>
                 <ListItemIcon>
                   <HomeIcon fontSize="small" />
@@ -217,7 +217,7 @@ export function Header() {
                   <HelpIcon fontSize="small" />
                 </ListItemIcon>
                 Help Centre
-              </MenuItem>
+              </MenuItem> */}
             </Menu>
             <LoginDialog
               handleCloseLoginDialog={setLoginDialogIsOpenFalse}

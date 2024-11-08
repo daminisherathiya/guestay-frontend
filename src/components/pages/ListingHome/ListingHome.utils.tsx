@@ -1,3 +1,5 @@
+import { ListingPropertiesType } from "@/apis/property/listingPropertiesApi/listingPropertiesApi.types";
+
 import {
   ALL_LISTING_STEPS,
   LISTING_STEP_TO_URL,
@@ -19,6 +21,7 @@ export const findFirstMissingListingStep = ({
     }
   }
 
+  return ALL_LISTING_STEPS[1];
   throw new Error("All listing steps are already completed!");
 };
 
@@ -31,4 +34,15 @@ export const getNextListingStepUrl = ({
   });
   const nextListingStepMaskedUrl = LISTING_STEP_TO_URL[nextListingStep];
   return nextListingStepMaskedUrl.replace(PROPERTY_ID_STR, propertyIdToEdit);
+};
+
+export const checkIfPropertyIsFinished = ({
+  listingProperty,
+}: {
+  listingProperty: ListingPropertiesType;
+}) => {
+  return !(
+    listingProperty.status === "draft" &&
+    !(listingProperty.listing_steps || "").includes("draft")
+  );
 };

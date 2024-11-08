@@ -82,10 +82,7 @@ export function FullReceiptPreviewDialog({
                 </Stack>
                 <Divider />
                 <Box className="py-5 lg:py-6 xl:py-8">
-                  <Typography>
-                    You&apos;ll have a great time at this comfortable place to
-                    stay.
-                  </Typography>
+                  <Typography>{property?.description}</Typography>
                 </Box>
                 <Divider />
                 <Box className="py-5 lg:py-6 xl:py-8">

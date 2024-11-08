@@ -7,6 +7,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
+import { Chip } from "@/components/atoms/Chip";
 import { Container } from "@/components/atoms/Container";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
@@ -19,11 +20,14 @@ import { getNextListingStepUrl } from "./ListingHome.utils";
 
 export function ListingHome() {
   const {
-    listingProperties,
+    listingFinishedProperties,
     listingPropertiesApiIsFirstLoading,
+    listingUnfinishedProperties,
     router,
-    showMore,
-    toggleShowMore,
+    showMoreFihished,
+    showMoreUnfihished,
+    toggleFihishedShowMore,
+    toggleUnfihishedShowMore,
   } = useListingHome();
 
   const getSkeleton = () => {
@@ -37,16 +41,12 @@ export function ListingHome() {
     ));
   };
 
-  const getPropertiesList = () => {
-    if (listingProperties.length === 0) {
-      return <Typography>No property listings to finish</Typography>;
-    }
-
-    return listingProperties.map((listingProperty, index) => (
+  const getUnfinishedPropertiesList = () => {
+    return listingUnfinishedProperties.map((listingProperty, index) => (
       <Button
         key={listingProperty.id}
         disableRipple
-        className={`w-full justify-start gap-4 rounded-xl p-6 text-start ${showMore && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
+        className={`w-full justify-start gap-4 rounded-xl p-6 text-start ${showMoreUnfihished && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
         variant="outlined"
         onClick={() => {
           const nextListingStepUrl = getNextListingStepUrl({
@@ -69,6 +69,40 @@ export function ListingHome() {
     ));
   };
 
+  const getFinishedPropertiesList = () => {
+    return listingFinishedProperties.map((listingProperty, index) => (
+      <Button
+        key={listingProperty.id}
+        disableRipple
+        className={`w-full justify-between gap-4 rounded-xl p-6 text-start ${showMoreFihished && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
+        variant="outlined"
+        onClick={() => {
+          const nextListingStepUrl = getNextListingStepUrl({
+            propertyIdToEdit: listingProperty.id,
+            providedListingSteps: listingProperty.listing_steps || "",
+          });
+          // window.open(nextListingStepUrl);
+          router.push(nextListingStepUrl);
+        }}
+      >
+        <Stack className="flex-row items-center gap-4">
+          <Image
+            alt="home"
+            className="rounded"
+            height={44}
+            src="/images/home.jpg"
+            width={44}
+          />
+          <Typography>{listingProperty.title}</Typography>
+        </Stack>
+        <Chip
+          classes={{ label: "first-letter:uppercase" }}
+          label={listingProperty.status}
+        />
+      </Button>
+    ));
+  };
+
   return (
     <>
       <Container maxWidth="2xl">
@@ -77,23 +111,30 @@ export function ListingHome() {
             <Typography className="mb-8" component="h1" variant="h1">
               Welcome back, {getUserDetails().fname}
             </Typography>
-            <Typography className="mb-4" component="h2" variant="h2">
-              Finish your listing
-            </Typography>
-            <Box className="mb-16 space-y-3">
-              {listingPropertiesApiIsFirstLoading
-                ? getSkeleton()
-                : getPropertiesList()}
-              {listingProperties.length > NUMBER_OF_PROPERTIES_TO_SHOW && (
-                <Button
-                  className="p-0 hover:bg-common-white"
-                  variant="text"
-                  onClick={toggleShowMore}
-                >
-                  {showMore ? "Show all" : "Show less"}
-                </Button>
-              )}
-            </Box>
+
+            {listingUnfinishedProperties.length > 0 && (
+              <>
+                <Typography className="mb-4" component="h2" variant="h2">
+                  Finish your listing
+                </Typography>
+                <Box className="mb-16 space-y-3">
+                  {listingPropertiesApiIsFirstLoading
+                    ? getSkeleton()
+                    : getUnfinishedPropertiesList()}
+                  {listingUnfinishedProperties.length >
+                    NUMBER_OF_PROPERTIES_TO_SHOW && (
+                    <Button
+                      className="p-0 hover:bg-common-white"
+                      variant="text"
+                      onClick={toggleUnfihishedShowMore}
+                    >
+                      {showMoreUnfihished ? "Show all" : "Show less"}
+                    </Button>
+                  )}
+                </Box>
+              </>
+            )}
+
             <Typography className="mb-4" component="h2" variant="h2">
               Start a new listing
             </Typography>
@@ -114,6 +155,29 @@ export function ListingHome() {
                 </Stack>
               </Link>
             </Box>
+
+            {listingFinishedProperties.length > 0 && (
+              <>
+                <Typography className="mb-4" component="h2" variant="h2">
+                  Finished listing
+                </Typography>
+                <Box className="mb-16 space-y-3">
+                  {listingPropertiesApiIsFirstLoading
+                    ? getSkeleton()
+                    : getFinishedPropertiesList()}
+                  {listingFinishedProperties.length >
+                    NUMBER_OF_PROPERTIES_TO_SHOW && (
+                    <Button
+                      className="p-0 hover:bg-common-white"
+                      variant="text"
+                      onClick={toggleFihishedShowMore}
+                    >
+                      {showMoreFihished ? "Show all" : "Show less"}
+                    </Button>
+                  )}
+                </Box>
+              </>
+            )}
           </Box>
         </Box>
       </Container>

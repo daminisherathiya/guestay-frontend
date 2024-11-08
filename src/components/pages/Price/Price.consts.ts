@@ -1,1 +1,1 @@
-export const DEFAULT_PRICE = "2,439";
+export const DEFAULT_PRICE = "250";
