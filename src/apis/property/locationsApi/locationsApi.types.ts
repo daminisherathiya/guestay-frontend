@@ -9,7 +9,9 @@ export interface locationsApiType {
 export interface LocationType {
   id: string;
   label: string;
+  latitude: string;
   location_ids: string[];
+  longitude: string;
   parent: string;
 }
 

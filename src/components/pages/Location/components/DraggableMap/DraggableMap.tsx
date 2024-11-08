@@ -6,8 +6,10 @@ import { useBoolean } from "@/hooks/useBoolean";
 import { INITIAL_MAP_POSITION } from "./DraggableMap.consts";
 import { DraggableMapProps } from "./DraggableMap.types";
 
-const DraggableMap = ({
+export const DraggableMap = ({
   latitude,
+  location,
+  locationHasChanged,
   longitude,
   setLatitude,
   setLongitude,
@@ -90,7 +92,32 @@ const DraggableMap = ({
     setMapCenterInitializedTrue,
   ]);
 
+  useEffect(() => {
+    if (
+      location &&
+      locationHasChanged &&
+      mapInstance &&
+      markerInstance &&
+      mapCenterInitialized
+    ) {
+      const newPosition = {
+        lat: Number(location.latitude),
+        lng: Number(location.longitude),
+      };
+      mapInstance.setCenter(newPosition);
+      markerInstance.setPosition(newPosition);
+      setLatitude(newPosition.lat);
+      setLongitude(newPosition.lng);
+    }
+  }, [
+    location,
+    locationHasChanged,
+    mapCenterInitialized,
+    mapInstance,
+    markerInstance,
+    setLatitude,
+    setLongitude,
+  ]);
+
   return <Box ref={mapRef} className="h-[31.25rem] rounded-lg" />;
 };
-
-export default DraggableMap;

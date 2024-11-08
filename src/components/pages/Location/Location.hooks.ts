@@ -129,6 +129,16 @@ export function useLocation() {
   const address = watch("address");
   const locationId = watch("locationId");
 
+  const location = useMemo(() => {
+    if (!locationId) {
+      return null;
+    }
+
+    return locations.find((location) => location.id === locationId);
+  }, [locationId, locations]);
+
+  const [locationHasChanged, setLocationHasChanged] = useState(false);
+
   ////////
 
   const router = useRouter();
@@ -169,6 +179,8 @@ export function useLocation() {
     control,
     Footer,
     latitude,
+    location,
+    locationHasChanged,
     locations,
     locationsApiIsFirstLoading,
     LocationsApiSnackbarAlert,
@@ -177,6 +189,7 @@ export function useLocation() {
     SavePropertyApiSnackbarAlert,
     selectedPlaceDetails,
     setLatitude,
+    setLocationHasChanged,
     setLongitude,
     setSelectedPlaceDetails,
   };
