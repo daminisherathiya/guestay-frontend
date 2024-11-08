@@ -165,7 +165,9 @@ export function Location() {
                         "bg-common-white before:h-full before:rounded-lg before:border before:border-solid before:border-common-black/45",
                     },
                   }}
-                  value={latitude || INITIAL_MAP_POSITION.lat}
+                  value={
+                    latitude !== null ? latitude : INITIAL_MAP_POSITION.lat
+                  }
                   variant="filled"
                 />
               </Grid2>
@@ -181,7 +183,9 @@ export function Location() {
                         "bg-common-white before:h-full before:rounded-lg before:border before:border-solid before:border-common-black/45",
                     },
                   }}
-                  value={longitude || INITIAL_MAP_POSITION.lng}
+                  value={
+                    longitude !== null ? longitude : INITIAL_MAP_POSITION.lng
+                  }
                   variant="filled"
                 />
               </Grid2>
