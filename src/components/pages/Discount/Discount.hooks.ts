@@ -42,11 +42,11 @@ export function useDiscount() {
     defaultValues: {
       monthlyDiscount: 15,
       monthlyDiscountChecked: false,
-      monthlyDiscountId: null,
+      monthlyDiscountId: "0",
 
       weeklyDiscount: 8,
       weeklyDiscountChecked: false,
-      weeklyDiscountId: null,
+      weeklyDiscountId: "0",
     },
     mode: "onChange",
   });
@@ -55,11 +55,11 @@ export function useDiscount() {
     if (propertyApiIsSuccess) {
       let monthlyDiscount = 15;
       let monthlyDiscountChecked = false;
-      let monthlyDiscountId = null;
+      let monthlyDiscountId = "0";
 
       let weeklyDiscount = 8;
       let weeklyDiscountChecked = false;
-      let weeklyDiscountId = null;
+      let weeklyDiscountId = "0";
 
       if (Array.isArray(propertyApiData?.data?.discount)) {
         const discounts = propertyApiData?.data?.discount.reverse();
@@ -70,9 +70,7 @@ export function useDiscount() {
         weeklyDiscount = discountForSevenDays
           ? parseInt(discountForSevenDays.discount_rate)
           : 8;
-        weeklyDiscountId = discountForSevenDays
-          ? discountForSevenDays.id
-          : null;
+        weeklyDiscountId = discountForSevenDays ? discountForSevenDays.id : "0";
         weeklyDiscountChecked = !!weeklyDiscountId;
 
         ////////
@@ -85,7 +83,7 @@ export function useDiscount() {
           : 15;
         monthlyDiscountId = discountForTwentyEightDays
           ? discountForTwentyEightDays.id
-          : null;
+          : "0";
         monthlyDiscountChecked = !!monthlyDiscountId;
       }
 
@@ -163,7 +161,7 @@ export function useDiscount() {
     savePropertyApiMutate({
       data: {
         discountDays: discountDays,
-        discountIds: discountIds.length ? discountIds : undefined,
+        discountIds: discountIds,
         discountRate: discountRate,
         listingStep: "discount",
         propertyId: propertyId,
