@@ -164,7 +164,7 @@ export function Price() {
                     <Typography className="font-medium" variant="h3">
                       $
                       {parseFloat(price.replace(/,/g, "")) -
-                        commissionRates -
+                        parseFloat(commissionRates) -
                         parseFloat(insurancePolicyPrice)}
                     </Typography>
                   </Stack>

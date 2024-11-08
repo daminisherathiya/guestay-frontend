@@ -72,46 +72,48 @@ export function ListingHome() {
   return (
     <>
       <Container maxWidth="2xl">
-        <Box className="mx-auto max-w-2xl">
-          <Typography className="mb-8" component="h1" variant="h1">
-            Welcome back, {getUserDetails().fname}
-          </Typography>
-          <Typography className="mb-4" component="h2" variant="h2">
-            Finish your listing
-          </Typography>
-          <Box className="mb-16 space-y-3">
-            {listingPropertiesApiIsFirstLoading
-              ? getSkeleton()
-              : getPropertiesList()}
-            {listingProperties.length > NUMBER_OF_PROPERTIES_TO_SHOW && (
-              <Button
-                className="p-0 hover:bg-common-white"
-                variant="text"
-                onClick={toggleShowMore}
-              >
-                {showMore ? "Show all" : "Show less"}
-              </Button>
-            )}
-          </Box>
-          <Typography className="mb-4" component="h2" variant="h2">
-            Start a new listing
-          </Typography>
-          <Box className="mb-12">
-            <Link href="/become-a-host/overview/">
-              <Stack className="cursor-pointer flex-row items-center justify-between gap-4 border-divider py-6 md:border-b">
-                <Stack className="flex-row items-center gap-4">
-                  <Image
-                    alt="Add"
-                    className="rounded"
-                    height={32}
-                    src="/images/addFile.svg"
-                    width={32}
-                  />
-                  <Typography>Create a new listing</Typography>
+        <Box className="flex min-h-[calc(100vh-178px)] flex-col items-center justify-center">
+          <Box className="mx-auto my-5 w-full max-w-2xl">
+            <Typography className="mb-8" component="h1" variant="h1">
+              Welcome back, {getUserDetails().fname}
+            </Typography>
+            <Typography className="mb-4" component="h2" variant="h2">
+              Finish your listing
+            </Typography>
+            <Box className="mb-16 space-y-3">
+              {listingPropertiesApiIsFirstLoading
+                ? getSkeleton()
+                : getPropertiesList()}
+              {listingProperties.length > NUMBER_OF_PROPERTIES_TO_SHOW && (
+                <Button
+                  className="p-0 hover:bg-common-white"
+                  variant="text"
+                  onClick={toggleShowMore}
+                >
+                  {showMore ? "Show all" : "Show less"}
+                </Button>
+              )}
+            </Box>
+            <Typography className="mb-4" component="h2" variant="h2">
+              Start a new listing
+            </Typography>
+            <Box className="mb-12">
+              <Link href="/become-a-host/overview/">
+                <Stack className="cursor-pointer flex-row items-center justify-between gap-4 border-divider py-6 md:border-b">
+                  <Stack className="flex-row items-center gap-4">
+                    <Image
+                      alt="Add"
+                      className="rounded"
+                      height={32}
+                      src="/images/addFile.svg"
+                      width={32}
+                    />
+                    <Typography>Create a new listing</Typography>
+                  </Stack>
+                  <KeyboardArrowRightIcon />
                 </Stack>
-                <KeyboardArrowRightIcon />
-              </Stack>
-            </Link>
+              </Link>
+            </Box>
           </Box>
         </Box>
       </Container>

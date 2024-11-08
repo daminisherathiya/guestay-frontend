@@ -12,7 +12,7 @@ import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
 import { useQuery } from "@/hooks/useQuery";
 import { useToggle } from "@/hooks/useToggle/useToggle";
-import { removeLeadingZeros } from "@/utils/common";
+import { removeLeadingZeros, roundNumber } from "@/utils/common";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { DEFAULT_PRICE } from "./Price.consts";
@@ -153,9 +153,10 @@ export function usePrice() {
   }, [nextUrl, router, savePropertyApiIsSuccess]);
 
   return {
-    commissionRates:
+    commissionRates: roundNumber(
       parseFloat(price.replace(/,/g, "")) *
-      (parseFloat(commissionRatesRef.current) / 100),
+        (parseFloat(commissionRatesRef.current) / 100),
+    ),
     Footer,
     globalPricesApiData,
     globalPricesApiSnackbarAlert,

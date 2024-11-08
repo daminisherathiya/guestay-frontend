@@ -69,11 +69,9 @@ export function FullReceiptPreviewDialog({
                       Entire home hosted by {getUserDetails().fname}
                     </Typography>
                     <Typography className="mt-2">
-                      {Number(property?.num_of_people || 0) +
-                        Number(property?.no_of_couples || 0)}{" "}
-                      guests · {property?.bedrooms || 0} bedrooms ·{" "}
-                      {property?.beds || 0} beds · {property?.baths || 0}{" "}
-                      bathrooms
+                      {Number(property?.num_of_people || 0)} guests ·{" "}
+                      {property?.bedrooms || 0} bedrooms · {property?.beds || 0}{" "}
+                      beds · {property?.baths || 0} bathrooms
                     </Typography>
                   </Box>
                   <Box className="order-1 xs:order-2">

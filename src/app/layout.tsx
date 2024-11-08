@@ -70,7 +70,7 @@ export default function RootLayout({
               <AuthenticationProvider>
                 <CssBaseline />
                 <Header />
-                <Toolbar className="min-h-[6.375rem]" />
+                <Toolbar className="min-h-20 xs:min-h-24 sm:min-h-[6.375rem]" />
                 <AuthenticationLoader>{children}</AuthenticationLoader>
                 {process.env.NODE_ENV !== "production" && (
                   <ReactQueryDevtools initialIsOpen={false} />
