@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Script from "next/script";
+// import Script from "next/script";
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Controller } from "react-hook-form";
@@ -15,8 +15,9 @@ import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
 // import { CountrySelect } from "@/components/molecules/CountrySelect/CountrySelect";
 // import { defaultCountry } from "@/components/molecules/CountrySelect/CountrySelect.consts";
-import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper/TextFieldWrapper";
+// import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper/TextFieldWrapper";
 // import { type AddressDetailsType } from "@/types/Location.types";
+import AutocompleteGoogleMaps from "@/components/organisms/AutocompleteGoogleMaps/AutocompleteGoogleMaps";
 
 import { DraggableMap } from "./components/DraggableMap/DraggableMap";
 import { INITIAL_MAP_POSITION } from "./components/DraggableMap/DraggableMap.consts";
@@ -146,12 +147,18 @@ export function Location() {
                 />
               </Grid2>
               <Grid2 size={12}>
-                <TextFieldWrapper
+                <AutocompleteGoogleMaps
                   control={control}
                   label="Address"
                   name="address"
                   rules={{ required: "Address is required" }}
                 />
+                {/* <TextFieldWrapper
+                  control={control}
+                  label="Address"
+                  name="address"
+                  rules={{ required: "Address is required" }}
+                /> */}
               </Grid2>
               <Grid2 size={{ "2xs": 12, sm: 6 }}>
                 <TextField
@@ -202,10 +209,10 @@ export function Location() {
             </Grid2>
           </Box>
         )}
-        <Script
+        {/* <Script
           src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
           strategy="lazyOnload"
-        />
+        /> */}
       </Container>
       {Footer}
       {LocationsApiSnackbarAlert}

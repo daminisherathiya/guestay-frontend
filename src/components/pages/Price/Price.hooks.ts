@@ -81,7 +81,7 @@ export function usePrice() {
   }, [globalPricesApiData, globalPricesApiIsSuccess]);
 
   const { value: isPriceVisible, toggle: setIsPriceVisibleTrue } = useToggle({
-    initialValue: false,
+    initialValue: true,
   });
 
   const {
@@ -139,8 +139,8 @@ export function usePrice() {
   };
 
   const priceError =
-    parseFloat(price.replace(/,/g, "")) < 10
-      ? "The price should be at least $10"
+    parseFloat(price.replace(/,/g, "")) < 50
+      ? "The price should be at least $50"
       : "";
 
   const isLoading = propertyApiIsFirstLoading || globalPricesApiIsFirstLoading;

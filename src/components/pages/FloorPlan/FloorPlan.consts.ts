@@ -1,7 +1,10 @@
 import { CounterItem } from "./FloorPlan.types";
 
-export const floorPlanItems: CounterItem[] = [
+export const floorPlanItemsBeforeBedrooms: CounterItem[] = [
   { field: "bathrooms", max: 50, name: "Bathrooms" },
+];
+
+export const floorPlanItemsAfterBedrooms: CounterItem[] = [
   { field: "cribs", max: 50, name: "Cribs" },
 ];
 

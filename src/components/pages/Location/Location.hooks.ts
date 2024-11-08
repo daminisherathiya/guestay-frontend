@@ -127,7 +127,9 @@ export function useLocation() {
   }, [locationsApiIsSuccess, propertyApiData, propertyApiIsSuccess, setValue]);
 
   const address = watch("address");
+  console.log("🚀 ~ useLocation ~ address:", address);
   const locationId = watch("locationId");
+  console.log("🚀 ~ useLocation ~ locationId:", locationId);
 
   const location = useMemo(() => {
     if (!locationId) {
@@ -161,7 +163,8 @@ export function useLocation() {
     propertyApiIsFirstLoading ||
     locationsApiIsFirstLoading ||
     !address ||
-    !locationId;
+    !locationId ||
+    locationId === "0";
 
   const { Footer, nextUrl } = useFooterProgressBar({
     isDisabled: isLoading,
