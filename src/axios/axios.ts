@@ -3,7 +3,7 @@ import axios, { type AxiosRequestConfig } from "axios";
 import { getAuthenticationToken } from "@/utils/localStorage/localStorage";
 
 const axiosInstance = axios.create({
-  baseURL: "https://guestay.webarysites.com/api_owner/",
+  baseURL: `${process.env.NEXT_PUBLIC_API_DOMAIN}/api_owner/`,
   headers: {
     Authorization: "GuesTayOwnerPortal2K24",
   },
