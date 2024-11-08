@@ -138,10 +138,15 @@ export function usePrice() {
     });
   };
 
+  const priceError =
+    parseFloat(price.replace(/,/g, "")) < 10
+      ? "The price should be at least $10"
+      : "";
+
   const isLoading = propertyApiIsFirstLoading || globalPricesApiIsFirstLoading;
 
   const { Footer, nextUrl } = useFooterProgressBar({
-    isDisabled: isLoading || Number(price) < 1,
+    isDisabled: isLoading || !!priceError,
     isLoading: savePropertyApiIsPending,
     onSubmit: onSubmit,
   });
@@ -168,6 +173,7 @@ export function usePrice() {
     isPriceVisible,
     moreAboutPricingDialogIsOpen,
     price,
+    priceError,
     priceInputRef,
     PropertyApiSnackbarAlert,
     SavePropertyApiSnackbarAlert,

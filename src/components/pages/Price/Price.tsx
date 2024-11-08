@@ -31,6 +31,7 @@ export function Price() {
     isPriceVisible,
     moreAboutPricingDialogIsOpen,
     price,
+    priceError,
     priceInputRef,
     PropertyApiSnackbarAlert,
     SavePropertyApiSnackbarAlert,
@@ -69,9 +70,12 @@ export function Price() {
                 <>
                   <TextField
                     autoComplete="off"
+                    error={!!priceError}
+                    helperText={priceError}
                     id="outlined-basic"
                     inputRef={priceInputRef}
                     slotProps={{
+                      formHelperText: { className: "mt-0 mx-2" },
                       input: {
                         classes: {
                           input: "py-0",
