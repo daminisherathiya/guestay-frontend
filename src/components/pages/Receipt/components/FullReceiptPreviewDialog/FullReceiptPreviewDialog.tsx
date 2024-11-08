@@ -130,7 +130,8 @@ export function FullReceiptPreviewDialog({
                     Location
                   </Typography>
                   <Typography className="mt-5" component="h3" variant="body1">
-                    {property?.address}{", "}
+                    {property?.address}
+                    {", "}
                     {locationsApiData?.data.find(
                       (location) => location.id === property?.location,
                     )?.label || ""}
