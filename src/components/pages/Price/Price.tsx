@@ -12,6 +12,7 @@ import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
+import { roundNumber } from "@/utils/common";
 
 import { MoreAboutPricingDialog } from "./components/MoreAboutPricingDialog";
 import { usePrice } from "./Price.hooks";
@@ -30,6 +31,7 @@ export function Price() {
     isPriceVisible,
     moreAboutPricingDialogIsOpen,
     price,
+    priceError,
     priceInputRef,
     PropertyApiSnackbarAlert,
     SavePropertyApiSnackbarAlert,
@@ -68,9 +70,12 @@ export function Price() {
                 <>
                   <TextField
                     autoComplete="off"
+                    error={!!priceError}
+                    helperText={priceError}
                     id="outlined-basic"
                     inputRef={priceInputRef}
                     slotProps={{
+                      formHelperText: { className: "mt-0 mx-2" },
                       input: {
                         classes: {
                           input: "py-0",
@@ -163,9 +168,11 @@ export function Price() {
                     </Typography>
                     <Typography className="font-medium" variant="h3">
                       $
-                      {parseFloat(price.replace(/,/g, "")) -
-                        commissionRates -
-                        parseFloat(insurancePolicyPrice)}
+                      {roundNumber(
+                        parseFloat(price.replace(/,/g, "")) -
+                          parseFloat(commissionRates) -
+                          parseFloat(insurancePolicyPrice),
+                      )}
                     </Typography>
                   </Stack>
                 </Box>

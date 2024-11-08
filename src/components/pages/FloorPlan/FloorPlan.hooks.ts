@@ -130,14 +130,17 @@ export function useFloorPlan() {
       data: {
         baths: counters.bathrooms,
         bedrooms: bedrooms.reduce(
-          (total, bedroom) => total + (bedroom.bed_count !== "0" ? 1 : 0),
-          0,
-        ),
-        bedroomsInfo: JSON.stringify(bedrooms),
-        beds: bedrooms.reduce(
           (total, bedroom) => total + Number(bedroom.bed_count),
           0,
         ),
+        bedroomsInfo: JSON.stringify(bedrooms),
+        beds: bedrooms.reduce((total, bedroom) => {
+          const numOfBeds = bedroom.type.reduce(
+            (sum, bedType) => sum + Number(bedType.num_of_beds),
+            0,
+          );
+          return total + numOfBeds;
+        }, 0),
         cribs: counters.cribs,
         listingStep: "bedroom_info",
         noOfChildren: counters.cribs,
@@ -148,10 +151,11 @@ export function useFloorPlan() {
           return total + coupleBeds;
         }, 0),
         numOfPeople: bedrooms.reduce((total, bedroom) => {
-          const singleBeds = bedroom.type.filter(
-            (bedType) => bedType.num_of_people !== "2",
-          ).length;
-          return total + singleBeds;
+          const numOfPeople = bedroom.type.reduce(
+            (sum, bedType) => sum + Number(bedType.num_of_people),
+            0,
+          );
+          return total + numOfPeople;
         }, 0),
         propertyId: propertyId,
         userId: getUserDetails().id,
