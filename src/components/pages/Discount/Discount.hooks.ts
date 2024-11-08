@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 
 import { useForm } from "react-hook-form";
 
+import { SavePropertyApiDataType } from "@/apis/property/savePropertyApi/savePropertyApi.types";
 import { useBoolean } from "@/hooks/useBoolean/useBoolean";
 import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
@@ -71,7 +72,7 @@ export function useDiscount() {
           ? parseInt(discountForSevenDays.discount_rate)
           : 8;
         weeklyDiscountId = discountForSevenDays ? discountForSevenDays.id : "0";
-        weeklyDiscountChecked = !!weeklyDiscountId;
+        weeklyDiscountChecked = !!discountForSevenDays;
 
         ////////
 
@@ -84,7 +85,7 @@ export function useDiscount() {
         monthlyDiscountId = discountForTwentyEightDays
           ? discountForTwentyEightDays.id
           : "0";
-        monthlyDiscountChecked = !!monthlyDiscountId;
+        monthlyDiscountChecked = !!discountForTwentyEightDays;
       }
 
       console.log("🚀 ~ useEffect ~ weeklyDiscountId:", weeklyDiscountId);
@@ -143,9 +144,9 @@ export function useDiscount() {
   const router = useRouter();
 
   const onSubmit = () => {
-    const discountDays = [];
-    const discountIds = [];
-    const discountRate = [];
+    let discountDays: SavePropertyApiDataType["discountDays"] = [];
+    let discountIds: SavePropertyApiDataType["discountIds"] = [];
+    let discountRate: SavePropertyApiDataType["discountRate"] = [];
 
     if (weeklyDiscountChecked) {
       discountDays.push(7);
@@ -156,6 +157,12 @@ export function useDiscount() {
       discountDays.push(28);
       discountIds.push(monthlyDiscountId);
       discountRate.push(monthlyDiscount);
+    }
+
+    if (discountDays.length === 0) {
+      discountDays = 0;
+      discountIds = 0;
+      discountRate = 0;
     }
 
     savePropertyApiMutate({
