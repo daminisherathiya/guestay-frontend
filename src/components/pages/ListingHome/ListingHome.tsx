@@ -97,7 +97,11 @@ export function ListingHome() {
         </Stack>
         <Chip
           classes={{ label: "first-letter:uppercase" }}
-          label={listingProperty.status}
+          label={
+            listingProperty.status === "draft"
+              ? "pending approval"
+              : listingProperty.status
+          }
         />
       </Button>
     ));

@@ -8,6 +8,8 @@ import { usePathname } from "next/navigation";
 import { useAuthentication } from "@/hooks/useAuthentication";
 import { useBoolean } from "@/hooks/useBoolean/useBoolean";
 
+import { LOGIN_HASH_STR, SIGNUP_HASH_STR } from "./Header.consts";
+
 export const useHeader = () => {
   const { isAuthenticated, userDetails } = useAuthentication();
 
@@ -40,12 +42,6 @@ export const useHeader = () => {
     setTrue: setResetPasswordDialogIsOpenTrue,
     setFalse: setResetPasswordDialogIsOpenFalse,
   } = useBoolean({ initialValue: false });
-
-  useEffect(() => {
-    if (isAuthenticated === false) {
-      setLoginDialogIsOpenTrue();
-    }
-  }, [isAuthenticated, setLoginDialogIsOpenTrue]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -84,6 +80,45 @@ export const useHeader = () => {
     setSignUpDialogIsOpenTrue();
   }, [setLoginDialogIsOpenFalse, setSignUpDialogIsOpenTrue]);
 
+  const clearHash = useCallback(() => {
+    window.history.replaceState(null, "", window.location.pathname);
+  }, []);
+
+  const handleCloseLoginDialog = useCallback(() => {
+    setLoginDialogIsOpenFalse();
+    clearHash();
+  }, [clearHash, setLoginDialogIsOpenFalse]);
+
+  const handleCloseSignUpDialog = useCallback(() => {
+    setSignUpDialogIsOpenFalse();
+    clearHash();
+  }, [clearHash, setSignUpDialogIsOpenFalse]);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+
+    if (isAuthenticated === true) {
+      if (hash === LOGIN_HASH_STR || hash === SIGNUP_HASH_STR) {
+        clearHash();
+      }
+    } else if (isAuthenticated === false) {
+      if (hash === LOGIN_HASH_STR) {
+        handleOpenLoginDialog();
+      } else if (hash === SIGNUP_HASH_STR) {
+        handleOpenSignUpDialog();
+      } else {
+        handleOpenLoginDialog();
+      }
+    }
+  }, [
+    clearHash,
+    handleOpenLoginDialog,
+    handleOpenSignUpDialog,
+    isAuthenticated,
+  ]);
+
+  ////////
+
   const pathname = usePathname();
 
   const showExitButton = pathname?.startsWith("/become-a-host/");
@@ -91,6 +126,8 @@ export const useHeader = () => {
   return {
     accountMenuAnchor,
     closeAccountMenu,
+    handleCloseLoginDialog,
+    handleCloseSignUpDialog,
     handleOpenLoginDialog,
     handleOpenSignUpDialog,
     isAccountMenuOpen,
@@ -100,14 +137,14 @@ export const useHeader = () => {
     openAccountMenu,
     questionsDrawerIsOpen,
     ResetPasswordDialogIsOpen,
-    setLoginDialogIsOpenFalse,
-    setLoginDialogIsOpenTrue,
+    // setLoginDialogIsOpenFalse,
+    // setLoginDialogIsOpenTrue,
     setQuestionsDrawerIsOpenFalse,
     setQuestionsDrawerIsOpenTrue,
     setResetPasswordDialogIsOpenFalse,
     setResetPasswordDialogIsOpenTrue,
-    setSignUpDialogIsOpenFalse,
-    setSignUpDialogIsOpenTrue,
+    // setSignUpDialogIsOpenFalse,
+    // setSignUpDialogIsOpenTrue,
     showExitButton,
     signUpDialogIsOpen,
     userDetails,
