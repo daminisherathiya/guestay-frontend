@@ -33,6 +33,8 @@ export function Header() {
   const {
     accountMenuAnchor,
     closeAccountMenu,
+    handleCloseLoginDialog,
+    handleCloseSignUpDialog,
     handleOpenLoginDialog,
     handleOpenSignUpDialog,
     isAccountMenuOpen,
@@ -42,14 +44,14 @@ export function Header() {
     openAccountMenu,
     // questionsDrawerIsOpen,
     ResetPasswordDialogIsOpen,
-    setLoginDialogIsOpenFalse,
-    setLoginDialogIsOpenTrue,
+    // setLoginDialogIsOpenFalse,
+    // setLoginDialogIsOpenTrue,
     // setQuestionsDrawerIsOpenFalse,
     // setQuestionsDrawerIsOpenTrue,
     setResetPasswordDialogIsOpenFalse,
     setResetPasswordDialogIsOpenTrue,
-    setSignUpDialogIsOpenFalse,
-    setSignUpDialogIsOpenTrue,
+    // setSignUpDialogIsOpenFalse,
+    // setSignUpDialogIsOpenTrue,
     showExitButton,
     signUpDialogIsOpen,
     userDetails,
@@ -160,25 +162,13 @@ export function Header() {
               onClose={closeAccountMenu}
             >
               {!isAuthenticated && [
-                <MenuItem
-                  key="Sign up"
-                  onClick={() => {
-                    setLoginDialogIsOpenFalse();
-                    setSignUpDialogIsOpenTrue();
-                  }}
-                >
+                <MenuItem key="Sign up" onClick={handleOpenSignUpDialog}>
                   <ListItemIcon>
                     <PersonAdd />
                   </ListItemIcon>
                   Sign up
                 </MenuItem>,
-                <MenuItem
-                  key="Log in"
-                  onClick={() => {
-                    setSignUpDialogIsOpenFalse();
-                    setLoginDialogIsOpenTrue();
-                  }}
-                >
+                <MenuItem key="Log in" onClick={handleOpenLoginDialog}>
                   <ListItemIcon>
                     <LogoutIcon />{" "}
                   </ListItemIcon>
@@ -220,13 +210,13 @@ export function Header() {
               </MenuItem> */}
             </Menu>
             <LoginDialog
-              handleCloseLoginDialog={setLoginDialogIsOpenFalse}
-              handleOpenLoginDialog={setLoginDialogIsOpenTrue}
+              handleCloseLoginDialog={handleCloseLoginDialog}
+              handleOpenLoginDialog={handleOpenLoginDialog}
               handleOpenSignUpDialog={handleOpenSignUpDialog}
               isLoginDialogOpen={loginDialogIsOpen}
             />
             <SignUpDialog
-              handleCloseSignUpDialog={setSignUpDialogIsOpenFalse}
+              handleCloseSignUpDialog={handleCloseSignUpDialog}
               handleOpenLoginDialog={handleOpenLoginDialog}
               isSignUpDialogOpen={signUpDialogIsOpen}
             />
