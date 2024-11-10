@@ -16,11 +16,13 @@ import { UseLoginDialogProps } from "./LoginDialog.types";
 
 export function useLoginDialog({
   handleCloseLoginDialog,
+  isLoginDialogOpen,
 }: UseLoginDialogProps) {
   const {
     control,
     formState: { isValid },
     handleSubmit,
+    reset,
   } = useForm({
     defaultValues: {
       email: "",
@@ -28,6 +30,12 @@ export function useLoginDialog({
     },
     mode: "onChange",
   });
+
+  useEffect(() => {
+    if (!isLoginDialogOpen) {
+      reset();
+    }
+  }, [isLoginDialogOpen, reset]);
 
   ////////
 

@@ -18,11 +18,13 @@ import { UseSignUpDialogProps } from "./SignUpDialog.types";
 export function useSignUpDialog({
   handleCloseSignUpDialog,
   handleOpenLoginDialog,
+  isSignUpDialogOpen,
 }: UseSignUpDialogProps) {
   const {
     control,
     formState: { isValid },
     handleSubmit,
+    reset,
     trigger,
     watch,
   } = useForm({
@@ -39,6 +41,12 @@ export function useSignUpDialog({
     },
     mode: "onChange",
   });
+
+  useEffect(() => {
+    if (!isSignUpDialogOpen) {
+      reset();
+    }
+  }, [isSignUpDialogOpen, reset]);
 
   const country = watch("country");
   const password = watch("password");
