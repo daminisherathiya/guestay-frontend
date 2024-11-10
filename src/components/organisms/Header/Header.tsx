@@ -185,7 +185,7 @@ export function Header() {
                   <ListItemIcon>
                     <PasswordIcon />{" "}
                   </ListItemIcon>
-                  Reset Password
+                  Change Password
                 </MenuItem>
               )}
               {isAuthenticated && <Logout />}

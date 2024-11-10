@@ -4,7 +4,4 @@ export interface SignUpDialogProps {
   isSignUpDialogOpen: boolean;
 }
 
-export type UseSignUpDialogProps = Omit<
-  SignUpDialogProps,
-  "isSignUpDialogOpen"
->;
+export type UseSignUpDialogProps = SignUpDialogProps;

@@ -33,7 +33,11 @@ export function SignUpDialog({
     password,
     signUpApiIsPending,
     SignUpApiSnackbarAlert,
-  } = useSignUpDialog({ handleCloseSignUpDialog, handleOpenLoginDialog });
+  } = useSignUpDialog({
+    handleCloseSignUpDialog,
+    handleOpenLoginDialog,
+    isSignUpDialogOpen,
+  });
 
   return (
     <>
@@ -44,7 +48,7 @@ export function SignUpDialog({
         title="Sign up"
       >
         <Typography className="mb-6" component="h2" variant="h2">
-          Welcome to Airbnb
+          Welcome to Guestay
         </Typography>
         <Box className="space-y-4">
           <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>

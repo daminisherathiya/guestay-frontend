@@ -121,11 +121,11 @@ const EmptyState = ({
       width={64}
     />
     <Typography className="text-center text-xl font-medium">
-      Drag and drop
+      Browse for photos
     </Typography>
-    <Typography className="text-center text-xs">
+    {/* <Typography className="text-center text-xs">
       or browse for photos
-    </Typography>
+    </Typography> */}
     <Box className="text-center">
       <FileUploadButton
         selectedImages={selectedImages}

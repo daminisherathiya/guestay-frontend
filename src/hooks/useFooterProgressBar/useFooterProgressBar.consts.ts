@@ -1,5 +1,11 @@
 import { FooterDetailsType } from "./useFooterProgressBar.types";
 
+export const DEFAULT_FOOTER_DETIALS = {
+  backUrl: "/",
+  nextUrl: "/",
+  progressPercentage: { setp1: 0, setp2: 0, setp3: 0 },
+};
+
 /* eslint-disable sort-keys */
 export const URL_TO_FOOTER_DETAILS: Record<string, FooterDetailsType> = {
   // Step 1

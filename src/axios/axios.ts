@@ -86,9 +86,7 @@ export const axiosApi = async ({
     // Handle success but failed response (API returns success: 0)
     if (response.status === 200 && response.data.success === 0) {
       const errorMessage = response.data.errorMessage || "An error occurred";
-      throw new Error(
-        `Error: ${errorMessage} (Error Code: ${response.data.errorCode})`,
-      );
+      throw new Error(errorMessage);
     }
 
     return response.data;

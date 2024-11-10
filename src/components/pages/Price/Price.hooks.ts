@@ -16,6 +16,7 @@ import { removeLeadingZeros, roundNumber } from "@/utils/common";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { DEFAULT_PRICE } from "./Price.consts";
+import { formatNumberWithCommas } from "./Price.utils";
 
 export function usePrice() {
   const { propertyId }: { propertyId: string } = useParams();
@@ -63,22 +64,27 @@ export function usePrice() {
     },
   );
 
-  const commissionRatesRef = useRef<string>("0");
-  const insurancePolicyPriceRef = useRef<string>("0");
+  const [commissionRate, setCommissionRate] = useState<string>("0");
+  const [insurancePolicyPrice, setInsurancePolicyPrice] = useState<string>("0");
 
   useEffect(() => {
     if (globalPricesApiIsSuccess) {
       const commissionRateItem = globalPricesApiData.data.find(
         (item: GlobalPriceType) => item.name === "commission_rate",
       );
-      commissionRatesRef.current = commissionRateItem?.value ?? "0";
+      setCommissionRate(commissionRateItem?.value ?? "0");
 
       const insurancePolicyPriceItem = globalPricesApiData.data.find(
         (item: GlobalPriceType) => item.name === "insurance_policy_price",
       );
-      insurancePolicyPriceRef.current = insurancePolicyPriceItem?.value ?? "0";
+      setInsurancePolicyPrice(insurancePolicyPriceItem?.value ?? "0");
     }
-  }, [globalPricesApiData, globalPricesApiIsSuccess]);
+  }, [
+    globalPricesApiData,
+    globalPricesApiIsSuccess,
+    setCommissionRate,
+    setInsurancePolicyPrice,
+  ]);
 
   const { value: isPriceVisible, toggle: setIsPriceVisibleTrue } = useToggle({
     initialValue: true,
@@ -101,11 +107,6 @@ export function usePrice() {
     if (priceInputRef.current) {
       priceInputRef.current.focus();
     }
-  };
-
-  const formatNumberWithCommas = (num: string) => {
-    if (!num) return "";
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -159,15 +160,14 @@ export function usePrice() {
 
   return {
     commissionRates: roundNumber(
-      parseFloat(price.replace(/,/g, "")) *
-        (parseFloat(commissionRatesRef.current) / 100),
+      parseFloat(price.replace(/,/g, "")) * (parseFloat(commissionRate) / 100),
     ),
     Footer,
     globalPricesApiData,
     globalPricesApiSnackbarAlert,
     handleEditClick,
     handleInput,
-    insurancePolicyPrice: insurancePolicyPriceRef.current,
+    insurancePolicyPrice: insurancePolicyPrice,
     isEditing,
     isLoading,
     isPriceVisible,

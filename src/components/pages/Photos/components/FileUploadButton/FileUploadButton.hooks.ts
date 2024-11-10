@@ -9,7 +9,9 @@ export const useFileUploadButton = ({
       const filesArray = Array.from(event.target.files);
       const newImages = filesArray.map((file) => ({
         error:
-          file.size < 50 * 1024 ? "Upload a higher quality photo" : undefined,
+          file.size < 50 * 1024
+            ? "Upload a higher quality photo (>50KB)"
+            : undefined,
         file,
       }));
       setSelectedImages([...selectedImages, ...newImages]);

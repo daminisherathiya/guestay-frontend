@@ -16,6 +16,7 @@ import { roundNumber } from "@/utils/common";
 
 import { MoreAboutPricingDialog } from "./components/MoreAboutPricingDialog";
 import { usePrice } from "./Price.hooks";
+import { formatNumberWithCommas } from "./Price.utils";
 
 export function Price() {
   const {
@@ -150,13 +151,13 @@ export function Price() {
                       <Stack className="flex-row justify-between gap-2">
                         <Typography variant="h3">Commission Fee</Typography>
                         <Typography variant="h3">
-                          -${commissionRates}
+                          -${formatNumberWithCommas(commissionRates)}
                         </Typography>
                       </Stack>
                       <Stack className="flex-row justify-between gap-2">
                         <Typography variant="h3">Insurance Policy</Typography>
                         <Typography variant="h3">
-                          -${insurancePolicyPrice}
+                          -${formatNumberWithCommas(insurancePolicyPrice)}
                         </Typography>
                       </Stack>
                     </Box>
@@ -168,10 +169,12 @@ export function Price() {
                     </Typography>
                     <Typography className="font-medium" variant="h3">
                       $
-                      {roundNumber(
-                        parseFloat(price.replace(/,/g, "")) -
-                          parseFloat(commissionRates) -
-                          parseFloat(insurancePolicyPrice),
+                      {formatNumberWithCommas(
+                        roundNumber(
+                          parseFloat(price.replace(/,/g, "")) -
+                            parseFloat(commissionRates) -
+                            parseFloat(insurancePolicyPrice),
+                        ),
                       )}
                     </Typography>
                   </Stack>
