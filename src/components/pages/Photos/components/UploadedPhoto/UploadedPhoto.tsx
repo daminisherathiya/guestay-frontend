@@ -54,12 +54,12 @@ export function UploadedPhoto({
           open={Boolean(anchorEl)}
           onClose={() => handleClose()}
         >
-          <MenuItem
+          {/* <MenuItem
             className="min-h-9 text-sm font-medium"
             onClick={() => handleClose()}
           >
             Edit
-          </MenuItem>
+          </MenuItem> */}
           {index > 0 && (
             <MenuItem
               className="min-h-9 text-sm font-medium"
