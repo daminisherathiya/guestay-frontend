@@ -7,5 +7,5 @@ export interface LoginDialogProps {
 
 export type UseLoginDialogProps = Pick<
   LoginDialogProps,
-  "handleCloseLoginDialog"
+  "handleCloseLoginDialog" | "isLoginDialogOpen"
 >;

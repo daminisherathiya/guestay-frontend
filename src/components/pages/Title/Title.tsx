@@ -46,11 +46,8 @@ export function Title() {
                 id="title"
                 maxRows={5}
                 minRows={5}
-                value={
-                  title.startsWith("Your listing started at")
-                    ? "Enter a catchy name that best describes your property"
-                    : title
-                }
+                placeholder="Enter a catchy name that best describes your property"
+                value={title.startsWith("Your listing started at") ? "" : title}
                 onChange={handleTitleChange}
               />
               <Typography className="pt-4 text-text-secondary" variant="body2">

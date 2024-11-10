@@ -36,7 +36,7 @@ export function LoginDialog({
     onSubmit,
     setForgotPasswordDialogIsOpenFalse,
     setForgotPasswordDialogIsOpenTrue,
-  } = useLoginDialog({ handleCloseLoginDialog });
+  } = useLoginDialog({ handleCloseLoginDialog, isLoginDialogOpen });
 
   return (
     <>

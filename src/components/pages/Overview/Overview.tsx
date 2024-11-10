@@ -24,7 +24,7 @@ export function Overview() {
                 component="h1"
                 variant="h1"
               >
-                It’s easy to get started on Airbnb
+                It’s easy to get started on Guestay
               </Typography>
             </Box>
             <Box className="lg:w-1/2">
