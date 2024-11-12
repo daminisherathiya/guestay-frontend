@@ -3,14 +3,19 @@
 import { useEffect } from "react";
 import React, { useCallback } from "react";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
+import { LOGIN_SIGNUP_PATHS } from "@/consts/common";
 import { useAuthentication } from "@/hooks/useAuthentication";
 import { useBoolean } from "@/hooks/useBoolean/useBoolean";
 
 import { LOGIN_HASH_STR, SIGNUP_HASH_STR } from "./Header.consts";
 
 export const useHeader = () => {
+  const pathname = usePathname();
+
+  const router = useRouter();
+
   const { isAuthenticated, userDetails } = useAuthentication();
 
   const {
@@ -70,15 +75,35 @@ export const useHeader = () => {
     setAccountMenuAnchor(null);
   };
 
-  const handleOpenLoginDialog = useCallback(() => {
-    setSignUpDialogIsOpenFalse();
-    setLoginDialogIsOpenTrue();
-  }, [setSignUpDialogIsOpenFalse, setLoginDialogIsOpenTrue]);
+  const logInOrSingUpPage = LOGIN_SIGNUP_PATHS.includes(pathname);
 
-  const handleOpenSignUpDialog = useCallback(() => {
-    setLoginDialogIsOpenFalse();
-    setSignUpDialogIsOpenTrue();
-  }, [setLoginDialogIsOpenFalse, setSignUpDialogIsOpenTrue]);
+  const handleOpenLogin = useCallback(() => {
+    if (logInOrSingUpPage) {
+      router.push("/login");
+    } else {
+      setSignUpDialogIsOpenFalse();
+      setLoginDialogIsOpenTrue();
+    }
+  }, [
+    logInOrSingUpPage,
+    router,
+    setSignUpDialogIsOpenFalse,
+    setLoginDialogIsOpenTrue,
+  ]);
+
+  const handleOpenSignUp = useCallback(() => {
+    if (logInOrSingUpPage) {
+      router.push("/signup");
+    } else {
+      setLoginDialogIsOpenFalse();
+      setSignUpDialogIsOpenTrue();
+    }
+  }, [
+    logInOrSingUpPage,
+    router,
+    setLoginDialogIsOpenFalse,
+    setSignUpDialogIsOpenTrue,
+  ]);
 
   const clearHash = useCallback(() => {
     window.history.replaceState(null, "", window.location.pathname);
@@ -101,25 +126,24 @@ export const useHeader = () => {
       if (hash === LOGIN_HASH_STR || hash === SIGNUP_HASH_STR) {
         clearHash();
       }
-    } else if (isAuthenticated === false) {
+    } else if (isAuthenticated === false && !logInOrSingUpPage) {
       if (hash === LOGIN_HASH_STR) {
-        handleOpenLoginDialog();
+        handleOpenLogin();
       } else if (hash === SIGNUP_HASH_STR) {
-        handleOpenSignUpDialog();
+        handleOpenSignUp();
       } else {
-        handleOpenLoginDialog();
+        handleOpenLogin();
       }
     }
   }, [
     clearHash,
-    handleOpenLoginDialog,
-    handleOpenSignUpDialog,
+    handleOpenLogin,
+    handleOpenSignUp,
     isAuthenticated,
+    logInOrSingUpPage,
   ]);
 
   ////////
-
-  const pathname = usePathname();
 
   const showExitButton = pathname?.startsWith("/become-a-host/");
 
@@ -128,8 +152,8 @@ export const useHeader = () => {
     closeAccountMenu,
     handleCloseLoginDialog,
     handleCloseSignUpDialog,
-    handleOpenLoginDialog,
-    handleOpenSignUpDialog,
+    handleOpenLogin,
+    handleOpenSignUp,
     isAccountMenuOpen,
     isAuthenticated,
     isScrolled,
