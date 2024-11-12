@@ -3,5 +3,3 @@ export interface SignUpDialogProps {
   handleOpenLoginDialog: () => void;
   isSignUpDialogOpen: boolean;
 }
-
-export type UseSignUpDialogProps = SignUpDialogProps;

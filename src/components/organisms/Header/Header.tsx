@@ -35,8 +35,8 @@ export function Header() {
     closeAccountMenu,
     handleCloseLoginDialog,
     handleCloseSignUpDialog,
-    handleOpenLoginDialog,
-    handleOpenSignUpDialog,
+    handleOpenLogin,
+    handleOpenSignUp,
     isAccountMenuOpen,
     isAuthenticated,
     isScrolled,
@@ -162,13 +162,13 @@ export function Header() {
               onClose={closeAccountMenu}
             >
               {!isAuthenticated && [
-                <MenuItem key="Sign up" onClick={handleOpenSignUpDialog}>
+                <MenuItem key="Sign up" onClick={handleOpenSignUp}>
                   <ListItemIcon>
                     <PersonAdd />
                   </ListItemIcon>
                   Sign up
                 </MenuItem>,
-                <MenuItem key="Log in" onClick={handleOpenLoginDialog}>
+                <MenuItem key="Log in" onClick={handleOpenLogin}>
                   <ListItemIcon>
                     <LogoutIcon />{" "}
                   </ListItemIcon>
@@ -177,7 +177,7 @@ export function Header() {
               ]}
               {isAuthenticated && (
                 <MenuItem
-                  key="Log in"
+                  key="Reset password"
                   onClick={() => {
                     setResetPasswordDialogIsOpenTrue();
                   }}
@@ -211,13 +211,13 @@ export function Header() {
             </Menu>
             <LoginDialog
               handleCloseLoginDialog={handleCloseLoginDialog}
-              handleOpenLoginDialog={handleOpenLoginDialog}
-              handleOpenSignUpDialog={handleOpenSignUpDialog}
+              handleOpenLoginDialog={handleOpenLogin}
+              handleOpenSignUpDialog={handleOpenSignUp}
               isLoginDialogOpen={loginDialogIsOpen}
             />
             <SignUpDialog
               handleCloseSignUpDialog={handleCloseSignUpDialog}
-              handleOpenLoginDialog={handleOpenLoginDialog}
+              handleOpenLoginDialog={handleOpenLogin}
               isSignUpDialogOpen={signUpDialogIsOpen}
             />
             <ResetPasswordDialog

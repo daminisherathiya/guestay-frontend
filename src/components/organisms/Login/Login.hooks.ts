@@ -12,12 +12,12 @@ import { useAuthentication } from "@/hooks/useAuthentication";
 import { useBoolean } from "@/hooks/useBoolean";
 import { useMutation } from "@/hooks/useMutation";
 
-import { UseLoginDialogProps } from "./LoginDialog.types";
+import { UseLoginProps } from "./Login.types";
 
-export function useLoginDialog({
-  handleCloseLoginDialog,
+export function useLogin({
+  handleCloseLogin,
   isLoginDialogOpen,
-}: UseLoginDialogProps) {
+}: UseLoginProps) {
   const {
     control,
     formState: { isValid },
@@ -58,23 +58,23 @@ export function useLoginDialog({
 
   useEffect(() => {
     if (logInApiIsSuccess) {
-      handleCloseLoginDialog();
+      handleCloseLogin();
       handleLogIn({
         authenticationToken: logInApiData.data.auth_token,
         userDetails: logInApiData.data.userData,
       });
     }
-  }, [handleCloseLoginDialog, handleLogIn, logInApiIsSuccess, logInApiData]);
+  }, [handleCloseLogin, handleLogIn, logInApiIsSuccess, logInApiData]);
 
   const {
-    value: ForgotPasswordDialogIsOpen,
+    value: forgotPasswordDialogIsOpen,
     setTrue: setForgotPasswordDialogIsOpenTrue,
     setFalse: setForgotPasswordDialogIsOpenFalse,
   } = useBoolean({ initialValue: false });
 
   return {
     control,
-    ForgotPasswordDialogIsOpen,
+    forgotPasswordDialogIsOpen,
     handleSubmit,
     isValid,
     logInApiIsPending,

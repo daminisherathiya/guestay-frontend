@@ -8,18 +8,17 @@ import {
   SignUpApiDataType,
   SignUpApiType,
 } from "@/apis/account/signUpApi/signUpApi.types";
+import { defaultCountry } from "@/components/molecules/CountrySelect/CountrySelect.consts";
+import { CountryType } from "@/components/molecules/CountrySelect/CountrySelect.types";
 import { useMutation } from "@/hooks/useMutation";
 
-import { defaultCountry } from "../CountrySelect/CountrySelect.consts";
-import { CountryType } from "../CountrySelect/CountrySelect.types";
+import { UseSignupProps } from "./Signup.types";
 
-import { UseSignUpDialogProps } from "./SignUpDialog.types";
-
-export function useSignUpDialog({
-  handleCloseSignUpDialog,
-  handleOpenLoginDialog,
+export function useSignUp({
+  handleCloseSignUp,
+  handleOpenLogin,
   isSignUpDialogOpen,
-}: UseSignUpDialogProps) {
+}: UseSignupProps) {
   const {
     control,
     formState: { isValid },
@@ -82,10 +81,10 @@ export function useSignUpDialog({
 
   useEffect(() => {
     if (signUpApiIsSuccess) {
-      handleCloseSignUpDialog();
-      handleOpenLoginDialog();
+      handleCloseSignUp();
+      handleOpenLogin();
     }
-  }, [handleCloseSignUpDialog, handleOpenLoginDialog, signUpApiIsSuccess]);
+  }, [handleCloseSignUp, handleOpenLogin, signUpApiIsSuccess]);
 
   return {
     control,
