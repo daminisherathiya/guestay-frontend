@@ -1,12 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { useParams, useRouter } from "next/navigation";
+
+import { useForm } from "react-hook-form";
 
 import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 export function useTitle() {
+  const {
+    control,
+    formState: { isValid },
+    reset,
+    watch,
+  } = useForm({
+    defaultValues: {
+      title: "",
+    },
+    mode: "onChange",
+  });
+
+  const titleValue = watch("title");
+  const titleLength = titleValue.length;
+
   const { propertyId }: { propertyId: string } = useParams();
 
   const {
@@ -20,22 +37,13 @@ export function useTitle() {
     SavePropertyApiSnackbarAlert,
   } = usePropertyToEdit();
 
-  const [title, setTitle] = useState<string>("");
-
   useEffect(() => {
     if (propertyApiIsSuccess) {
-      setTitle(propertyApiData?.data?.property[0].title || "");
+      reset({
+        title: propertyApiData?.data?.property[0].title || "",
+      });
     }
-  }, [propertyApiData, propertyApiIsSuccess]);
-
-  const handleTitleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newValue = event.target.value;
-    if (newValue.length <= 55) {
-      setTitle(newValue);
-    } else {
-      setTitle(newValue.slice(0, 55));
-    }
-  };
+  }, [propertyApiIsSuccess, propertyApiData, reset]);
 
   ////////
 
@@ -46,7 +54,7 @@ export function useTitle() {
       data: {
         listingStep: "title",
         propertyId: propertyId,
-        title: title,
+        title: titleValue,
         userId: getUserDetails().id,
       },
     });
@@ -55,7 +63,7 @@ export function useTitle() {
   const isLoading = propertyApiIsFirstLoading;
 
   const { Footer, nextUrl } = useFooterProgressBar({
-    isDisabled: isLoading || title.trim().length === 0,
+    isDisabled: isLoading || titleValue.trim().length === 0 || !isValid,
     isLoading: savePropertyApiIsPending,
     onSubmit: onSubmit,
   });
@@ -67,11 +75,11 @@ export function useTitle() {
   }, [nextUrl, router, savePropertyApiIsSuccess]);
 
   return {
+    control,
     Footer,
-    handleTitleChange,
     isLoading,
     PropertyApiSnackbarAlert,
     SavePropertyApiSnackbarAlert,
-    title,
+    titleLength,
   };
 }

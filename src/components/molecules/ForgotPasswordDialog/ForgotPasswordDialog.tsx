@@ -23,6 +23,7 @@ export function ForgotPasswordDialog({
   } = useForgotPasswordDialog({
     handleCloseForgotPasswordDialog,
     handleOpenLoginDialog,
+    isForgotPasswordDialogOpen,
   });
 
   return (
@@ -34,8 +35,8 @@ export function ForgotPasswordDialog({
         title="Forgot password?"
       >
         <Typography className="mb-6" component="h3" variant="h3">
-          Enter the email associated with your account, and we&apos;ll send a
-          temporary password. Use it to create a new password.
+          Enter the email associated with your account, and we’ll send you a
+          link to reset your password. Follow the link to create a new password.
         </Typography>
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <Grid2 container spacing={2}>

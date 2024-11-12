@@ -15,17 +15,25 @@ import { useForgotPasswordDialogProps } from "./ForgotPasswordDialog.types";
 export function useForgotPasswordDialog({
   handleCloseForgotPasswordDialog,
   handleOpenLoginDialog,
+  isForgotPasswordDialogOpen,
 }: useForgotPasswordDialogProps) {
   const {
     control,
     formState: { isValid },
     handleSubmit,
+    reset,
   } = useForm({
     defaultValues: {
       email: "",
     },
     mode: "onChange",
   });
+
+  useEffect(() => {
+    if (!isForgotPasswordDialogOpen) {
+      reset();
+    }
+  }, [isForgotPasswordDialogOpen, reset]);
 
   ////////
 

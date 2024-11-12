@@ -6,6 +6,7 @@ export interface TextFieldWrapperProps<T extends FieldValues> {
   error?: string;
   label: string;
   name: Path<T>;
+  placeholder?: string;
   rules?: Omit<
     RegisterOptions<T, Path<T>>,
     "setValueAs" | "disabled" | "valueAsNumber" | "valueAsDate"
