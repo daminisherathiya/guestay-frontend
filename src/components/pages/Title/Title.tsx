@@ -3,19 +3,19 @@
 import { Box } from "@/components/atoms/Box";
 import { Container } from "@/components/atoms/Container";
 import { Skeleton } from "@/components/atoms/Skeleton";
-import { TextareaAutosize } from "@/components/atoms/TextareaAutosize";
 import { Typography } from "@/components/atoms/Typography";
+import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper";
 
 import { useTitle } from "./Title.hooks";
 
 export function Title() {
   const {
+    control,
     Footer,
-    handleTitleChange,
     isLoading,
     PropertyApiSnackbarAlert,
     SavePropertyApiSnackbarAlert,
-    title,
+    titleLength,
   } = useTitle();
 
   return (
@@ -36,22 +36,26 @@ export function Title() {
           {isLoading ? (
             <Skeleton
               className="w-full rounded-lg"
-              height={190}
+              height={56}
               variant="rectangular"
             />
           ) : (
             <>
-              <TextareaAutosize
-                className="w-full rounded-lg border p-6 text-xl focus:outline-2 focus:outline-common-black"
-                id="title"
-                maxRows={5}
-                minRows={5}
+              <TextFieldWrapper
+                control={control}
+                label=""
+                name="title"
                 placeholder="Enter a catchy name that best describes your property"
-                value={title.startsWith("Your listing started at") ? "" : title}
-                onChange={handleTitleChange}
+                rules={{
+                  maxLength: {
+                    message: "Title cannot exceed 55 characters",
+                    value: 55,
+                  },
+                  required: "Title is required",
+                }}
               />
               <Typography className="pt-4 text-text-secondary" variant="body2">
-                {title.length}/55
+                {titleLength}/55
               </Typography>
             </>
           )}

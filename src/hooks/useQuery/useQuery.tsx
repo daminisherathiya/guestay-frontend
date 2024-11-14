@@ -59,9 +59,7 @@ export function useQuery<TQueryFnData, TError extends Error, TData>(
 
     if (
       queryResult.isError &&
-      queryResult.error.message.includes(
-        "Authorization token not verified. (Error Code: 10301)",
-      )
+      queryResult.error.message.includes("Authorization token not verified.")
     ) {
       handleLogOut();
     }

@@ -14,6 +14,7 @@ export function TextFieldWrapper<T extends FieldValues>({
   endAdornment,
   label,
   name,
+  placeholder,
   rules,
   startAdornment,
   type = "text",
@@ -51,7 +52,9 @@ export function TextFieldWrapper<T extends FieldValues>({
           className="w-full"
           error={!!error}
           helperText={error ? error.message : ""}
+          hiddenLabel={label === ""}
           label={label}
+          placeholder={placeholder}
           slotProps={{
             formHelperText: { className: "mt-0 mx-2" },
             input: {

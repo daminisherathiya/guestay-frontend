@@ -12,6 +12,7 @@ import { Container } from "@/components/atoms/Container";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
+import { getListingStatusToDisplay } from "@/utils/common";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { NUMBER_OF_PROPERTIES_TO_SHOW } from "./ListingHome.consts";
@@ -97,11 +98,10 @@ export function ListingHome() {
         </Stack>
         <Chip
           classes={{ label: "first-letter:uppercase" }}
-          label={
-            listingProperty.status === "draft"
-              ? "pending approval"
-              : listingProperty.status
-          }
+          label={getListingStatusToDisplay({
+            listingSteps: listingProperty.listing_steps || "",
+            status: listingProperty.status,
+          })}
         />
       </Button>
     ));

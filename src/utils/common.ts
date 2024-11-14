@@ -1,3 +1,5 @@
+import { getListingStatusToDisplayType } from "./common.types";
+
 export const getUserInitial = (name: string) => name.charAt(0).toUpperCase();
 
 export function removeLeadingZeros(value: string) {
@@ -7,4 +9,17 @@ export function removeLeadingZeros(value: string) {
 
 export const roundNumber = (value: number): string => {
   return value % 1 === 0 ? value.toString() : value.toFixed(2);
+};
+
+export const getListingStatusToDisplay = ({
+  listingSteps,
+  status,
+}: getListingStatusToDisplayType) => {
+  if (status !== "draft") {
+    return status;
+  }
+  if (listingSteps.includes("draft")) {
+    return "Pending approval";
+  }
+  return "In progress";
 };

@@ -4,7 +4,5 @@ export interface ForgotPasswordDialogProps {
   isForgotPasswordDialogOpen: boolean;
 }
 
-export interface useForgotPasswordDialogProps {
-  handleCloseForgotPasswordDialog: () => void;
-  handleOpenLoginDialog: () => void;
-}
+export interface useForgotPasswordDialogProps
+  extends ForgotPasswordDialogProps {}
