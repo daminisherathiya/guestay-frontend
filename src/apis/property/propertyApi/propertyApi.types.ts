@@ -20,6 +20,7 @@ export interface PropertyType {
   id: string;
   images: string;
   latitude: string;
+  listing_steps: string;
   location: string;
   longitude: string;
   no_of_couples: string;
