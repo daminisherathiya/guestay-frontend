@@ -12,7 +12,10 @@ import { Container } from "@/components/atoms/Container";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
-import { getListingStatusToDisplay } from "@/utils/common";
+import {
+  getDefaultPropertyTitle,
+  getListingStatusToDisplay,
+} from "@/utils/common";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { NUMBER_OF_PROPERTIES_TO_SHOW } from "./ListingHome.consts";
@@ -65,7 +68,10 @@ export function ListingHome() {
           src="/images/home.jpg"
           width={44}
         />
-        <Typography>{listingProperty.title}</Typography>
+        <Typography>
+          {listingProperty.title ||
+            getDefaultPropertyTitle({ createdAt: listingProperty.created_at })}
+        </Typography>
       </Button>
     ));
   };
@@ -94,7 +100,12 @@ export function ListingHome() {
             src="/images/home.jpg"
             width={44}
           />
-          <Typography>{listingProperty.title}</Typography>
+          <Typography>
+            {listingProperty.title ||
+              getDefaultPropertyTitle({
+                createdAt: listingProperty.created_at,
+              })}
+          </Typography>
         </Stack>
         <Chip
           classes={{ label: "first-letter:uppercase" }}

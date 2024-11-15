@@ -7,6 +7,7 @@ export interface listingPropertiesApiType {
 }
 
 export interface ListingPropertiesType {
+  created_at: string;
   id: string;
   images: string;
   listing_steps: string | null;
