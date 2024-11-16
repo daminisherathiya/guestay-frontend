@@ -46,7 +46,6 @@ export function useLogin({
     mutate: logInApiMutate,
     isPending: logInApiIsPending,
     isSuccess: logInApiIsSuccess,
-    SnackbarAlert: LogInApiSnackbarAlert,
   } = useMutation<LogInAPIResponseType, Error, LogInApiType>({
     mutationFn: logInApi,
     mutationKey: ["login"],
@@ -78,7 +77,6 @@ export function useLogin({
     handleSubmit,
     isValid,
     logInApiIsPending,
-    LogInApiSnackbarAlert,
     onSubmit,
     setForgotPasswordDialogIsOpenFalse,
     setForgotPasswordDialogIsOpenTrue,

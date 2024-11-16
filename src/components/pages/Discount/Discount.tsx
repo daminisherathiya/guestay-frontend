@@ -23,8 +23,6 @@ export function Discount() {
     isLoading,
     isMonthlyDiscountEnabled,
     isWeeklyDiscountEnabled,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     setDiscountsDialogIsOpenFalse,
     setDiscountsDialogIsOpenTrue,
   } = useDiscount();
@@ -246,8 +244,6 @@ export function Discount() {
         </Box>
       </Container>
       {Footer}
-      {PropertyApiSnackbarAlert}
-      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

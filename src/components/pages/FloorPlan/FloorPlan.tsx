@@ -34,7 +34,6 @@ export function FloorPlan() {
     bedrooms,
     bedTypesApiData,
     bedTypesApiIsFirstLoading,
-    BedTypesApiSnackbarAlert,
     control,
     counters,
     displayValue,
@@ -44,8 +43,6 @@ export function FloorPlan() {
     handleIncrease,
     handleRemoveBedroom,
     isLoading,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
   } = useFloorPlan();
 
   return (
@@ -240,9 +237,6 @@ export function FloorPlan() {
         </Box>
       </Container>
       {Footer}
-      {BedTypesApiSnackbarAlert}
-      {PropertyApiSnackbarAlert}
-      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

@@ -16,7 +16,6 @@ export function ResetPasswordDialog({
 }: ResetPasswordDialogProps) {
   const {
     changePasswordApiIsPending,
-    ChangePasswordApiSnackbarAlert,
     control,
     handleSubmit,
     isValid,
@@ -92,7 +91,6 @@ export function ResetPasswordDialog({
             Reset Password
           </LoadingButton>
         </form>
-        {ChangePasswordApiSnackbarAlert}
       </DialogWrapper>
     </>
   );

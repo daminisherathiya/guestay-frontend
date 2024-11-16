@@ -10,8 +10,10 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { Toolbar } from "@/components/atoms/Toolbar";
 import { AuthenticationLoader } from "@/components/molecules/AuthenticationLoader";
+import { GlobalSnackbarAlert } from "@/components/molecules/GlobalSnackbarAlert";
 import { Header } from "@/components/organisms/Header/Header";
 import { AuthenticationProvider } from "@/providers/AuthenticationProvider/AuthenticationProvider";
+import { GlobalSnackbarAlertProvider } from "@/providers/GlobalSnackbarAlertProvider/GlobalSnackbarAlertProvider";
 import { QueryProvider as CustomQueryProvider } from "@/providers/QueryProvider";
 import { ThemeProvider as CustomThemeProvider } from "@/providers/ThemeProvider";
 
@@ -70,13 +72,16 @@ export default function RootLayout({
           <CustomThemeProvider>
             <CustomQueryProvider>
               <AuthenticationProvider>
-                <CssBaseline />
-                <Header />
-                <Toolbar className="min-h-20 xs:min-h-24 sm:min-h-[6.375rem]" />
-                <AuthenticationLoader>{children}</AuthenticationLoader>
-                {process.env.NODE_ENV !== "production" && (
-                  <ReactQueryDevtools initialIsOpen={false} />
-                )}
+                <GlobalSnackbarAlertProvider>
+                  <CssBaseline />
+                  <Header />
+                  <Toolbar className="min-h-20 xs:min-h-24 sm:min-h-[6.375rem]" />
+                  <AuthenticationLoader>{children}</AuthenticationLoader>
+                  {process.env.NODE_ENV !== "production" && (
+                    <ReactQueryDevtools initialIsOpen={false} />
+                  )}
+                  <GlobalSnackbarAlert />
+                </GlobalSnackbarAlertProvider>
               </AuthenticationProvider>
             </CustomQueryProvider>
           </CustomThemeProvider>

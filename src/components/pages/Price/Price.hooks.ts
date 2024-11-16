@@ -28,11 +28,9 @@ export function usePrice() {
     propertyApiData,
     propertyApiIsFirstLoading,
     propertyApiIsSuccess,
-    PropertyApiSnackbarAlert,
     savePropertyApiIsPending,
     savePropertyApiIsSuccess,
     savePropertyApiMutate,
-    SavePropertyApiSnackbarAlert,
   } = usePropertyToEdit();
 
   useEffect(() => {
@@ -53,7 +51,6 @@ export function usePrice() {
     data: globalPricesApiData,
     isFirstLoading: globalPricesApiIsFirstLoading,
     isSuccess: globalPricesApiIsSuccess,
-    SnackbarAlert: globalPricesApiSnackbarAlert,
   } = useQuery<globalPricesApiResponseType, Error, globalPricesApiResponseType>(
     {
       initialData: { data: [] },
@@ -164,7 +161,6 @@ export function usePrice() {
     ),
     Footer,
     globalPricesApiData,
-    globalPricesApiSnackbarAlert,
     handleEditClick,
     handleInput,
     insurancePolicyPrice: insurancePolicyPrice,
@@ -175,8 +171,6 @@ export function usePrice() {
     price,
     priceError,
     priceInputRef,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     setIsEditingFalse,
     setIsEditingTrue,
     setIsPriceVisibleTrue,

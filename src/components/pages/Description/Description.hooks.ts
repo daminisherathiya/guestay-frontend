@@ -13,11 +13,9 @@ export function useDescription() {
     propertyApiData,
     propertyApiIsFirstLoading,
     propertyApiIsSuccess,
-    PropertyApiSnackbarAlert,
     savePropertyApiIsPending,
     savePropertyApiIsSuccess,
     savePropertyApiMutate,
-    SavePropertyApiSnackbarAlert,
   } = usePropertyToEdit();
 
   const [description, setDescription] = useState<string>("");
@@ -71,7 +69,5 @@ export function useDescription() {
     Footer,
     handleDescriptionChange,
     isLoading,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
   };
 }

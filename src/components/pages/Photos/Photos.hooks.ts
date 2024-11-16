@@ -22,11 +22,9 @@ export function usePhotos() {
     propertyApiData,
     propertyApiIsFirstLoading,
     propertyApiIsSuccess,
-    PropertyApiSnackbarAlert,
     savePropertyApiIsPending,
     savePropertyApiIsSuccess,
     savePropertyApiMutate,
-    SavePropertyApiSnackbarAlert,
   } = usePropertyToEdit();
 
   const [selectedImages, setSelectedImages] = useState<
@@ -172,8 +170,6 @@ export function usePhotos() {
     handleUploadImages,
     imageUrls,
     isLoading,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     selectedImages,
     setSelectedImages,
     setUploadPhotosDialogIsOpenFalse,

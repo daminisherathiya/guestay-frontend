@@ -21,11 +21,9 @@ export function useFloorPlan() {
     propertyApiData,
     propertyApiIsFirstLoading,
     propertyApiIsSuccess,
-    PropertyApiSnackbarAlert,
     savePropertyApiIsPending,
     savePropertyApiIsSuccess,
     savePropertyApiMutate,
-    SavePropertyApiSnackbarAlert,
   } = usePropertyToEdit();
 
   const [counters, setCounters] = useState<CounterState>({
@@ -107,17 +105,14 @@ export function useFloorPlan() {
     }
   }, [propertyApiData, propertyApiIsSuccess, reset]);
 
-  const {
-    data: bedTypesApiData,
-    isFirstLoading: bedTypesApiIsFirstLoading,
-    SnackbarAlert: BedTypesApiSnackbarAlert,
-  } = useQuery<bedTypesApiResponseType, Error, bedTypesApiResponseType>({
-    initialData: { data: [] },
-    queryFn: () => {
-      return bedTypesApi({ data: { userId: getUserDetails().id } });
-    },
-    queryKey: ["bed-type"],
-  });
+  const { data: bedTypesApiData, isFirstLoading: bedTypesApiIsFirstLoading } =
+    useQuery<bedTypesApiResponseType, Error, bedTypesApiResponseType>({
+      initialData: { data: [] },
+      queryFn: () => {
+        return bedTypesApi({ data: { userId: getUserDetails().id } });
+      },
+      queryKey: ["bed-type"],
+    });
 
   ////////
 
@@ -181,7 +176,6 @@ export function useFloorPlan() {
     bedrooms,
     bedTypesApiData,
     bedTypesApiIsFirstLoading,
-    BedTypesApiSnackbarAlert,
     control,
     counters,
     displayValue,
@@ -191,7 +185,5 @@ export function useFloorPlan() {
     handleIncrease,
     handleRemoveBedroom,
     isLoading,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
   };
 }

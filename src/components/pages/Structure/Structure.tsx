@@ -16,10 +16,7 @@ export function Structure() {
     Footer,
     handleOptionSelection,
     isLoading,
-    PropertyApiSnackbarAlert,
     propertyTypeApiData,
-    PropertyTypeApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     selectedOption,
   } = useStructure();
 
@@ -84,9 +81,6 @@ export function Structure() {
         </Box>
       </Container>
       {Footer}
-      {PropertyApiSnackbarAlert}
-      {PropertyTypeApiSnackbarAlert}
-      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

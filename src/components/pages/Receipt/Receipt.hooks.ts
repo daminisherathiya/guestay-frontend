@@ -15,11 +15,9 @@ export function useReceipt() {
     propertyApiData,
     propertyApiIsFirstLoading,
     propertyApiIsSuccess,
-    PropertyApiSnackbarAlert,
     savePropertyApiIsPending,
     savePropertyApiIsSuccess,
     savePropertyApiMutate,
-    SavePropertyApiSnackbarAlert,
   } = usePropertyToEdit();
 
   const [property, setProperty] = useState<PropertyType | null>(null);
@@ -71,8 +69,6 @@ export function useReceipt() {
     isLoading,
     property,
     propertyApiIsSuccess,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     setFullReceiptPreviewDialogIsOpenFalse,
     setFullReceiptPreviewDialogIsOpenTrue,
   };

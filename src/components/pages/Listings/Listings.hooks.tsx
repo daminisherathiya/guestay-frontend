@@ -18,7 +18,6 @@ export function useListings() {
   const {
     data: listingPropertiesApiData,
     isFirstLoading: listingPropertiesApiIsFirstLoading,
-    SnackbarAlert: ListingPropertiesApiSnackbarAlert,
   } = useQuery<
     listingPropertiesApiResponseType,
     Error,
@@ -33,17 +32,14 @@ export function useListings() {
 
   ////////
 
-  const {
-    data: locationsApiData,
-    isFirstLoading: locationsApiIsFirstLoading,
-    SnackbarAlert: LocationsApiSnackbarAlert,
-  } = useQuery<locationsAPIResponseType, Error, locationsAPIResponseType>({
-    initialData: { data: [] },
-    queryFn: () => {
-      return locationsApi({ data: { userId: getUserDetails().id } });
-    },
-    queryKey: ["locations"],
-  });
+  const { data: locationsApiData, isFirstLoading: locationsApiIsFirstLoading } =
+    useQuery<locationsAPIResponseType, Error, locationsAPIResponseType>({
+      initialData: { data: [] },
+      queryFn: () => {
+        return locationsApi({ data: { userId: getUserDetails().id } });
+      },
+      queryKey: ["locations"],
+    });
 
   ////////
 
@@ -101,9 +97,7 @@ export function useListings() {
     isLoading,
     isSearching,
     listingPropertiesApiData,
-    ListingPropertiesApiSnackbarAlert,
     locationsApiData,
-    LocationsApiSnackbarAlert,
     manageListingDialogIsOpen,
     router,
     searchInputRef,

@@ -29,8 +29,6 @@ export function Photos() {
     handleUploadImages,
     isLoading,
     imageUrls,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     selectedImages,
     setSelectedImages,
     setUploadPhotosDialogIsOpenFalse,
@@ -182,8 +180,6 @@ export function Photos() {
         </Box>
       </Container>
       {Footer}
-      {PropertyApiSnackbarAlert}
-      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

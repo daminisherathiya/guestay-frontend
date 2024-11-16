@@ -22,7 +22,6 @@ export function Signup({
     onSubmit,
     password,
     signUpApiIsPending,
-    SignUpApiSnackbarAlert,
   } = useSignUp({
     handleCloseSignUp,
     handleOpenLogin,
@@ -172,7 +171,6 @@ export function Signup({
             label="Continue with email"
           /> */}
       </Box>
-      {SignUpApiSnackbarAlert}
     </>
   );
 }

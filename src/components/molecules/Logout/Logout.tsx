@@ -6,7 +6,7 @@ import { MenuItem } from "@/components/atoms/MenuItem";
 import { useLogout } from "./Logout.hooks";
 
 export function Logout() {
-  const { LogOutApiSnackbarAlert, onSubmit } = useLogout();
+  const { onSubmit } = useLogout();
 
   return (
     <>
@@ -16,7 +16,6 @@ export function Logout() {
         </ListItemIcon>
         Logout
       </MenuItem>
-      {LogOutApiSnackbarAlert}
     </>
   );
 }

@@ -26,11 +26,9 @@ export function useLocation() {
     propertyApiData,
     propertyApiIsFirstLoading,
     propertyApiIsSuccess,
-    PropertyApiSnackbarAlert,
     savePropertyApiIsPending,
     savePropertyApiIsSuccess,
     savePropertyApiMutate,
-    SavePropertyApiSnackbarAlert,
   } = usePropertyToEdit();
 
   ////////
@@ -42,7 +40,6 @@ export function useLocation() {
     data: locationsApiData,
     isFirstLoading: locationsApiIsFirstLoading,
     isSuccess: locationsApiIsSuccess,
-    SnackbarAlert: LocationsApiSnackbarAlert,
   } = useQuery<locationsAPIResponseType, Error, locationsAPIResponseType>({
     initialData: { data: [] },
     queryFn: () => {
@@ -188,10 +185,7 @@ export function useLocation() {
     locationHasChanged,
     locations,
     locationsApiIsFirstLoading,
-    LocationsApiSnackbarAlert,
     longitude,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     selectedPlaceDetails,
     setLatitude,
     setLocationHasChangedTrue,

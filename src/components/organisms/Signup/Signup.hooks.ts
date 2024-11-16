@@ -60,7 +60,6 @@ export function useSignUp({
     mutate: signUpApiMutate,
     isPending: signUpApiIsPending,
     isSuccess: signUpApiIsSuccess,
-    SnackbarAlert: SignUpApiSnackbarAlert,
   } = useMutation<SignUpAPIResponseType, Error, SignUpApiType>({
     mutationFn: signUpApi,
     mutationKey: ["sign-up"],
@@ -95,6 +94,5 @@ export function useSignUp({
     password,
     signUpApiIsPending,
     signUpApiIsSuccess,
-    SignUpApiSnackbarAlert,
   };
 }

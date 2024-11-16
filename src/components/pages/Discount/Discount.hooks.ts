@@ -25,11 +25,9 @@ export function useDiscount() {
     propertyApiData,
     propertyApiIsFirstLoading,
     propertyApiIsSuccess,
-    PropertyApiSnackbarAlert,
     savePropertyApiIsPending,
     savePropertyApiIsSuccess,
     savePropertyApiMutate,
-    SavePropertyApiSnackbarAlert,
   } = usePropertyToEdit();
 
   const {
@@ -175,8 +173,6 @@ export function useDiscount() {
     isLoading,
     isMonthlyDiscountEnabled: monthlyDiscountChecked,
     isWeeklyDiscountEnabled: weeklyDiscountChecked,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     setDiscountsDialogIsOpenFalse,
     setDiscountsDialogIsOpenTrue,
   };

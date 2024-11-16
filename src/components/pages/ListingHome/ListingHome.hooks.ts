@@ -29,7 +29,6 @@ export function useListingHome() {
   const {
     data: listingPropertiesApiData,
     isFirstLoading: listingPropertiesApiIsFirstLoading,
-    SnackbarAlert: ListingPropertiesApiSnackbarAlert,
   } = useQuery<
     listingPropertiesApiResponseType,
     Error,
@@ -57,7 +56,6 @@ export function useListingHome() {
   return {
     listingFinishedProperties,
     listingPropertiesApiIsFirstLoading,
-    ListingPropertiesApiSnackbarAlert,
     listingUnfinishedProperties,
     router,
     showMoreFihished,

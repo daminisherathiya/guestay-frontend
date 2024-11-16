@@ -30,11 +30,9 @@ export function useTitle() {
     propertyApiData,
     propertyApiIsFirstLoading,
     propertyApiIsSuccess,
-    PropertyApiSnackbarAlert,
     savePropertyApiIsPending,
     savePropertyApiIsSuccess,
     savePropertyApiMutate,
-    SavePropertyApiSnackbarAlert,
   } = usePropertyToEdit();
 
   useEffect(() => {
@@ -78,8 +76,6 @@ export function useTitle() {
     control,
     Footer,
     isLoading,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     titleLength,
   };
 }

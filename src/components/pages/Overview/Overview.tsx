@@ -11,7 +11,7 @@ import { Typography } from "@/components/atoms/Typography";
 import { useOverview } from "./Overview.hooks";
 
 export function Overview() {
-  const { Footer, SavePropertyApiSnackbarAlert } = useOverview();
+  const { Footer } = useOverview();
 
   return (
     <Box className="flex min-h-[calc(100vh-178px)] flex-col items-center justify-center">
@@ -114,7 +114,6 @@ export function Overview() {
         </Container>
         <Toolbar className="min-h-[5.375rem]" />
         {Footer}
-        {SavePropertyApiSnackbarAlert}
       </Box>
     </Box>
   );

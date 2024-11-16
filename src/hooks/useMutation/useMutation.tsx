@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import {
   UseMutationOptions,
@@ -8,10 +8,9 @@ import {
   useMutation as useMutationFromReactQuery,
 } from "@tanstack/react-query";
 
-import { SnackbarAlert as SnackbarAlertComponent } from "@/components/molecules/SnackbarAlert";
 import { ReactQueryCustomOptionsType } from "@/types/ReactQuery.types";
 
-import { useBoolean } from "../useBoolean";
+import { useGlobalSnackbarAlert } from "../useGlobalSnackbarAlert";
 
 export function useMutation<
   TData,
@@ -21,9 +20,7 @@ export function useMutation<
 >(
   mutationOptions: UseMutationOptions<TData, TError, TVariables, TContext>,
   customOptions?: ReactQueryCustomOptionsType,
-): UseMutationResult<TData, TError, TVariables, TContext> & {
-  SnackbarAlert: JSX.Element;
-} {
+): UseMutationResult<TData, TError, TVariables, TContext> {
   const {
     showSnackbarIsOpenOnSuccess = false,
     showSnackbarIsOpenOnFailure = true,
@@ -31,54 +28,42 @@ export function useMutation<
   } = customOptions || {};
 
   const {
-    value: snackbarIsOpen,
-    setTrue: setSnackbarIsOpenTrue,
-    setFalse: setSnackbarIsOpenFalse,
-  } = useBoolean({ initialValue: false });
-  const [alertMessage, setAlertMessage] = useState<string>("");
-  const [alertSeverity, setAlertSeverity] = useState<"success" | "error">(
-    "success",
-  );
+    setGlobalSnackbarAlertMessage,
+    setGlobalSnackbarAlertSeverity,
+    setGlobalSnackbarIsOpenTrue,
+  } = useGlobalSnackbarAlert();
 
   const mutationResult = useMutationFromReactQuery(mutationOptions);
 
   useEffect(() => {
     if (mutationResult.isSuccess && showSnackbarIsOpenOnSuccess) {
-      setSnackbarIsOpenTrue();
+      setGlobalSnackbarIsOpenTrue();
       // setAlertMessage(JSON.stringify(mutationResult.data));
-      setAlertMessage(successMessage);
-      setAlertSeverity("success");
+      setGlobalSnackbarAlertMessage(successMessage);
+      setGlobalSnackbarAlertSeverity("success");
     } else if (mutationResult.isError && showSnackbarIsOpenOnFailure) {
-      setSnackbarIsOpenTrue();
-      setAlertMessage(
+      setGlobalSnackbarIsOpenTrue();
+      setGlobalSnackbarAlertMessage(
         mutationResult.error instanceof Error
           ? mutationResult.error.message
           : "An unknown error occurred",
       );
-      setAlertSeverity("error");
+      setGlobalSnackbarAlertSeverity("error");
     }
   }, [
     mutationResult.data,
     mutationResult.error,
     mutationResult.isError,
     mutationResult.isSuccess,
-    setSnackbarIsOpenTrue,
+    setGlobalSnackbarAlertMessage,
+    setGlobalSnackbarAlertSeverity,
+    setGlobalSnackbarIsOpenTrue,
     showSnackbarIsOpenOnSuccess,
     showSnackbarIsOpenOnFailure,
     successMessage,
   ]);
 
-  const SnackbarAlert = (
-    <SnackbarAlertComponent
-      alertMessage={alertMessage}
-      alertSeverity={alertSeverity}
-      setSnackbarIsOpenFalse={setSnackbarIsOpenFalse}
-      snackbarIsOpen={snackbarIsOpen}
-    />
-  );
-
   return {
     ...mutationResult,
-    SnackbarAlert,
   };
 }

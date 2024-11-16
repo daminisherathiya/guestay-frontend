@@ -9,14 +9,7 @@ import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper";
 import { useTitle } from "./Title.hooks";
 
 export function Title() {
-  const {
-    control,
-    Footer,
-    isLoading,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
-    titleLength,
-  } = useTitle();
+  const { control, Footer, isLoading, titleLength } = useTitle();
 
   return (
     <>
@@ -62,8 +55,6 @@ export function Title() {
         </Box>
       </Container>
       {Footer}
-      {PropertyApiSnackbarAlert}
-      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

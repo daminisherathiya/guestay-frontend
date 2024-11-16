@@ -12,14 +12,11 @@ import { getUserDetails } from "@/utils/localStorage/localStorage";
 export function useLogout() {
   const { handleLogOut } = useAuthentication();
 
-  const {
-    mutate: logOutApiMutate,
-    isSuccess: logOutApiIsSuccess,
-    SnackbarAlert: LogOutApiSnackbarAlert,
-  } = useMutation<LogOutAPIResponseType, Error, LogOutApiType>({
-    mutationFn: logOutApi,
-    mutationKey: ["logout"],
-  });
+  const { mutate: logOutApiMutate, isSuccess: logOutApiIsSuccess } =
+    useMutation<LogOutAPIResponseType, Error, LogOutApiType>({
+      mutationFn: logOutApi,
+      mutationKey: ["logout"],
+    });
 
   const onSubmit = () => {
     handleLogOut();
@@ -33,5 +30,5 @@ export function useLogout() {
     }
   }, [handleLogOut, logOutApiIsSuccess]);
 
-  return { LogOutApiSnackbarAlert, onSubmit };
+  return { onSubmit };
 }

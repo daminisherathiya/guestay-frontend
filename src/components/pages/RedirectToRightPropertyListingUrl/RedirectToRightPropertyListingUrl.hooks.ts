@@ -12,8 +12,7 @@ import { getNextListingStepUrl } from "../ListingHome/ListingHome.utils";
 export function useRedirectToRightPropertyListingUrl() {
   const router = useRouter();
 
-  const { propertyApiData, propertyApiIsSuccess, PropertyApiSnackbarAlert } =
-    usePropertyToEdit();
+  const { propertyApiData, propertyApiIsSuccess } = usePropertyToEdit();
 
   const {
     value: showError,
@@ -46,5 +45,5 @@ export function useRedirectToRightPropertyListingUrl() {
     setShowErrorFalse,
   ]);
 
-  return { PropertyApiSnackbarAlert, showError };
+  return { showError };
 }

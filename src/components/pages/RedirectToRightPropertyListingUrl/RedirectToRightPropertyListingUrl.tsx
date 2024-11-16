@@ -9,8 +9,7 @@ import { Typography } from "@/components/atoms/Typography";
 import { useRedirectToRightPropertyListingUrl } from "./RedirectToRightPropertyListingUrl.hooks";
 
 export function RedirectToRightPropertyListingUrl() {
-  const { PropertyApiSnackbarAlert, showError } =
-    useRedirectToRightPropertyListingUrl();
+  const { showError } = useRedirectToRightPropertyListingUrl();
 
   return (
     <>
@@ -27,7 +26,6 @@ export function RedirectToRightPropertyListingUrl() {
           <CircularProgress disableShrink className="mx-auto" />
         </Stack>
       )}
-      {PropertyApiSnackbarAlert}
     </>
   );
 }

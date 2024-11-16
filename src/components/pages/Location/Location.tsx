@@ -34,10 +34,7 @@ export function Location() {
     locationHasChanged,
     locations,
     // locationsApiIsFirstLoading,
-    LocationsApiSnackbarAlert,
     longitude,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     // selectedPlaceDetails,
     setLatitude,
     setLocationHasChangedTrue,
@@ -215,9 +212,6 @@ export function Location() {
         /> */}
       </Container>
       {Footer}
-      {LocationsApiSnackbarAlert}
-      {PropertyApiSnackbarAlert}
-      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

@@ -9,14 +9,8 @@ import { Typography } from "@/components/atoms/Typography";
 import { useDescription } from "./Description.hooks";
 
 export function Description() {
-  const {
-    description,
-    Footer,
-    handleDescriptionChange,
-    isLoading,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
-  } = useDescription();
+  const { description, Footer, handleDescriptionChange, isLoading } =
+    useDescription();
 
   return (
     <>
@@ -56,8 +50,6 @@ export function Description() {
         </Box>
       </Container>
       {Footer}
-      {PropertyApiSnackbarAlert}
-      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

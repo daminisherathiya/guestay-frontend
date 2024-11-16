@@ -21,13 +21,8 @@ export function FullReceiptPreviewDialog({
   property,
   propertyApiIsSuccess,
 }: FullReceiptPreviewDialogProps) {
-  const {
-    AmenitiesApiSnackbarAlert,
-    locationsApiData,
-    LocationsApiSnackbarAlert,
-    isLoading,
-    selectedAmenities,
-  } = useFullReceiptPreviewDialog({ property, propertyApiIsSuccess });
+  const { locationsApiData, isLoading, selectedAmenities } =
+    useFullReceiptPreviewDialog({ property, propertyApiIsSuccess });
 
   return (
     <DialogWrapper
@@ -143,8 +138,6 @@ export function FullReceiptPreviewDialog({
           </Grid2>
         </Box>
       )}
-      {AmenitiesApiSnackbarAlert}
-      {LocationsApiSnackbarAlert}
     </DialogWrapper>
   );
 }

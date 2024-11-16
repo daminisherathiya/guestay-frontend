@@ -14,12 +14,9 @@ import { useAmenities } from "./Amenities.hooks";
 export function Amenities() {
   const {
     amenitiesApiData,
-    AmenitiesApiSnackbarAlert,
     Footer,
     handleButtonClick,
     isLoading,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     selectedOptions,
   } = useAmenities();
 
@@ -94,9 +91,6 @@ export function Amenities() {
         </Box>
       </Container>
       {Footer}
-      {AmenitiesApiSnackbarAlert}
-      {PropertyApiSnackbarAlert}
-      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

@@ -16,11 +16,9 @@ export function useStructure() {
     propertyApiData,
     propertyApiIsFirstLoading,
     propertyApiIsSuccess,
-    PropertyApiSnackbarAlert,
     savePropertyApiIsPending,
     savePropertyApiIsSuccess,
     savePropertyApiMutate,
-    SavePropertyApiSnackbarAlert,
   } = usePropertyToEdit();
 
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -41,7 +39,6 @@ export function useStructure() {
   const {
     data: propertyTypeApiData,
     isFirstLoading: propertyTypeApiIsFirstLoading,
-    SnackbarAlert: PropertyTypeApiSnackbarAlert,
   } = useQuery<propertyTypeApiResponseType, Error, propertyTypeApiResponseType>(
     {
       initialData: { data: [] },
@@ -88,10 +85,7 @@ export function useStructure() {
     Footer,
     handleOptionSelection,
     isLoading,
-    PropertyApiSnackbarAlert,
     propertyTypeApiData,
-    PropertyTypeApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     selectedOption,
   };
 }

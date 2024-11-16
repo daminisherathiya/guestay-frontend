@@ -28,9 +28,7 @@ export function Listings() {
     isLoading,
     isSearching,
     listingPropertiesApiData,
-    ListingPropertiesApiSnackbarAlert,
     locationsApiData,
-    LocationsApiSnackbarAlert,
     manageListingDialogIsOpen,
     router,
     searchInputRef,
@@ -137,8 +135,6 @@ export function Listings() {
           selectedListing={selectedListing}
         />
       </Container>
-      {ListingPropertiesApiSnackbarAlert}
-      {LocationsApiSnackbarAlert}
     </>
   );
 }
