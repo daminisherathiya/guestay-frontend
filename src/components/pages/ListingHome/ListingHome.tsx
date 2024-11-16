@@ -46,76 +46,106 @@ export function ListingHome() {
   };
 
   const getUnfinishedPropertiesList = () => {
-    return listingUnfinishedProperties.map((listingProperty, index) => (
-      <Button
-        key={listingProperty.id}
-        disableRipple
-        className={`w-full justify-start gap-4 rounded-xl p-6 text-start ${showMoreUnfihished && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
-        variant="outlined"
-        onClick={() => {
-          const nextListingStepUrl = getNextListingStepUrl({
-            propertyIdToEdit: listingProperty.id,
-            providedListingSteps: listingProperty.listing_steps || "",
-          });
-          // window.open(nextListingStepUrl);
-          router.push(nextListingStepUrl);
-        }}
-      >
-        <Image
-          alt="home"
-          className="rounded"
-          height={44}
-          src="/images/home.jpg"
-          width={44}
-        />
-        <Typography>
-          {listingProperty.title ||
-            getDefaultPropertyTitle({ createdAt: listingProperty.created_at })}
-        </Typography>
-      </Button>
-    ));
-  };
+    return listingUnfinishedProperties.map((listingProperty, index) => {
+      const coverImage = listingProperty?.images.split(",")[0] || "";
 
-  const getFinishedPropertiesList = () => {
-    return listingFinishedProperties.map((listingProperty, index) => (
-      <Button
-        key={listingProperty.id}
-        disableRipple
-        className={`w-full justify-between gap-4 rounded-xl p-6 text-start ${showMoreFihished && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
-        variant="outlined"
-        onClick={() => {
-          const nextListingStepUrl = getNextListingStepUrl({
-            propertyIdToEdit: listingProperty.id,
-            providedListingSteps: listingProperty.listing_steps || "",
-          });
-          // window.open(nextListingStepUrl);
-          router.push(nextListingStepUrl);
-        }}
-      >
-        <Stack className="flex-row items-center gap-4">
-          <Image
-            alt="home"
-            className="rounded"
-            height={44}
-            src="/images/home.jpg"
-            width={44}
-          />
+      return (
+        <Button
+          key={listingProperty.id}
+          disableRipple
+          className={`w-full justify-start gap-4 rounded-xl p-6 text-start ${showMoreUnfihished && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
+          variant="outlined"
+          onClick={() => {
+            const nextListingStepUrl = getNextListingStepUrl({
+              propertyIdToEdit: listingProperty.id,
+              providedListingSteps: listingProperty.listing_steps || "",
+            });
+            // window.open(nextListingStepUrl);
+            router.push(nextListingStepUrl);
+          }}
+        >
+          {coverImage ? (
+            <Image
+              alt="home"
+              className="size-11 rounded object-cover"
+              height={44}
+              src={`https://guestay.webarysites.com/file/100/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${coverImage}`}
+              width={44}
+            />
+          ) : (
+            <Image
+              alt="home"
+              className="rounded"
+              height={44}
+              src="/images/home.jpg"
+              width={44}
+            />
+          )}
           <Typography>
             {listingProperty.title ||
               getDefaultPropertyTitle({
                 createdAt: listingProperty.created_at,
               })}
           </Typography>
-        </Stack>
-        <Chip
-          classes={{ label: "first-letter:uppercase" }}
-          label={getListingStatusToDisplay({
-            listingSteps: listingProperty.listing_steps || "",
-            status: listingProperty.status,
-          })}
-        />
-      </Button>
-    ));
+        </Button>
+      );
+    });
+  };
+
+  const getFinishedPropertiesList = () => {
+    return listingFinishedProperties.map((listingProperty, index) => {
+      const coverImage = listingProperty?.images.split(",")[0] || "";
+      return (
+        <Button
+          key={listingProperty.id}
+          disableRipple
+          className={`w-full justify-between gap-4 rounded-xl p-6 text-start ${showMoreFihished && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
+          variant="outlined"
+          onClick={() => {
+            const nextListingStepUrl = getNextListingStepUrl({
+              propertyIdToEdit: listingProperty.id,
+              providedListingSteps: listingProperty.listing_steps || "",
+            });
+            // window.open(nextListingStepUrl);
+            router.push(nextListingStepUrl);
+          }}
+        >
+          <Stack className="flex-row items-center gap-4">
+            {coverImage ? (
+              <Image
+                alt="home"
+                className="size-11 rounded object-cover"
+                height={44}
+                src={`https://guestay.webarysites.com/file/100/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${coverImage}`}
+                width={44}
+              />
+            ) : (
+              <Image
+                alt="home"
+                className="rounded"
+                height={44}
+                src="/images/home.jpg"
+                width={44}
+              />
+            )}
+
+            <Typography>
+              {listingProperty.title ||
+                getDefaultPropertyTitle({
+                  createdAt: listingProperty.created_at,
+                })}
+            </Typography>
+          </Stack>
+          <Chip
+            classes={{ label: "first-letter:uppercase" }}
+            label={getListingStatusToDisplay({
+              listingSteps: listingProperty.listing_steps || "",
+              status: listingProperty.status,
+            })}
+          />
+        </Button>
+      );
+    });
   };
 
   return (
@@ -159,7 +189,7 @@ export function ListingHome() {
                 <Stack className="cursor-pointer flex-row items-center justify-between gap-4 border-divider py-6 md:border-b">
                   <Stack className="flex-row items-center gap-4">
                     <Image
-                      alt="Add"
+                      alt="Add listing"
                       className="rounded"
                       height={32}
                       src="/images/addFile.svg"

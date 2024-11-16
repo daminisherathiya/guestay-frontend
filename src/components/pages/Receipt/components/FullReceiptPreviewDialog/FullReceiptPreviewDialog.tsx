@@ -1,7 +1,5 @@
 import Image from "next/image";
 
-import { Link } from "@mui/material";
-
 import { Avatar } from "@/components/atoms/Avatar";
 import { Box } from "@/components/atoms/Box";
 import { Divider } from "@/components/atoms/Divider";
@@ -111,7 +109,13 @@ export function FullReceiptPreviewDialog({
                             width={24}
                           />
                         ) : (
-                          <Box className="size-8 rounded-sm bg-action-disabledBackground/30"></Box>
+                          <Image
+                            alt={amenity.title}
+                            className="size-6 object-cover"
+                            height={24}
+                            src="/images/houseCheck.svg"
+                            width={24}
+                          />
                         )}
                       </Stack>
                     ))}
@@ -132,11 +136,6 @@ export function FullReceiptPreviewDialog({
                     {locationsApiData?.data.find(
                       (location) => location.id === property?.location,
                     )?.label || ""}
-                  </Typography>
-                  <Typography className="mt-1 text-xs">
-                    We&apos;ll only share your address with guests who are
-                    booked as outlined in our{" "}
-                    <Link href="#">Privacy Policy</Link>
                   </Typography>
                 </Box>
               </Box>
