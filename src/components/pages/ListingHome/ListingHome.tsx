@@ -20,7 +20,6 @@ import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { NUMBER_OF_PROPERTIES_TO_SHOW } from "./ListingHome.consts";
 import { useListingHome } from "./ListingHome.hooks";
-import { getNextListingStepUrl } from "./ListingHome.utils";
 
 export function ListingHome() {
   const {
@@ -55,14 +54,7 @@ export function ListingHome() {
           disableRipple
           className={`w-full justify-start gap-4 rounded-xl p-6 text-start ${showMoreUnfihished && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
           variant="outlined"
-          onClick={() => {
-            const nextListingStepUrl = getNextListingStepUrl({
-              propertyIdToEdit: listingProperty.id,
-              providedListingSteps: listingProperty.listing_steps || "",
-            });
-            // window.open(nextListingStepUrl);
-            router.push(nextListingStepUrl);
-          }}
+          onClick={() => router.push(listingProperty.nextListingStepUrl)}
         >
           {coverImage ? (
             <Image
@@ -101,14 +93,7 @@ export function ListingHome() {
           disableRipple
           className={`w-full justify-between gap-4 rounded-xl p-6 text-start ${showMoreFihished && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
           variant="outlined"
-          onClick={() => {
-            const nextListingStepUrl = getNextListingStepUrl({
-              propertyIdToEdit: listingProperty.id,
-              providedListingSteps: listingProperty.listing_steps || "",
-            });
-            // window.open(nextListingStepUrl);
-            router.push(nextListingStepUrl);
-          }}
+          onClick={() => router.push(listingProperty.nextListingStepUrl)}
         >
           <Stack className="flex-row items-center gap-4">
             {coverImage ? (
