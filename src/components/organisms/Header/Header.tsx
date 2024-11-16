@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 // import HelpIcon from "@mui/icons-material/Help";
 // import HomeIcon from "@mui/icons-material/Home";
@@ -8,7 +9,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import PasswordIcon from "@mui/icons-material/Password";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 // import ScienceIcon from "@mui/icons-material/Science";
-import { Avatar, Link, ListItemIcon, Menu, Tooltip } from "@mui/material";
+import { Avatar, ListItemIcon, Menu, Tooltip } from "@mui/material";
 import { GridMenuIcon } from "@mui/x-data-grid";
 
 import UserAccount from "/public/images/userAccount.svg";
@@ -99,6 +100,7 @@ export function Header() {
                 className="rounded-3xl hover:bg-common-white"
                 href="/become-a-host"
                 variant="outlined"
+                component={Link}
               >
                 Exit
               </Button>
