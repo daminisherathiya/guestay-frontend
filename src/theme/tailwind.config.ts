@@ -4,9 +4,7 @@ import { breakpointsInTailwindCssFormat } from "./breakpoints";
 import { palette } from "./colors";
 
 const config: Config = {
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   important: "#html",
   plugins: [],
   theme: {
