@@ -22,7 +22,7 @@ export function RedirectToRightPropertyListingUrl() {
           <Button variant="contained">Go to Home</Button>
         </Box>
       ) : (
-        <Stack className="h-[calc(100vh-178px)] items-center justify-center">
+        <Stack className="h-[calc(100vh-11.375rem)] items-center justify-center">
           <CircularProgress disableShrink className="mx-auto" />
         </Stack>
       )}

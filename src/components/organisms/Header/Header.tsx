@@ -131,30 +131,9 @@ export function Header() {
               open={isAccountMenuOpen}
               slotProps={{
                 paper: {
+                  className:
+                    "mt-3 overflow-visible drop-shadow-elevated before:absolute before:right-3.5 before:top-0 before:z-0 before:block before:size-2.5 before:-translate-y-1/2 before:rotate-45 before:bg-background-paper",
                   elevation: 0,
-                  sx: {
-                    "& .MuiAvatar-root": {
-                      height: 32,
-                      ml: -0.5,
-                      mr: 1,
-                      width: 32,
-                    },
-                    "&::before": {
-                      bgcolor: "background.paper",
-                      content: '""',
-                      display: "block",
-                      height: 10,
-                      position: "absolute",
-                      right: 14,
-                      top: 0,
-                      transform: "translateY(-50%) rotate(45deg)",
-                      width: 10,
-                      zIndex: 0,
-                    },
-                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                    mt: 1.5,
-                    overflow: "visible",
-                  },
                 },
               }}
               transformOrigin={{ horizontal: "right", vertical: "top" }}

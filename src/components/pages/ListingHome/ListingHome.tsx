@@ -151,7 +151,7 @@ export function ListingHome() {
   return (
     <>
       <Container maxWidth="2xl">
-        <Box className="flex min-h-[calc(100vh-178px)] flex-col items-center justify-center">
+        <Box className="flex min-h-[calc(100vh-6.375rem)] flex-col items-center justify-center">
           <Box className="mx-auto my-5 w-full max-w-2xl">
             <Typography className="mb-8" component="h1" variant="h1">
               Welcome back, {getUserDetails().fname}

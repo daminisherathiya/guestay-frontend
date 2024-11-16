@@ -15,7 +15,7 @@ export function VerticalTabs({
     <Tabs
       aria-label="Vertical tabs example"
       classes={{
-        flexContainer: "space-y-4 pl-[4.75rem] pr-16 py-4",
+        flexContainer: "space-y-4 pl-[4.75rem] pr-16 pt-4 pb-10",
         indicator: "hidden",
       }}
       orientation="vertical"
@@ -28,7 +28,7 @@ export function VerticalTabs({
           key={index}
           aria-controls={`yourSpace-tabpanel-${index}`}
           classes={{ selected: "!shadow-black" }}
-          className="items-start rounded-xl p-5 text-left normal-case shadow-button hover:bg-action-hover"
+          className="rounded-xl p-5 text-left normal-case shadow-button hover:bg-action-hover"
           component={Link}
           href={tabInfo.onClick}
           id={`yourSpace-tab-${index}`}

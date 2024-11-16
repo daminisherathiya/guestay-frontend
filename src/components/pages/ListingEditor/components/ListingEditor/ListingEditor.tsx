@@ -3,10 +3,8 @@
 import { ReactNode } from "react";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import TuneIcon from "@mui/icons-material/Tune";
 import { Tab, Tabs } from "@mui/material";
 
-import { Box } from "@/components/atoms/Box";
 import { Container } from "@/components/atoms/Container";
 import { Grid2 } from "@/components/atoms/Grid2";
 import { IconButton } from "@/components/atoms/IconButton";
@@ -29,6 +27,7 @@ function TabPanel(props: TabPanelProps) {
       id={`listing-editor-tabpanel-${index}`}
       role="tabpanel"
       {...other}
+      className="grow overflow-auto"
     >
       {value === index && children}
     </div>
@@ -90,9 +89,9 @@ export function ListingEditor({
 
   return (
     <Container maxWidth="2xl">
-      <Grid2 container>
-        <Grid2 size={4}>
-          <Box className="border-r border-divider">
+      <Grid2 container className="h-[calc(100vh-6.375rem)]">
+        <Grid2 className="h-full" size={4}>
+          <Stack className="h-full border-r border-divider">
             <Stack className="flex-row items-center gap-8">
               <IconButton className="size-11 bg-action-hover hover:bg-action-selected">
                 <ArrowBackIcon className="size-5" />
@@ -121,9 +120,6 @@ export function ListingEditor({
                   />
                 ))}
               </Tabs>
-              <IconButton className="size-11 bg-action-hover hover:bg-action-selected">
-                <TuneIcon className="size-5" />
-              </IconButton>
             </Stack>
             {editorTabsInfo.map((yourSpaceTabInfo, index) => (
               <TabPanel
@@ -134,7 +130,7 @@ export function ListingEditor({
                 {yourSpaceTabInfo.tabPanelComponent}
               </TabPanel>
             ))}
-          </Box>
+          </Stack>
         </Grid2>
         <Grid2 size={8}>{children}</Grid2>
       </Grid2>
