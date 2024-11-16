@@ -1,15 +1,15 @@
-import { type ReactNode } from "react";
+import { Dispatch, type ReactNode, SetStateAction } from "react";
 
 export interface GlobalSnackbarAlertContextType {
+  globalSnackbarAlertIsOpen: boolean;
   globalSnackbarAlertMessage: string;
+  globalSnackbarAlertResetCounter: number;
   globalSnackbarAlertSeverity: "success" | "error";
-  globalSnackbarIsOpen: boolean;
-  setGlobalSnackbarAlertMessage: React.Dispatch<React.SetStateAction<string>>;
-  setGlobalSnackbarAlertSeverity: React.Dispatch<
-    React.SetStateAction<"success" | "error">
-  >;
-  setGlobalSnackbarIsOpenFalse: () => void;
-  setGlobalSnackbarIsOpenTrue: () => void;
+  setGlobalSnackbarAlertIsOpenFalse: () => void;
+  setGlobalSnackbarAlertIsOpenTrue: () => void;
+  setGlobalSnackbarAlertMessage: Dispatch<SetStateAction<string>>;
+  setGlobalSnackbarAlertResetCounter: Dispatch<SetStateAction<number>>;
+  setGlobalSnackbarAlertSeverity: Dispatch<SetStateAction<"success" | "error">>;
 }
 
 export interface GlobalSnackbarAlertProviderProps {

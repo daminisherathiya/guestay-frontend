@@ -28,27 +28,30 @@ export function useMutation<
   } = customOptions || {};
 
   const {
+    setGlobalSnackbarAlertIsOpenTrue,
     setGlobalSnackbarAlertMessage,
+    setGlobalSnackbarAlertResetCounter,
     setGlobalSnackbarAlertSeverity,
-    setGlobalSnackbarIsOpenTrue,
   } = useGlobalSnackbarAlert();
 
   const mutationResult = useMutationFromReactQuery(mutationOptions);
 
   useEffect(() => {
     if (mutationResult.isSuccess && showSnackbarIsOpenOnSuccess) {
-      setGlobalSnackbarIsOpenTrue();
+      setGlobalSnackbarAlertIsOpenTrue();
       // setAlertMessage(JSON.stringify(mutationResult.data));
       setGlobalSnackbarAlertMessage(successMessage);
       setGlobalSnackbarAlertSeverity("success");
+      setGlobalSnackbarAlertResetCounter((count) => count + 1);
     } else if (mutationResult.isError && showSnackbarIsOpenOnFailure) {
-      setGlobalSnackbarIsOpenTrue();
+      setGlobalSnackbarAlertIsOpenTrue();
       setGlobalSnackbarAlertMessage(
         mutationResult.error instanceof Error
           ? mutationResult.error.message
           : "An unknown error occurred",
       );
       setGlobalSnackbarAlertSeverity("error");
+      setGlobalSnackbarAlertResetCounter((count) => count + 1);
     }
   }, [
     mutationResult.data,
@@ -56,8 +59,9 @@ export function useMutation<
     mutationResult.isError,
     mutationResult.isSuccess,
     setGlobalSnackbarAlertMessage,
+    setGlobalSnackbarAlertResetCounter,
     setGlobalSnackbarAlertSeverity,
-    setGlobalSnackbarIsOpenTrue,
+    setGlobalSnackbarAlertIsOpenTrue,
     showSnackbarIsOpenOnSuccess,
     showSnackbarIsOpenOnFailure,
     successMessage,

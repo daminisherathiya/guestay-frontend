@@ -34,27 +34,30 @@ export function useQuery<TQueryFnData, TError extends Error, TData>(
   };
 
   const {
+    setGlobalSnackbarAlertIsOpenTrue,
     setGlobalSnackbarAlertMessage,
+    setGlobalSnackbarAlertResetCounter,
     setGlobalSnackbarAlertSeverity,
-    setGlobalSnackbarIsOpenTrue,
   } = useGlobalSnackbarAlert();
 
   const queryResult = useQueryFromReactQuery(mergedQueryOptions);
 
   useEffect(() => {
     if (queryResult.isSuccess && showSnackbarIsOpenOnSuccess) {
-      setGlobalSnackbarIsOpenTrue();
+      setGlobalSnackbarAlertIsOpenTrue();
       // setAlertMessage(JSON.stringify(queryResult.data));
       setGlobalSnackbarAlertMessage(successMessage);
       setGlobalSnackbarAlertSeverity("success");
+      setGlobalSnackbarAlertResetCounter((count) => count + 1);
     } else if (queryResult.isError && showSnackbarIsOpenOnFailure) {
-      setGlobalSnackbarIsOpenTrue();
+      setGlobalSnackbarAlertIsOpenTrue();
       setGlobalSnackbarAlertMessage(
         queryResult.error instanceof Error
           ? queryResult.error.message
           : "An unknown error occurred",
       );
       setGlobalSnackbarAlertSeverity("error");
+      setGlobalSnackbarAlertResetCounter((count) => count + 1);
     }
 
     if (
@@ -69,9 +72,10 @@ export function useQuery<TQueryFnData, TError extends Error, TData>(
     queryResult.error,
     queryResult.isError,
     queryResult.isSuccess,
+    setGlobalSnackbarAlertIsOpenTrue,
     setGlobalSnackbarAlertMessage,
+    setGlobalSnackbarAlertResetCounter,
     setGlobalSnackbarAlertSeverity,
-    setGlobalSnackbarIsOpenTrue,
     showSnackbarIsOpenOnFailure,
     showSnackbarIsOpenOnSuccess,
     successMessage,

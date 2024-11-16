@@ -11,38 +11,44 @@ import {
 
 export const GlobalSnackbarAlertContext =
   createContext<GlobalSnackbarAlertContextType>({
+    globalSnackbarAlertIsOpen: false,
     globalSnackbarAlertMessage: "",
+    globalSnackbarAlertResetCounter: 0,
     globalSnackbarAlertSeverity: "success",
-    globalSnackbarIsOpen: false,
+    setGlobalSnackbarAlertIsOpenFalse: () => {},
+    setGlobalSnackbarAlertIsOpenTrue: () => {},
     setGlobalSnackbarAlertMessage: () => {},
+    setGlobalSnackbarAlertResetCounter: () => {},
     setGlobalSnackbarAlertSeverity: () => {},
-    setGlobalSnackbarIsOpenFalse: () => {},
-    setGlobalSnackbarIsOpenTrue: () => {},
   });
 
 export const GlobalSnackbarAlertProvider = ({
   children,
 }: GlobalSnackbarAlertProviderProps) => {
   const {
-    value: globalSnackbarIsOpen,
-    setFalse: setGlobalSnackbarIsOpenFalse,
-    setTrue: setGlobalSnackbarIsOpenTrue,
+    value: globalSnackbarAlertIsOpen,
+    setFalse: setGlobalSnackbarAlertIsOpenFalse,
+    setTrue: setGlobalSnackbarAlertIsOpenTrue,
   } = useBoolean({ initialValue: false });
   const [globalSnackbarAlertMessage, setGlobalSnackbarAlertMessage] =
     useState<string>("");
   const [globalSnackbarAlertSeverity, setGlobalSnackbarAlertSeverity] =
     useState<"success" | "error">("success");
+  const [globalSnackbarAlertResetCounter, setGlobalSnackbarAlertResetCounter] =
+    useState<number>(0);
 
   return (
     <GlobalSnackbarAlertContext.Provider
       value={{
+        globalSnackbarAlertIsOpen,
         globalSnackbarAlertMessage,
+        globalSnackbarAlertResetCounter,
         globalSnackbarAlertSeverity,
-        globalSnackbarIsOpen,
+        setGlobalSnackbarAlertIsOpenFalse,
+        setGlobalSnackbarAlertIsOpenTrue,
         setGlobalSnackbarAlertMessage,
+        setGlobalSnackbarAlertResetCounter,
         setGlobalSnackbarAlertSeverity,
-        setGlobalSnackbarIsOpenFalse,
-        setGlobalSnackbarIsOpenTrue,
       }}
     >
       {children}

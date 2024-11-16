@@ -6,18 +6,20 @@ import { SnackbarAlert } from "../SnackbarAlert";
 
 export function GlobalSnackbarAlert() {
   const {
+    globalSnackbarAlertIsOpen,
     globalSnackbarAlertMessage,
+    globalSnackbarAlertResetCounter,
     globalSnackbarAlertSeverity,
-    globalSnackbarIsOpen,
-    setGlobalSnackbarIsOpenFalse,
+    setGlobalSnackbarAlertIsOpenFalse,
   } = useGlobalSnackbarAlert();
 
   return (
     <SnackbarAlert
+      key={globalSnackbarAlertResetCounter}
       alertMessage={globalSnackbarAlertMessage}
       alertSeverity={globalSnackbarAlertSeverity}
-      setSnackbarIsOpenFalse={setGlobalSnackbarIsOpenFalse}
-      snackbarIsOpen={globalSnackbarIsOpen}
+      setSnackbarIsOpenFalse={setGlobalSnackbarAlertIsOpenFalse}
+      snackbarIsOpen={globalSnackbarAlertIsOpen}
     />
   );
 }
