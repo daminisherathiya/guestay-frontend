@@ -98,9 +98,9 @@ export function Header() {
             {showExitButton && (
               <Button
                 className="rounded-3xl hover:bg-common-white"
+                component={Link}
                 href="/become-a-host"
                 variant="outlined"
-                component={Link}
               >
                 Exit
               </Button>
