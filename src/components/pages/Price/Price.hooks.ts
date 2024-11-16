@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";
 
@@ -109,7 +109,7 @@ export function usePrice() {
     }
   };
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
 
     value = value.replace(/[^0-9]/g, "");

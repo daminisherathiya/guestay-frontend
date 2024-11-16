@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   UseMutationOptions,
@@ -10,6 +10,8 @@ import {
 
 import { SnackbarAlert as SnackbarAlertComponent } from "@/components/molecules/SnackbarAlert";
 import { ReactQueryCustomOptionsType } from "@/types/ReactQuery.types";
+
+import { useBoolean } from "../useBoolean";
 
 export function useMutation<
   TData,
@@ -28,7 +30,11 @@ export function useMutation<
     successMessage = "",
   } = customOptions || {};
 
-  const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
+  const {
+    value: snackbarIsOpen,
+    setTrue: setSnackbarIsOpenTrue,
+    setFalse: setSnackbarIsOpenFalse,
+  } = useBoolean({ initialValue: false });
   const [alertMessage, setAlertMessage] = useState<string>("");
   const [alertSeverity, setAlertSeverity] = useState<"success" | "error">(
     "success",
@@ -38,12 +44,12 @@ export function useMutation<
 
   useEffect(() => {
     if (mutationResult.isSuccess && showSnackbarIsOpenOnSuccess) {
-      setSnackbarIsOpen(true);
+      setSnackbarIsOpenTrue();
       // setAlertMessage(JSON.stringify(mutationResult.data));
       setAlertMessage(successMessage);
       setAlertSeverity("success");
     } else if (mutationResult.isError && showSnackbarIsOpenOnFailure) {
-      setSnackbarIsOpen(true);
+      setSnackbarIsOpenTrue();
       setAlertMessage(
         mutationResult.error instanceof Error
           ? mutationResult.error.message
@@ -56,6 +62,7 @@ export function useMutation<
     mutationResult.error,
     mutationResult.isError,
     mutationResult.isSuccess,
+    setSnackbarIsOpenTrue,
     showSnackbarIsOpenOnSuccess,
     showSnackbarIsOpenOnFailure,
     successMessage,
@@ -65,7 +72,7 @@ export function useMutation<
     <SnackbarAlertComponent
       alertMessage={alertMessage}
       alertSeverity={alertSeverity}
-      setSnackbarIsOpen={setSnackbarIsOpen}
+      setSnackbarIsOpenFalse={setSnackbarIsOpenFalse}
       snackbarIsOpen={snackbarIsOpen}
     />
   );

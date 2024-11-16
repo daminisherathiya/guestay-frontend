@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUIDivider, {
   DividerProps as MUIDividerProps,
@@ -6,8 +6,8 @@ import MUIDivider, {
 
 export interface DividerProps extends MUIDividerProps {}
 
-export const Divider = React.forwardRef<HTMLHRElement, DividerProps>(
-  (props, ref) => <MUIDivider ref={ref} {...props} />,
-);
+export const Divider = forwardRef<HTMLHRElement, DividerProps>((props, ref) => (
+  <MUIDivider ref={ref} {...props} />
+));
 
 Divider.displayName = "Divider";

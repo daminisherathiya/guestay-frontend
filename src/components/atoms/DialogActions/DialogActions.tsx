@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUIDialogActions, {
   DialogActionsProps as MUIDialogActionsProps,
@@ -6,9 +6,8 @@ import MUIDialogActions, {
 
 export interface DialogActionsProps extends MUIDialogActionsProps {}
 
-export const DialogActions = React.forwardRef<
-  HTMLDivElement,
-  DialogActionsProps
->((props, ref) => <MUIDialogActions ref={ref} {...props} />);
+export const DialogActions = forwardRef<HTMLDivElement, DialogActionsProps>(
+  (props, ref) => <MUIDialogActions ref={ref} {...props} />,
+);
 
 DialogActions.displayName = "DialogActions";

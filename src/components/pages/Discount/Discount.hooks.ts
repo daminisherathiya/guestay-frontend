@@ -118,29 +118,6 @@ export function useDiscount() {
     monthlyDiscountChecked,
   );
 
-  // const handleInput = (
-  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  //   type: "weekly" | "monthly",
-  // ) => {
-  //   if (!(e.target instanceof HTMLInputElement)) return;
-
-  //   let value = e.target.value;
-
-  //   value = value.replace(/[^0-9]/g, "");
-  //   if (value.length > 2) {
-  //     value = value.slice(0, 2);
-  //   }
-  //   e.target.value = value;
-
-  //   if (type === "weekly") {
-  //     setWeeklyDiscount(parseInt(value, 10) || 0);
-  //   } else if (type === "monthly") {
-  //     setMonthlyDiscount(parseInt(value, 10) || 0);
-  //   }
-  // };
-
-  ////////
-
   const router = useRouter();
 
   const onSubmit = () => {

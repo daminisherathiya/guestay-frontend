@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { Dispatch, ReactElement, SetStateAction } from "react";
 
 export interface SelectedImage {
   error?: string;
@@ -9,7 +9,7 @@ export interface FileUploadButtonProps {
   children: ReactElement;
   className?: string;
   selectedImages: SelectedImage[];
-  setSelectedImages: React.Dispatch<React.SetStateAction<SelectedImage[]>>;
+  setSelectedImages: Dispatch<SetStateAction<SelectedImage[]>>;
   size?: "small" | "large" | "medium";
 }
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 
 import Image from "next/image";
 
@@ -21,7 +21,7 @@ export function UploadedPhoto({
 }: UploadedPhotoProps) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-  const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
+  const handleOpen = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 

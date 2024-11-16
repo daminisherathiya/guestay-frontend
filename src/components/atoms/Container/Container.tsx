@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUIContainer, {
   ContainerProps as MUIContainerProps,
@@ -6,7 +6,7 @@ import MUIContainer, {
 
 export interface ContainerProps extends MUIContainerProps {}
 
-export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
+export const Container = forwardRef<HTMLDivElement, ContainerProps>(
   (props, ref) => <MUIContainer ref={ref} {...props} />,
 );
 

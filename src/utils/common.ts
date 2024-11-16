@@ -37,5 +37,5 @@ export const getListingStatusToDisplay = ({
 export const getDefaultPropertyTitle = ({
   createdAt,
 }: getDefaultPropertyTitleType) => {
-  return `Your listing started at ${dayjs.utc(createdAt).local().format("D MMMM YYYY")}`;
+  return `Your listing started at ${dayjs.tz(createdAt, "America/New_York").local().format("D MMMM YYYY")}`;
 };

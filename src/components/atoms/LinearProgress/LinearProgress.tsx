@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUILinearProgress, {
   LinearProgressProps as MUILinearProgressProps,
@@ -6,9 +6,8 @@ import MUILinearProgress, {
 
 export interface LinearProgressProps extends MUILinearProgressProps {}
 
-export const LinearProgress = React.forwardRef<
-  HTMLDivElement,
-  LinearProgressProps
->((props, ref) => <MUILinearProgress ref={ref} {...props} />);
+export const LinearProgress = forwardRef<HTMLDivElement, LinearProgressProps>(
+  (props, ref) => <MUILinearProgress ref={ref} {...props} />,
+);
 
 LinearProgress.displayName = "LinearProgress";

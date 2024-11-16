@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUITextareaAutosize, {
   TextareaAutosizeProps as MUITextareaAutosizeProps,
@@ -6,7 +6,7 @@ import MUITextareaAutosize, {
 
 export interface TextareaAutosizeProps extends MUITextareaAutosizeProps {}
 
-export const TextareaAutosize = React.forwardRef<
+export const TextareaAutosize = forwardRef<
   HTMLTextAreaElement,
   TextareaAutosizeProps
 >((props, ref) => <MUITextareaAutosize ref={ref} {...props} />);

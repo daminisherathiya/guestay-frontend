@@ -1,4 +1,11 @@
-import { useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  FocusEvent,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -9,6 +16,7 @@ import { Button } from "@/components/atoms/Button";
 import { Paper } from "@/components/atoms/Paper";
 import { Popper } from "@/components/atoms/Popper/Popper";
 import { TextField } from "@/components/atoms/TextField";
+import { useBoolean } from "@/hooks/useBoolean";
 import { type AddressDetailsType } from "@/types/Location.types";
 
 type AutocompleteService = google.maps.places.AutocompleteService;
@@ -17,9 +25,7 @@ type PlacePrediction = google.maps.places.AutocompletePrediction;
 type PlaceService = google.maps.places.PlacesService;
 
 interface LocationInputWithAutocompleteServiceProps {
-  setSelectedPlaceDetails: React.Dispatch<
-    React.SetStateAction<AddressDetailsType | null>
-  >;
+  setSelectedPlaceDetails: Dispatch<SetStateAction<AddressDetailsType | null>>;
 }
 
 export function LocationInputWithAutocompleteService({
@@ -31,7 +37,11 @@ export function LocationInputWithAutocompleteService({
   const [autocompleteService, setAutocompleteService] =
     useState<AutocompleteService | null>(null);
   const [placeService, setPlaceService] = useState<PlaceService | null>(null);
-  const [open, setOpen] = useState<boolean>(false);
+  const {
+    value: locationDropdownIsOpen,
+    setTrue: setLocationDropdownIsOpenTrue,
+    setFalse: setLocationDropdownIsOpenFalse,
+  } = useBoolean({ initialValue: false });
 
   useEffect(() => {
     const initializeGoogleServices = () => {
@@ -75,7 +85,7 @@ export function LocationInputWithAutocompleteService({
           } else {
             setPredictions([]);
           }
-          setOpen(true);
+          setLocationDropdownIsOpenTrue();
         },
       );
     } else {
@@ -131,7 +141,7 @@ export function LocationInputWithAutocompleteService({
     }
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setInputValue(value);
     fetchPredictions(value);
@@ -139,12 +149,12 @@ export function LocationInputWithAutocompleteService({
   };
 
   const handleBlur = () => {
-    setOpen(false);
+    setLocationDropdownIsOpenFalse();
   };
 
-  const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+  const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
     setAnchorEl(event.target.closest(".MuiInputBase-root") as HTMLDivElement);
-    setOpen(true);
+    setLocationDropdownIsOpenTrue();
   };
 
   const getCurrentLocation = () => {
@@ -195,7 +205,7 @@ export function LocationInputWithAutocompleteService({
         disablePortal
         anchorEl={anchorEl}
         className="w-11/12"
-        open={open || true}
+        open={locationDropdownIsOpen}
         placement="bottom-start"
       >
         <Paper className="mb-28 rounded-b-2xl rounded-t-none bg-common-white shadow-lg">

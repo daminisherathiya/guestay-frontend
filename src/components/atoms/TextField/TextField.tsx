@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUITextField, {
   OutlinedTextFieldProps as MUIOutlinedTextFieldProps,
@@ -8,7 +8,7 @@ import MUITextField, {
 export type TextFieldProps = MUITextFieldProps;
 export type OutlinedTextFieldProps = MUIOutlinedTextFieldProps;
 
-export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
+export const TextField = forwardRef<HTMLDivElement, TextFieldProps>(
   (props, ref) => <MUITextField ref={ref} {...props} />,
 );
 

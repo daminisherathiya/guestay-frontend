@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUIIconButton, {
   IconButtonProps as MUIIconButtonProps,
@@ -6,7 +6,7 @@ import MUIIconButton, {
 
 export interface IconButtonProps extends MUIIconButtonProps {}
 
-export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
+export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   (props, ref) => <MUIIconButton ref={ref} {...props} />,
 );
 

@@ -1,9 +1,10 @@
 "use client";
 
-import React, { createContext, useCallback, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
 
+import { useBoolean } from "@/hooks/useBoolean";
 import { UserDataType } from "@/types/User.types";
 import {
   getUserDetails,
@@ -32,8 +33,10 @@ export const AuthenticationProvider = ({
 }: AuthenticationProviderProps) => {
   const queryClient = useQueryClient();
 
-  const [authenticationStateIsLoading, setAuthenticationStateIsLoading] =
-    useState<boolean>(true);
+  const {
+    value: authenticationStateIsLoading,
+    setFalse: setAuthenticationStateIsLoadingFalse,
+  } = useBoolean({ initialValue: true });
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [userDetails, setUserDetails] = useState<UserDataType | null>(null);
 
@@ -49,8 +52,8 @@ export const AuthenticationProvider = ({
       setUserDetails(null);
     }
 
-    setAuthenticationStateIsLoading(false);
-  }, []);
+    setAuthenticationStateIsLoadingFalse();
+  }, [setAuthenticationStateIsLoadingFalse]);
 
   const handleLogIn = useCallback(
     ({

@@ -1,5 +1,7 @@
 "use client";
 
+import { ReactNode } from "react";
+
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import TuneIcon from "@mui/icons-material/Tune";
 import { Tab, Tabs } from "@mui/material";
@@ -36,7 +38,7 @@ function TabPanel(props: TabPanelProps) {
 export function ListingEditor({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   const { arrivalGuideTabsInfo, yourSpaceTabsInfo } = useListingEditor();
 

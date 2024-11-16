@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUIToolbar, {
   ToolbarProps as MUIToolbarProps,
@@ -6,7 +6,7 @@ import MUIToolbar, {
 
 export interface ToolbarProps extends MUIToolbarProps {}
 
-export const Toolbar = React.forwardRef<HTMLDivElement, ToolbarProps>(
+export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
   (props, ref) => <MUIToolbar ref={ref} {...props} />,
 );
 

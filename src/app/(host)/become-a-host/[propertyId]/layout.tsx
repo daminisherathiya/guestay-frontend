@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 import { Box } from "@/components/atoms/Box";
 import { Toolbar } from "@/components/atoms/Toolbar";
 // import { FooterProgressBar } from "@/hooks/useFooterProgressBarProps/useFooterProgressBarProps";
@@ -5,7 +7,7 @@ import { Toolbar } from "@/components/atoms/Toolbar";
 export default function ListingLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <>

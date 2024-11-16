@@ -1,4 +1,4 @@
-import * as React from "react";
+import { ReactElement, Ref, forwardRef } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import { TransitionProps } from "@mui/material/transitions";
@@ -12,11 +12,11 @@ import { Slide } from "@/components/atoms/Slide";
 
 import { DialogWrapperProps } from "./DialogWrapper.types";
 
-const Transition = React.forwardRef(function Transition(
+const Transition = forwardRef(function Transition(
   props: TransitionProps & {
-    children: React.ReactElement;
+    children: ReactElement;
   },
-  ref: React.Ref<HTMLDivElement>,
+  ref: Ref<HTMLDivElement>,
 ) {
   return <Slide ref={ref} direction="up" {...props} />;
 });

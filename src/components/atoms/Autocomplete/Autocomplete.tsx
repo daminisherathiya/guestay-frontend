@@ -1,4 +1,4 @@
-import React from "react";
+import { ElementType, forwardRef } from "react";
 
 import MUIAutocomplete, {
   AutocompleteProps as MUIAutocompleteProps,
@@ -8,7 +8,7 @@ type Value = any; // eslint-disable-line @typescript-eslint/no-explicit-any
 type Multiple = boolean;
 type DisableClearable = boolean;
 type FreeSolo = boolean;
-type ChipComponent = React.ElementType; // Adjust this if you know the exact component type you will use
+type ChipComponent = ElementType; // Adjust this if you know the exact component type you will use
 
 export interface AutocompleteProps
   extends MUIAutocompleteProps<
@@ -19,7 +19,7 @@ export interface AutocompleteProps
     ChipComponent
   > {}
 
-export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
+export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(
   (props, ref) => <MUIAutocomplete ref={ref} {...props} />,
 );
 

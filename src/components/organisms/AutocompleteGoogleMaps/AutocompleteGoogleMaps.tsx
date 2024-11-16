@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -52,10 +52,10 @@ export default function AutocompleteGoogleMaps<T extends FieldValues>({
   name,
   rules,
 }: AutocompleteGoogleMapsProps<T>) {
-  const [value, setValue] = React.useState<PlaceType | null>(null);
-  const [inputValue, setInputValue] = React.useState("");
-  const [options, setOptions] = React.useState<readonly PlaceType[]>([]);
-  const loaded = React.useRef(false);
+  const [value, setValue] = useState<PlaceType | null>(null);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [options, setOptions] = useState<PlaceType[]>([]);
+  const loaded = useRef<boolean>(false);
 
   if (typeof window !== "undefined" && !loaded.current) {
     if (!document.querySelector("#google-maps")) {
@@ -69,12 +69,12 @@ export default function AutocompleteGoogleMaps<T extends FieldValues>({
     loaded.current = true;
   }
 
-  const fetch = React.useMemo(
+  const fetch = useMemo(
     () =>
       debounce(
         (
           request: { input: string },
-          callback: (results?: readonly PlaceType[]) => void,
+          callback: (results?: PlaceType[]) => void,
         ) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (autocompleteService.current as any).getPlacePredictions(
@@ -87,7 +87,7 @@ export default function AutocompleteGoogleMaps<T extends FieldValues>({
     [],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     let active = true;
 
     if (!autocompleteService.current && window.google) {
@@ -103,9 +103,9 @@ export default function AutocompleteGoogleMaps<T extends FieldValues>({
       return undefined;
     }
 
-    fetch({ input: inputValue }, (results?: readonly PlaceType[]) => {
+    fetch({ input: inputValue }, (results?: PlaceType[]) => {
       if (active) {
-        let newOptions: readonly PlaceType[] = [];
+        let newOptions: PlaceType[] = [];
 
         if (value) {
           newOptions = [value];

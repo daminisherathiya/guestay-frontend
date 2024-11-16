@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUIInputLabel, {
   InputLabelProps as MUIInputLabelProps,
@@ -6,7 +6,7 @@ import MUIInputLabel, {
 
 export interface InputLabelProps extends MUIInputLabelProps {}
 
-export const InputLabel = React.forwardRef<HTMLLabelElement, InputLabelProps>(
+export const InputLabel = forwardRef<HTMLLabelElement, InputLabelProps>(
   (props, ref) => <MUIInputLabel ref={ref} {...props} />,
 );
 

@@ -40,7 +40,7 @@ export function Location() {
     SavePropertyApiSnackbarAlert,
     // selectedPlaceDetails,
     setLatitude,
-    setLocationHasChanged,
+    setLocationHasChangedTrue,
     setLongitude,
     setSelectedPlaceDetails,
   } = useLocation();
@@ -140,7 +140,7 @@ export function Location() {
                       }
                       onChange={(_, newValue) => {
                         field.onChange(newValue ? newValue.id : null);
-                        setLocationHasChanged(true);
+                        setLocationHasChangedTrue();
                       }}
                     />
                   )}

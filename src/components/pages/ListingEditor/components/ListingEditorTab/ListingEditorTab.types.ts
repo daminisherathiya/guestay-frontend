@@ -1,4 +1,6 @@
+import { ReactNode } from "react";
+
 export interface ListingEditorTabProps {
-  children: React.ReactNode;
+  children: ReactNode;
   title: string;
 }

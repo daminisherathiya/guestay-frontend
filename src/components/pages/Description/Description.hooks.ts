@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";
 
@@ -28,9 +28,7 @@ export function useDescription() {
     }
   }, [propertyApiData, propertyApiIsSuccess]);
 
-  const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
-  ) => {
+  const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value;
     if (newValue.length <= 500) {
       setDescription(newValue);

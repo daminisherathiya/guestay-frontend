@@ -9,6 +9,7 @@ import {
   LocationType,
   locationsAPIResponseType,
 } from "@/apis/property/locationsApi/locationsApi.types";
+import { useBoolean } from "@/hooks/useBoolean";
 import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
 import { useQuery } from "@/hooks/useQuery";
@@ -139,7 +140,8 @@ export function useLocation() {
     return locations.find((location) => location.id === locationId) || null;
   }, [locationId, locations]);
 
-  const [locationHasChanged, setLocationHasChanged] = useState(false);
+  const { value: locationHasChanged, setTrue: setLocationHasChangedTrue } =
+    useBoolean({ initialValue: false });
 
   ////////
 
@@ -192,7 +194,7 @@ export function useLocation() {
     SavePropertyApiSnackbarAlert,
     selectedPlaceDetails,
     setLatitude,
-    setLocationHasChanged,
+    setLocationHasChangedTrue,
     setLongitude,
     setSelectedPlaceDetails,
   };

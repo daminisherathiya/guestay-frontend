@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   UseQueryOptions,
@@ -10,6 +10,7 @@ import { SnackbarAlert as SnackbarAlertComponent } from "@/components/molecules/
 import { ReactQueryCustomOptionsType } from "@/types/ReactQuery.types";
 
 import { useAuthentication } from "../useAuthentication";
+import { useBoolean } from "../useBoolean";
 
 export function useQuery<TQueryFnData, TError extends Error, TData>(
   useQueryOptions: UseQueryOptions<TQueryFnData, TError, TData>,
@@ -33,7 +34,11 @@ export function useQuery<TQueryFnData, TError extends Error, TData>(
     ...useQueryOptions,
   };
 
-  const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
+  const {
+    value: snackbarIsOpen,
+    setTrue: setSnackbarIsOpenTrue,
+    setFalse: setSnackbarIsOpenFalse,
+  } = useBoolean({ initialValue: false });
   const [alertMessage, setAlertMessage] = useState<string>("");
   const [alertSeverity, setAlertSeverity] = useState<"success" | "error">(
     "success",
@@ -43,12 +48,12 @@ export function useQuery<TQueryFnData, TError extends Error, TData>(
 
   useEffect(() => {
     if (queryResult.isSuccess && showSnackbarIsOpenOnSuccess) {
-      setSnackbarIsOpen(true);
+      setSnackbarIsOpenTrue();
       // setAlertMessage(JSON.stringify(queryResult.data));
       setAlertMessage(successMessage);
       setAlertSeverity("success");
     } else if (queryResult.isError && showSnackbarIsOpenOnFailure) {
-      setSnackbarIsOpen(true);
+      setSnackbarIsOpenTrue();
       setAlertMessage(
         queryResult.error instanceof Error
           ? queryResult.error.message
@@ -69,6 +74,7 @@ export function useQuery<TQueryFnData, TError extends Error, TData>(
     queryResult.error,
     queryResult.isError,
     queryResult.isSuccess,
+    setSnackbarIsOpenTrue,
     showSnackbarIsOpenOnFailure,
     showSnackbarIsOpenOnSuccess,
     successMessage,
@@ -78,7 +84,7 @@ export function useQuery<TQueryFnData, TError extends Error, TData>(
     <SnackbarAlertComponent
       alertMessage={alertMessage}
       alertSeverity={alertSeverity}
-      setSnackbarIsOpen={setSnackbarIsOpen}
+      setSnackbarIsOpenFalse={setSnackbarIsOpenFalse}
       snackbarIsOpen={snackbarIsOpen}
     />
   );

@@ -1,10 +1,12 @@
+import { ReactNode, SyntheticEvent } from "react";
+
 interface TabInfo {
   onClick: string;
-  tabNameComponent: React.ReactNode;
+  tabNameComponent: ReactNode;
 }
 
 export interface VerticalTabsProps {
-  handleTabChange: (event: React.SyntheticEvent, newIndex: number) => void;
+  handleTabChange: (event: SyntheticEvent, newIndex: number) => void;
   selectedTabIndex: number;
   tabsInfo: TabInfo[];
 }
