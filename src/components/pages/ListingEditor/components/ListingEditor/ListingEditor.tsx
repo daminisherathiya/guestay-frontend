@@ -88,10 +88,10 @@ export function ListingEditor({
   ];
 
   return (
-    <Container maxWidth="2xl">
+    <Container className="mr-0 pr-0" maxWidth="2xl">
       <Grid2 container className="h-[calc(100vh-6.375rem)]">
         <Grid2 className="h-full" size={4}>
-          <Stack className="h-full border-r border-divider">
+          <Stack className="h-full border-r border-divider pt-11">
             <Stack className="flex-row items-center gap-8">
               <IconButton className="size-11 bg-action-hover hover:bg-action-selected">
                 <ArrowBackIcon className="size-5" />
@@ -132,7 +132,9 @@ export function ListingEditor({
             ))}
           </Stack>
         </Grid2>
-        <Grid2 size={8}>{children}</Grid2>
+        <Grid2 className="h-full" size={8}>
+          <Stack className="h-full overflow-scroll">{children}</Stack>
+        </Grid2>
       </Grid2>
     </Container>
   );

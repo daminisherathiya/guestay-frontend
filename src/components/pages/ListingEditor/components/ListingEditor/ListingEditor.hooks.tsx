@@ -79,7 +79,7 @@ export function useListingEditor() {
       ),
     },
     {
-      onClick: "/hosting/listings/editor/2/details/photo-tour",
+      onClick: "/hosting/listings/editor/2/details/pricing",
       tabNameComponent: (
         <ListingEditorTab title="Pricing">
           <Typography className="leading-5 text-text-secondary">
@@ -95,7 +95,7 @@ export function useListingEditor() {
       ),
     },
     {
-      onClick: "/hosting/listings/editor/2/details/photo-tour",
+      onClick: "/hosting/listings/editor/2/details/availability",
       tabNameComponent: (
         <ListingEditorTab title="Availability">
           <Typography className="leading-5 text-text-secondary">
