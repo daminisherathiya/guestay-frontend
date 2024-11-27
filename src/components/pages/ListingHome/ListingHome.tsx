@@ -7,19 +7,16 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
-import { Chip } from "@/components/atoms/Chip";
 import { Container } from "@/components/atoms/Container";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
-import {
-  getDefaultPropertyTitle,
-  getListingStatusToDisplay,
-} from "@/utils/common";
+import { getDefaultPropertyTitle } from "@/utils/common";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { NUMBER_OF_PROPERTIES_TO_SHOW } from "./ListingHome.consts";
 import { useListingHome } from "./ListingHome.hooks";
+import { getListingPropertiesListType } from "./ListingHome.types";
 
 export function ListingHome() {
   const {
@@ -44,15 +41,18 @@ export function ListingHome() {
     ));
   };
 
-  const getUnfinishedPropertiesList = () => {
-    return listingUnfinishedProperties.map((listingProperty, index) => {
+  const getListingPropertiesList = ({
+    listingProperties,
+    showMore,
+  }: getListingPropertiesListType) => {
+    return listingProperties.map((listingProperty, index) => {
       const coverImage = listingProperty?.images.split(",")[0] || "";
 
       return (
         <Button
           key={listingProperty.id}
           disableRipple
-          className={`w-full justify-start gap-4 rounded-xl p-6 text-start ${showMoreUnfihished && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
+          className={`w-full justify-start gap-4 rounded-xl p-6 text-start ${showMore && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
           variant="outlined"
           onClick={() => router.push(listingProperty.nextListingStepUrl)}
         >
@@ -84,54 +84,15 @@ export function ListingHome() {
     });
   };
 
-  const getFinishedPropertiesList = () => {
-    return listingFinishedProperties.map((listingProperty, index) => {
-      const coverImage = listingProperty?.images.split(",")[0] || "";
-      return (
-        <Button
-          key={listingProperty.id}
-          disableRipple
-          className={`w-full justify-between gap-4 rounded-xl p-6 text-start ${showMoreFihished && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
-          variant="outlined"
-          onClick={() => router.push(listingProperty.nextListingStepUrl)}
-        >
-          <Stack className="flex-row items-center gap-4">
-            {coverImage ? (
-              <Image
-                alt="home"
-                className="size-11 rounded object-cover"
-                height={44}
-                src={`https://guestay.webarysites.com/file/100/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${coverImage}`}
-                width={44}
-              />
-            ) : (
-              <Image
-                alt="home"
-                className="rounded"
-                height={44}
-                src="/images/home.jpg"
-                width={44}
-              />
-            )}
+  const unfinishedListingPropertiesJSX = getListingPropertiesList({
+    listingProperties: listingUnfinishedProperties,
+    showMore: showMoreUnfihished,
+  });
 
-            <Typography>
-              {listingProperty.title ||
-                getDefaultPropertyTitle({
-                  createdAt: listingProperty.created_at,
-                })}
-            </Typography>
-          </Stack>
-          <Chip
-            classes={{ label: "first-letter:uppercase" }}
-            label={getListingStatusToDisplay({
-              listingSteps: listingProperty.listing_steps || "",
-              status: listingProperty.status,
-            })}
-          />
-        </Button>
-      );
-    });
-  };
+  const finishedListingPropertiesJSX = getListingPropertiesList({
+    listingProperties: listingFinishedProperties,
+    showMore: showMoreFihished,
+  });
 
   return (
     <>
@@ -151,7 +112,7 @@ export function ListingHome() {
                 <Box className="mb-16 space-y-3">
                   {listingPropertiesApiIsFirstLoading
                     ? getSkeleton()
-                    : getUnfinishedPropertiesList()}
+                    : unfinishedListingPropertiesJSX}
                   {listingUnfinishedProperties.length >
                     NUMBER_OF_PROPERTIES_TO_SHOW && (
                     <Button
@@ -195,7 +156,7 @@ export function ListingHome() {
                 <Box className="mb-16 space-y-3">
                   {listingPropertiesApiIsFirstLoading
                     ? getSkeleton()
-                    : getFinishedPropertiesList()}
+                    : finishedListingPropertiesJSX}
                   {listingFinishedProperties.length >
                     NUMBER_OF_PROPERTIES_TO_SHOW && (
                     <Button

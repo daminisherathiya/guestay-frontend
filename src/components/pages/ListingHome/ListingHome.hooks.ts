@@ -10,6 +10,7 @@ import { useQuery } from "@/hooks/useQuery";
 import { useToggle } from "@/hooks/useToggle";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
+import { ListingPropertyTypeExtended } from "./ListingHome.types";
 import {
   checkIfPropertyIsFinished,
   getNextListingStepUrl,
@@ -46,20 +47,21 @@ export function useListingHome() {
     queryKey: ["listing-properties"],
   });
 
-  const listingUnfinishedProperties = useMemo(() => {
-    const properties = (listingPropertiesApiData?.data || []).filter(
-      (listingProperty) => !checkIfPropertyIsFinished({ listingProperty }),
-    );
-    return properties.map((property) => {
-      return {
-        ...property,
-        nextListingStepUrl: getNextListingStepUrl({
-          propertyIdToEdit: property.id,
-          providedListingSteps: property.listing_steps || "",
-        }),
-      };
-    });
-  }, [listingPropertiesApiData]);
+  const listingUnfinishedProperties: ListingPropertyTypeExtended[] =
+    useMemo(() => {
+      const properties = (listingPropertiesApiData?.data || []).filter(
+        (listingProperty) => !checkIfPropertyIsFinished({ listingProperty }),
+      );
+      return properties.map((property) => {
+        return {
+          ...property,
+          nextListingStepUrl: getNextListingStepUrl({
+            propertyIdToEdit: property.id,
+            providedListingSteps: property.listing_steps || "",
+          }),
+        };
+      });
+    }, [listingPropertiesApiData]);
 
   useEffect(() => {
     listingUnfinishedProperties.forEach((property) =>
@@ -67,20 +69,21 @@ export function useListingHome() {
     );
   }, [listingUnfinishedProperties, router]);
 
-  const listingFinishedProperties = useMemo(() => {
-    const properties = (listingPropertiesApiData?.data || []).filter(
-      (listingProperty) => checkIfPropertyIsFinished({ listingProperty }),
-    );
-    return properties.map((property) => {
-      return {
-        ...property,
-        nextListingStepUrl: getNextListingStepUrl({
-          propertyIdToEdit: property.id,
-          providedListingSteps: property.listing_steps || "",
-        }),
-      };
-    });
-  }, [listingPropertiesApiData]);
+  const listingFinishedProperties: ListingPropertyTypeExtended[] =
+    useMemo(() => {
+      const properties = (listingPropertiesApiData?.data || []).filter(
+        (listingProperty) => checkIfPropertyIsFinished({ listingProperty }),
+      );
+      return properties.map((property) => {
+        return {
+          ...property,
+          nextListingStepUrl: getNextListingStepUrl({
+            propertyIdToEdit: property.id,
+            providedListingSteps: property.listing_steps || "",
+          }),
+        };
+      });
+    }, [listingPropertiesApiData]);
 
   useEffect(() => {
     listingFinishedProperties.forEach((property) =>

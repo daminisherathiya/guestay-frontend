@@ -43,13 +43,15 @@ export function Listings() {
 
   return (
     <>
-      <Container className="mb-16" maxWidth="2xl">
-        <Stack className="mb-6 mt-10 flex-row flex-wrap items-center justify-between gap-24 md:mb-11">
+      <Container className="mb-10 sm:mb-16" maxWidth="2xl">
+        <Stack className="relative mb-6 flex-wrap gap-6 sm:mt-5 sm:flex-row sm:items-center sm:justify-between sm:gap-12 md:mb-11 md:mt-10 md:gap-24">
           <Typography component="h1" variant="h1">
             Your listings
           </Typography>
           <Stack className="grow flex-row items-center gap-4">
-            <Box className="grow text-end">
+            <Box
+              className={`grow sm:text-end ${isSearching ? "absolute left-0 z-[1] w-full md:static md:w-auto" : ""}`}
+            >
               {!isSearching ? (
                 <IconButton
                   className="size-11 bg-action-hover hover:bg-divider"

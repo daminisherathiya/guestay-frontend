@@ -1,13 +1,17 @@
 import Image from "next/image";
 
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import { useMediaQuery, useTheme } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 
 import { Box } from "@/components/atoms/Box";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
-import { getListingStatusToDisplay } from "@/utils/common";
+import {
+  getDefaultPropertyTitle,
+  getListingStatusToDisplay,
+} from "@/utils/common";
 
 import { paginationModel } from "./ListingsListView.consts";
 import { ListingsListViewProps } from "./ListingsListView.types";
@@ -18,11 +22,15 @@ export function ListingsListView({
   listingPropertiesApiData,
   locationsApiData,
 }: ListingsListViewProps) {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   const columns: GridColDef[] = [
     {
       field: "listing",
       flex: 0.46,
       headerName: "Listing",
+      minWidth: 400,
       renderCell: (row) => {
         const coverImage = row.row.images.split(",")[0] || "";
         return (
@@ -42,7 +50,10 @@ export function ListingsListView({
               className="text-wrap font-medium text-text-primary"
               variant="body2"
             >
-              {row.row.title}
+              {row.row.title ||
+                getDefaultPropertyTitle({
+                  createdAt: row.row.created_at,
+                })}
             </Typography>
           </Stack>
         );
@@ -53,6 +64,7 @@ export function ListingsListView({
       field: "location",
       flex: 0.26,
       headerName: "Location",
+      minWidth: 200,
       renderCell: (row) => {
         return (
           <Stack className="h-full justify-center">
@@ -70,6 +82,7 @@ export function ListingsListView({
       field: "status",
       flex: 0.2,
       headerName: "Status",
+      minWidth: 200,
       renderCell: (row) => {
         return (
           <Stack className="h-full flex-row items-center gap-2">
@@ -92,6 +105,7 @@ export function ListingsListView({
       field: "action",
       flex: 0.06,
       headerName: "",
+      minWidth: 70,
       renderCell: () => {
         return (
           <KeyboardArrowRightIcon className="c-keyboard-arrow-icon size-7 text-text-primary" />
@@ -116,7 +130,7 @@ export function ListingsListView({
         row: "rounded-xl",
       }}
       className="border-none"
-      columnHeaderHeight={64}
+      columnHeaderHeight={isSmallScreen ? 48 : 64}
       columns={columns}
       initialState={{ pagination: { paginationModel } }}
       loading={isLoading}

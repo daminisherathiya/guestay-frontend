@@ -5,7 +5,10 @@ import { Grid2 } from "@/components/atoms/Grid2";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
-import { getListingStatusToDisplay } from "@/utils/common";
+import {
+  getDefaultPropertyTitle,
+  getListingStatusToDisplay,
+} from "@/utils/common";
 
 import { ListingsGridViewProps } from "./ListingsGridView.types";
 
@@ -30,7 +33,11 @@ export function ListingsGridView({
           ))}
         </Grid2>
       ) : (
-        <Grid2 container spacing={3}>
+        <Grid2
+          container
+          columnSpacing={3}
+          rowSpacing={{ "2xs": 5, sm: 7, xs: 6 }}
+        >
           {listingPropertiesApiData?.data.length === 0 ? (
             <Typography className="flex h-full items-center justify-center p-3">
               No listings available.
@@ -77,9 +84,12 @@ export function ListingsGridView({
                       </Stack>
                     </Box>
                   </Box>
-                  <Box className="mt-3 pb-8">
+                  <Box className="mt-3">
                     <Typography className="font-medium">
-                      {listingPropertieData.title}
+                      {listingPropertieData.title ||
+                        getDefaultPropertyTitle({
+                          createdAt: listingPropertieData.created_at,
+                        })}
                     </Typography>
                     <Typography className="text-text-secondary">
                       {locationsApiData?.data.find(
