@@ -190,7 +190,7 @@ export function ListingHome() {
             {listingFinishedProperties.length > 0 && (
               <>
                 <Typography className="mb-4" component="h2" variant="h2">
-                  Finished listing
+                  Pending approval
                 </Typography>
                 <Box className="mb-16 space-y-3">
                   {listingPropertiesApiIsFirstLoading

@@ -1,4 +1,5 @@
 export interface listingPropertiesApiDataType {
+  status: string;
   userId: string;
 }
 

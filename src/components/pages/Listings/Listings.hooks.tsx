@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { useRouter } from "next/navigation";
-
 import { listingPropertiesApi } from "@/apis/property/listingPropertiesApi";
 import {
   ListingPropertiesType,
@@ -25,7 +23,9 @@ export function useListings() {
   >({
     initialData: { data: [] },
     queryFn: () => {
-      return listingPropertiesApi({ data: { userId: getUserDetails().id } });
+      return listingPropertiesApi({
+        data: { status: "active,inactive,draft", userId: getUserDetails().id },
+      });
     },
     queryKey: ["listing-properties"],
   });
@@ -44,8 +44,10 @@ export function useListings() {
   ////////
 
   const [searchText, setSearchText] = useState<string>("");
+  const [filteredListingsData, setFilteredListingsData] = useState<
+    ListingPropertiesType[]
+  >([]);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
-  const router = useRouter();
 
   const {
     value: isSearching,
@@ -90,16 +92,25 @@ export function useListings() {
     setManageListingDialogIsOpenTrue();
   };
 
+  ////////
+
+  useEffect(() => {
+    const filtered =
+      listingPropertiesApiData?.data?.filter((listing) =>
+        listing.title.toLowerCase().includes(searchText.trim().toLowerCase()),
+      ) || [];
+    setFilteredListingsData(filtered);
+  }, [searchText, listingPropertiesApiData]);
+
   return {
+    filteredListingsData,
     handleCloseClick,
     handleOpenManageListingDialog,
     isListingsListView,
     isLoading,
     isSearching,
-    listingPropertiesApiData,
     locationsApiData,
     manageListingDialogIsOpen,
-    router,
     searchInputRef,
     searchText,
     selectedListing,

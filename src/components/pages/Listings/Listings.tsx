@@ -15,6 +15,8 @@ import { Typography } from "@/components/atoms/Typography";
 
 import PlusIcon from "/public/images/plus.svg";
 
+import Link from "next/link";
+
 import { ListingsGridView } from "./components/ListingsGridView";
 import { ListingsListView } from "./components/ListingsListView";
 import { ManageListingDialog } from "./components/ManageListingDialog";
@@ -22,28 +24,26 @@ import { useListings } from "./Listings.hooks";
 
 export function Listings() {
   const {
+    filteredListingsData,
     handleCloseClick,
     handleOpenManageListingDialog,
     isListingsListView,
     isLoading,
     isSearching,
-    listingPropertiesApiData,
     locationsApiData,
     manageListingDialogIsOpen,
-    router,
     searchInputRef,
     searchText,
     selectedListing,
     setIsListingsListViewTrue,
     setIsSearchingTrue,
     setManageListingDialogIsOpenFalse,
-    setManageListingDialogIsOpenTrue,
     setSearchText,
   } = useListings();
 
   return (
     <>
-      <Container maxWidth="2xl">
+      <Container className="mb-16" maxWidth="2xl">
         <Stack className="mb-6 mt-10 flex-row flex-wrap items-center justify-between gap-24 md:mb-11">
           <Typography component="h1" variant="h1">
             Your listings
@@ -59,6 +59,7 @@ export function Listings() {
                 </IconButton>
               ) : (
                 <TextField
+                  autoComplete="off"
                   className="w-full"
                   id="filled-search"
                   inputRef={searchInputRef}
@@ -104,28 +105,25 @@ export function Listings() {
                 )}
               </IconButton>
             </Box>
-            <Box>
-              <IconButton
-                className="size-11 bg-action-hover hover:bg-divider"
-                onClick={() => router.push("/become-a-host")}
-              >
+            <Link href="/become-a-host">
+              <IconButton className="size-11 bg-action-hover hover:bg-divider">
                 <PlusIcon className="size-5 text-text-primary" />
               </IconButton>
-            </Box>
+            </Link>
           </Stack>
         </Stack>
         {isListingsListView ? (
           <ListingsListView
-            handleOpenManageListingDialog={setManageListingDialogIsOpenTrue}
+            handleOpenManageListingDialog={handleOpenManageListingDialog}
             isLoading={isLoading}
-            listingPropertiesApiData={listingPropertiesApiData}
+            listingPropertiesApiData={{ data: filteredListingsData }}
             locationsApiData={locationsApiData}
           />
         ) : (
           <ListingsGridView
             handleOpenManageListingDialog={handleOpenManageListingDialog}
             isLoading={isLoading}
-            listingPropertiesApiData={listingPropertiesApiData}
+            listingPropertiesApiData={{ data: filteredListingsData }}
             locationsApiData={locationsApiData}
           />
         )}

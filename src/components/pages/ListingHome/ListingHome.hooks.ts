@@ -39,7 +39,9 @@ export function useListingHome() {
   >({
     initialData: { data: [] },
     queryFn: () => {
-      return listingPropertiesApi({ data: { userId: getUserDetails().id } });
+      return listingPropertiesApi({
+        data: { status: "draft", userId: getUserDetails().id },
+      });
     },
     queryKey: ["listing-properties"],
   });

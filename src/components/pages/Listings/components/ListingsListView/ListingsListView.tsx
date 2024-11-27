@@ -123,6 +123,24 @@ export function ListingsListView({
       pageSizeOptions={[5, 10]}
       rowHeight={88}
       rows={isLoading ? [] : listingPropertiesApiData?.data}
+      slotProps={{
+        pagination: {
+          slotProps: {
+            actions: {
+              nextButton: {
+                classes: {
+                  disabled: "text-action-disabledBackground",
+                },
+              },
+              previousButton: {
+                classes: {
+                  disabled: "text-action-disabledBackground",
+                },
+              },
+            },
+          },
+        },
+      }}
       slots={{
         loadingOverlay: () => (
           <Box className="space-y-4">
@@ -152,7 +170,7 @@ export function ListingsListView({
           visibility: "visible",
         },
       }}
-      onRowClick={handleOpenManageListingDialog}
+      onRowClick={(params) => handleOpenManageListingDialog(params.row)}
     />
   );
 }
