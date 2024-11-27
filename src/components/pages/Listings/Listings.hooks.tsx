@@ -24,7 +24,10 @@ export function useListings() {
     initialData: { data: [] },
     queryFn: () => {
       return listingPropertiesApi({
-        data: { status: "active,inactive,draft", userId: getUserDetails().id },
+        data: {
+          status: "'active','inactive','draft'",
+          userId: getUserDetails().id,
+        },
       });
     },
     queryKey: ["listing-properties"],

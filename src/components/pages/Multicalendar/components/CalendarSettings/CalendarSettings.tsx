@@ -7,6 +7,7 @@ import { Typography } from "@/components/atoms/Typography";
 import { useTabIndex } from "@/hooks/useTabIndex";
 import { TabPanelProps } from "@/utils/common.types";
 
+import { CalendarAvailabilityTab } from "./CalendarAvailabilityTab";
 import { CalendarPricingTab } from "./CalendarPricingTab";
 
 function TabPanel(props: TabPanelProps) {
@@ -53,7 +54,7 @@ export function CalendarSettings() {
           Availability
         </Typography>
       ),
-      tabPanelComponent: <h1>rrr</h1>,
+      tabPanelComponent: <CalendarAvailabilityTab />,
     },
   ];
 

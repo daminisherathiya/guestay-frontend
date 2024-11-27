@@ -247,7 +247,7 @@ export function Multicalendar({
             </Box>
           </Stack>
           <Divider flexItem orientation="vertical" />
-          <Box className="no-scrollbar h-full w-80 overflow-auto pt-8">
+          <Box className="no-scrollbar h-full w-80 overflow-auto py-8">
             {children}
           </Box>
         </Stack>

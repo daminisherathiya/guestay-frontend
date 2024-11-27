@@ -7,6 +7,7 @@ export const listingPropertiesApi = async ({
 }: listingPropertiesApiType) => {
   return await axiosApi({
     data: {
+      status: data.status,
       user_id: data.userId,
     },
     method: "post",
