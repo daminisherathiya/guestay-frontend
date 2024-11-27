@@ -9,17 +9,20 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import PasswordIcon from "@mui/icons-material/Password";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 // import ScienceIcon from "@mui/icons-material/Science";
-import { Avatar, ListItemIcon, Menu, Tooltip } from "@mui/material";
 import { GridMenuIcon } from "@mui/x-data-grid";
 
 import UserAccount from "/public/images/userAccount.svg";
 
+import { Avatar } from "@/components/atoms/Avatar";
 import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
 // import { Divider } from "@/components/atoms/Divider";
 // import { Drawer } from "@/components/atoms/Drawer";
+import { ListItemIcon } from "@/components/atoms/ListItemIcon";
+import { Menu } from "@/components/atoms/Menu";
 import { MenuItem } from "@/components/atoms/MenuItem";
 import { Stack } from "@/components/atoms/Stack";
+import { Tooltip } from "@/components/atoms/Tooltip/Tooltip";
 import { LoginDialog } from "@/components/molecules/LoginDialog/LoginDialog";
 import { Logout } from "@/components/molecules/Logout";
 import { ResetPasswordDialog } from "@/components/molecules/ResetPasswordDialog";

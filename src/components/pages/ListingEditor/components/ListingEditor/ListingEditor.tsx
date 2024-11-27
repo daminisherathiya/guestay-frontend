@@ -3,19 +3,20 @@
 import { ReactNode } from "react";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Tab, Tabs } from "@mui/material";
 
 import { Container } from "@/components/atoms/Container";
 import { Grid2 } from "@/components/atoms/Grid2";
 import { IconButton } from "@/components/atoms/IconButton";
 import { Stack } from "@/components/atoms/Stack";
+import { Tab } from "@/components/atoms/Tab";
+import { Tabs } from "@/components/atoms/Tabs";
 import { Typography } from "@/components/atoms/Typography";
 import { useTabIndex } from "@/hooks/useTabIndex/useTabIndex";
+import { TabPanelProps } from "@/utils/common.types";
 
 import { VerticalTabs } from "../VerticalTabs";
 
 import { useListingEditor } from "./ListingEditor.hooks";
-import { TabPanelProps } from "./ListingEditor.types";
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -100,7 +101,7 @@ export function ListingEditor({
             </Stack>
             <Stack className="w-full flex-row gap-1.5 py-6 pl-[4.75rem] pr-16">
               <Tabs
-                aria-label="basic tabs example"
+                aria-label="Listing editor"
                 classes={{
                   flexContainer: "bg-action-hover rounded-pill p-1",
                   indicator: "hidden",
@@ -112,10 +113,10 @@ export function ListingEditor({
                 {editorTabsInfo.map((editorTabInfo, index) => (
                   <Tab
                     key={index}
-                    aria-controls={`editor-tabpanel-${index}`}
+                    aria-controls={`listing-editor-tabpanel-${index}`}
                     classes={{ selected: "bg-common-white shadow-md" }}
                     className="min-h-0 grow rounded-pill px-3 py-2 text-primary-main hover:bg-common-white"
-                    id={`editor-tab-${index}`}
+                    id={`listing-editor-tab-${index}`}
                     label={editorTabInfo.tabNameComponent}
                   />
                 ))}
@@ -133,7 +134,7 @@ export function ListingEditor({
           </Stack>
         </Grid2>
         <Grid2 className="h-full" size={8}>
-          <Stack className="h-full overflow-scroll">{children}</Stack>
+          <Stack className="h-full overflow-auto">{children}</Stack>
         </Grid2>
       </Grid2>
     </Container>

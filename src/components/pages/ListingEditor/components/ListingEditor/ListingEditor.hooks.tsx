@@ -24,7 +24,7 @@ export function useListingEditor() {
             <Stack className="relative mt-8 flex-row items-end justify-center">
               <Box className="relative z-[1] size-40 overflow-hidden rounded-xl shadow-md">
                 <Image
-                  alt="Logo"
+                  alt="Selected photo"
                   className="w-full"
                   height={160}
                   src="/images/aa.jpg"
@@ -37,7 +37,7 @@ export function useListingEditor() {
               </Box>
               <Box className="absolute bottom-2 left-2 size-32 -rotate-3 overflow-hidden rounded-xl shadow-md">
                 <Image
-                  alt="Logo"
+                  alt="Selected photo"
                   className="w-full"
                   height={136}
                   src="/images/aa.jpg"
@@ -46,7 +46,7 @@ export function useListingEditor() {
               </Box>
               <Box className="absolute bottom-2 right-2 size-32 rotate-3 overflow-hidden rounded-xl shadow-md">
                 <Image
-                  alt="Logo"
+                  alt="Selected photo"
                   className="w-full"
                   height={136}
                   src="/images/aa.jpg"

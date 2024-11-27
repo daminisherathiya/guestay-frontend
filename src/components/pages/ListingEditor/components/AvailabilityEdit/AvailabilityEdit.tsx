@@ -1,10 +1,10 @@
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { Stack } from "@mui/material";
 
 import { FormControl } from "@/components/atoms/FormControl";
 import { InputLabel } from "@/components/atoms/InputLabel";
 import { MenuItem } from "@/components/atoms/MenuItem";
 import { Select } from "@/components/atoms/Select/Select";
+import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
 import { ListingEditableSection } from "../ListingEditableSection";

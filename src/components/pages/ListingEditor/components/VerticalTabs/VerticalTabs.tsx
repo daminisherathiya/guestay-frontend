@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 
-import { Tab, Tabs } from "@mui/material";
+import { Tab } from "@/components/atoms/Tab";
+import { Tabs } from "@/components/atoms/Tabs";
 
 import { VerticalTabsProps } from "./VerticalTabs.types";
 
@@ -13,7 +14,7 @@ export function VerticalTabs({
 }: VerticalTabsProps) {
   return (
     <Tabs
-      aria-label="Vertical tabs example"
+      aria-label="Vertical tabs"
       classes={{
         flexContainer: "space-y-4 pl-[4.75rem] pr-16 pt-4 pb-10",
         indicator: "hidden",
@@ -26,12 +27,12 @@ export function VerticalTabs({
       {tabsInfo.map((tabInfo, index) => (
         <Tab
           key={index}
-          aria-controls={`yourSpace-tabpanel-${index}`}
+          aria-controls={`vertical-tabpanel-${index}`}
           classes={{ selected: "!shadow-black" }}
           className="rounded-xl p-5 text-left normal-case shadow-button hover:bg-action-hover"
           component={Link}
           href={tabInfo.onClick}
-          id={`yourSpace-tab-${index}`}
+          id={`vertical-tab-${index}`}
           label={tabInfo.tabNameComponent}
         />
       ))}
