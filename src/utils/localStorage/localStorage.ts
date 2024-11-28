@@ -46,10 +46,7 @@ export const removeUserDetails = () => {
 export const setSelectedListingsView = ({
   selectedListingsView,
 }: setSelectedListingsViewType) => {
-  return localStorage.setItem(
-    SELECTED_LISTINGS_VIEW,
-    JSON.stringify(selectedListingsView),
-  );
+  return localStorage.setItem(SELECTED_LISTINGS_VIEW, selectedListingsView);
 };
 
 export const getSelectedListingsView = () => {
