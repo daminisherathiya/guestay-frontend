@@ -46,6 +46,12 @@ export function ListingsGridView({
             listingPropertiesApiData?.data.map((listingPropertieData) => {
               const coverImage =
                 listingPropertieData?.images.split(",")[0] || "";
+
+              const statusToDisplay = getListingStatusToDisplay({
+                listingSteps: listingPropertieData.listing_steps || "",
+                status: listingPropertieData.status,
+              });
+
               return (
                 <Grid2
                   key={listingPropertieData.id}
@@ -70,16 +76,20 @@ export function ListingsGridView({
                     </Box>
                     <Box className="absolute left-4 top-4 rounded-pill bg-common-white px-4 py-3">
                       <Stack className="flex-row items-center gap-2">
-                        <Box className="size-3 rounded-full bg-error-main"></Box>
+                        <Box
+                          className={`size-3 shrink-0 rounded-full ${
+                            statusToDisplay === "active"
+                              ? "bg-success-main"
+                              : statusToDisplay === "In progress"
+                                ? "bg-warning-main"
+                                : "bg-error-dark"
+                          }`}
+                        ></Box>
                         <Typography
                           className="font-medium leading-4 first-letter:uppercase"
                           variant="body2"
                         >
-                          {getListingStatusToDisplay({
-                            listingSteps:
-                              listingPropertieData.listing_steps || "",
-                            status: listingPropertieData.status,
-                          })}
+                          {statusToDisplay}
                         </Typography>
                       </Stack>
                     </Box>

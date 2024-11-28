@@ -84,17 +84,27 @@ export function ListingsListView({
       headerName: "Status",
       minWidth: 200,
       renderCell: (row) => {
+        const statusToDisplay = getListingStatusToDisplay({
+          listingSteps: row.row.listing_steps || "",
+          status: row.row.status,
+        });
+
         return (
           <Stack className="h-full flex-row items-center gap-2">
-            <Box className="size-3 shrink-0 rounded-full bg-error-main"></Box>
+            <Box
+              className={`size-3 shrink-0 rounded-full ${
+                statusToDisplay === "active"
+                  ? "bg-success-main"
+                  : statusToDisplay === "In progress"
+                    ? "bg-warning-main"
+                    : "bg-error-dark"
+              }`}
+            ></Box>
             <Typography
               className="text-wrap first-letter:uppercase"
               variant="body2"
             >
-              {getListingStatusToDisplay({
-                listingSteps: row.row.listing_steps || "",
-                status: row.row.status,
-              })}
+              {statusToDisplay}
             </Typography>
           </Stack>
         );

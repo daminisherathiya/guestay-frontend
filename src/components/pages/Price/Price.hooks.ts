@@ -83,7 +83,7 @@ export function usePrice() {
     setInsurancePolicyPrice,
   ]);
 
-  const { value: isPriceVisible, toggle: setIsPriceVisibleTrue } = useToggle({
+  const { toggle: setIsPriceVisibleTrue, value: isPriceVisible } = useToggle({
     initialValue: true,
   });
 

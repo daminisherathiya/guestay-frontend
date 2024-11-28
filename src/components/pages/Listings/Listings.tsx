@@ -35,10 +35,10 @@ export function Listings() {
     searchInputRef,
     searchText,
     selectedListing,
-    setIsListingsListViewTrue,
     setIsSearchingTrue,
     setManageListingDialogIsOpenFalse,
     setSearchText,
+    toggleIsListingsListView,
   } = useListings();
 
   return (
@@ -98,7 +98,7 @@ export function Listings() {
             <Box>
               <IconButton
                 className="size-11 bg-action-hover hover:bg-divider"
-                onClick={setIsListingsListViewTrue}
+                onClick={toggleIsListingsListView}
               >
                 {isListingsListView ? (
                   <GridViewIcon className="size-5 text-text-primary" />

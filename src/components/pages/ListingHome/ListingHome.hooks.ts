@@ -44,7 +44,7 @@ export function useListingHome() {
         data: { status: "'draft'", userId: getUserDetails().id },
       });
     },
-    queryKey: ["listing-properties"],
+    queryKey: ["listing-properties", "'draft'"],
   });
 
   const listingUnfinishedProperties: ListingPropertyTypeExtended[] =

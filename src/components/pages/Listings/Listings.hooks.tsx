@@ -10,7 +10,11 @@ import { locationsAPIResponseType } from "@/apis/property/locationsApi/locations
 import { useBoolean } from "@/hooks/useBoolean/useBoolean";
 import { useQuery } from "@/hooks/useQuery";
 import { useToggle } from "@/hooks/useToggle/useToggle";
-import { getUserDetails } from "@/utils/localStorage/localStorage";
+import {
+  getSelectedListingsView,
+  getUserDetails,
+  setSelectedListingsView,
+} from "@/utils/localStorage/localStorage";
 
 export function useListings() {
   const {
@@ -30,7 +34,7 @@ export function useListings() {
         },
       });
     },
-    queryKey: ["listing-properties"],
+    queryKey: ["listing-properties", "'active','inactive','draft'"],
   });
 
   ////////
@@ -67,10 +71,16 @@ export function useListings() {
   const isLoading =
     listingPropertiesApiIsFirstLoading || locationsApiIsFirstLoading;
 
-  const { value: isListingsListView, toggle: setIsListingsListViewTrue } =
+  const { toggle: toggleIsListingsListView, value: isListingsListView } =
     useToggle({
-      initialValue: true,
+      initialValue: (getSelectedListingsView() || "List") === "List",
     });
+
+  useEffect(() => {
+    setSelectedListingsView({
+      selectedListingsView: isListingsListView ? "List" : "Grid",
+    });
+  }, [isListingsListView]);
 
   const handleCloseClick = useCallback(() => {
     setIsSearchingFalse();
@@ -99,11 +109,22 @@ export function useListings() {
 
   useEffect(() => {
     const filtered =
-      listingPropertiesApiData?.data?.filter((listing) =>
-        listing.title.toLowerCase().includes(searchText.trim().toLowerCase()),
-      ) || [];
+      listingPropertiesApiData?.data?.filter((listing) => {
+        const locationLabel =
+          locationsApiData?.data.find(
+            (location) => location.id === listing.location,
+          )?.label || "";
+
+        const searchTerm = searchText.trim().toLowerCase();
+
+        return (
+          listing.title.toLowerCase().includes(searchTerm) ||
+          locationLabel.toLowerCase().includes(searchTerm)
+        );
+      }) || [];
+
     setFilteredListingsData(filtered);
-  }, [searchText, listingPropertiesApiData]);
+  }, [searchText, listingPropertiesApiData, locationsApiData]);
 
   return {
     filteredListingsData,
@@ -117,10 +138,10 @@ export function useListings() {
     searchInputRef,
     searchText,
     selectedListing,
-    setIsListingsListViewTrue,
     setIsSearchingTrue,
     setManageListingDialogIsOpenFalse,
     setManageListingDialogIsOpenTrue,
     setSearchText,
+    toggleIsListingsListView,
   };
 }

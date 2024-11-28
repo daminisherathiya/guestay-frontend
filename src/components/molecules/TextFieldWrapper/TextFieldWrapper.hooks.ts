@@ -3,7 +3,7 @@ import { MouseEvent } from "react";
 import { useToggle } from "@/hooks/useToggle/useToggle";
 
 export function useTextFieldWrapper() {
-  const { value: showPassword, toggle: setShowPasswordTrue } = useToggle({
+  const { toggle: setShowPasswordTrue, value: showPassword } = useToggle({
     initialValue: false,
   });
 
