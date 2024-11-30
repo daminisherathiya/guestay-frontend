@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+import HomeIcon from "@mui/icons-material/Home";
+
 import { Box } from "@/components/atoms/Box";
 import { Grid2 } from "@/components/atoms/Grid2";
 import { Skeleton } from "@/components/atoms/Skeleton";
@@ -64,7 +66,7 @@ export function ListingsGridView({
                 >
                   <Box className="relative">
                     <Box className="aspect-[20/19] overflow-hidden rounded-lg bg-divider">
-                      {coverImage && (
+                      {coverImage ? (
                         <Image
                           alt="Cover picture"
                           className="size-full max-h-full max-w-full object-cover"
@@ -72,6 +74,8 @@ export function ListingsGridView({
                           src={`https://guestay.webarysites.com/file/1000/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${coverImage}`}
                           width={413}
                         />
+                      ) : (
+                        <HomeIcon className="block size-full max-h-full max-w-full text-text-secondary/20" />
                       )}
                     </Box>
                     <Box className="absolute left-4 top-4 rounded-pill bg-common-white px-4 py-3">
@@ -80,9 +84,9 @@ export function ListingsGridView({
                           className={`size-3 shrink-0 rounded-full ${
                             statusToDisplay === "active"
                               ? "bg-success-main"
-                              : statusToDisplay === "In progress"
-                                ? "bg-warning-main"
-                                : "bg-error-dark"
+                              : statusToDisplay === "inactive"
+                                ? "bg-error-dark"
+                                : "bg-warning-light"
                           }`}
                         ></Box>
                         <Typography

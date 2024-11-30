@@ -7,6 +7,7 @@ import Link from "next/link";
 // import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PasswordIcon from "@mui/icons-material/Password";
+import PersonIcon from "@mui/icons-material/Person";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 // import ScienceIcon from "@mui/icons-material/Science";
 import { GridMenuIcon } from "@mui/x-data-grid";
@@ -160,17 +161,25 @@ export function Header() {
                 </MenuItem>,
               ]}
               {isAuthenticated && (
-                <MenuItem
-                  key="Reset password"
-                  onClick={() => {
-                    setResetPasswordDialogIsOpenTrue();
-                  }}
-                >
-                  <ListItemIcon>
-                    <PasswordIcon />{" "}
-                  </ListItemIcon>
-                  Change Password
-                </MenuItem>
+                <>
+                  <MenuItem key="User profile">
+                    <ListItemIcon>
+                      <PersonIcon />{" "}
+                    </ListItemIcon>
+                    {userDetails?.fname} {userDetails?.lname}
+                  </MenuItem>
+                  <MenuItem
+                    key="Reset password"
+                    onClick={() => {
+                      setResetPasswordDialogIsOpenTrue();
+                    }}
+                  >
+                    <ListItemIcon>
+                      <PasswordIcon />{" "}
+                    </ListItemIcon>
+                    Change Password
+                  </MenuItem>
+                </>
               )}
               {isAuthenticated && <Logout />}
               {/* <Divider />

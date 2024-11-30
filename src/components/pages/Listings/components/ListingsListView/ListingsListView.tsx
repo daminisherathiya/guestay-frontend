@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import HomeIcon from "@mui/icons-material/Home";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useMediaQuery, useTheme } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
@@ -36,7 +37,7 @@ export function ListingsListView({
         return (
           <Stack className="h-full flex-row items-center gap-6">
             <Box className="aspect-square size-16 shrink-0 overflow-hidden rounded bg-divider">
-              {coverImage && (
+              {coverImage ? (
                 <Image
                   alt="Cover picture"
                   className="size-full max-h-full max-w-full object-cover"
@@ -44,6 +45,8 @@ export function ListingsListView({
                   src={`https://guestay.webarysites.com/file/1000/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${coverImage}`}
                   width={64}
                 />
+              ) : (
+                <HomeIcon className="block size-full max-h-full max-w-full text-text-secondary/20" />
               )}
             </Box>
             <Typography
@@ -58,7 +61,7 @@ export function ListingsListView({
           </Stack>
         );
       },
-      sortable: false,
+      sortable: true,
     },
     {
       field: "location",
@@ -95,9 +98,9 @@ export function ListingsListView({
               className={`size-3 shrink-0 rounded-full ${
                 statusToDisplay === "active"
                   ? "bg-success-main"
-                  : statusToDisplay === "In progress"
-                    ? "bg-warning-main"
-                    : "bg-error-dark"
+                  : statusToDisplay === "inactive"
+                    ? "bg-error-dark"
+                    : "bg-warning-light"
               }`}
             ></Box>
             <Typography
@@ -109,7 +112,7 @@ export function ListingsListView({
           </Stack>
         );
       },
-      sortable: false,
+      sortable: true,
     },
     {
       field: "action",
