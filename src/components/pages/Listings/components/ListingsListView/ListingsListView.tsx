@@ -5,6 +5,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useMediaQuery, useTheme } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 
+import { ListingPropertiesType } from "@/apis/property/listingPropertiesApi/listingPropertiesApi.types";
 import { Box } from "@/components/atoms/Box";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
@@ -14,7 +15,6 @@ import {
   getListingStatusToDisplay,
 } from "@/utils/common";
 
-import { paginationModel } from "./ListingsListView.consts";
 import { ListingsListViewProps } from "./ListingsListView.types";
 
 export function ListingsListView({
@@ -26,9 +26,9 @@ export function ListingsListView({
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const columns: GridColDef[] = [
+  const columns: GridColDef<ListingPropertiesType>[] = [
     {
-      field: "listing",
+      field: "title",
       flex: 0.46,
       headerName: "Listing",
       minWidth: 400,
@@ -62,6 +62,17 @@ export function ListingsListView({
         );
       },
       sortable: true,
+      sortComparator: (value1, value2, cellParams1, cellParams2) => {
+        const listing1 = cellParams1.api.getRow(cellParams1.id);
+        const listing2 = cellParams2.api.getRow(cellParams2.id);
+
+        const computedValue1 =
+          value1 || getDefaultPropertyTitle({ createdAt: listing1.created_at });
+        const computedValue2 =
+          value2 || getDefaultPropertyTitle({ createdAt: listing2.created_at });
+
+        return computedValue1.localeCompare(computedValue2);
+      },
     },
     {
       field: "location",
@@ -80,6 +91,12 @@ export function ListingsListView({
         );
       },
       sortable: true,
+      valueGetter: (params) => {
+        return (
+          locationsApiData?.data.find((location) => location.id === params)
+            ?.label || ""
+        );
+      },
     },
     {
       field: "status",
@@ -113,6 +130,21 @@ export function ListingsListView({
         );
       },
       sortable: true,
+      sortComparator: (_1, _2, cellParams1, cellParams2) => {
+        const listing1 = cellParams1.api.getRow(cellParams1.id);
+        const listing2 = cellParams2.api.getRow(cellParams2.id);
+
+        const computedValue1 = getListingStatusToDisplay({
+          listingSteps: listing1.listing_steps || "",
+          status: listing1.status,
+        });
+        const computedValue2 = getListingStatusToDisplay({
+          listingSteps: listing2.listing_steps || "",
+          status: listing2.status,
+        });
+
+        return computedValue1.localeCompare(computedValue2);
+      },
     },
     {
       field: "action",
@@ -134,6 +166,7 @@ export function ListingsListView({
       disableColumnMenu
       disableColumnResize
       disableRowSelectionOnClick
+      hideFooter
       classes={{
         cell: "text-text-secondary px-3 border-none outline-none cursor-pointer",
         columnHeader:
@@ -145,29 +178,10 @@ export function ListingsListView({
       className="border-none"
       columnHeaderHeight={isSmallScreen ? 48 : 64}
       columns={columns}
-      initialState={{ pagination: { paginationModel } }}
       loading={isLoading}
       pageSizeOptions={[5, 10]}
       rowHeight={88}
       rows={isLoading ? [] : listingPropertiesApiData?.data}
-      slotProps={{
-        pagination: {
-          slotProps: {
-            actions: {
-              nextButton: {
-                classes: {
-                  disabled: "text-action-disabledBackground",
-                },
-              },
-              previousButton: {
-                classes: {
-                  disabled: "text-action-disabledBackground",
-                },
-              },
-            },
-          },
-        },
-      }}
       slots={{
         loadingOverlay: () => (
           <Box className="space-y-4">
