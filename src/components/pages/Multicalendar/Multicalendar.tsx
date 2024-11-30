@@ -20,7 +20,9 @@ import { Select } from "@/components/atoms/Select/Select";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-import { Calendar } from "./components/CalendarSettings/Calendar/Calendar";
+import CalendarApp, {
+  Calendar,
+} from "./components/CalendarSettings/Calendar/Calendar";
 import { CalendarRefType } from "./Multicalendar.types";
 
 const propertyOptions = [
@@ -270,7 +272,7 @@ export function Multicalendar({
               </Box>
             </Stack>
             <Box>
-              <Calendar />
+              <CalendarApp />
             </Box>
           </Box>
           <Divider flexItem orientation="vertical" />

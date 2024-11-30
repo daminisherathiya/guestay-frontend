@@ -33,13 +33,12 @@ type CalendarEvent = {
   start: string;
   title: string;
   type: string;
-  allDay?: boolean;
 };
 
 const CalendarApp = () => {
   const calendarContainerRef = useRef<HTMLDivElement | null>(null);
   const calendarRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [selectedCells, setSelectedCells] = useState<string[]>([]); // Track individual cell selections
+  const [selectedRanges, setSelectedRanges] = useState<SelectedRange[]>([]);
   const [events, setEvents] = useState<CalendarEvent[]>([
     {
       description: "Discuss the Q4 project roadmap.",
@@ -48,7 +47,7 @@ const CalendarApp = () => {
       start: "2023-12-05T10:00:00",
       title: "📅 Meeting with John",
       type: "meeting",
-      allDay: false, // Timed event
+      allDay: true, // Timed event
     },
     {
       description: "Lunch with the team at the rooftop cafe.",
@@ -57,7 +56,7 @@ const CalendarApp = () => {
       start: "2023-12-06T12:30:00",
       title: "🍴 Team Lunch",
       type: "lunch",
-      allDay: false, // Timed event
+      allDay: true, // Timed event
     },
     {
       description: "Routine checkup with Dr. Smith.",
@@ -65,7 +64,7 @@ const CalendarApp = () => {
       start: "2023-12-07T15:00:00",
       title: "🩺 Doctor Appointment",
       type: "appointment",
-      allDay: false, // Timed event
+      allDay: true, // Timed event
     },
     {
       description: "Annual Company Retreat.",
@@ -121,29 +120,17 @@ const CalendarApp = () => {
     }
   }, [initialDate]);
 
-  const toggleCellSelection = (date: string) => {
-    setSelectedCells((prevSelected) => {
-      if (prevSelected.includes(date)) {
-        // Deselect the cell if already selected
-        return prevSelected.filter((selectedDate) => selectedDate !== date);
-      } else {
-        // Select the cell if not already selected
-        return [...prevSelected, date];
-      }
-    });
-  };
-
   const handleRangeSelect = (info: DateSelectArg) => {
-    const start = new Date(info.start);
-    const end = new Date(info.end);
-    const datesToToggle: string[] = [];
+    const newRange: SelectedRange = {
+      color: "#ff9f89",
+      display: "background",
+      end: info.endStr,
+      id: String(selectedRanges.length + 1),
+      start: info.startStr,
+    };
 
-    while (start < end) {
-      datesToToggle.push(start.toISOString().split("T")[0]);
-      start.setDate(start.getDate() + 1);
-    }
-
-    datesToToggle.forEach((date) => toggleCellSelection(date));
+    // Add the new range to the state
+    setSelectedRanges((prevRanges) => [...prevRanges, newRange]);
   };
 
   const handleEventClick = (info: EventClickArg) => {
@@ -154,6 +141,7 @@ const CalendarApp = () => {
 
   const handleEventResize = (info: EventResizeDoneArg) => {
     const { event } = info;
+    console.log("Resized event:", event);
 
     setEvents((prevEvents) =>
       prevEvents.map((e) => {
@@ -187,6 +175,7 @@ const CalendarApp = () => {
       }),
     );
 
+    // Explicitly update FullCalendar's internal state
     event.setDates(event.start, event.end);
   };
 
@@ -217,10 +206,6 @@ const CalendarApp = () => {
     );
   };
 
-  const isCellSelected = (date: string): boolean => {
-    return selectedCells.includes(date);
-  };
-
   const renderCalendars = () => {
     const calendars = [];
 
@@ -241,9 +226,7 @@ const CalendarApp = () => {
 
     let calendarIndex = 0;
     while (tempDate <= endMonth) {
-      const date = `${tempDate.getFullYear()}-${String(
-        tempDate.getMonth() + 1,
-      ).padStart(2, "0")}-01`;
+      const date = `${tempDate.getFullYear()}-${String(tempDate.getMonth() + 1).padStart(2, "0")}-01`;
 
       calendars.push(
         <div
@@ -259,31 +242,25 @@ const CalendarApp = () => {
           }}
         >
           <FullCalendar
-            dayCellContent={(arg) => {
-              const isSelected = isCellSelected(
-                arg.date.toISOString().split("T")[0],
-              );
-              return (
-                <div
-                  style={{
-                    backgroundColor: isSelected ? "#ff9f89" : "transparent",
-                    height: "100%",
-                    width: "100%",
-                  }}
-                >
-                  {arg.dayNumberText}
-                </div>
-              );
-            }}
-            editable={true}
+            editable={true} // Enable drag-and-drop and resizing
             eventClick={handleEventClick}
             eventDrop={handleEventDrop}
-            eventResizableFromStart={true}
+            eventResizableFromStart={true} // Enable resizing from the left
             eventResize={handleEventResize}
             eventSources={[
               {
                 id: "events",
-                events: events,
+                events: events.map((event) => ({
+                  ...event,
+                  editable: true, // Ensure each event is editable
+                  durationEditable: true, // Allow resizing for timed events
+                })),
+              },
+              {
+                id: "selectedRanges",
+                events: selectedRanges,
+                color: "#ff9f89",
+                rendering: "background",
               },
             ]}
             headerToolbar={{
