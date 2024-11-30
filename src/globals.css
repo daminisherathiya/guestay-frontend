@@ -61,4 +61,10 @@ body {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  .c-fc-container .fc-header-toolbar {
+    @apply sticky top-0 bg-common-white z-[3] mb-0 h-14;
+  }
+  .c-fc-container .fc-dayGridMonth-view .fc-scrollgrid [role="rowgroup"]:first-child {
+    @apply sticky top-14 bg-common-white z-[3];
+  }
 }

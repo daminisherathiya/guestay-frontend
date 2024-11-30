@@ -251,6 +251,7 @@ const CalendarApp = () => {
 
       calendars.push(
         <div
+          className="c-fc-container"
           key={date}
           ref={(el) => {
             calendarRefs.current[calendarIndex++] = el;
@@ -259,7 +260,7 @@ const CalendarApp = () => {
             border: "1px solid #ddd",
             borderRadius: "5px",
             marginBottom: "1rem",
-            overflow: "hidden",
+            // overflow: "hidden",
           }}
         >
           <FullCalendar
@@ -318,7 +319,7 @@ const CalendarApp = () => {
         boxSizing: "border-box",
         height: "100vh",
         overflowY: "scroll",
-        padding: "1rem",
+        padding: "0 1rem",
         scrollBehavior: "smooth",
       }}
     >
