@@ -43,18 +43,18 @@ const CalendarApp = () => {
   const [events, setEvents] = useState<CalendarEvent[]>([
     {
       description: "Discuss the Q4 project roadmap.",
-      end: "2023-12-06T18:00:00",
+      end: "2024-11-06T18:00:00",
       id: "1",
-      start: "2023-12-05T10:00:00",
+      start: "2024-11-05T10:00:00",
       title: "📅 Meeting with John",
       type: "meeting",
       allDay: false, // Timed event
     },
     {
       description: "Lunch with the team at the rooftop cafe.",
-      end: "2023-12-06T14:00:00",
+      end: "2024-11-06T14:00:00",
       id: "2",
-      start: "2023-12-06T12:30:00",
+      start: "2024-11-06T12:30:00",
       title: "🍴 Team Lunch",
       type: "lunch",
       allDay: false, // Timed event
@@ -62,25 +62,25 @@ const CalendarApp = () => {
     {
       description: "Routine checkup with Dr. Smith.",
       id: "3",
-      start: "2023-12-07T15:00:00",
+      start: "2024-11-07T15:00:00",
       title: "🩺 Doctor Appointment",
       type: "appointment",
       allDay: false, // Timed event
     },
     {
       description: "Annual Company Retreat.",
-      end: "2023-12-17",
+      end: "2024-11-17",
       id: "4",
-      start: "2023-12-15",
+      start: "2024-11-15",
       title: "🏖️ Company Retreat",
       type: "retreat",
       allDay: true, // All-day event
     },
     {
       description: "Christmas Holidays",
-      end: "2023-12-26",
+      end: "2024-11-26",
       id: "5",
-      start: "2023-12-24",
+      start: "2024-11-24",
       title: "🎄 Christmas Holidays",
       type: "holiday",
       allDay: true, // All-day event
@@ -121,29 +121,33 @@ const CalendarApp = () => {
     }
   }, [initialDate]);
 
-  const toggleCellSelection = (date: string) => {
-    setSelectedCells((prevSelected) => {
-      if (prevSelected.includes(date)) {
-        // Deselect the cell if already selected
-        return prevSelected.filter((selectedDate) => selectedDate !== date);
-      } else {
-        // Select the cell if not already selected
-        return [...prevSelected, date];
-      }
-    });
-  };
-
   const handleRangeSelect = (info: DateSelectArg) => {
     const start = new Date(info.start);
     const end = new Date(info.end);
-    const datesToToggle: string[] = [];
+    const datesInRange: string[] = [];
 
+    // Collect all dates in the selected range
     while (start < end) {
-      datesToToggle.push(start.toISOString().split("T")[0]);
+      datesInRange.push(start.toISOString().split("T")[0]);
       start.setDate(start.getDate() + 1);
     }
 
-    datesToToggle.forEach((date) => toggleCellSelection(date));
+    // Check if all dates in the range are already selected
+    const allSelected = datesInRange.every((date) =>
+      selectedCells.includes(date),
+    );
+
+    if (allSelected) {
+      // Deselect all dates in the range
+      setSelectedCells((prevSelected) =>
+        prevSelected.filter((date) => !datesInRange.includes(date)),
+      );
+    } else {
+      // Select all dates in the range
+      setSelectedCells((prevSelected) =>
+        Array.from(new Set([...prevSelected, ...datesInRange])),
+      );
+    }
   };
 
   const handleEventClick = (info: EventClickArg) => {
