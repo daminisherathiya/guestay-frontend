@@ -68,12 +68,18 @@ body {
     @apply sticky top-14 bg-common-white z-[3];
   }
   .fc .fc-view-harness {
-    height: 700px;
+    @apply h-[43.75rem];
   }
   .fc .fc-toolbar.fc-header-toolbar {
     @apply mb-0;
   }
   .fc {
-    overflow: scroll;
+    @apply overflow-scroll;
+  }
+  .fc .fc-multimonth {
+    @apply overflow-visible;
+  }
+  .fc .fc-highlight {
+    @apply bg-[#e4e4e44d];
   }
 }

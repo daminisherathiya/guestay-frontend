@@ -19,6 +19,9 @@ import {
   Typography,
 } from "@mui/material";
 
+import { Box } from "@/components/atoms/Box";
+import { Stack } from "@/components/atoms/Stack";
+
 type SelectedRange = {
   color: string;
   display: string;
@@ -79,7 +82,7 @@ const CalendarApp = () => {
     },
     {
       description: "Christmas Holidays",
-      end: "2024-11-26",
+      end: "2024-12-02",
       id: "5",
       start: "2024-11-24",
       title: "🎄 Christmas Holidays",
@@ -321,6 +324,7 @@ const CalendarApp = () => {
           const isSelected = isCellSelected(
             arg.date.toISOString().split("T")[0],
           );
+
           return (
             <div
               style={{
@@ -332,7 +336,59 @@ const CalendarApp = () => {
               {arg.dayNumberText}
             </div>
           );
+
+          // const isSelected = isCellSelected(
+          //   arg.date.toISOString().split("T")[0],
+          // );
+          // const eventsForDay = events.filter((event) => {
+          //   const eventStart = new Date(event.start);
+          //   const eventEnd = event.end ? new Date(event.end) : eventStart;
+
+          //   // Check if the current date falls within the event's start and end dates
+          //   return arg.date >= eventStart && arg.date <= eventEnd;
+          // });
+
+          // return (
+          //   <Box
+          //     className={`h-full rounded-xl px-6 pb-5 pt-7 ${isSelected ? "bg-primary-main" : ""}`}
+          //   >
+          //     <Stack className="h-full justify-between">
+          //       <Typography
+          //         className={`font-medium ${isSelected ? "text-common-white" : ""}`}
+          //       >
+          //         {arg.dayNumberText}
+          //       </Typography>
+          //       <Typography
+          //         className={` ${isSelected ? "text-common-white" : ""}`}
+          //       >
+          //         ₹4,221
+          //       </Typography>
+          //       <div>
+          //         {eventsForDay.map((event) => (
+          //           <Typography
+          //             key={event.id}
+          //             className={`truncate ${
+          //               isSelected ? "text-common-white" : "text-primary-dark"
+          //             }`}
+          //             title={event.title}
+          //           >
+          //             {event.title}
+          //           </Typography>
+          //         ))}
+          //       </div>
+          //     </Stack>
+          //   </Box>
+          // );
         }}
+        // dayCellDidMount={(arg) => {
+        //   arg.el
+        //     .querySelector(".fc-daygrid-day-frame")
+        //     ?.classList.add("h-full");
+        //   arg.el.querySelector(".fc-daygrid-day-top")?.classList.add("h-full");
+        //   arg.el
+        //     .querySelector(".fc-daygrid-day-number")
+        //     ?.classList.add("w-full", "p-0");
+        // }}
         droppable={true}
         editable={true}
         eventClick={handleEventClick}

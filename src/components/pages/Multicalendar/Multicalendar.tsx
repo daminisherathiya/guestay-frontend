@@ -20,9 +20,7 @@ import { Select } from "@/components/atoms/Select/Select";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-import CalendarApp, {
-  Calendar,
-} from "./components/CalendarSettings/Calendar/Calendar";
+import CalendarApp from "./components/CalendarSettings/Calendar/Calendar";
 import { CalendarRefType } from "./Multicalendar.types";
 
 const propertyOptions = [
@@ -87,10 +85,10 @@ export function Multicalendar({
   // }, [selectedShowOptionValue]);
 
   return (
-    <Container maxWidth="2xl">
+    <Container className="pr-0" maxWidth="2xl">
       <Stack className="h-[calc(100vh-6.375rem)]">
-        <Stack className="h-full flex-row items-start gap-6">
-          <Box className="no-scrollbar size-full grow overflow-auto">
+        <Stack className="h-full flex-row items-start">
+          <Box className="no-scrollbar size-full grow overflow-auto pr-6">
             <Stack className=" sticky top-0 z-[3] flex-row items-center justify-between bg-common-white py-6">
               <Box>
                 <Typography className="text-[1.625rem] leading-8" variant="h2">
@@ -276,7 +274,7 @@ export function Multicalendar({
             </Box>
           </Box>
           <Divider flexItem orientation="vertical" />
-          <Box className="no-scrollbar h-full w-80 shrink-0 overflow-auto py-8">
+          <Box className="no-scrollbar h-full w-[23.125rem] shrink-0 overflow-auto px-6 py-8">
             {children}
           </Box>
         </Stack>
