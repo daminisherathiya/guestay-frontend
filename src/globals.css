@@ -67,4 +67,13 @@ body {
   .c-fc-container .fc-dayGridMonth-view .fc-scrollgrid [role="rowgroup"]:first-child {
     @apply sticky top-14 bg-common-white z-[3];
   }
+  .fc .fc-view-harness {
+    height: 700px;
+  }
+  .fc .fc-toolbar.fc-header-toolbar {
+    @apply mb-0;
+  }
+  .fc {
+    overflow: scroll;
+  }
 }
