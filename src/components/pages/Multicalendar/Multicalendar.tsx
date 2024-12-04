@@ -91,9 +91,9 @@ export function Multicalendar({
           <Box className="no-scrollbar size-full grow overflow-auto pr-6">
             <Stack className=" sticky top-0 z-[3] flex-row items-center justify-between bg-common-white py-6">
               <Box>
-                <Typography className="text-[1.625rem] leading-8" variant="h2">
+                {/* <Typography className="text-[1.625rem] leading-8" variant="h2">
                   November 2023
-                </Typography>
+                </Typography> */}
                 <Link className="pt-1.5 text-xs underline" href="#">
                   1 discount
                 </Link>

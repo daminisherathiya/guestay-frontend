@@ -44,6 +44,53 @@ const CalendarApp = () => {
   const calendarContainerRef = useRef<FullCalendar | null>(null);
   // const calendarRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [selectedCells, setSelectedCells] = useState<string[]>([]); // Track individual cell selections
+  const renderEventContent = (eventInfo) => {
+    return {
+      // The HTML structure is wrapped in a div with flex layout
+      html: `
+        <div class="fc-event-custom-content" style="
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px;
+          width: 100%;
+        ">
+          <div class="fc-event-avatar" style="
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            background-color: #f3f4f6;
+          ">
+            <img 
+              src="/api/placeholder/32/32"
+              alt="User avatar"
+              style="width: 100%; height: 100%; object-fit: cover;"
+            />
+          </div>
+          <div style="
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          ">
+            ${eventInfo.event.title} + ${eventInfo.event.extendedProps.guestCount} guests
+          </div>
+          <div style="
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          ">
+            $${eventInfo.event.extendedProps.amount?.toLocaleString()}
+          </div>
+        </div>
+      `,
+    };
+  };
+
   const [events, setEvents] = useState<CalendarEvent[]>([
     {
       description: "Discuss the Q4 project roadmap.",
@@ -52,7 +99,10 @@ const CalendarApp = () => {
       start: "2024-11-05T10:00:00",
       title: "📅 Meeting with John",
       type: "meeting",
-      allDay: false, // Timed event
+      allDay: false,
+      guestCount: 7,
+      amount: 1684.89,
+      avatar: "/api/placeholder/32/32",
     },
     {
       description: "Lunch with the team at the rooftop cafe.",
@@ -61,7 +111,10 @@ const CalendarApp = () => {
       start: "2024-11-06T12:30:00",
       title: "🍴 Team Lunch",
       type: "lunch",
-      allDay: false, // Timed event
+      allDay: false,
+      guestCount: 7,
+      amount: 1684.89,
+      avatar: "/api/placeholder/32/32",
     },
     {
       description: "Routine checkup with Dr. Smith.",
@@ -69,21 +122,78 @@ const CalendarApp = () => {
       start: "2024-11-07T15:00:00",
       title: "🩺 Doctor Appointment",
       type: "appointment",
-      allDay: false, // Timed event
+      allDay: false,
+      guestCount: 7,
+      amount: 1684.89,
+      avatar: "/api/placeholder/32/32",
     },
     {
       description: "Annual Company Retreat.",
-      end: "2024-11-02",
+      end: "2024-11-04",
       id: "4",
       start: "2024-10-28",
       title: "🏖️ Company Retreat",
       type: "retreat",
-      allDay: true, // All-day event
+      allDay: true,
+      guestCount: 7,
+      amount: 1684.89,
+      avatar: "/api/placeholder/32/32",
     },
+    {
+      description: "Annual Company Retreat.",
+      end: "2024-11-04",
+      id: "5",
+      start: "2024-10-28",
+      title: "🏖️ Company Retreat",
+      type: "retreat",
+      allDay: true,
+      guestCount: 7,
+      amount: 1684.89,
+      avatar: "/api/placeholder/32/32",
+    },
+    {
+      description: "Annual Company Retreat.",
+      end: "2024-11-04",
+      id: "6",
+      start: "2024-10-28",
+      title: "🏖️ Company Retreat",
+      type: "retreat",
+      allDay: true,
+      guestCount: 7,
+      amount: 1684.89,
+      avatar: "/api/placeholder/32/32",
+    },
+    // {
+    //   description: "Annual Company Retreat.",
+    //   end: "2024-11-04",
+    //   id: "7",
+    //   start: "2024-10-28",
+    //   title: "🏖️ Company Retreat",
+    //   type: "retreat",
+    //   allDay: true, // All-day event
+    // },
+    // {
+    //   description: "Annual Company Retreat.",
+    //   end: "2024-11-04",
+    //   id: "8",
+    //   start: "2024-10-28",
+    //   title: "🏖️ Company Retreat",
+    //   type: "retreat",
+    //   allDay: true, // All-day event
+    // },
+    // {
+    //   description: "Annual Company Retreat.",
+    //   end: "2024-11-04",
+    //   id: "9",
+    //   start: "2024-10-28",
+    //   title: "🏖️ Company Retreat",
+    //   type: "retreat",
+    //   allDay: true, // All-day event
+    // },
     {
       description: "Christmas Holidays",
       end: "2024-12-02",
-      id: "5",
+      id: "10",
       start: "2024-11-24",
       title: "🎄 Christmas Holidays",
       type: "holiday",
@@ -213,6 +323,13 @@ const CalendarApp = () => {
     }
   };
 
+  const dayCellClassNames = (arg) => {
+    if (isCellSelected(arg.date.toISOString().split("T")[0])) {
+      return ["bg-primary-main", "text-common-white", "rounded-xl"];
+    }
+    return [];
+  };
+
   const handleEventClick = (info: EventClickArg) => {
     const event = events.find((e) => e.id === info.event.id);
     setSelectedEvent(event || null);
@@ -320,22 +437,26 @@ const CalendarApp = () => {
           calendarContainerRef.current = el;
         }}
         dateClick={handleDateClick}
+        dayCellClassNames={dayCellClassNames}
         dayCellContent={(arg) => {
-          const isSelected = isCellSelected(
-            arg.date.toISOString().split("T")[0],
-          );
+          // const isSelected = isCellSelected(
+          //   arg.date.toISOString().split("T")[0],
+          // );
 
-          return (
-            <div
-              style={{
-                backgroundColor: isSelected ? "#ff9f89" : "transparent",
-                height: "100%",
-                width: "100%",
-              }}
-            >
-              {arg.dayNumberText}
-            </div>
-          );
+          // return (
+          //   <Stack className="w-full flex-row justify-between">
+          //     <div>$1234</div>
+          //     <div
+          //       style={{
+          //         backgroundColor: isSelected ? "#ff9f89" : "transparent",
+          //         // height: "100%",
+          //         // width: "100%",
+          //       }}
+          //     >
+          //       {arg.dayNumberText}
+          //     </div>
+          //   </Stack>
+          // );
 
           // const isSelected = isCellSelected(
           //   arg.date.toISOString().split("T")[0],
@@ -345,40 +466,32 @@ const CalendarApp = () => {
           //   const eventEnd = event.end ? new Date(event.end) : eventStart;
 
           //   // Check if the current date falls within the event's start and end dates
-          //   return arg.date >= eventStart && arg.date <= eventEnd;
+          //   return arg.date >= eventStart && arg.date < eventEnd;
           // });
 
-          // return (
-          //   <Box
-          //     className={`h-full rounded-xl px-6 pb-5 pt-7 ${isSelected ? "bg-primary-main" : ""}`}
-          //   >
-          //     <Stack className="h-full justify-between">
-          //       <Typography
-          //         className={`font-medium ${isSelected ? "text-common-white" : ""}`}
-          //       >
-          //         {arg.dayNumberText}
-          //       </Typography>
-          //       <Typography
-          //         className={` ${isSelected ? "text-common-white" : ""}`}
-          //       >
-          //         ₹4,221
-          //       </Typography>
-          //       <div>
-          //         {eventsForDay.map((event) => (
-          //           <Typography
-          //             key={event.id}
-          //             className={`truncate ${
-          //               isSelected ? "text-common-white" : "text-primary-dark"
-          //             }`}
-          //             title={event.title}
-          //           >
-          //             {event.title}
-          //           </Typography>
-          //         ))}
-          //       </div>
-          //     </Stack>
-          //   </Box>
-          // );
+          return (
+            <Box className={`h-full rounded-xl p-3 pb-0`}>
+              <Stack className="h-full justify-between">
+                <Typography className={`font-medium`}>
+                  {arg.dayNumberText}
+                </Typography>
+                <Typography>₹4,221</Typography>
+                {/* <div>
+                  {eventsForDay.map((event) => (
+                    <Typography
+                      key={event.id}
+                      className={`truncate ${
+                        isSelected ? "text-common-white" : "text-primary-dark"
+                      }`}
+                      title={event.title}
+                    >
+                      {event.title}
+                    </Typography>
+                  ))}
+                </div> */}
+              </Stack>
+            </Box>
+          );
         }}
         // dayCellDidMount={(arg) => {
         //   arg.el
@@ -389,9 +502,9 @@ const CalendarApp = () => {
         //     .querySelector(".fc-daygrid-day-number")
         //     ?.classList.add("w-full", "p-0");
         // }}
-        droppable={true}
         editable={true}
         eventClick={handleEventClick}
+        eventContent={renderEventContent}
         eventDrop={handleEventDrop}
         eventResizableFromStart={true}
         eventResize={handleEventResize}
