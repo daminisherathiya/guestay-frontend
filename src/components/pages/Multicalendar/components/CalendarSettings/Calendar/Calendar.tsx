@@ -18,6 +18,7 @@ import {
   DialogTitle,
   Typography,
 } from "@mui/material";
+import dayjs from "dayjs";
 
 import { Box } from "@/components/atoms/Box";
 import { Stack } from "@/components/atoms/Stack";
@@ -408,24 +409,20 @@ const CalendarApp = () => {
   const renderCalendars = () => {
     // const calendars = [];
 
-    const currentDate = new Date();
+    const currentDate = dayjs();
     console.log("🚀 ~ renderCalendars ~ currentDate:", currentDate);
 
-    const startMonth = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth() - 11,
-      1,
-    )
-      .toISOString()
-      .split("T")[0];
+    const startMonth = currentDate
+      .subtract(11, "months")
+      .startOf("month")
+      .format("YYYY-MM-DD");
     console.log("🚀 ~ renderCalendars ~ startMonth:", startMonth);
-    const endMonth = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth() + 23,
-      1,
-    )
-      .toISOString()
-      .split("T")[0];
+
+    const endMonth = currentDate
+      .add(23, "months")
+      .startOf("month")
+      .format("YYYY-MM-DD");
+    console.log("🚀 ~ renderCalendars ~ endMonth:", endMonth);
 
     const handleDateClick = (info) => {
       // alert(Clicked date: ${info.dateStr});
@@ -534,7 +531,7 @@ const CalendarApp = () => {
         }}
         views={{
           multiMonthYear: {
-            duration: { months: 35 }, // Match the duration here as well
+            duration: { months: 34 }, // Match the duration here as well
             multiMonthTitleFormat: { month: "long", year: "numeric" },
           },
         }}

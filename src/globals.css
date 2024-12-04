@@ -83,7 +83,7 @@ body {
     @apply bg-[#e4e4e44d];
   }
   .fc .fc-daygrid-day {
-    @apply h-[150px];
+    @apply h-[152px];
   }
   .fc .fc-daygrid-day-number {
     @apply w-full h-full;
