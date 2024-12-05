@@ -1,11 +1,9 @@
 import Link from "next/link";
 
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-
 import { Box } from "@/components/atoms/Box";
+import { Button } from "@/components/atoms/Button";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
-import { CustomSwitch } from "@/components/molecules/CustomSwitch";
 
 export function CalendarPricingTab() {
   return (
@@ -17,26 +15,18 @@ export function CalendarPricingTab() {
             USD
           </Typography>
         </Stack>
-        <Link href="#">
+        <Link href="./pricing-settings/rates/base">
           <Box className="space-y-2 rounded-2xl border border-divider p-6">
             <Typography variant="body2">Per night</Typography>
             <Typography className="text-3xl font-bold">$25</Typography>
           </Box>
         </Link>
-        <Link href="#">
+        <Link href="./pricing-settings/rates/weekend">
           <Stack className="flex-row items-center justify-between rounded-2xl border border-divider p-6">
             <Typography variant="body2">Custom weekend price</Typography>
-            <Typography className="font-medium underline" variant="body2">
-              Add
-            </Typography>
+            <Button className="-m-2.5 p-2.5 font-medium">Add</Button>
           </Stack>
         </Link>
-        <Box>
-          <Stack className="flex-row items-center justify-between rounded-2xl border border-divider p-6">
-            <Typography variant="body2">Smart Pricing</Typography>
-            <CustomSwitch />
-          </Stack>
-        </Box>
       </Stack>
       <Stack className="gap-4">
         <Stack className="grow">
@@ -45,7 +35,7 @@ export function CalendarPricingTab() {
             Adjust your pricing to attract more guests.
           </Typography>
         </Stack>
-        <Link href="#">
+        <Link href="./pricing-settings/discounts/monthly">
           <Box className="rounded-2xl border border-divider p-6">
             <Typography variant="body2">Weekly</Typography>
             <Typography
@@ -82,67 +72,6 @@ export function CalendarPricingTab() {
               >
                 Monthly average is $2,040
               </Typography>
-            </Stack>
-          </Box>
-        </Link>
-        <Link href="#">
-          <Box className="rounded-2xl border border-divider p-6">
-            <Stack className="flex-row items-center justify-between">
-              <Box>
-                <Typography variant="body2">More discounts</Typography>
-                <Typography
-                  className="mt-1 text-xs text-text-secondary"
-                  variant="body2"
-                >
-                  Early-bird, last-minute
-                </Typography>
-              </Box>
-              <KeyboardArrowRightIcon className="c-keyboard-arrow-icon size-7 text-text-primary" />
-            </Stack>
-          </Box>
-        </Link>
-      </Stack>
-      <Stack className="gap-4">
-        <Stack className="grow">
-          <Typography variant="h2">Promotions</Typography>
-          <Typography className="mb-2 mt-1 text-text-secondary" variant="body2">
-            Set short-term discounts to get new bookings.
-          </Typography>
-        </Stack>
-        <Link href="#">
-          <Box className="rounded-2xl border border-divider p-6">
-            <Stack className="flex-row items-center justify-between">
-              <Box>
-                <Typography variant="body2">New listing promotion</Typography>
-                <Typography
-                  className="mt-1 text-xs text-text-secondary"
-                  variant="body2"
-                >
-                  Get your first guests in the door
-                </Typography>
-              </Box>
-              <KeyboardArrowRightIcon className="c-keyboard-arrow-icon size-7 text-text-primary" />
-            </Stack>
-          </Box>
-        </Link>
-      </Stack>
-      <Stack className="gap-4">
-        <Stack className="grow">
-          <Typography variant="h2">Additional charges</Typography>
-        </Stack>
-        <Link href="#">
-          <Box className="rounded-2xl border border-divider p-6">
-            <Stack className="flex-row items-center justify-between">
-              <Box>
-                <Typography variant="body2">Fees</Typography>
-                <Typography
-                  className="mt-1 text-xs text-text-secondary"
-                  variant="body2"
-                >
-                  Cleaning, pets, extra guests
-                </Typography>
-              </Box>
-              <KeyboardArrowRightIcon className="c-keyboard-arrow-icon size-7 text-text-primary" />
             </Stack>
           </Box>
         </Link>

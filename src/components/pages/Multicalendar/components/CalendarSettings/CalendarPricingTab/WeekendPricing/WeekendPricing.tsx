@@ -6,7 +6,7 @@ import { Typography } from "@/components/atoms/Typography";
 import { PriceWithTaxCalculation } from "@/components/organisms/PriceWithTaxCalculation";
 import { usePrice } from "@/components/pages/Price/Price.hooks";
 
-export function BasePricing() {
+export function WeekendPricing() {
   const {
     commissionRates,
     handleInput,
@@ -18,8 +18,14 @@ export function BasePricing() {
 
   return (
     <>
-      <Typography className="mb-8 text-center font-medium">
-        Per night
+      <Typography className="mb-0.5 text-center font-medium">
+        Custom weekend price
+      </Typography>
+      <Typography
+        className="mb-8 text-center text-text-secondary"
+        variant="body2"
+      >
+        Fri and Sat nights
       </Typography>
       <PriceWithTaxCalculation
         commissionRates={commissionRates}

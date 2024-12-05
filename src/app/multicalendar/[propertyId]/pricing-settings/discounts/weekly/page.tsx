@@ -4,6 +4,6 @@ export const metadata: Metadata = {
   title: "Pricing settings - Guestay",
 };
 
-export default function TempPage() {
+export default function PricingSettingsDiscountsWeeklyPage() {
   return <></>;
 }
