@@ -9,6 +9,7 @@ import {
   LocationType,
   locationsAPIResponseType,
 } from "@/apis/property/locationsApi/locationsApi.types";
+import { useBoolean } from "@/hooks/useBoolean";
 import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
 import { useQuery } from "@/hooks/useQuery";
@@ -25,11 +26,9 @@ export function useLocation() {
     propertyApiData,
     propertyApiIsFirstLoading,
     propertyApiIsSuccess,
-    PropertyApiSnackbarAlert,
     savePropertyApiIsPending,
     savePropertyApiIsSuccess,
     savePropertyApiMutate,
-    SavePropertyApiSnackbarAlert,
   } = usePropertyToEdit();
 
   ////////
@@ -41,7 +40,6 @@ export function useLocation() {
     data: locationsApiData,
     isFirstLoading: locationsApiIsFirstLoading,
     isSuccess: locationsApiIsSuccess,
-    SnackbarAlert: LocationsApiSnackbarAlert,
   } = useQuery<locationsAPIResponseType, Error, locationsAPIResponseType>({
     initialData: { data: [] },
     queryFn: () => {
@@ -139,7 +137,8 @@ export function useLocation() {
     return locations.find((location) => location.id === locationId) || null;
   }, [locationId, locations]);
 
-  const [locationHasChanged, setLocationHasChanged] = useState(false);
+  const { value: locationHasChanged, setTrue: setLocationHasChangedTrue } =
+    useBoolean({ initialValue: false });
 
   ////////
 
@@ -186,13 +185,10 @@ export function useLocation() {
     locationHasChanged,
     locations,
     locationsApiIsFirstLoading,
-    LocationsApiSnackbarAlert,
     longitude,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     selectedPlaceDetails,
     setLatitude,
-    setLocationHasChanged,
+    setLocationHasChangedTrue,
     setLongitude,
     setSelectedPlaceDetails,
   };

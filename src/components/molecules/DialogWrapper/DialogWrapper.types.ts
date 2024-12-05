@@ -1,8 +1,10 @@
+import { ReactNode } from "react";
+
 export interface DialogWrapperProps {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: { paper: string };
-  customHeader?: React.ReactNode;
-  dialogActions?: React.ReactNode;
+  customHeader?: ReactNode;
+  dialogActions?: ReactNode;
   dialogActionsClassName?: string;
   handleCloseDialog: () => void;
   isDialogOpen: boolean;

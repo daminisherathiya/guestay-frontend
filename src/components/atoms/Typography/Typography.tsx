@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUITypography, {
   TypographyProps as MUITypographyProps,
@@ -6,7 +6,7 @@ import MUITypography, {
 
 export interface TypographyProps extends MUITypographyProps {}
 
-export const Typography = React.forwardRef<HTMLDivElement, TypographyProps>(
+export const Typography = forwardRef<HTMLDivElement, TypographyProps>(
   (props, ref) => <MUITypography ref={ref} {...props} />,
 );
 

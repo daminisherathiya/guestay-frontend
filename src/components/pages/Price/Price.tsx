@@ -23,7 +23,6 @@ export function Price() {
     commissionRates,
     Footer,
     // globalPricesApiData,
-    globalPricesApiSnackbarAlert,
     handleEditClick,
     handleInput,
     insurancePolicyPrice,
@@ -34,8 +33,6 @@ export function Price() {
     price,
     priceError,
     priceInputRef,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     setIsEditingFalse,
     setIsEditingTrue,
     setIsPriceVisibleTrue,
@@ -210,9 +207,6 @@ export function Price() {
         </Stack>
       </Container>
       {Footer}
-      {globalPricesApiSnackbarAlert}
-      {PropertyApiSnackbarAlert}
-      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

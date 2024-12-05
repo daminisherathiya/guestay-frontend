@@ -41,7 +41,6 @@ export function useForgotPasswordDialog({
     mutate: paswordResetApiMutate,
     isPending: paswordResetApiIsPending,
     isSuccess: paswordResetApiIsSuccess,
-    SnackbarAlert: PaswordResetApiSnackbarAlert,
   } = useMutation<paswordResetApiResponseType, Error, paswordResetApiType>({
     mutationFn: paswordResetApi,
     mutationKey: ["password-reset"],
@@ -69,6 +68,5 @@ export function useForgotPasswordDialog({
     isValid,
     onSubmit,
     paswordResetApiIsPending,
-    PaswordResetApiSnackbarAlert,
   };
 }

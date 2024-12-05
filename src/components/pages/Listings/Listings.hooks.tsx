@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { useRouter } from "next/navigation";
-
 import { listingPropertiesApi } from "@/apis/property/listingPropertiesApi";
 import {
   ListingPropertiesType,
@@ -12,13 +10,16 @@ import { locationsAPIResponseType } from "@/apis/property/locationsApi/locations
 import { useBoolean } from "@/hooks/useBoolean/useBoolean";
 import { useQuery } from "@/hooks/useQuery";
 import { useToggle } from "@/hooks/useToggle/useToggle";
-import { getUserDetails } from "@/utils/localStorage/localStorage";
+import {
+  getSelectedListingsView,
+  getUserDetails,
+  setSelectedListingsView,
+} from "@/utils/localStorage/localStorage";
 
 export function useListings() {
   const {
     data: listingPropertiesApiData,
     isFirstLoading: listingPropertiesApiIsFirstLoading,
-    SnackbarAlert: ListingPropertiesApiSnackbarAlert,
   } = useQuery<
     listingPropertiesApiResponseType,
     Error,
@@ -26,30 +27,34 @@ export function useListings() {
   >({
     initialData: { data: [] },
     queryFn: () => {
-      return listingPropertiesApi({ data: { userId: getUserDetails().id } });
+      return listingPropertiesApi({
+        data: {
+          status: "'active','inactive','draft'",
+          userId: getUserDetails().id,
+        },
+      });
     },
-    queryKey: ["listing-properties"],
+    queryKey: ["listing-properties", "'active','inactive','draft'"],
   });
 
   ////////
 
-  const {
-    data: locationsApiData,
-    isFirstLoading: locationsApiIsFirstLoading,
-    SnackbarAlert: LocationsApiSnackbarAlert,
-  } = useQuery<locationsAPIResponseType, Error, locationsAPIResponseType>({
-    initialData: { data: [] },
-    queryFn: () => {
-      return locationsApi({ data: { userId: getUserDetails().id } });
-    },
-    queryKey: ["locations"],
-  });
+  const { data: locationsApiData, isFirstLoading: locationsApiIsFirstLoading } =
+    useQuery<locationsAPIResponseType, Error, locationsAPIResponseType>({
+      initialData: { data: [] },
+      queryFn: () => {
+        return locationsApi({ data: { userId: getUserDetails().id } });
+      },
+      queryKey: ["locations"],
+    });
 
   ////////
 
   const [searchText, setSearchText] = useState<string>("");
+  const [filteredListingsData, setFilteredListingsData] = useState<
+    ListingPropertiesType[]
+  >([]);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
-  const router = useRouter();
 
   const {
     value: isSearching,
@@ -66,10 +71,16 @@ export function useListings() {
   const isLoading =
     listingPropertiesApiIsFirstLoading || locationsApiIsFirstLoading;
 
-  const { value: isListingsListView, toggle: setIsListingsListViewTrue } =
+  const { toggle: toggleIsListingsListView, value: isListingsListView } =
     useToggle({
-      initialValue: true,
+      initialValue: (getSelectedListingsView() || "List") === "List",
     });
+
+  useEffect(() => {
+    setSelectedListingsView({
+      selectedListingsView: isListingsListView ? "List" : "Grid",
+    });
+  }, [isListingsListView]);
 
   const handleCloseClick = useCallback(() => {
     setIsSearchingFalse();
@@ -94,25 +105,43 @@ export function useListings() {
     setManageListingDialogIsOpenTrue();
   };
 
+  ////////
+
+  useEffect(() => {
+    const filtered =
+      listingPropertiesApiData?.data?.filter((listing) => {
+        const locationLabel =
+          locationsApiData?.data.find(
+            (location) => location.id === listing.location,
+          )?.label || "";
+
+        const searchTerm = searchText.trim().toLowerCase();
+
+        return (
+          listing.title.toLowerCase().includes(searchTerm) ||
+          locationLabel.toLowerCase().includes(searchTerm)
+        );
+      }) || [];
+
+    setFilteredListingsData(filtered);
+  }, [searchText, listingPropertiesApiData, locationsApiData]);
+
   return {
+    filteredListingsData,
     handleCloseClick,
     handleOpenManageListingDialog,
     isListingsListView,
     isLoading,
     isSearching,
-    listingPropertiesApiData,
-    ListingPropertiesApiSnackbarAlert,
     locationsApiData,
-    LocationsApiSnackbarAlert,
     manageListingDialogIsOpen,
-    router,
     searchInputRef,
     searchText,
     selectedListing,
-    setIsListingsListViewTrue,
     setIsSearchingTrue,
     setManageListingDialogIsOpenFalse,
     setManageListingDialogIsOpenTrue,
     setSearchText,
+    toggleIsListingsListView,
   };
 }

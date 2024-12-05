@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 import { Box } from "@/components/atoms/Box";
 import { Toolbar } from "@/components/atoms/Toolbar";
 // import { FooterProgressBar } from "@/hooks/useFooterProgressBarProps/useFooterProgressBarProps";
@@ -5,11 +7,11 @@ import { Toolbar } from "@/components/atoms/Toolbar";
 export default function ListingLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <>
-      <Box className="flex min-h-[calc(100vh-178px)] flex-col items-center justify-center">
+      <Box className="flex min-h-[calc(100vh-11.625rem)] flex-col items-center justify-center">
         <Box className="my-5 flex size-full grow flex-col items-center justify-center md:my-10">
           {children}
         </Box>
@@ -17,7 +19,7 @@ export default function ListingLayout({
           <FooterProgressBar />
         </Box> */}
       </Box>
-      <Toolbar className="min-h-[5.375rem]" />
+      <Toolbar className="min-h-[5.25rem]" />
     </>
   );
 }

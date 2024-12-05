@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUILoadingButton, {
   LoadingButtonProps as MUILoadingButtonProps,
@@ -6,9 +6,8 @@ import MUILoadingButton, {
 
 export interface LoadingButtonProps extends MUILoadingButtonProps {}
 
-export const LoadingButton = React.forwardRef<
-  HTMLButtonElement,
-  LoadingButtonProps
->((props, ref) => <MUILoadingButton ref={ref} {...props} />);
+export const LoadingButton = forwardRef<HTMLButtonElement, LoadingButtonProps>(
+  (props, ref) => <MUILoadingButton ref={ref} {...props} />,
+);
 
 LoadingButton.displayName = "LoadingButton";

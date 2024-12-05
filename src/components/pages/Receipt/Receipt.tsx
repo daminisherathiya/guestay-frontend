@@ -22,8 +22,6 @@ export function Receipt() {
     isLoading,
     property,
     propertyApiIsSuccess,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     setFullReceiptPreviewDialogIsOpenFalse,
     setFullReceiptPreviewDialogIsOpenTrue,
   } = useReceipt();
@@ -206,8 +204,6 @@ export function Receipt() {
         </Box>
       </Container>
       {Footer}
-      {PropertyApiSnackbarAlert}
-      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

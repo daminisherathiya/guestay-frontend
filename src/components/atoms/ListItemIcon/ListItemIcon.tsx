@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUIListItemIcon, {
   ListItemIconProps as MUIListItemIconProps,
@@ -6,7 +6,7 @@ import MUIListItemIcon, {
 
 export interface ListItemIconProps extends MUIListItemIconProps {}
 
-export const ListItemIcon = React.forwardRef<HTMLDivElement, ListItemIconProps>(
+export const ListItemIcon = forwardRef<HTMLDivElement, ListItemIconProps>(
   (props, ref) => <MUIListItemIcon ref={ref} {...props} />,
 );
 

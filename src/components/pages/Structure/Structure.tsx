@@ -16,10 +16,7 @@ export function Structure() {
     Footer,
     handleOptionSelection,
     isLoading,
-    PropertyApiSnackbarAlert,
     propertyTypeApiData,
-    PropertyTypeApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     selectedOption,
   } = useStructure();
 
@@ -65,7 +62,13 @@ export function Structure() {
                         width={32}
                       />
                     ) : (
-                      <Box className="size-8 rounded-sm bg-action-disabledBackground/30"></Box>
+                      <Image
+                        alt={propertyType.title}
+                        className="size-8 object-cover"
+                        height={32}
+                        src="/images/houseCheck.svg"
+                        width={32}
+                      />
                     )}
                     <Typography className="mt-2 text-left font-medium">
                       {propertyType.title}
@@ -78,9 +81,6 @@ export function Structure() {
         </Box>
       </Container>
       {Footer}
-      {PropertyApiSnackbarAlert}
-      {PropertyTypeApiSnackbarAlert}
-      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

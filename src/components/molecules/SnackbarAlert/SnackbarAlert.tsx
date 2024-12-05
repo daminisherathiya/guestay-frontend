@@ -1,28 +1,27 @@
+import { SyntheticEvent } from "react";
+
 import { Alert, type AlertProps } from "@/components/atoms/Alert";
 import { Snackbar, type SnackbarProps } from "@/components/atoms/Snackbar";
 
 export interface SnackbarAlert {
   alertMessage: string;
   alertSeverity: AlertProps["severity"];
-  setSnackbarIsOpen: (open: boolean) => void;
+  setSnackbarIsOpenFalse: () => void;
   snackbarIsOpen: SnackbarProps["open"];
 }
 
 export function SnackbarAlert({
   alertMessage,
   alertSeverity,
-  setSnackbarIsOpen,
+  setSnackbarIsOpenFalse,
   snackbarIsOpen,
 }: SnackbarAlert): JSX.Element {
-  const handleSnackbarClose = (
-    _?: React.SyntheticEvent | Event,
-    reason?: string,
-  ) => {
+  const handleSnackbarClose = (_?: SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
 
-    setSnackbarIsOpen(false);
+    setSnackbarIsOpenFalse();
   };
 
   return (

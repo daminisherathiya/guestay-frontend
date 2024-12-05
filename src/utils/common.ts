@@ -1,4 +1,14 @@
-import { getListingStatusToDisplayType } from "./common.types";
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+
+import {
+  getDefaultPropertyTitleType,
+  getListingStatusToDisplayType,
+} from "./common.types";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export const getUserInitial = (name: string) => name.charAt(0).toUpperCase();
 
@@ -22,4 +32,10 @@ export const getListingStatusToDisplay = ({
     return "Pending approval";
   }
   return "In progress";
+};
+
+export const getDefaultPropertyTitle = ({
+  createdAt,
+}: getDefaultPropertyTitleType) => {
+  return `Your listing started at ${dayjs.tz(createdAt, "America/New_York").local().format("D MMMM YYYY")}`;
 };

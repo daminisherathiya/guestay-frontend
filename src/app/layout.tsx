@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 import type { Metadata } from "next";
 
 import localFont from "next/font/local";
@@ -5,11 +7,15 @@ import localFont from "next/font/local";
 import { CssBaseline } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { Toolbar } from "@/components/atoms/Toolbar";
 import { AuthenticationLoader } from "@/components/molecules/AuthenticationLoader";
+import { GlobalSnackbarAlert } from "@/components/molecules/GlobalSnackbarAlert";
 import { Header } from "@/components/organisms/Header/Header";
 import { AuthenticationProvider } from "@/providers/AuthenticationProvider/AuthenticationProvider";
+import { GlobalSnackbarAlertProvider } from "@/providers/GlobalSnackbarAlertProvider/GlobalSnackbarAlertProvider";
 import { QueryProvider as CustomQueryProvider } from "@/providers/QueryProvider";
 import { ThemeProvider as CustomThemeProvider } from "@/providers/ThemeProvider";
 
@@ -57,7 +63,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html id="html" lang="en">
@@ -68,17 +74,22 @@ export default function RootLayout({
           <CustomThemeProvider>
             <CustomQueryProvider>
               <AuthenticationProvider>
-                <CssBaseline />
-                <Header />
-                <Toolbar className="min-h-20 xs:min-h-24 sm:min-h-[6.375rem]" />
-                <AuthenticationLoader>{children}</AuthenticationLoader>
-                {process.env.NODE_ENV !== "production" && (
-                  <ReactQueryDevtools initialIsOpen={false} />
-                )}
+                <GlobalSnackbarAlertProvider>
+                  <CssBaseline />
+                  <Header />
+                  <Toolbar className="min-h-20 xs:min-h-24 sm:min-h-[6.375rem]" />
+                  <AuthenticationLoader>{children}</AuthenticationLoader>
+                  {process.env.NODE_ENV !== "production" && (
+                    <ReactQueryDevtools initialIsOpen={false} />
+                  )}
+                  <GlobalSnackbarAlert />
+                </GlobalSnackbarAlertProvider>
               </AuthenticationProvider>
             </CustomQueryProvider>
           </CustomThemeProvider>
         </AppRouterCacheProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

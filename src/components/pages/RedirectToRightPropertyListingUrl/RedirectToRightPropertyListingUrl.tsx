@@ -9,8 +9,7 @@ import { Typography } from "@/components/atoms/Typography";
 import { useRedirectToRightPropertyListingUrl } from "./RedirectToRightPropertyListingUrl.hooks";
 
 export function RedirectToRightPropertyListingUrl() {
-  const { PropertyApiSnackbarAlert, showError } =
-    useRedirectToRightPropertyListingUrl();
+  const { showError } = useRedirectToRightPropertyListingUrl();
 
   return (
     <>
@@ -23,11 +22,10 @@ export function RedirectToRightPropertyListingUrl() {
           <Button variant="contained">Go to Home</Button>
         </Box>
       ) : (
-        <Stack className="h-[calc(100vh-178px)] items-center justify-center">
+        <Stack className="h-[calc(100vh-11.375rem)] items-center justify-center">
           <CircularProgress disableShrink className="mx-auto" />
         </Stack>
       )}
-      {PropertyApiSnackbarAlert}
     </>
   );
 }

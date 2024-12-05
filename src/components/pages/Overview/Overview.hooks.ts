@@ -17,7 +17,6 @@ export function useOverview() {
     data: savePropertyApiData,
     isPending: savePropertyApiIsPending,
     isSuccess: savePropertyApiIsSuccess,
-    SnackbarAlert: SavePropertyApiSnackbarAlert,
   } = useMutation<SavePropertyAPIResponseType, Error, SavePropertyApiType>({
     mutationFn: savePropertyApi,
     mutationKey: ["save-property"],
@@ -49,5 +48,5 @@ export function useOverview() {
     }
   }, [nextUrl, router, savePropertyApiIsSuccess, savePropertyApiData]);
 
-  return { Footer, SavePropertyApiSnackbarAlert };
+  return { Footer };
 }

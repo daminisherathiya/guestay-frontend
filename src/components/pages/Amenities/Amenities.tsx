@@ -14,12 +14,9 @@ import { useAmenities } from "./Amenities.hooks";
 export function Amenities() {
   const {
     amenitiesApiData,
-    AmenitiesApiSnackbarAlert,
     Footer,
     handleButtonClick,
     isLoading,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     selectedOptions,
   } = useAmenities();
 
@@ -75,7 +72,13 @@ export function Amenities() {
                         width={32}
                       />
                     ) : (
-                      <Box className="size-8 rounded-sm bg-action-disabledBackground/30"></Box>
+                      <Image
+                        alt={amenity.title}
+                        className="size-8 object-cover"
+                        height={32}
+                        src="/images/houseCheck.svg"
+                        width={32}
+                      />
                     )}
                     <Typography className="mt-2 text-left font-medium">
                       {amenity.title}
@@ -88,9 +91,6 @@ export function Amenities() {
         </Box>
       </Container>
       {Footer}
-      {AmenitiesApiSnackbarAlert}
-      {PropertyApiSnackbarAlert}
-      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

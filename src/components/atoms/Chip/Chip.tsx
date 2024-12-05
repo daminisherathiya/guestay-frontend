@@ -1,10 +1,10 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUIChip, { ChipProps as MUIChipProps } from "@mui/material/Chip";
 
 export interface ChipProps extends MUIChipProps {}
 
-export const Chip = React.forwardRef<HTMLHRElement, ChipProps>((props, ref) => (
+export const Chip = forwardRef<HTMLHRElement, ChipProps>((props, ref) => (
   <MUIChip ref={ref} {...props} />
 ));
 

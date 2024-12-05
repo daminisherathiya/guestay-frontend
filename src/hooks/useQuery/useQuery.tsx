@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import {
   UseQueryOptions,
@@ -6,15 +6,15 @@ import {
   useQuery as useQueryFromReactQuery,
 } from "@tanstack/react-query";
 
-import { SnackbarAlert as SnackbarAlertComponent } from "@/components/molecules/SnackbarAlert";
 import { ReactQueryCustomOptionsType } from "@/types/ReactQuery.types";
 
 import { useAuthentication } from "../useAuthentication";
+import { useGlobalSnackbarAlert } from "../useGlobalSnackbarAlert";
 
 export function useQuery<TQueryFnData, TError extends Error, TData>(
   useQueryOptions: UseQueryOptions<TQueryFnData, TError, TData>,
   customOptions?: ReactQueryCustomOptionsType,
-): UseQueryResult<TData, TError> & { SnackbarAlert: JSX.Element } & {
+): UseQueryResult<TData, TError> & {
   isFirstLoading: boolean;
 } {
   const { handleLogOut } = useAuthentication();
@@ -33,28 +33,31 @@ export function useQuery<TQueryFnData, TError extends Error, TData>(
     ...useQueryOptions,
   };
 
-  const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
-  const [alertMessage, setAlertMessage] = useState<string>("");
-  const [alertSeverity, setAlertSeverity] = useState<"success" | "error">(
-    "success",
-  );
+  const {
+    setGlobalSnackbarAlertIsOpenTrue,
+    setGlobalSnackbarAlertMessage,
+    setGlobalSnackbarAlertResetCounter,
+    setGlobalSnackbarAlertSeverity,
+  } = useGlobalSnackbarAlert();
 
   const queryResult = useQueryFromReactQuery(mergedQueryOptions);
 
   useEffect(() => {
     if (queryResult.isSuccess && showSnackbarIsOpenOnSuccess) {
-      setSnackbarIsOpen(true);
+      setGlobalSnackbarAlertIsOpenTrue();
       // setAlertMessage(JSON.stringify(queryResult.data));
-      setAlertMessage(successMessage);
-      setAlertSeverity("success");
+      setGlobalSnackbarAlertMessage(successMessage);
+      setGlobalSnackbarAlertSeverity("success");
+      setGlobalSnackbarAlertResetCounter((count) => count + 1);
     } else if (queryResult.isError && showSnackbarIsOpenOnFailure) {
-      setSnackbarIsOpen(true);
-      setAlertMessage(
+      setGlobalSnackbarAlertIsOpenTrue();
+      setGlobalSnackbarAlertMessage(
         queryResult.error instanceof Error
           ? queryResult.error.message
           : "An unknown error occurred",
       );
-      setAlertSeverity("error");
+      setGlobalSnackbarAlertSeverity("error");
+      setGlobalSnackbarAlertResetCounter((count) => count + 1);
     }
 
     if (
@@ -69,19 +72,14 @@ export function useQuery<TQueryFnData, TError extends Error, TData>(
     queryResult.error,
     queryResult.isError,
     queryResult.isSuccess,
+    setGlobalSnackbarAlertIsOpenTrue,
+    setGlobalSnackbarAlertMessage,
+    setGlobalSnackbarAlertResetCounter,
+    setGlobalSnackbarAlertSeverity,
     showSnackbarIsOpenOnFailure,
     showSnackbarIsOpenOnSuccess,
     successMessage,
   ]);
-
-  const SnackbarAlert = (
-    <SnackbarAlertComponent
-      alertMessage={alertMessage}
-      alertSeverity={alertSeverity}
-      setSnackbarIsOpen={setSnackbarIsOpen}
-      snackbarIsOpen={snackbarIsOpen}
-    />
-  );
 
   // isLoading is always false when initialData is passed. This is an alternative of that.
   const isFirstLoading = !queryResult.isFetched && queryResult.isFetching;
@@ -89,6 +87,5 @@ export function useQuery<TQueryFnData, TError extends Error, TData>(
   return {
     ...queryResult,
     isFirstLoading,
-    SnackbarAlert,
   };
 }

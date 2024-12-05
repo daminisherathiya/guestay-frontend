@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUISkeleton, {
   SkeletonProps as MUISkeletonProps,
@@ -6,7 +6,7 @@ import MUISkeleton, {
 
 export interface SkeletonProps extends MUISkeletonProps {}
 
-export const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
+export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
   (props, ref) => <MUISkeleton ref={ref} {...props} />,
 );
 

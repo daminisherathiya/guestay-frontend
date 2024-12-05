@@ -1,19 +1,17 @@
+import { MouseEvent } from "react";
+
 import { useToggle } from "@/hooks/useToggle/useToggle";
 
 export function useTextFieldWrapper() {
-  const { value: showPassword, toggle: setShowPasswordTrue } = useToggle({
+  const { toggle: setShowPasswordTrue, value: showPassword } = useToggle({
     initialValue: false,
   });
 
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
+  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
 
-  const handleMouseUpPassword = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
+  const handleMouseUpPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
 

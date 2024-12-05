@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUICheckbox, {
   CheckboxProps as MUICheckboxProps,
@@ -6,7 +6,7 @@ import MUICheckbox, {
 
 export interface CheckboxProps extends MUICheckboxProps {}
 
-export const Checkbox = React.forwardRef<HTMLButtonElement, CheckboxProps>(
+export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
   (props, ref) => <MUICheckbox ref={ref} {...props} />,
 );
 

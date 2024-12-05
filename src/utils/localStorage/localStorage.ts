@@ -2,10 +2,12 @@ import { UserDataType } from "@/types/User.types";
 
 import {
   AUTHENTICATION_TOKEN_STRING,
+  SELECTED_LISTINGS_VIEW,
   USER_DETAILS_STRING,
 } from "./localStorage.consts";
 import {
   setAuthenticationTokenType,
+  setSelectedListingsViewType,
   setUserDetailsType,
 } from "./localStorage.types";
 
@@ -39,4 +41,14 @@ export const getUserDetails = (): UserDataType => {
 
 export const removeUserDetails = () => {
   localStorage.removeItem(USER_DETAILS_STRING);
+};
+
+export const setSelectedListingsView = ({
+  selectedListingsView,
+}: setSelectedListingsViewType) => {
+  return localStorage.setItem(SELECTED_LISTINGS_VIEW, selectedListingsView);
+};
+
+export const getSelectedListingsView = () => {
+  return localStorage.getItem(SELECTED_LISTINGS_VIEW);
 };

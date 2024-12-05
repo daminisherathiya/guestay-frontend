@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUIFormControl, {
   FormControlProps as MUIFormControlProps,
@@ -6,7 +6,7 @@ import MUIFormControl, {
 
 export interface FormControlProps extends MUIFormControlProps {}
 
-export const FormControl = React.forwardRef<HTMLHRElement, FormControlProps>(
+export const FormControl = forwardRef<HTMLHRElement, FormControlProps>(
   (props, ref) => <MUIFormControl ref={ref} {...props} />,
 );
 

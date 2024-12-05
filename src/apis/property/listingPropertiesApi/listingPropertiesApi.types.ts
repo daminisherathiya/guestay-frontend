@@ -1,4 +1,5 @@
 export interface listingPropertiesApiDataType {
+  status: string;
   userId: string;
 }
 
@@ -7,6 +8,7 @@ export interface listingPropertiesApiType {
 }
 
 export interface ListingPropertiesType {
+  created_at: string;
   id: string;
   images: string;
   listing_steps: string | null;

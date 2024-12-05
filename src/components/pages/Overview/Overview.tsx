@@ -11,10 +11,10 @@ import { Typography } from "@/components/atoms/Typography";
 import { useOverview } from "./Overview.hooks";
 
 export function Overview() {
-  const { Footer, SavePropertyApiSnackbarAlert } = useOverview();
+  const { Footer } = useOverview();
 
   return (
-    <Box className="flex min-h-[calc(100vh-178px)] flex-col items-center justify-center">
+    <Box className="flex min-h-[calc(100vh-11.625rem)] flex-col items-center justify-center">
       <Box className="my-5 flex size-full grow flex-col items-center justify-center md:my-10">
         <Container maxWidth="2xl">
           <Stack className="gap-12 lg:flex-row">
@@ -112,9 +112,8 @@ export function Overview() {
             </Box>
           </Stack>
         </Container>
-        <Toolbar className="min-h-[5.375rem]" />
+        <Toolbar className="min-h-[5.25rem]" />
         {Footer}
-        {SavePropertyApiSnackbarAlert}
       </Box>
     </Box>
   );

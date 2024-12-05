@@ -18,7 +18,6 @@ export function usePropertyToEdit() {
     data: propertyApiData,
     isFirstLoading: propertyApiIsFirstLoading,
     isSuccess: propertyApiIsSuccess,
-    SnackbarAlert: PropertyApiSnackbarAlert,
   } = useQuery<propertyApiResponseType, Error, propertyApiResponseType>({
     queryFn: () => {
       return propertyApi({
@@ -35,7 +34,6 @@ export function usePropertyToEdit() {
     mutate: savePropertyApiMutate,
     isPending: savePropertyApiIsPending,
     isSuccess: savePropertyApiIsSuccess,
-    SnackbarAlert: SavePropertyApiSnackbarAlert,
   } = useMutation<SavePropertyAPIResponseType, Error, SavePropertyApiType>({
     mutationFn: savePropertyApi,
     mutationKey: ["save-property"],
@@ -45,10 +43,8 @@ export function usePropertyToEdit() {
     propertyApiData,
     propertyApiIsFirstLoading,
     propertyApiIsSuccess,
-    PropertyApiSnackbarAlert,
     savePropertyApiIsPending,
     savePropertyApiIsSuccess,
     savePropertyApiMutate,
-    SavePropertyApiSnackbarAlert,
   };
 }

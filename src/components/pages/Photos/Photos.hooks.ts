@@ -7,6 +7,7 @@ import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
+import { MIN_PHOTOS_REQUIRED } from "./Photos.consts";
 import { urlToFile } from "./Photos.utils";
 
 export function usePhotos() {
@@ -22,11 +23,9 @@ export function usePhotos() {
     propertyApiData,
     propertyApiIsFirstLoading,
     propertyApiIsSuccess,
-    PropertyApiSnackbarAlert,
     savePropertyApiIsPending,
     savePropertyApiIsSuccess,
     savePropertyApiMutate,
-    SavePropertyApiSnackbarAlert,
   } = usePropertyToEdit();
 
   const [selectedImages, setSelectedImages] = useState<
@@ -152,7 +151,7 @@ export function usePhotos() {
   const isLoading = propertyApiIsFirstLoading || imagesAreLoading;
 
   const { Footer, nextUrl } = useFooterProgressBar({
-    isDisabled: isLoading || uploadedImages.length < 5,
+    isDisabled: isLoading || uploadedImages.length < MIN_PHOTOS_REQUIRED,
     isLoading: savePropertyApiIsPending,
     onSubmit: onSubmit,
   });
@@ -172,8 +171,6 @@ export function usePhotos() {
     handleUploadImages,
     imageUrls,
     isLoading,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     selectedImages,
     setSelectedImages,
     setUploadPhotosDialogIsOpenFalse,

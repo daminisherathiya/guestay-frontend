@@ -13,18 +13,12 @@ export function ForgotPasswordDialog({
   handleOpenLoginDialog,
   isForgotPasswordDialogOpen,
 }: ForgotPasswordDialogProps) {
-  const {
-    control,
-    handleSubmit,
-    isValid,
-    onSubmit,
-    paswordResetApiIsPending,
-    PaswordResetApiSnackbarAlert,
-  } = useForgotPasswordDialog({
-    handleCloseForgotPasswordDialog,
-    handleOpenLoginDialog,
-    isForgotPasswordDialogOpen,
-  });
+  const { control, handleSubmit, isValid, onSubmit, paswordResetApiIsPending } =
+    useForgotPasswordDialog({
+      handleCloseForgotPasswordDialog,
+      handleOpenLoginDialog,
+      isForgotPasswordDialogOpen,
+    });
 
   return (
     <>
@@ -68,7 +62,6 @@ export function ForgotPasswordDialog({
             Send
           </LoadingButton>
         </form>
-        {PaswordResetApiSnackbarAlert}
       </DialogWrapper>
     </>
   );

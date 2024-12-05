@@ -1,6 +1,8 @@
+import { ReactNode } from "react";
+
 export interface SocialButtonProps {
   className?: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   label: string;
   // onClick: () => void;
 }

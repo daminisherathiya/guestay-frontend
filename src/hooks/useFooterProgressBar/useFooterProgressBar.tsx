@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect } from "react";
+
 import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
@@ -19,6 +21,8 @@ export function useFooterProgressBar({
   isDisabled,
   isLoading,
 }: useFooterProgressBarProps) {
+  const router = useRouter();
+
   const { propertyId }: { propertyId: string } = useParams();
 
   const pathname = usePathname();
@@ -30,6 +34,10 @@ export function useFooterProgressBar({
   //   nextUrl: "/",
   //   progressPercentage: { setp1: 0, setp2: 0, setp3: 0 },
   // };
+
+  useEffect(() => {
+    router.prefetch(footerDetails.nextUrl);
+  }, [footerDetails.nextUrl, router]);
 
   const Footer = (
     <Box className="fixed bottom-0 z-10 w-full bg-common-white">

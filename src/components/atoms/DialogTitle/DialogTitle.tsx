@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUIDialogTitle, {
   DialogTitleProps as MUIDialogTitleProps,
@@ -6,7 +6,7 @@ import MUIDialogTitle, {
 
 export interface DialogTitleProps extends MUIDialogTitleProps {}
 
-export const DialogTitle = React.forwardRef<HTMLDivElement, DialogTitleProps>(
+export const DialogTitle = forwardRef<HTMLDivElement, DialogTitleProps>(
   (props, ref) => <MUIDialogTitle ref={ref} {...props} />,
 );
 

@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUIMenuItem, {
   MenuItemProps as MUIMenuItemProps,
@@ -6,7 +6,7 @@ import MUIMenuItem, {
 
 export interface MenuItemProps extends MUIMenuItemProps {}
 
-export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
+export const MenuItem = forwardRef<HTMLLIElement, MenuItemProps>(
   (props, ref) => <MUIMenuItem ref={ref} {...props} />,
 );
 

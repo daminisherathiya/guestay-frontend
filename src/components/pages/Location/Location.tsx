@@ -34,13 +34,10 @@ export function Location() {
     locationHasChanged,
     locations,
     // locationsApiIsFirstLoading,
-    LocationsApiSnackbarAlert,
     longitude,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     // selectedPlaceDetails,
     setLatitude,
-    setLocationHasChanged,
+    setLocationHasChangedTrue,
     setLongitude,
     setSelectedPlaceDetails,
   } = useLocation();
@@ -140,7 +137,7 @@ export function Location() {
                       }
                       onChange={(_, newValue) => {
                         field.onChange(newValue ? newValue.id : null);
-                        setLocationHasChanged(true);
+                        setLocationHasChangedTrue();
                       }}
                     />
                   )}
@@ -215,9 +212,6 @@ export function Location() {
         /> */}
       </Container>
       {Footer}
-      {LocationsApiSnackbarAlert}
-      {PropertyApiSnackbarAlert}
-      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

@@ -7,17 +7,16 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
-import { Chip } from "@/components/atoms/Chip";
 import { Container } from "@/components/atoms/Container";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
-import { getListingStatusToDisplay } from "@/utils/common";
+import { getDefaultPropertyTitle } from "@/utils/common";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { NUMBER_OF_PROPERTIES_TO_SHOW } from "./ListingHome.consts";
 import { useListingHome } from "./ListingHome.hooks";
-import { getNextListingStepUrl } from "./ListingHome.utils";
+import { getListingPropertiesListType } from "./ListingHome.types";
 
 export function ListingHome() {
   const {
@@ -42,75 +41,63 @@ export function ListingHome() {
     ));
   };
 
-  const getUnfinishedPropertiesList = () => {
-    return listingUnfinishedProperties.map((listingProperty, index) => (
-      <Button
-        key={listingProperty.id}
-        disableRipple
-        className={`w-full justify-start gap-4 rounded-xl p-6 text-start ${showMoreUnfihished && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
-        variant="outlined"
-        onClick={() => {
-          const nextListingStepUrl = getNextListingStepUrl({
-            propertyIdToEdit: listingProperty.id,
-            providedListingSteps: listingProperty.listing_steps || "",
-          });
-          // window.open(nextListingStepUrl);
-          router.push(nextListingStepUrl);
-        }}
-      >
-        <Image
-          alt="home"
-          className="rounded"
-          height={44}
-          src="/images/home.jpg"
-          width={44}
-        />
-        <Typography>{listingProperty.title}</Typography>
-      </Button>
-    ));
+  const getListingPropertiesList = ({
+    listingProperties,
+    showMore,
+  }: getListingPropertiesListType) => {
+    return listingProperties.map((listingProperty, index) => {
+      const coverImage = listingProperty?.images.split(",")[0] || "";
+
+      return (
+        <Button
+          key={listingProperty.id}
+          disableRipple
+          className={`w-full justify-start gap-4 rounded-xl p-6 text-start ${showMore && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
+          variant="outlined"
+          onClick={() => router.push(listingProperty.nextListingStepUrl)}
+        >
+          {coverImage ? (
+            <Image
+              alt="home"
+              className="size-11 rounded object-cover"
+              height={44}
+              src={`https://guestay.webarysites.com/file/100/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${coverImage}`}
+              width={44}
+            />
+          ) : (
+            <Image
+              alt="home"
+              className="rounded"
+              height={44}
+              src="/images/home.jpg"
+              width={44}
+            />
+          )}
+          <Typography>
+            {listingProperty.title ||
+              getDefaultPropertyTitle({
+                createdAt: listingProperty.created_at,
+              })}
+          </Typography>
+        </Button>
+      );
+    });
   };
 
-  const getFinishedPropertiesList = () => {
-    return listingFinishedProperties.map((listingProperty, index) => (
-      <Button
-        key={listingProperty.id}
-        disableRipple
-        className={`w-full justify-between gap-4 rounded-xl p-6 text-start ${showMoreFihished && index >= NUMBER_OF_PROPERTIES_TO_SHOW ? "hidden" : ""}`}
-        variant="outlined"
-        onClick={() => {
-          const nextListingStepUrl = getNextListingStepUrl({
-            propertyIdToEdit: listingProperty.id,
-            providedListingSteps: listingProperty.listing_steps || "",
-          });
-          // window.open(nextListingStepUrl);
-          router.push(nextListingStepUrl);
-        }}
-      >
-        <Stack className="flex-row items-center gap-4">
-          <Image
-            alt="home"
-            className="rounded"
-            height={44}
-            src="/images/home.jpg"
-            width={44}
-          />
-          <Typography>{listingProperty.title}</Typography>
-        </Stack>
-        <Chip
-          classes={{ label: "first-letter:uppercase" }}
-          label={getListingStatusToDisplay({
-            listingSteps: listingProperty.listing_steps || "",
-            status: listingProperty.status,
-          })}
-        />
-      </Button>
-    ));
-  };
+  const unfinishedListingPropertiesJSX = getListingPropertiesList({
+    listingProperties: listingUnfinishedProperties,
+    showMore: showMoreUnfihished,
+  });
+
+  const finishedListingPropertiesJSX = getListingPropertiesList({
+    listingProperties: listingFinishedProperties,
+    showMore: showMoreFihished,
+  });
 
   return (
     <>
       <Container maxWidth="2xl">
-        <Box className="flex min-h-[calc(100vh-178px)] flex-col items-center justify-center">
+        <Box className="flex min-h-[calc(100vh-6.375rem)] flex-col items-center justify-center">
           <Box className="mx-auto my-5 w-full max-w-2xl">
             <Typography className="mb-8" component="h1" variant="h1">
               Welcome back, {getUserDetails().fname}
@@ -125,7 +112,7 @@ export function ListingHome() {
                 <Box className="mb-16 space-y-3">
                   {listingPropertiesApiIsFirstLoading
                     ? getSkeleton()
-                    : getUnfinishedPropertiesList()}
+                    : unfinishedListingPropertiesJSX}
                   {listingUnfinishedProperties.length >
                     NUMBER_OF_PROPERTIES_TO_SHOW && (
                     <Button
@@ -148,7 +135,7 @@ export function ListingHome() {
                 <Stack className="cursor-pointer flex-row items-center justify-between gap-4 border-divider py-6 md:border-b">
                   <Stack className="flex-row items-center gap-4">
                     <Image
-                      alt="Add"
+                      alt="Add listing"
                       className="rounded"
                       height={32}
                       src="/images/addFile.svg"
@@ -164,12 +151,12 @@ export function ListingHome() {
             {listingFinishedProperties.length > 0 && (
               <>
                 <Typography className="mb-4" component="h2" variant="h2">
-                  Finished listing
+                  Pending approval
                 </Typography>
                 <Box className="mb-16 space-y-3">
                   {listingPropertiesApiIsFirstLoading
                     ? getSkeleton()
-                    : getFinishedPropertiesList()}
+                    : finishedListingPropertiesJSX}
                   {listingFinishedProperties.length >
                     NUMBER_OF_PROPERTIES_TO_SHOW && (
                     <Button

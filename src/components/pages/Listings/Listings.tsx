@@ -15,6 +15,8 @@ import { Typography } from "@/components/atoms/Typography";
 
 import PlusIcon from "/public/images/plus.svg";
 
+import Link from "next/link";
+
 import { ListingsGridView } from "./components/ListingsGridView";
 import { ListingsListView } from "./components/ListingsListView";
 import { ManageListingDialog } from "./components/ManageListingDialog";
@@ -22,36 +24,34 @@ import { useListings } from "./Listings.hooks";
 
 export function Listings() {
   const {
+    filteredListingsData,
     handleCloseClick,
     handleOpenManageListingDialog,
     isListingsListView,
     isLoading,
     isSearching,
-    listingPropertiesApiData,
-    ListingPropertiesApiSnackbarAlert,
     locationsApiData,
-    LocationsApiSnackbarAlert,
     manageListingDialogIsOpen,
-    router,
     searchInputRef,
     searchText,
     selectedListing,
-    setIsListingsListViewTrue,
     setIsSearchingTrue,
     setManageListingDialogIsOpenFalse,
-    setManageListingDialogIsOpenTrue,
     setSearchText,
+    toggleIsListingsListView,
   } = useListings();
 
   return (
     <>
-      <Container maxWidth="2xl">
-        <Stack className="mb-6 mt-10 flex-row flex-wrap items-center justify-between gap-24 md:mb-11">
+      <Container className="mb-10 sm:mb-16" maxWidth="2xl">
+        <Stack className="relative mb-6 flex-wrap gap-6 sm:mt-5 sm:flex-row sm:items-center sm:justify-between sm:gap-12 md:mb-11 md:mt-10 md:gap-24">
           <Typography component="h1" variant="h1">
             Your listings
           </Typography>
           <Stack className="grow flex-row items-center gap-4">
-            <Box className="grow text-end">
+            <Box
+              className={`grow sm:text-end ${isSearching ? "absolute left-0 z-[1] w-full md:static md:w-auto" : ""}`}
+            >
               {!isSearching ? (
                 <IconButton
                   className="size-11 bg-action-hover hover:bg-divider"
@@ -61,6 +61,7 @@ export function Listings() {
                 </IconButton>
               ) : (
                 <TextField
+                  autoComplete="off"
                   className="w-full"
                   id="filled-search"
                   inputRef={searchInputRef}
@@ -97,7 +98,7 @@ export function Listings() {
             <Box>
               <IconButton
                 className="size-11 bg-action-hover hover:bg-divider"
-                onClick={setIsListingsListViewTrue}
+                onClick={toggleIsListingsListView}
               >
                 {isListingsListView ? (
                   <GridViewIcon className="size-5 text-text-primary" />
@@ -106,28 +107,25 @@ export function Listings() {
                 )}
               </IconButton>
             </Box>
-            <Box>
-              <IconButton
-                className="size-11 bg-action-hover hover:bg-divider"
-                onClick={() => router.push("/become-a-host")}
-              >
+            <Link href="/become-a-host">
+              <IconButton className="size-11 bg-action-hover hover:bg-divider">
                 <PlusIcon className="size-5 text-text-primary" />
               </IconButton>
-            </Box>
+            </Link>
           </Stack>
         </Stack>
         {isListingsListView ? (
           <ListingsListView
-            handleOpenManageListingDialog={setManageListingDialogIsOpenTrue}
+            handleOpenManageListingDialog={handleOpenManageListingDialog}
             isLoading={isLoading}
-            listingPropertiesApiData={listingPropertiesApiData}
+            listingPropertiesApiData={{ data: filteredListingsData }}
             locationsApiData={locationsApiData}
           />
         ) : (
           <ListingsGridView
             handleOpenManageListingDialog={handleOpenManageListingDialog}
             isLoading={isLoading}
-            listingPropertiesApiData={listingPropertiesApiData}
+            listingPropertiesApiData={{ data: filteredListingsData }}
             locationsApiData={locationsApiData}
           />
         )}
@@ -137,8 +135,6 @@ export function Listings() {
           selectedListing={selectedListing}
         />
       </Container>
-      {ListingPropertiesApiSnackbarAlert}
-      {LocationsApiSnackbarAlert}
     </>
   );
 }

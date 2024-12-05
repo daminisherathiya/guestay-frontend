@@ -20,7 +20,6 @@ export function useFullReceiptPreviewDialog({
     data: amenitiesApiData,
     isSuccess: amenitiesApiIsSuccess,
     isFirstLoading: amenitiesApiIsFirstLoading,
-    SnackbarAlert: AmenitiesApiSnackbarAlert,
   } = useQuery<amenitiesAPIResponseType, Error, amenitiesAPIResponseType>({
     queryFn: () => {
       return amenitiesApi({ data: { userId: getUserDetails().id } });
@@ -45,27 +44,22 @@ export function useFullReceiptPreviewDialog({
 
   ////////
 
-  const {
-    data: locationsApiData,
-    isFirstLoading: locationsApiIsFirstLoading,
-    SnackbarAlert: LocationsApiSnackbarAlert,
-  } = useQuery<locationsAPIResponseType, Error, locationsAPIResponseType>({
-    initialData: { data: [] },
-    queryFn: () => {
-      return locationsApi({ data: { userId: getUserDetails().id } });
-    },
-    queryKey: ["locations"],
-  });
+  const { data: locationsApiData, isFirstLoading: locationsApiIsFirstLoading } =
+    useQuery<locationsAPIResponseType, Error, locationsAPIResponseType>({
+      initialData: { data: [] },
+      queryFn: () => {
+        return locationsApi({ data: { userId: getUserDetails().id } });
+      },
+      queryKey: ["locations"],
+    });
 
   ////////
 
   const isLoading = amenitiesApiIsFirstLoading || locationsApiIsFirstLoading;
 
   return {
-    AmenitiesApiSnackbarAlert,
     isLoading,
     locationsApiData,
-    LocationsApiSnackbarAlert,
     selectedAmenities,
   };
 }

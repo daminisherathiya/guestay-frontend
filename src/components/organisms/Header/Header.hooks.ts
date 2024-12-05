@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
-import React, { useCallback } from "react";
+import { MouseEvent, useCallback, useEffect, useState } from "react";
 
 import { usePathname, useRouter } from "next/navigation";
 
@@ -65,10 +64,10 @@ export const useHeader = () => {
   }, [setIsScrolledFalse, setIsScrolledTrue]);
 
   const [accountMenuAnchor, setAccountMenuAnchor] =
-    React.useState<null | HTMLElement>(null);
+    useState<null | HTMLElement>(null);
 
   const isAccountMenuOpen = Boolean(accountMenuAnchor);
-  const openAccountMenu = (event: React.MouseEvent<HTMLElement>) => {
+  const openAccountMenu = (event: MouseEvent<HTMLElement>) => {
     setAccountMenuAnchor(event.currentTarget);
   };
   const closeAccountMenu = () => {

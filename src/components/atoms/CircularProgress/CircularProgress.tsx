@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUICircularProgress, {
   CircularProgressProps as MUICircularProgressProps,
@@ -6,7 +6,7 @@ import MUICircularProgress, {
 
 export interface CircularProgressProps extends MUICircularProgressProps {}
 
-export const CircularProgress = React.forwardRef<
+export const CircularProgress = forwardRef<
   HTMLDivElement,
   CircularProgressProps
 >((props, ref) => <MUICircularProgress ref={ref} {...props} />);

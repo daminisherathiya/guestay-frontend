@@ -24,7 +24,7 @@ export function Signup() {
     <Container maxWidth="2xl">
       <Grid2 container className="justify-center">
         <Grid2 size={{ lg: 8, md: 9, sm: 10, xl: 6 }}>
-          <Stack className="min-h-[calc(100vh-96px)] items-center justify-center sm:min-h-[calc(100vh-102px)]">
+          <Stack className="min-h-[calc(100vh-6rem)] items-center justify-center sm:min-h-[calc(100vh-6.375rem)]">
             <Box className="my-5 flex size-full grow flex-col items-center justify-center md:my-10">
               <Box className="rounded-lg border border-common-black/45">
                 <Typography className="text-center font-bold 2xs:p-4 sm:p-5 md:px-8 md:py-5">

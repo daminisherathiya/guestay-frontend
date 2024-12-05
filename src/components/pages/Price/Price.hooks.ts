@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";
 
@@ -28,11 +28,9 @@ export function usePrice() {
     propertyApiData,
     propertyApiIsFirstLoading,
     propertyApiIsSuccess,
-    PropertyApiSnackbarAlert,
     savePropertyApiIsPending,
     savePropertyApiIsSuccess,
     savePropertyApiMutate,
-    SavePropertyApiSnackbarAlert,
   } = usePropertyToEdit();
 
   useEffect(() => {
@@ -53,7 +51,6 @@ export function usePrice() {
     data: globalPricesApiData,
     isFirstLoading: globalPricesApiIsFirstLoading,
     isSuccess: globalPricesApiIsSuccess,
-    SnackbarAlert: globalPricesApiSnackbarAlert,
   } = useQuery<globalPricesApiResponseType, Error, globalPricesApiResponseType>(
     {
       initialData: { data: [] },
@@ -86,7 +83,7 @@ export function usePrice() {
     setInsurancePolicyPrice,
   ]);
 
-  const { value: isPriceVisible, toggle: setIsPriceVisibleTrue } = useToggle({
+  const { toggle: setIsPriceVisibleTrue, value: isPriceVisible } = useToggle({
     initialValue: true,
   });
 
@@ -109,7 +106,7 @@ export function usePrice() {
     }
   };
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
 
     value = value.replace(/[^0-9]/g, "");
@@ -164,7 +161,6 @@ export function usePrice() {
     ),
     Footer,
     globalPricesApiData,
-    globalPricesApiSnackbarAlert,
     handleEditClick,
     handleInput,
     insurancePolicyPrice: insurancePolicyPrice,
@@ -175,8 +171,6 @@ export function usePrice() {
     price,
     priceError,
     priceInputRef,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     setIsEditingFalse,
     setIsEditingTrue,
     setIsPriceVisibleTrue,

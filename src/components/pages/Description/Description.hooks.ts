@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";
 
@@ -13,11 +13,9 @@ export function useDescription() {
     propertyApiData,
     propertyApiIsFirstLoading,
     propertyApiIsSuccess,
-    PropertyApiSnackbarAlert,
     savePropertyApiIsPending,
     savePropertyApiIsSuccess,
     savePropertyApiMutate,
-    SavePropertyApiSnackbarAlert,
   } = usePropertyToEdit();
 
   const [description, setDescription] = useState<string>("");
@@ -28,9 +26,7 @@ export function useDescription() {
     }
   }, [propertyApiData, propertyApiIsSuccess]);
 
-  const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
-  ) => {
+  const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value;
     if (newValue.length <= 500) {
       setDescription(newValue);
@@ -73,7 +69,5 @@ export function useDescription() {
     Footer,
     handleDescriptionChange,
     isLoading,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
   };
 }

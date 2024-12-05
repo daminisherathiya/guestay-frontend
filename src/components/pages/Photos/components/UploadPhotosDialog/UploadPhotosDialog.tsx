@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 import Image from "next/image";
 
 import CloseIcon from "@mui/icons-material/Close";
@@ -20,9 +22,7 @@ type UploadPhotosDialogProps = {
   handleUploadImages: () => void;
   isUploadPhotosDialogOpen: boolean;
   selectedImages: { error?: string; file: File }[];
-  setSelectedImages: React.Dispatch<
-    React.SetStateAction<{ error?: string; file: File }[]>
-  >;
+  setSelectedImages: Dispatch<SetStateAction<{ error?: string; file: File }[]>>;
 };
 
 const UploadPhotosDialogHeader = ({

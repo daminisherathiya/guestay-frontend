@@ -40,7 +40,6 @@ export function useResetPasswordDialog({
     mutate: changePasswordApiMutate,
     isPending: changePasswordApiIsPending,
     isSuccess: changePasswordApiIsSuccess,
-    SnackbarAlert: ChangePasswordApiSnackbarAlert,
   } = useMutation(
     {
       mutationFn: changePasswordApi,
@@ -64,7 +63,6 @@ export function useResetPasswordDialog({
 
   return {
     changePasswordApiIsPending,
-    ChangePasswordApiSnackbarAlert,
     control,
     handleSubmit,
     isValid,

@@ -24,7 +24,6 @@ export function Login({
     handleSubmit,
     isValid,
     logInApiIsPending,
-    LogInApiSnackbarAlert,
     onSubmit,
     setForgotPasswordDialogIsOpenTrue,
     setForgotPasswordDialogIsOpenFalse,
@@ -108,7 +107,6 @@ export function Login({
         handleOpenLoginDialog={handleOpenLoginDialog}
         isForgotPasswordDialogOpen={forgotPasswordDialogIsOpen}
       />
-      {LogInApiSnackbarAlert}
     </>
   );
 }

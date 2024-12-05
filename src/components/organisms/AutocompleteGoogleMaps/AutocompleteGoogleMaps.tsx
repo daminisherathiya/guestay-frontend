@@ -1,14 +1,15 @@
-import * as React from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
+import ApartmentIcon from "@mui/icons-material/Apartment";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { debounce } from "@mui/material/utils";
 import parse from "autosuggest-highlight/parse";
 import { Controller, FieldValues } from "react-hook-form";
 
 import { Autocomplete } from "@/components/atoms/Autocomplete";
+import { Avatar } from "@/components/atoms/Avatar";
 import { Box } from "@/components/atoms/Box";
-import { Grid2 } from "@/components/atoms/Grid2";
+import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
 
@@ -52,10 +53,10 @@ export default function AutocompleteGoogleMaps<T extends FieldValues>({
   name,
   rules,
 }: AutocompleteGoogleMapsProps<T>) {
-  const [value, setValue] = React.useState<PlaceType | null>(null);
-  const [inputValue, setInputValue] = React.useState("");
-  const [options, setOptions] = React.useState<readonly PlaceType[]>([]);
-  const loaded = React.useRef(false);
+  const [value, setValue] = useState<PlaceType | null>(null);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [options, setOptions] = useState<PlaceType[]>([]);
+  const loaded = useRef<boolean>(false);
 
   if (typeof window !== "undefined" && !loaded.current) {
     if (!document.querySelector("#google-maps")) {
@@ -69,12 +70,12 @@ export default function AutocompleteGoogleMaps<T extends FieldValues>({
     loaded.current = true;
   }
 
-  const fetch = React.useMemo(
+  const fetch = useMemo(
     () =>
       debounce(
         (
           request: { input: string },
-          callback: (results?: readonly PlaceType[]) => void,
+          callback: (results?: PlaceType[]) => void,
         ) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (autocompleteService.current as any).getPlacePredictions(
@@ -87,7 +88,7 @@ export default function AutocompleteGoogleMaps<T extends FieldValues>({
     [],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     let active = true;
 
     if (!autocompleteService.current && window.google) {
@@ -103,9 +104,9 @@ export default function AutocompleteGoogleMaps<T extends FieldValues>({
       return undefined;
     }
 
-    fetch({ input: inputValue }, (results?: readonly PlaceType[]) => {
+    fetch({ input: inputValue }, (results?: PlaceType[]) => {
       if (active) {
-        let newOptions: readonly PlaceType[] = [];
+        let newOptions: PlaceType[] = [];
 
         if (value) {
           newOptions = [value];
@@ -173,34 +174,30 @@ export default function AutocompleteGoogleMaps<T extends FieldValues>({
             );
             return (
               <li key={key} {...optionProps}>
-                <Grid2 container sx={{ alignItems: "center" }}>
-                  <Grid2 sx={{ display: "flex", width: 44 }}>
-                    <LocationOnIcon sx={{ color: "text.secondary" }} />
-                  </Grid2>
-                  <Grid2
-                    sx={{ width: "calc(100% - 44px)", wordWrap: "break-word" }}
-                  >
+                <Stack className="flex-row gap-3">
+                  <Box className="flex cursor-pointer items-center hover:bg-action-hover">
+                    <Avatar className=" bg-action-hover">
+                      <ApartmentIcon className="w-6 text-common-black" />
+                    </Avatar>
+                  </Box>
+                  <Box>
                     {parts.map((part, index) => (
                       <Box
                         key={index}
+                        className={`${part.highlight ? "font-bold" : "font-normal"}`}
                         component="span"
-                        sx={{ fontWeight: part.highlight ? "bold" : "regular" }}
                       >
                         {part.text}
                       </Box>
                     ))}
-                    <Typography
-                      sx={{ color: "text.secondary" }}
-                      variant="body2"
-                    >
+                    <Typography className="text-text-secondary" variant="body2">
                       {option.structured_formatting.secondary_text}
                     </Typography>
-                  </Grid2>
-                </Grid2>
+                  </Box>
+                </Stack>
               </li>
             );
           }}
-          sx={{ width: 300 }}
           // value={value}
           onChange={(event, newValue: PlaceType | null) => {
             setOptions(newValue ? [newValue, ...options] : options);

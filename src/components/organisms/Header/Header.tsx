@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 // import HelpIcon from "@mui/icons-material/Help";
 // import HomeIcon from "@mui/icons-material/Home";
@@ -8,17 +9,22 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import PasswordIcon from "@mui/icons-material/Password";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 // import ScienceIcon from "@mui/icons-material/Science";
-import { Avatar, Link, ListItemIcon, Menu, Tooltip } from "@mui/material";
 import { GridMenuIcon } from "@mui/x-data-grid";
 
 import UserAccount from "/public/images/userAccount.svg";
 
+import { Avatar } from "@/components/atoms/Avatar";
+import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
 // import { Divider } from "@/components/atoms/Divider";
 // import { Drawer } from "@/components/atoms/Drawer";
+import { Divider } from "@/components/atoms/Divider";
+import { ListItemIcon } from "@/components/atoms/ListItemIcon";
+import { Menu } from "@/components/atoms/Menu";
 import { MenuItem } from "@/components/atoms/MenuItem";
 import { Stack } from "@/components/atoms/Stack";
+import { Tooltip } from "@/components/atoms/Tooltip/Tooltip";
 import { LoginDialog } from "@/components/molecules/LoginDialog/LoginDialog";
 import { Logout } from "@/components/molecules/Logout";
 import { ResetPasswordDialog } from "@/components/molecules/ResetPasswordDialog";
@@ -97,6 +103,7 @@ export function Header() {
             {showExitButton && (
               <Button
                 className="rounded-3xl hover:bg-common-white"
+                component={Link}
                 href="/become-a-host"
                 variant="outlined"
               >
@@ -131,30 +138,9 @@ export function Header() {
               open={isAccountMenuOpen}
               slotProps={{
                 paper: {
+                  className:
+                    "mt-3 overflow-visible drop-shadow-elevated before:absolute before:right-3.5 before:top-0 before:z-0 before:block before:size-2.5 before:-translate-y-1/2 before:rotate-45 before:bg-background-paper",
                   elevation: 0,
-                  sx: {
-                    "& .MuiAvatar-root": {
-                      height: 32,
-                      ml: -0.5,
-                      mr: 1,
-                      width: 32,
-                    },
-                    "&::before": {
-                      bgcolor: "background.paper",
-                      content: '""',
-                      display: "block",
-                      height: 10,
-                      position: "absolute",
-                      right: 14,
-                      top: 0,
-                      transform: "translateY(-50%) rotate(45deg)",
-                      width: 10,
-                      zIndex: 0,
-                    },
-                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                    mt: 1.5,
-                    overflow: "visible",
-                  },
                 },
               }}
               transformOrigin={{ horizontal: "right", vertical: "top" }}
@@ -175,7 +161,11 @@ export function Header() {
                   Log in
                 </MenuItem>,
               ]}
-              {isAuthenticated && (
+              {isAuthenticated && [
+                <Box key="0" className="px-[16px] py-[6px] text-text-secondary">
+                  {userDetails?.fname} {userDetails?.lname}
+                </Box>,
+                <Divider key="1" className="my-1" />,
                 <MenuItem
                   key="Reset password"
                   onClick={() => {
@@ -186,8 +176,8 @@ export function Header() {
                     <PasswordIcon />{" "}
                   </ListItemIcon>
                   Change Password
-                </MenuItem>
-              )}
+                </MenuItem>,
+              ]}
               {isAuthenticated && <Logout />}
               {/* <Divider />
               <MenuItem onClick={closeAccountMenu}>

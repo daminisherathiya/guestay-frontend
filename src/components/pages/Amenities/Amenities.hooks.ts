@@ -16,11 +16,9 @@ export function useAmenities() {
     propertyApiData,
     propertyApiIsFirstLoading,
     propertyApiIsSuccess,
-    PropertyApiSnackbarAlert,
     savePropertyApiIsPending,
     savePropertyApiIsSuccess,
     savePropertyApiMutate,
-    SavePropertyApiSnackbarAlert,
   } = usePropertyToEdit();
 
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
@@ -46,17 +44,14 @@ export function useAmenities() {
     }
   };
 
-  const {
-    data: amenitiesApiData,
-    isFirstLoading: amenitiesApiIsFirstLoading,
-    SnackbarAlert: AmenitiesApiSnackbarAlert,
-  } = useQuery<amenitiesAPIResponseType, Error, amenitiesAPIResponseType>({
-    initialData: { data: [] },
-    queryFn: () => {
-      return amenitiesApi({ data: { userId: getUserDetails().id } });
-    },
-    queryKey: ["amenities"],
-  });
+  const { data: amenitiesApiData, isFirstLoading: amenitiesApiIsFirstLoading } =
+    useQuery<amenitiesAPIResponseType, Error, amenitiesAPIResponseType>({
+      initialData: { data: [] },
+      queryFn: () => {
+        return amenitiesApi({ data: { userId: getUserDetails().id } });
+      },
+      queryKey: ["amenities"],
+    });
 
   ////////
 
@@ -89,12 +84,9 @@ export function useAmenities() {
 
   return {
     amenitiesApiData,
-    AmenitiesApiSnackbarAlert,
     Footer,
     handleButtonClick,
     isLoading,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
     selectedOptions,
   };
 }

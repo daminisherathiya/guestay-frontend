@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUIInputAdornment, {
   InputAdornmentProps as MUIInputAdornmentProps,
@@ -6,9 +6,8 @@ import MUIInputAdornment, {
 
 export interface InputAdornmentProps extends MUIInputAdornmentProps {}
 
-export const InputAdornment = React.forwardRef<
-  HTMLDivElement,
-  InputAdornmentProps
->((props, ref) => <MUIInputAdornment ref={ref} {...props} />);
+export const InputAdornment = forwardRef<HTMLDivElement, InputAdornmentProps>(
+  (props, ref) => <MUIInputAdornment ref={ref} {...props} />,
+);
 
 InputAdornment.displayName = "InputAdornment";

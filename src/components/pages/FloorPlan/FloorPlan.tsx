@@ -2,7 +2,6 @@
 
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import Select from "@mui/material/Select";
 import { Controller } from "react-hook-form";
 
 import { Autocomplete } from "@/components/atoms/Autocomplete";
@@ -17,6 +16,7 @@ import { Grid2 } from "@/components/atoms/Grid2";
 import { IconButton } from "@/components/atoms/IconButton";
 import { InputLabel } from "@/components/atoms/InputLabel";
 import { MenuItem } from "@/components/atoms/MenuItem";
+import { Select } from "@/components/atoms/Select/Select";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
@@ -34,7 +34,6 @@ export function FloorPlan() {
     bedrooms,
     bedTypesApiData,
     bedTypesApiIsFirstLoading,
-    BedTypesApiSnackbarAlert,
     control,
     counters,
     displayValue,
@@ -44,8 +43,6 @@ export function FloorPlan() {
     handleIncrease,
     handleRemoveBedroom,
     isLoading,
-    PropertyApiSnackbarAlert,
-    SavePropertyApiSnackbarAlert,
   } = useFloorPlan();
 
   return (
@@ -240,9 +237,6 @@ export function FloorPlan() {
         </Box>
       </Container>
       {Footer}
-      {BedTypesApiSnackbarAlert}
-      {PropertyApiSnackbarAlert}
-      {SavePropertyApiSnackbarAlert}
     </>
   );
 }

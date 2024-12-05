@@ -21,4 +21,3 @@ export const rows = [
   { id: 5, listing: 1, location: "Charlotte, NC", status: "In progress" },
   { id: 6, listing: 1, location: "Charlotte, NC", status: "In progress" },
 ];
-export const paginationModel = { page: 0, pageSize: 5 };

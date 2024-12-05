@@ -1,10 +1,12 @@
+import { ChangeEvent } from "react";
+
 import { useFileUploadButtonProps } from "./FileUploadButton.types";
 
 export const useFileUploadButton = ({
   setSelectedImages,
   selectedImages,
 }: useFileUploadButtonProps) => {
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const filesArray = Array.from(event.target.files);
       const newImages = filesArray.map((file) => ({
@@ -16,6 +18,7 @@ export const useFileUploadButton = ({
       }));
       setSelectedImages([...selectedImages, ...newImages]);
     }
+    event.target.value = "";
   };
   return { handleFileChange };
 };

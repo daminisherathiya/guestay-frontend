@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import MUISnackbar, {
   SnackbarProps as MUISnackbarProps,
@@ -6,7 +6,7 @@ import MUISnackbar, {
 
 export interface SnackbarProps extends MUISnackbarProps {}
 
-export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
+export const Snackbar = forwardRef<HTMLDivElement, SnackbarProps>(
   (props, ref) => <MUISnackbar ref={ref} {...props} />,
 );
 

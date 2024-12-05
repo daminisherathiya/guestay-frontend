@@ -17,7 +17,7 @@ export const ALL_LISTING_STEPS = [
 export const PROPERTY_ID_STR = "[propertyId]";
 
 export const LISTING_STEP_TO_URL: Record<string, string> = {
-  // new: `/become-a-host/${PROPERTY_ID_STR}/about-your-place`,
+  new: `/become-a-host/${PROPERTY_ID_STR}/about-your-place`,
   type: `/become-a-host/${PROPERTY_ID_STR}/structure`,
   location: `/become-a-host/${PROPERTY_ID_STR}/location`,
   bedroom_info: `/become-a-host/${PROPERTY_ID_STR}/floor-plan`,
