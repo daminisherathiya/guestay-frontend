@@ -8,7 +8,7 @@ import { usePrice } from "@/components/pages/Price/Price.hooks";
 
 export function BasePricing() {
   const {
-    commissionRates,
+    commissionPrice,
     handleInput,
     insurancePolicyPrice,
     isLoading,
@@ -22,7 +22,7 @@ export function BasePricing() {
         Per night
       </Typography>
       <PriceWithTaxCalculation
-        commissionRates={commissionRates}
+        commissionPrice={commissionPrice}
         handleInput={handleInput}
         insurancePolicyPrice={insurancePolicyPrice}
         isLoading={isLoading}

@@ -10,7 +10,7 @@ import { usePrice } from "./Price.hooks";
 
 export function Price() {
   const {
-    commissionRates,
+    commissionPrice,
     Footer,
     handleInput,
     insurancePolicyPrice,
@@ -36,7 +36,7 @@ export function Price() {
             </Typography>
           </Box>
           <PriceWithTaxCalculation
-            commissionRates={commissionRates}
+            commissionPrice={commissionPrice}
             handleInput={handleInput}
             insurancePolicyPrice={insurancePolicyPrice}
             isLoading={isLoading}

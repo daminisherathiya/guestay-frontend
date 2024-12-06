@@ -8,7 +8,7 @@ import { usePrice } from "@/components/pages/Price/Price.hooks";
 
 export function WeekendPricing() {
   const {
-    commissionRates,
+    commissionPrice,
     handleInput,
     insurancePolicyPrice,
     isLoading,
@@ -28,7 +28,7 @@ export function WeekendPricing() {
         Fri and Sat nights
       </Typography>
       <PriceWithTaxCalculation
-        commissionRates={commissionRates}
+        commissionPrice={commissionPrice}
         handleInput={handleInput}
         insurancePolicyPrice={insurancePolicyPrice}
         isLoading={isLoading}

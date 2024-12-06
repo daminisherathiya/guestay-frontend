@@ -10,7 +10,7 @@ import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
-import { removeLeadingZeros } from "@/utils/common";
+import { numericValue, removeLeadingZeros } from "@/utils/common";
 
 import { DiscountsDialog } from "./components/DiscountsDialog";
 import { useDiscount } from "./Discount.hooks";
@@ -120,13 +120,25 @@ export function Discount() {
                                     %
                                   </Typography>
                                 ),
-                                inputProps: { maxLength: 2 },
+                                inputProps: {
+                                  inputMode: "numeric",
+                                  max: 99,
+                                  maxLength: 2,
+                                  min: 0,
+                                },
                               },
                             }}
                             variant="outlined"
-                            onChange={(e) =>
-                              field.onChange(removeLeadingZeros(e.target.value))
-                            }
+                            onChange={(e) => {
+                              const value = numericValue(
+                                removeLeadingZeros(e.target.value),
+                              );
+                              const clampedValue = Math.max(
+                                0,
+                                Math.min(99, Number(value) || 0),
+                              );
+                              field.onChange(value ? clampedValue : "");
+                            }}
                           />
                         )}
                         rules={{
@@ -185,13 +197,25 @@ export function Discount() {
                                     %
                                   </Typography>
                                 ),
-                                inputProps: { maxLength: 2 },
+                                inputProps: {
+                                  inputMode: "numeric",
+                                  max: 99,
+                                  maxLength: 2,
+                                  min: 0,
+                                },
                               },
                             }}
                             variant="outlined"
-                            onChange={(e) =>
-                              field.onChange(removeLeadingZeros(e.target.value))
-                            }
+                            onChange={(e) => {
+                              const value = numericValue(
+                                removeLeadingZeros(e.target.value),
+                              );
+                              const clampedValue = Math.max(
+                                0,
+                                Math.min(99, Number(value) || 0),
+                              );
+                              field.onChange(value ? clampedValue : "");
+                            }}
                           />
                         )}
                         rules={{

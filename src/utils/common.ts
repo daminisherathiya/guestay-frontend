@@ -21,6 +21,11 @@ export const roundNumber = (value: number): string => {
   return value % 1 === 0 ? value.toString() : value.toFixed(2);
 };
 
+export const numericValue = (value: string) => {
+  const onlyNumbers = value.replace(/\D/g, "");
+  return onlyNumbers === "" ? "0" : onlyNumbers;
+};
+
 export const getListingStatusToDisplay = ({
   listingSteps,
   status,

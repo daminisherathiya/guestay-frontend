@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pricing settings - Guestay",
+  title: "Edit calendar - Guestay",
 };
 
 export default function TempPage() {

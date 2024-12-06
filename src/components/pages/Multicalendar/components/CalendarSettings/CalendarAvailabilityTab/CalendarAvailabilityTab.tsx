@@ -40,14 +40,25 @@ export function CalendarAvailabilityTab() {
       </Stack>
       <Stack className="gap-4">
         <Typography variant="h2">Availability</Typography>
-        <DropdownWithOptions title="Advance notice" descriptions="How much notice do you need between a guest’s booking and arrival?" />
-        <DropdownWithOptions title="Preparation time" descriptions="How many nights before and after each reservation do you need to block off?" />
-        <DropdownWithOptions title="Availability window" descriptions="How far in advance can guests book?" />
+        <DropdownWithOptions
+          descriptions="How much notice do you need between a guest’s booking and arrival?"
+          title="Advance notice"
+        />
+        <DropdownWithOptions
+          descriptions="How many nights before and after each reservation do you need to block off?"
+          title="Preparation time"
+        />
+        <DropdownWithOptions
+          descriptions="How far in advance can guests book?"
+          title="Availability window"
+        />
         <Link href="./availability-settings/additional-controls">
           <Box className="rounded-2xl border border-divider p-6">
             <Stack className="flex-row items-center justify-between">
               <Box>
-                <Typography variant="body2">More availability settings</Typography>
+                <Typography variant="body2">
+                  More availability settings
+                </Typography>
                 <Typography
                   className="mt-1 text-xs text-text-secondary"
                   variant="body2"

@@ -3,11 +3,15 @@ import { useRef } from "react";
 import { useBoolean } from "@/hooks/useBoolean";
 import { useToggle } from "@/hooks/useToggle";
 
-export function usePriceWithTaxCalculation() {
+import { usePriceWithTaxCalculationProps } from "./PriceWithTaxCalculation.types";
+
+export function usePriceWithTaxCalculation({
+  priceVisibleInitialValue,
+}: usePriceWithTaxCalculationProps) {
   const priceInputRef = useRef<HTMLInputElement | null>(null);
 
   const { toggle: setIsPriceVisibleTrue, value: isPriceVisible } = useToggle({
-    initialValue: true,
+    initialValue: priceVisibleInitialValue,
   });
 
   const {

@@ -17,13 +17,15 @@ import { usePriceWithTaxCalculation } from "./PriceWithTaxCalculation.hooks";
 import { PriceWithTaxCalculationProps } from "./PriceWithTaxCalculation.types";
 
 export function PriceWithTaxCalculation({
-  commissionRates,
+  commissionPrice,
   handleInput,
   hideLearnMore = false,
   insurancePolicyPrice,
   isLoading,
   price,
+  priceEditable = false,
   priceError,
+  priceVisibleInitialValue = true,
   textSize = "small",
 }: PriceWithTaxCalculationProps) {
   const {
@@ -37,7 +39,9 @@ export function PriceWithTaxCalculation({
     setIsPriceVisibleTrue,
     setMoreAboutPricingDialogIsOpenFalse,
     setMoreAboutPricingDialogIsOpenTrue,
-  } = usePriceWithTaxCalculation();
+  } = usePriceWithTaxCalculation({
+    priceVisibleInitialValue: priceVisibleInitialValue,
+  });
 
   return (
     <>
@@ -53,6 +57,7 @@ export function PriceWithTaxCalculation({
             <>
               <TextField
                 autoComplete="off"
+                disabled={priceEditable}
                 error={!!priceError}
                 helperText={priceError}
                 id="outlined-basic"
@@ -61,13 +66,13 @@ export function PriceWithTaxCalculation({
                   formHelperText: { className: "mt-0 mx-2" },
                   input: {
                     classes: {
-                      input: "py-0",
+                      input: `py-0 ${priceEditable ? "shrink text-left w-auto" : ""}`,
                       notchedOutline: "border-none",
                     },
                     className: `pl-0 ${textSize === "large" ? "text-5xl sm:text-6xl md:text-7xl max-w-80" : "text-5xl max-w-52"} font-bold`,
                     startAdornment: (
                       <Typography
-                        className={`font-bold ${textSize === "large" ? "text-5xl sm:text-6xl md:text-7xl" : "text-5xl"}`}
+                        className={`font-bold ${priceEditable ? "w-full grow text-right" : ""} ${textSize === "large" ? "text-5xl sm:text-6xl md:text-7xl" : "text-5xl"}`}
                       >
                         $
                       </Typography>
@@ -80,7 +85,9 @@ export function PriceWithTaxCalculation({
                 onFocus={setIsEditingTrue}
                 onInput={handleInput}
               />
-              <Box className={`${!isEditing ? "" : "opacity-0"}`}>
+              <Box
+                className={`${!isEditing ? "" : "opacity-0"} ${priceEditable ? "hidden" : ""}`}
+              >
                 <IconButton
                   className="size-8 border border-solid border-divider"
                   onClick={handleEditClick}
@@ -159,7 +166,7 @@ export function PriceWithTaxCalculation({
                       className={`${textSize === "large" ? "" : "text-sm"}`}
                       variant="h3"
                     >
-                      -${formatNumberWithCommas(commissionRates)}
+                      -${formatNumberWithCommas(commissionPrice)}
                     </Typography>
                   </Stack>
                   <Stack className="flex-row justify-between gap-2">
@@ -194,7 +201,7 @@ export function PriceWithTaxCalculation({
                   {formatNumberWithCommas(
                     roundNumber(
                       parseFloat(price.replace(/,/g, "")) -
-                        parseFloat(commissionRates) -
+                        parseFloat(commissionPrice) -
                         parseFloat(insurancePolicyPrice),
                     ),
                   )}

@@ -35,7 +35,7 @@ export function CalendarPricingTab() {
             Adjust your pricing to attract more guests.
           </Typography>
         </Stack>
-        <Link href="./pricing-settings/discounts/monthly">
+        <Link href="./pricing-settings/discounts/weekly">
           <Box className="rounded-2xl border border-divider p-6">
             <Typography variant="body2">Weekly</Typography>
             <Typography
@@ -55,7 +55,7 @@ export function CalendarPricingTab() {
             </Stack>
           </Box>
         </Link>
-        <Link href="#">
+        <Link href="./pricing-settings/discounts/monthly">
           <Box className="rounded-2xl border border-divider p-6">
             <Typography variant="body2">Monthly</Typography>
             <Typography

@@ -19,7 +19,7 @@ const discountSliderMarks = [
   { label: "99%", value: 99 },
 ];
 
-export function DiscountsMonthly() {
+export function DiscountsWeekly() {
   const {
     commissionRate,
     handleInput,
@@ -35,14 +35,14 @@ export function DiscountsMonthly() {
     },
   });
 
-  const [discountPercentage, setDiscountPercentage] = useState(49);
+  const [discountPercentage, setDiscountPercentage] = useState(30);
 
   const handleDiscountSliderChange = (value) => {
     setDiscountPercentage(value);
   };
 
   const discountedPrice = useMemo(() => {
-    const numericPrice = parseFloat(price.replace(/,/g, "")) * 30;
+    const numericPrice = parseFloat(price.replace(/,/g, "")) * 7;
     return Math.round(numericPrice * (1 - discountPercentage / 100)) || 0;
   }, [price, discountPercentage]);
 
@@ -53,13 +53,13 @@ export function DiscountsMonthly() {
   return (
     <>
       <Typography className="mb-0.5 text-center font-medium">
-        Monthly discount
+        Weekly discount
       </Typography>
       <Typography
         className="mb-8 text-center text-text-secondary"
         variant="body2"
       >
-        Average for a 30-night stay
+        Average for a 7-night stay
       </Typography>
 
       <PriceWithTaxCalculation
@@ -77,7 +77,7 @@ export function DiscountsMonthly() {
         <Box>
           <Typography className="font-medium">Set a discount</Typography>
           <Typography className="text-xs" variant="body2">
-            Tip: To attract monthly stays, try 49%
+            Tip: To attract weekly stays, try 21%
           </Typography>
           <Button className="p-0 text-xs">Learn more</Button>
         </Box>
@@ -136,7 +136,7 @@ export function DiscountsMonthly() {
           markLabel: "text-xs translate-x-0",
         }}
         className="mt-6"
-        defaultValue={49}
+        defaultValue={30}
         marks={discountSliderMarks}
         max={99}
         sx={{

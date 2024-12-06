@@ -6,7 +6,6 @@ import {
   EventDropArg,
   EventResizeDoneArg,
 } from "@fullcalendar/core";
-import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import multiMonthPlugin from "@fullcalendar/multimonth";
 import FullCalendar from "@fullcalendar/react";
@@ -153,16 +152,16 @@ const CalendarApp = () => {
       avatar: "/api/placeholder/32/32",
     },
     {
+      amount: 1684.89,
+      avatar: "/api/placeholder/32/32",
+      allDay: true,
       description: "Annual Company Retreat.",
       end: "2024-11-04",
       id: "6",
       start: "2024-10-28",
       title: "🏖️ Company Retreat",
       type: "retreat",
-      allDay: true,
       guestCount: 7,
-      amount: 1684.89,
-      avatar: "/api/placeholder/32/32",
     },
     // {
     //   description: "Annual Company Retreat.",
@@ -192,13 +191,13 @@ const CalendarApp = () => {
     //   allDay: true, // All-day event
     // },
     {
+      allDay: true, // All-day event
       description: "Christmas Holidays",
       end: "2024-12-02",
       id: "10",
       start: "2024-11-24",
       title: "🎄 Christmas Holidays",
       type: "holiday",
-      allDay: true, // All-day event
     },
   ]);
 
@@ -345,8 +344,8 @@ const CalendarApp = () => {
         if (e.id === event.id) {
           return {
             ...e,
-            start: event.start?.toISOString() || e.start,
             end: event.end?.toISOString() || e.end,
+            start: event.start?.toISOString() || e.start,
           };
         }
         return e;
@@ -364,8 +363,8 @@ const CalendarApp = () => {
         if (e.id === event.id) {
           return {
             ...e,
-            start: event.start?.toISOString() || e.start,
             end: event.end?.toISOString() || e.end,
+            start: event.start?.toISOString() || e.start,
           };
         }
         return e;
@@ -507,8 +506,8 @@ const CalendarApp = () => {
         eventResize={handleEventResize}
         eventSources={[
           {
-            id: "events",
             events: events,
+            id: "events",
           },
         ]}
         headerToolbar={{
