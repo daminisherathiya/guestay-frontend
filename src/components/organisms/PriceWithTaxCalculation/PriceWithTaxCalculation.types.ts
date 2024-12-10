@@ -7,7 +7,7 @@ export interface PriceWithTaxCalculationProps {
   insurancePolicyPrice: string;
   isLoading: boolean;
   price: string;
-  priceEditable: boolean;
+  priceEditable?: boolean;
   priceError: string;
   priceVisibleInitialValue?: boolean;
   textSize?: "small" | "large";

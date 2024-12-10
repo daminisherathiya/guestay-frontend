@@ -6,12 +6,12 @@ import { Stack } from "@/components/atoms/Stack";
 
 export default function SelectableWeekDayButtons() {
   const initialDays = [
-    { name: "Sunday", selected: true },
+    { name: "Sunday", selected: false },
     { name: "Monday", selected: false },
     { name: "Tuesday", selected: false },
-    { name: "Wednesday", selected: true },
+    { name: "Wednesday", selected: false },
     { name: "Thursday", selected: false },
-    { name: "Friday", selected: true },
+    { name: "Friday", selected: false },
     { name: "Saturday", selected: false },
   ];
 
@@ -30,7 +30,7 @@ export default function SelectableWeekDayButtons() {
       {days.map((day, index) => (
         <Button
           key={day.name}
-          className={`rounded-pill border hover:border-common-transparent ${day.selected ? "border-common-transparent bg-action-hover ring-2 ring-primary-main" : "border-divider bg-common-transparent hover:ring-1 hover:ring-primary-main "}`}
+          className={`rounded-pill border font-normal hover:border-common-transparent ${day.selected ? "border-common-transparent bg-action-hover ring-2 ring-primary-main" : "border-divider bg-common-transparent hover:ring-1 hover:ring-primary-main "}`}
           variant="outlined"
           onClick={() => handleToggle(index)}
         >

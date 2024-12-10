@@ -28,6 +28,7 @@ export function BasePricing() {
         isLoading={isLoading}
         price={price}
         priceError={priceError}
+        priceVisibleInitialValue={false}
       />
       <Stack className="mt-8 gap-3">
         <Button className="w-full" size="large" variant="contained">

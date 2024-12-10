@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import CheckIcon from "@mui/icons-material/Check";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 
@@ -11,16 +12,8 @@ import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 import { useToggle } from "@/hooks/useToggle";
 
-const options = [
-  { label: "Same day", value: "Same day" },
-  { label: "At least 1 day", value: "At least 1 day" },
-  { label: "At least 2 day", value: "At least 2 day" },
-  { label: "At least 3 day", value: "At least 3 day" },
-  { label: "At least 7 day", value: "At least 7 day" },
-];
-
-export function DropdownWithOptions({ title, descriptions }) {
-  const [selectedValue, setSelectedValue] = useState("Same day");
+export function DropdownWithOptions({ title, options, descriptions }) {
+  const [selectedValue, setSelectedValue] = useState(options[0].label);
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
@@ -30,7 +23,7 @@ export function DropdownWithOptions({ title, descriptions }) {
     initialValue: false,
   });
 
-  const [savedValue, setSavedValue] = useState("Same day");
+  const [savedValue, setSavedValue] = useState(options[0].label);
 
   const handleSave = () => {
     const selectedOption = options.find(
@@ -97,7 +90,13 @@ export function DropdownWithOptions({ title, descriptions }) {
                   className={`mx-0 flex-row-reverse justify-between px-6 py-3 hover:bg-action-hover ${
                     selectedValue === option.value ? "bg-action-hover" : ""
                   }`}
-                  control={<Radio className="p-0" />}
+                  control={
+                    <Radio
+                      checkedIcon={<CheckIcon className="size-5" />}
+                      className="p-0"
+                      icon={<Box className="size-5" />}
+                    />
+                  }
                   label={option.label}
                   value={option.value}
                 />

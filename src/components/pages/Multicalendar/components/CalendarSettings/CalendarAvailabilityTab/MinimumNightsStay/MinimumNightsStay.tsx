@@ -32,12 +32,15 @@ export function MinimumNightsStay() {
           <TextField
             {...field}
             autoComplete="off"
+            className="my-20"
             error={!!error}
             helperText={error ? error.message : ""}
             id="outlined-basic"
             placeholder="1"
             slotProps={{
-              formHelperText: { className: "mt-0 mx-2" },
+              formHelperText: {
+                className: "mt-0 mx-2 text-center font-medium",
+              },
               htmlInput: {
                 max: 365,
                 min: 0,
@@ -47,7 +50,7 @@ export function MinimumNightsStay() {
                   input: "py-0 text-center",
                   notchedOutline: "border-none",
                 },
-                className: "text-5xl font-bold my-20",
+                className: "text-5xl font-bold",
                 inputProps: { maxLength: 3 },
               },
             }}
@@ -61,11 +64,11 @@ export function MinimumNightsStay() {
         )}
         rules={{
           validate: (value) => {
-            return Number(value) >= 1 || "Min value is 1";
+            return Number(value) >= 1 || "Minimum nights must be at least 1.";
           },
         }}
       />
-      <Link href="./availability-settings/minimum-stay/custom">
+      <Link href="./minimum-stay/custom">
         <Box className="rounded-2xl border border-divider p-6">
           <Stack className="flex-row items-center justify-between">
             <Box>

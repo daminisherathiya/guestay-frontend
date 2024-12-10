@@ -106,7 +106,12 @@ export function PriceWithTaxCalculation({
             className={`${textSize === "large" ? "" : "text-sm"}`}
             variant="h3"
           >
-            Guest price before taxes ${price}
+            Guest price before taxes $
+            {isLoading ? (
+              <Skeleton className="mx-1 inline-block" width={30} />
+            ) : (
+              price
+            )}
           </Typography>
           <Box>
             <KeyboardArrowDownIcon />
