@@ -64,7 +64,7 @@ export function ManageListingDialog({
           variant="contained"
           onClick={() => {
             window.open(
-              `https://guestay.webarysites.com/admin/dashboard#properties/edit/${selectedListing.id}`,
+              `${process.env.NEXT_PUBLIC_API_DOMAIN}/admin/dashboard#properties/edit/${selectedListing.id}`,
               "_blank",
             );
           }}
