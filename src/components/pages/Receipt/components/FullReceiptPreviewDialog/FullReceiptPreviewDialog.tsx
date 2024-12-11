@@ -26,7 +26,7 @@ export function FullReceiptPreviewDialog({
 
   return (
     <DialogWrapper
-      className={{ paper: "h-[36rem]" }}
+      classes={{ paper: "h-[36rem]" }}
       handleCloseDialog={handleCloseFullReceiptPreviewDialog}
       isDialogOpen={isFullReceiptPreviewDialogOpen}
       maxWidth="lg"

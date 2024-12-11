@@ -32,13 +32,13 @@ export function Calendar() {
       plugins={[multiMonthPlugin]}
       timeZone="EST"
       validRange={{
-        start: startDate,
         end: endDate,
+        start: startDate,
       }}
       views={{
         multiMonthYear: {
-          multiMonthTitleFormat: { month: "long", year: "numeric" },
           duration: { years: 4 },
+          multiMonthTitleFormat: { month: "long", year: "numeric" },
         },
       }}
     />

@@ -5,7 +5,6 @@ import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import { SavePropertyApiDataType } from "@/apis/property/savePropertyApi/savePropertyApi.types";
-import { useBoolean } from "@/hooks/useBoolean/useBoolean";
 import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
@@ -14,12 +13,6 @@ import { DiscountFormType } from "./Discount.types";
 
 export function useDiscount() {
   const { propertyId }: { propertyId: string } = useParams();
-
-  const {
-    value: discountsDialogIsOpen,
-    setTrue: setDiscountsDialogIsOpenTrue,
-    setFalse: setDiscountsDialogIsOpenFalse,
-  } = useBoolean({ initialValue: false });
 
   const {
     propertyApiData,
@@ -168,12 +161,9 @@ export function useDiscount() {
 
   return {
     control,
-    discountsDialogIsOpen,
     Footer,
     isLoading,
     isMonthlyDiscountEnabled: monthlyDiscountChecked,
     isWeeklyDiscountEnabled: weeklyDiscountChecked,
-    setDiscountsDialogIsOpenFalse,
-    setDiscountsDialogIsOpenTrue,
   };
 }

@@ -20,7 +20,7 @@ import { Select } from "@/components/atoms/Select/Select";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-import CalendarApp from "./components/CalendarSettings/Calendar/Calendar";
+import CalendarApp from "./components/Calendar/Calendar";
 import { CalendarRefType } from "./Multicalendar.types";
 
 const propertyOptions = [

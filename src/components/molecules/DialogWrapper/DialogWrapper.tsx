@@ -23,7 +23,7 @@ const Transition = forwardRef(function Transition(
 
 export function DialogWrapper({
   children,
-  className,
+  classes,
   customHeader,
   dialogActions,
   dialogActionsClassName,
@@ -36,7 +36,7 @@ export function DialogWrapper({
     <>
       <Dialog
         classes={{
-          paper: `rounded-xl w-full ${className?.paper}`,
+          paper: `rounded-xl w-full ${classes?.paper}`,
         }}
         maxWidth={maxWidth}
         open={isDialogOpen}

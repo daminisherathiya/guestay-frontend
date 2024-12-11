@@ -130,10 +130,10 @@ export function usePrice() {
   }, [nextUrl, router, savePropertyApiIsSuccess]);
 
   return {
-    commissionRate,
     commissionPrice: roundNumber(
       parseFloat(price.replace(/,/g, "")) * (parseFloat(commissionRate) / 100),
     ),
+    commissionRate,
     Footer,
     handleInput,
     insurancePolicyPrice: insurancePolicyPrice,

@@ -10,6 +10,7 @@ import { Button } from "@/components/atoms/Button";
 import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
+import { DiscountsLearnMoreDialog } from "@/components/molecules/DiscountsLearnMoreDialog";
 import { PriceWithTaxCalculation } from "@/components/organisms/PriceWithTaxCalculation";
 import { usePrice } from "@/components/pages/Price/Price.hooks";
 import { numericValue, removeLeadingZeros, roundNumber } from "@/utils/common";
@@ -79,7 +80,7 @@ export function DiscountsWeekly() {
           <Typography className="text-xs" variant="body2">
             Tip: To attract weekly stays, try 21%
           </Typography>
-          <Button className="p-0 text-xs">Learn more</Button>
+          <DiscountsLearnMoreDialog />
         </Box>
         <Controller
           control={control}

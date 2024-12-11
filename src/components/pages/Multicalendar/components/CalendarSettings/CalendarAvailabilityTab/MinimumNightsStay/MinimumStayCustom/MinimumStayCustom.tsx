@@ -15,13 +15,13 @@ import { DayNames } from "./MinimumStayCustom.types";
 export function MinimumStayCustom() {
   const { control } = useForm({
     defaultValues: {
-      sundays: "",
+      fridays: "",
       mondays: "",
+      saturdays: "",
+      sundays: "",
+      thursdays: "",
       tuesdays: "",
       wednesdays: "",
-      thursdays: "",
-      fridays: "",
-      saturdays: "",
     },
   });
 
