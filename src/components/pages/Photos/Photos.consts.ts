@@ -1,1 +1,1 @@
-export const MIN_PHOTOS_REQUIRED = 4;
+export const MIN_PHOTOS_REQUIRED = 5;

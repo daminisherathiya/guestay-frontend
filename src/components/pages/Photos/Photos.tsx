@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 
+import ErrorIcon from "@mui/icons-material/Error";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 
 import { Box } from "@/components/atoms/Box";
@@ -154,6 +155,23 @@ export function Photos() {
                   </Typography>
                 </Button>
               </Grid2>
+              {MIN_PHOTOS_REQUIRED - uploadedImages.length > 0 && (
+                <Grid2 size={12}>
+                  <Stack className="mb-6 flex-row items-center gap-2">
+                    <ErrorIcon className="size-5 text-error-main" />
+                    <Typography
+                      className="font-bold text-error-main"
+                      variant="body2"
+                    >
+                      Please add {MIN_PHOTOS_REQUIRED - uploadedImages.length}{" "}
+                      more photo
+                      {MIN_PHOTOS_REQUIRED - uploadedImages.length === 1
+                        ? ""
+                        : "s"}
+                    </Typography>
+                  </Stack>
+                </Grid2>
+              )}
             </Grid2>
           ) : (
             <Box className="flex h-[60vh] max-h-[31.25rem] flex-col items-center justify-center rounded-xl border border-dashed border-divider bg-action-hover">
