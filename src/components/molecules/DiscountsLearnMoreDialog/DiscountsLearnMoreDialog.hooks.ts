@@ -6,6 +6,7 @@ export function useDiscountsLearnMoreDialog() {
     setTrue: setDiscountsLearnMoreDialogIsOpenTrue,
     setFalse: setDiscountsLearnMoreDialogIsOpenFalse,
   } = useBoolean({ initialValue: false });
+
   return {
     discountsLearnMoreDialogIsOpen,
     setDiscountsLearnMoreDialogIsOpenFalse,
