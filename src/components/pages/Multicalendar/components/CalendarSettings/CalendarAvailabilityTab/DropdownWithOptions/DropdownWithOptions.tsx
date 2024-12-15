@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 import CheckIcon from "@mui/icons-material/Check";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -12,10 +12,16 @@ import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 import { useToggle } from "@/hooks/useToggle";
 
-export function DropdownWithOptions({ title, options, descriptions }) {
+import { DropdownWithOptionsProps } from "./DropdownWithOptions.types";
+
+export function DropdownWithOptions({
+  title,
+  options,
+  descriptions,
+}: DropdownWithOptionsProps) {
   const [selectedValue, setSelectedValue] = useState(options[0].label);
 
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedValue(event.target.value);
   };
 

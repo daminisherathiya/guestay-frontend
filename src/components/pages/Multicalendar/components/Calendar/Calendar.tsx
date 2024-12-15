@@ -2,11 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 
 import {
   DateSelectArg,
+  DayCellContentArg,
   EventClickArg,
+  EventContentArg,
   EventDropArg,
-  EventResizeDoneArg,
 } from "@fullcalendar/core";
-import interactionPlugin from "@fullcalendar/interaction";
+import interactionPlugin, {
+  DateClickArg,
+  EventResizeDoneArg,
+} from "@fullcalendar/interaction";
 import multiMonthPlugin from "@fullcalendar/multimonth";
 import FullCalendar from "@fullcalendar/react";
 import {
@@ -22,29 +26,32 @@ import dayjs from "dayjs";
 import { Box } from "@/components/atoms/Box";
 import { Stack } from "@/components/atoms/Stack";
 
-type SelectedRange = {
-  color: string;
-  display: string;
-  end: string;
-  id: string;
-  start: string;
-};
+// type SelectedRange = {
+//   color: string;
+//   display: string;
+//   end: string;
+//   id: string;
+//   start: string;
+// };
 
 type CalendarEvent = {
+  allDay?: boolean;
+  amount?: number;
+  avatar?: string;
   description: string;
   end?: string;
+  guestCount?: number;
   id: string;
   start: string;
   title: string;
   type: string;
-  allDay?: boolean;
 };
 
 const CalendarApp = () => {
   const calendarContainerRef = useRef<FullCalendar | null>(null);
   // const calendarRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [selectedCells, setSelectedCells] = useState<string[]>([]); // Track individual cell selections
-  const renderEventContent = (eventInfo) => {
+  const renderEventContent = (eventInfo: EventContentArg) => {
     return {
       // The HTML structure is wrapped in a div with flex layout
       html: `
@@ -93,102 +100,102 @@ const CalendarApp = () => {
 
   const [events, setEvents] = useState<CalendarEvent[]>([
     {
+      allDay: false,
+      amount: 1684.89,
+      avatar: "/api/placeholder/32/32",
       description: "Discuss the Q4 project roadmap.",
       end: "2024-11-06T18:00:00",
+      guestCount: 7,
       id: "1",
       start: "2024-11-05T10:00:00",
       title: "📅 Meeting with John",
       type: "meeting",
-      allDay: false,
-      guestCount: 7,
-      amount: 1684.89,
-      avatar: "/api/placeholder/32/32",
     },
     {
+      allDay: false,
+      amount: 1684.89,
+      avatar: "/api/placeholder/32/32",
       description: "Lunch with the team at the rooftop cafe.",
       end: "2024-11-06T14:00:00",
+      guestCount: 7,
       id: "2",
       start: "2024-11-06T12:30:00",
       title: "🍴 Team Lunch",
       type: "lunch",
-      allDay: false,
-      guestCount: 7,
-      amount: 1684.89,
-      avatar: "/api/placeholder/32/32",
     },
     {
+      allDay: false,
+      amount: 1684.89,
+      avatar: "/api/placeholder/32/32",
       description: "Routine checkup with Dr. Smith.",
+      guestCount: 7,
       id: "3",
       start: "2024-11-07T15:00:00",
       title: "🩺 Doctor Appointment",
       type: "appointment",
-      allDay: false,
-      guestCount: 7,
-      amount: 1684.89,
-      avatar: "/api/placeholder/32/32",
     },
     {
+      allDay: true,
+      amount: 1684.89,
+      avatar: "/api/placeholder/32/32",
       description: "Annual Company Retreat.",
       end: "2024-11-04",
+      guestCount: 7,
       id: "4",
       start: "2024-10-28",
       title: "🏖️ Company Retreat",
       type: "retreat",
-      allDay: true,
-      guestCount: 7,
-      amount: 1684.89,
-      avatar: "/api/placeholder/32/32",
     },
     {
+      allDay: true,
+      amount: 1684.89,
+      avatar: "/api/placeholder/32/32",
       description: "Annual Company Retreat.",
       end: "2024-11-04",
+      guestCount: 7,
       id: "5",
       start: "2024-10-28",
       title: "🏖️ Company Retreat",
       type: "retreat",
-      allDay: true,
-      guestCount: 7,
-      amount: 1684.89,
-      avatar: "/api/placeholder/32/32",
     },
     {
+      allDay: true,
       amount: 1684.89,
       avatar: "/api/placeholder/32/32",
-      allDay: true,
       description: "Annual Company Retreat.",
       end: "2024-11-04",
+      guestCount: 7,
       id: "6",
       start: "2024-10-28",
       title: "🏖️ Company Retreat",
       type: "retreat",
-      guestCount: 7,
     },
     // {
+    //   allDay: true, // All-day event
     //   description: "Annual Company Retreat.",
     //   end: "2024-11-04",
     //   id: "7",
     //   start: "2024-10-28",
     //   title: "🏖️ Company Retreat",
     //   type: "retreat",
-    //   allDay: true, // All-day event
     // },
     // {
+    //   allDay: true, // All-day event
     //   description: "Annual Company Retreat.",
     //   end: "2024-11-04",
     //   id: "8",
     //   start: "2024-10-28",
     //   title: "🏖️ Company Retreat",
     //   type: "retreat",
-    //   allDay: true, // All-day event
     // },
     // {
+    //   allDay: true, // All-day event
     //   description: "Annual Company Retreat.",
     //   end: "2024-11-04",
     //   id: "9",
     //   start: "2024-10-28",
     //   title: "🏖️ Company Retreat",
     //   type: "retreat",
-    //   allDay: true, // All-day event
     // },
     {
       allDay: true, // All-day event
@@ -323,7 +330,7 @@ const CalendarApp = () => {
     }
   };
 
-  const dayCellClassNames = (arg) => {
+  const dayCellClassNames = (arg: DayCellContentArg) => {
     if (isCellSelected(arg.date.toISOString().split("T")[0])) {
       return ["bg-primary-main", "text-common-white", "rounded-xl"];
     }
@@ -352,7 +359,9 @@ const CalendarApp = () => {
       }),
     );
 
-    event.setDates(event.start, event.end);
+    if (event.start) {
+      event.setDates(event.start, event.end);
+    }
   };
 
   const handleEventDrop = (info: EventDropArg) => {
@@ -371,7 +380,9 @@ const CalendarApp = () => {
       }),
     );
 
-    event.setDates(event.start, event.end);
+    if (event.start) {
+      event.setDates(event.start, event.end);
+    }
   };
 
   const handleDialogClose = () => {
@@ -423,7 +434,8 @@ const CalendarApp = () => {
       .format("YYYY-MM-DD");
     console.log("🚀 ~ renderCalendars ~ endMonth:", endMonth);
 
-    const handleDateClick = (info) => {
+    const handleDateClick = (info: DateClickArg) => {
+      console.log("🚀 ~ handleDateClick ~ info:", info);
       // alert(Clicked date: ${info.dateStr});
     };
 

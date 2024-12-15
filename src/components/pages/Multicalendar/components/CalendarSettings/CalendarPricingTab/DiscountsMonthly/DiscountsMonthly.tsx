@@ -37,7 +37,7 @@ export function DiscountsMonthly() {
 
   const [discountPercentage, setDiscountPercentage] = useState(49);
 
-  const handleDiscountSliderChange = (value) => {
+  const handleDiscountSliderChange = (value: number) => {
     setDiscountPercentage(value);
   };
 
@@ -147,7 +147,9 @@ export function DiscountsMonthly() {
         }}
         value={discountPercentage}
         valueLabelDisplay="auto"
-        onChange={(_, value) => handleDiscountSliderChange(value)}
+        onChange={(_, value) =>
+          handleDiscountSliderChange(Array.isArray(value) ? value[0] : value)
+        }
       />
       <Stack className="mt-8 gap-3">
         <Button className="w-full" size="large" variant="contained">

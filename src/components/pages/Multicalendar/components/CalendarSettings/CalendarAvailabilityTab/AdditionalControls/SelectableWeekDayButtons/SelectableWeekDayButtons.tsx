@@ -17,7 +17,7 @@ export default function SelectableWeekDayButtons() {
 
   const [days, setDays] = useState(initialDays);
 
-  const handleToggle = (index) => {
+  const handleToggle = (index: number) => {
     setDays((prevDays) =>
       prevDays.map((day, i) =>
         i === index ? { ...day, selected: !day.selected } : day,
