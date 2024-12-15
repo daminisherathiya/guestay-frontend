@@ -12,7 +12,7 @@ import { useQuery } from "@/hooks/useQuery";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { BEDROOMS_INITIAL_VALUE } from "./FloorPlan.consts";
-import { BedroomFormValues, CounterState } from "./FloorPlan.types";
+import { BedroomFormValues } from "./FloorPlan.types";
 
 export function useFloorPlan() {
   const { propertyId }: { propertyId: string } = useParams();
@@ -26,38 +26,8 @@ export function useFloorPlan() {
     savePropertyApiMutate,
   } = usePropertyToEdit();
 
-  const [counters, setCounters] = useState<CounterState>({
-    bathrooms: 0,
-    cribs: 0,
-  });
-
-  const handleIncrease = (field: keyof CounterState, maxLimit: number) => {
-    setCounters((prevCounters) => {
-      const increment = field === "bathrooms" ? 0.5 : 1;
-      return {
-        ...prevCounters,
-        [field]:
-          prevCounters[field] < maxLimit
-            ? prevCounters[field] + increment
-            : prevCounters[field],
-      };
-    });
-  };
-
-  const handleDecrease = (field: keyof CounterState) => {
-    setCounters((prevCounters) => {
-      const decrement = field === "bathrooms" ? 0.5 : 1;
-      return {
-        ...prevCounters,
-        [field]:
-          prevCounters[field] > 0
-            ? prevCounters[field] - decrement
-            : prevCounters[field],
-      };
-    });
-  };
-
-  const displayValue = (value: number) => value;
+  const [bedroomsCounters, setBedroomsCounters] = useState<number>(0);
+  const [cribsCounters, setCribsCounters] = useState<number>(0);
 
   const { control, reset, setValue, watch, getValues } =
     useForm<BedroomFormValues>({
@@ -86,21 +56,22 @@ export function useFloorPlan() {
 
   useEffect(() => {
     if (propertyApiIsSuccess) {
-      setCounters({
-        bathrooms: propertyApiData?.data?.property[0].baths
+      setBedroomsCounters(
+        propertyApiData?.data?.property[0].baths
           ? Number(propertyApiData?.data?.property[0].baths)
           : 0,
-        cribs: propertyApiData?.data?.property[0].cribs
+      );
+      setCribsCounters(
+        propertyApiData?.data?.property[0].cribs
           ? Number(propertyApiData?.data?.property[0].cribs)
           : 0,
-      });
+      );
       let propertyBedrooms = JSON.parse(
         propertyApiData?.data?.property[0]?.bedrooms_info || "[]",
       );
       propertyBedrooms = propertyBedrooms.length
         ? propertyBedrooms
         : BEDROOMS_INITIAL_VALUE;
-      console.log("🚀 ~ useEffect ~ propertyBedrooms:", propertyBedrooms);
       reset({ bedrooms: propertyBedrooms });
     }
   }, [propertyApiData, propertyApiIsSuccess, reset]);
@@ -123,7 +94,7 @@ export function useFloorPlan() {
     const bedrooms = formValues.bedrooms || [];
     savePropertyApiMutate({
       data: {
-        baths: counters.bathrooms,
+        baths: bedroomsCounters,
         bedrooms: bedrooms.reduce(
           (total, bedroom) => total + Number(bedroom.bed_count),
           0,
@@ -136,9 +107,9 @@ export function useFloorPlan() {
           );
           return total + numOfBeds;
         }, 0),
-        cribs: counters.cribs,
+        cribs: cribsCounters,
         listingStep: "bedroom_info",
-        noOfChildren: counters.cribs,
+        noOfChildren: cribsCounters,
         noOfCouples: bedrooms.reduce((total, bedroom) => {
           const coupleBeds = bedroom.type.filter(
             (bedType) => bedType.num_of_people === "2",
@@ -174,16 +145,16 @@ export function useFloorPlan() {
 
   return {
     bedrooms,
+    bedroomsCounters,
     bedTypesApiData,
     bedTypesApiIsFirstLoading,
     control,
-    counters,
-    displayValue,
+    cribsCounters,
     Footer,
     handleAddBedroom,
-    handleDecrease,
-    handleIncrease,
     handleRemoveBedroom,
     isLoading,
+    setBedroomsCounters,
+    setCribsCounters,
   };
 }

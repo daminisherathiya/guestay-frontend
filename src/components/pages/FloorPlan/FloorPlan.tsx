@@ -20,29 +20,25 @@ import { Select } from "@/components/atoms/Select/Select";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
+import { CounterWithLabel } from "@/components/molecules/CounterWithLabel";
 import { TextFieldWrapper } from "@/components/molecules/TextFieldWrapper";
 
-import { FloorPlanCounterItem } from "./components/FloorPlanCounterItem";
-import {
-  floorPlanItemsAfterBedrooms,
-  floorPlanItemsBeforeBedrooms,
-} from "./FloorPlan.consts";
 import { useFloorPlan } from "./FloorPlan.hooks";
 
 export function FloorPlan() {
   const {
     bedrooms,
+    bedroomsCounters,
     bedTypesApiData,
     bedTypesApiIsFirstLoading,
     control,
-    counters,
-    displayValue,
+    cribsCounters,
     Footer,
     handleAddBedroom,
-    handleDecrease,
-    handleIncrease,
     handleRemoveBedroom,
     isLoading,
+    setBedroomsCounters,
+    setCribsCounters,
   } = useFloorPlan();
 
   return (
@@ -60,17 +56,18 @@ export function FloorPlan() {
             You&apos;ll add more details later, such as bed types.
           </Typography>
           <Box>
-            {floorPlanItemsBeforeBedrooms.map((floorPlanItem, index) => (
-              <FloorPlanCounterItem
-                key={index}
-                counter={counters[floorPlanItem.field]}
-                displayValue={displayValue}
-                floorPlanItem={floorPlanItem}
-                handleDecrease={handleDecrease}
-                handleIncrease={handleIncrease}
-                isLoading={isLoading}
-              />
-            ))}
+            <CounterWithLabel
+              classes={{
+                counterWithLabel:
+                  "py-6 border-b-divider [&:not(:last-child)]:border-b",
+              }}
+              counter={bedroomsCounters}
+              isLoading={isLoading}
+              label="Bathrooms"
+              maxCount={50}
+              setCounters={setBedroomsCounters}
+              steps={0.5}
+            />
           </Box>
           <Divider />
           <Typography className="py-6" component="p" variant="h3">
@@ -222,17 +219,17 @@ export function FloorPlan() {
           </Box>
           <Divider />
           <Box>
-            {floorPlanItemsAfterBedrooms.map((floorPlanItem, index) => (
-              <FloorPlanCounterItem
-                key={index}
-                counter={counters[floorPlanItem.field]}
-                displayValue={displayValue}
-                floorPlanItem={floorPlanItem}
-                handleDecrease={handleDecrease}
-                handleIncrease={handleIncrease}
-                isLoading={isLoading}
-              />
-            ))}
+            <CounterWithLabel
+              classes={{
+                counterWithLabel:
+                  "py-6 border-b-divider [&:not(:last-child)]:border-b",
+              }}
+              counter={cribsCounters}
+              isLoading={isLoading}
+              label="cribs"
+              maxCount={50}
+              setCounters={setCribsCounters}
+            />
           </Box>
         </Box>
       </Container>
