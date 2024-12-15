@@ -9,15 +9,19 @@ import { Select } from "@/components/atoms/Select/Select";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
+import { SelectWithApplyAndResetProps } from "./SelectWithApplyAndReset.types";
+
 export function SelectWithApplyAndReset({
   children,
   handleReset,
+  labelForCount,
   showResetButton,
   onCloseSelectHandler,
   onSaveSelectHandler,
-}) {
-  const [totalGuests, setTotalGuests] = useState<number>(1);
+}: SelectWithApplyAndResetProps) {
+  const [totalGuests, setTotalGuests] = useState<number>(onSaveSelectHandler());
   const [selectOpen, setSelectOpen] = useState<boolean>(false);
+
   useEffect(() => {
     if (!selectOpen) {
       onCloseSelectHandler();
@@ -28,6 +32,7 @@ export function SelectWithApplyAndReset({
     setTotalGuests(onSaveSelectHandler());
     setSelectOpen(false);
   }, [onSaveSelectHandler]);
+
   return (
     <Select
       classes={{
@@ -35,7 +40,6 @@ export function SelectWithApplyAndReset({
         select: "pl-4 pr-8 py-1.5 max-w-72",
       }}
       IconComponent={KeyboardArrowDownIcon}
-      id="guest-select"
       input={<OutlinedInput classes={{ notchedOutline: "rounded-pill" }} />}
       MenuProps={{
         anchorOrigin: { horizontal: "left", vertical: "bottom" },
@@ -51,7 +55,8 @@ export function SelectWithApplyAndReset({
         return (
           <Stack className="flex-row items-center gap-3">
             <Typography className="truncate" variant="body2">
-              {guestCount} guest{guestCount !== 1 ? "s" : ""}
+              {guestCount === 0 ? "No" : guestCount} {labelForCount}
+              {guestCount !== 1 ? "s" : ""}
             </Typography>
             <Divider
               flexItem
