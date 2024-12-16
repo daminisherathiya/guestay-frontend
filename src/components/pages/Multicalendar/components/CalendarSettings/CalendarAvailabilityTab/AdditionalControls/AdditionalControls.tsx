@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import ArrowBackIosOutlinedIcon from "@mui/icons-material/ArrowBackIosOutlined";
 
 import { Box } from "@/components/atoms/Box";
@@ -6,13 +8,16 @@ import { IconButton } from "@/components/atoms/IconButton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-import SelectableWeekDayButtons from "./SelectableWeekDayButtons/SelectableWeekDayButtons";
+import { SelectableWeekDayButtons } from "./SelectableWeekDayButtons";
+
 export function AdditionalControls() {
   return (
     <>
-      <IconButton aria-label="Back" className="-ml-2 size-8">
-        <ArrowBackIosOutlinedIcon className="size-4" />
-      </IconButton>
+      <Link passHref href="/multicalendar/256/availability-settings">
+        <IconButton aria-label="Back" className="-ml-2 size-8" component="a">
+          <ArrowBackIosOutlinedIcon className="size-4" />
+        </IconButton>
+      </Link>
       <Stack className="gap-8">
         <Stack className="mt-6 gap-6">
           <Box>

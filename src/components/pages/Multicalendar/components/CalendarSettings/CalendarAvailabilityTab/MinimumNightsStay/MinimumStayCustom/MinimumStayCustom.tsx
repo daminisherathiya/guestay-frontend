@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import ArrowBackIosOutlinedIcon from "@mui/icons-material/ArrowBackIosOutlined";
 import { Controller, useForm } from "react-hook-form";
 
@@ -37,9 +39,14 @@ export function MinimumStayCustom() {
 
   return (
     <>
-      <IconButton aria-label="Back" className="-ml-2 size-8">
-        <ArrowBackIosOutlinedIcon className="size-4" />
-      </IconButton>
+      <Link
+        passHref
+        href="/multicalendar/256/availability-settings/minimum-stay"
+      >
+        <IconButton aria-label="Back" className="-ml-2 size-8" component="a">
+          <ArrowBackIosOutlinedIcon className="size-4" />
+        </IconButton>
+      </Link>
       <Box className="my-6">
         <Typography className="mb-0.5 font-medium" variant="h3">
           Customise by day

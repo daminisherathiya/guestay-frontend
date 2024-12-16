@@ -1,5 +1,3 @@
-import { ChangeEvent, useState } from "react";
-
 import CheckIcon from "@mui/icons-material/Check";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
@@ -10,8 +8,8 @@ import { Divider } from "@/components/atoms/Divider";
 import { FormControl } from "@/components/atoms/FormControl";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
-import { useToggle } from "@/hooks/useToggle";
 
+import { useDropdownWithOptions } from "./DropdownWithOptions.hooks";
 import { DropdownWithOptionsProps } from "./DropdownWithOptions.types";
 
 export function DropdownWithOptions({
@@ -19,28 +17,14 @@ export function DropdownWithOptions({
   options,
   descriptions,
 }: DropdownWithOptionsProps) {
-  const [selectedValue, setSelectedValue] = useState(options[0].label);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(event.target.value);
-  };
-
-  const { toggle: toggleDropdown, value: showDropdown } = useToggle({
-    initialValue: false,
-  });
-
-  const [savedValue, setSavedValue] = useState(options[0].label);
-
-  const handleSave = () => {
-    const selectedOption = options.find(
-      (option) => option.value === selectedValue,
-    );
-    if (selectedOption) {
-      setSavedValue(selectedOption.label);
-    }
-
-    toggleDropdown();
-  };
+  const {
+    handleChange,
+    handleSave,
+    savedValue,
+    selectedValue,
+    showDropdown,
+    toggleDropdown,
+  } = useDropdownWithOptions({ options });
 
   return (
     <Box className="relative">

@@ -5,3 +5,7 @@ export interface DropdownWithOptionsProps {
   options: AvailabilityOptionsType;
   title: string;
 }
+
+export interface useDropdownWithOptionsProps {
+  options: AvailabilityOptionsType;
+}

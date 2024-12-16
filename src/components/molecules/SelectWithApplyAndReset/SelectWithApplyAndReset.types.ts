@@ -1,10 +1,15 @@
 import { ReactNode } from "react";
 
-export interface SelectWithApplyAndResetProps {
+export interface SelectWithApplyAndResetHandlers {
+  onCloseSelectHandler: () => void;
+  onSaveSelectHandler: () => number;
+}
+export interface SelectWithApplyAndResetProps
+  extends SelectWithApplyAndResetHandlers {
   children: ReactNode;
   handleReset: () => void;
   labelForCount: string;
-  onCloseSelectHandler: () => void;
-  onSaveSelectHandler: () => number;
   showResetButton: boolean;
 }
+
+export type useSelectWithApplyAndResetProps = SelectWithApplyAndResetHandlers;

@@ -1,5 +1,3 @@
-import { useCallback, useEffect, useState } from "react";
-
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import { Button } from "@/components/atoms/Button";
@@ -9,6 +7,7 @@ import { Select } from "@/components/atoms/Select/Select";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
+import { useSelectWithApplyAndReset } from "./SelectWithApplyAndReset.hooks";
 import { SelectWithApplyAndResetProps } from "./SelectWithApplyAndReset.types";
 
 export function SelectWithApplyAndReset({
@@ -19,19 +18,8 @@ export function SelectWithApplyAndReset({
   onCloseSelectHandler,
   onSaveSelectHandler,
 }: SelectWithApplyAndResetProps) {
-  const [totalGuests, setTotalGuests] = useState<number>(onSaveSelectHandler());
-  const [selectOpen, setSelectOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (!selectOpen) {
-      onCloseSelectHandler();
-    }
-  }, [selectOpen, onCloseSelectHandler]);
-
-  const handleSave = useCallback(() => {
-    setTotalGuests(onSaveSelectHandler());
-    setSelectOpen(false);
-  }, [onSaveSelectHandler]);
+  const { handleSave, selectOpen, setSelectOpen, totalGuests } =
+    useSelectWithApplyAndReset({ onCloseSelectHandler, onSaveSelectHandler });
 
   return (
     <Select

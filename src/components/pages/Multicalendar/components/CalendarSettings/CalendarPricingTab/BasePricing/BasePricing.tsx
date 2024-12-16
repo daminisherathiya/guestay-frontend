@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { Button } from "@/components/atoms/Button";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
@@ -36,6 +38,8 @@ export function BasePricing() {
         </Button>
         <Button
           className="w-full border-primary-main"
+          component={Link}
+          href="/multicalendar/256/pricing-settings"
           size="large"
           variant="outlined"
         >

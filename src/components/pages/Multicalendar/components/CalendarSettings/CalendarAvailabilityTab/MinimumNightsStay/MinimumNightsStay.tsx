@@ -84,6 +84,8 @@ export function MinimumNightsStay() {
         </Button>
         <Button
           className="w-full border-primary-main"
+          component={Link}
+          href="/multicalendar/256/pricing-settings"
           size="large"
           variant="outlined"
         >

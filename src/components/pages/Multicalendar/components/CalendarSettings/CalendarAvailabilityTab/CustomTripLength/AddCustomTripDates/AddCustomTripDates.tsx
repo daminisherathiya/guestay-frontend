@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 import ArrowBackIosOutlinedIcon from "@mui/icons-material/ArrowBackIosOutlined";
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
@@ -11,17 +11,21 @@ import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
 import { numericValue, removeLeadingZeros } from "@/utils/common";
+
+import { useAddCustomTripDates } from "./AddCustomTripDates.hooks";
 export function AddCustomTripDates() {
-  const { control } = useForm({
-    defaultValues: {
-      minimumNightsStay: "",
-    },
-  });
+  const { control } = useAddCustomTripDates();
+
   return (
     <>
-      <IconButton aria-label="Back" className="-ml-2 size-8">
-        <ArrowBackIosOutlinedIcon className="size-4" />
-      </IconButton>
+      <Link
+        passHref
+        href="/multicalendar/256/availability-settings/custom-length"
+      >
+        <IconButton aria-label="Back" className="-ml-2 size-8" component="a">
+          <ArrowBackIosOutlinedIcon className="size-4" />
+        </IconButton>
+      </Link>
       <Stack className="gap-8">
         <Box className="space-y-2">
           <Typography className="mb-2 mt-6 font-medium" variant="h3">
@@ -90,8 +94,8 @@ export function AddCustomTripDates() {
         <Stack className="gap-3">
           <Button
             className="w-full"
-            component={Link}
-            href="./custom-length/add"
+            // component={Link}
+            // href="./custom-length/add"
             size="large"
             variant="contained"
           >

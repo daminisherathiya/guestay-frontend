@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode, useRef } from "react";
+import { ReactNode } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +8,6 @@ import Link from "next/link";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
-import { SelectChangeEvent } from "@mui/material";
 
 import { Avatar } from "@/components/atoms/Avatar";
 import { Box } from "@/components/atoms/Box";
@@ -21,7 +20,7 @@ import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
 import CalendarApp from "./components/Calendar/Calendar";
-import { CalendarRefType } from "./Multicalendar.types";
+import { useMulticalendar } from "./Multicalendar.hooks";
 
 const propertyOptions = [
   { img: "https://via.placeholder.com/24", label: "Option 1", value: 10 },
@@ -52,27 +51,12 @@ export function Multicalendar({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const [selectedPropertyValue, setSelectedPropertyValue] =
-    React.useState<number>(10);
-  const [selectedShowOptionValue, setSelectedShowOptionValue] =
-    React.useState<number>(1);
-
-  const handlePropertyChange = (event: SelectChangeEvent<unknown>) => {
-    setSelectedPropertyValue(event.target.value as number);
-  };
-
-  const calendarRef = useRef<CalendarRefType>(null);
-
-  const handleShowOptionChange = (event: SelectChangeEvent<unknown>) => {
-    setSelectedShowOptionValue(event.target.value as number);
-    if (calendarRef?.current) {
-      if (event.target.value === 1) {
-        calendarRef.current.getApi().changeView("multiMonth");
-      } else {
-        calendarRef.current.getApi().changeView("multiMonthYear");
-      }
-    }
-  };
+  const {
+    handlePropertyChange,
+    handleShowOptionChange,
+    selectedPropertyValue,
+    selectedShowOptionValue,
+  } = useMulticalendar();
 
   // useEffect(() => {
   //   if (calendarRef?.current) {

@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import Link from "next/link";
 
 import { Slider } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
@@ -12,7 +12,9 @@ import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
 import { PriceWithTaxCalculation } from "@/components/organisms/PriceWithTaxCalculation";
 import { usePrice } from "@/components/pages/Price/Price.hooks";
-import { numericValue, removeLeadingZeros, roundNumber } from "@/utils/common";
+import { numericValue, removeLeadingZeros } from "@/utils/common";
+
+import { useDiscountsMonthly } from "./DiscountsMonthly.hooks";
 
 const discountSliderMarks = [
   { label: "0%", value: 0 },
@@ -29,26 +31,13 @@ export function DiscountsMonthly() {
     priceError,
   } = usePrice();
 
-  const { control } = useForm({
-    defaultValues: {
-      monthlyDiscount: 15,
-    },
-  });
-
-  const [discountPercentage, setDiscountPercentage] = useState(49);
-
-  const handleDiscountSliderChange = (value: number) => {
-    setDiscountPercentage(value);
-  };
-
-  const discountedPrice = useMemo(() => {
-    const numericPrice = parseFloat(price.replace(/,/g, "")) * 30;
-    return Math.round(numericPrice * (1 - discountPercentage / 100)) || 0;
-  }, [price, discountPercentage]);
-
-  const discountedCommissionRates = useMemo(() => {
-    return roundNumber(discountedPrice * (parseFloat(commissionRate) / 100));
-  }, [commissionRate, discountedPrice]);
+  const {
+    control,
+    discountedCommissionRates,
+    discountedPrice,
+    discountPercentage,
+    handleDiscountSliderChange,
+  } = useDiscountsMonthly({ commissionRate, price });
 
   return (
     <>
@@ -157,6 +146,8 @@ export function DiscountsMonthly() {
         </Button>
         <Button
           className="w-full border-primary-main"
+          component={Link}
+          href="/multicalendar/256/pricing-settings"
           size="large"
           variant="outlined"
         >

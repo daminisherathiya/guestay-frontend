@@ -11,9 +11,11 @@ import { Typography } from "@/components/atoms/Typography";
 export function CustomTripLength() {
   return (
     <Stack className="gap-8">
-      <IconButton aria-label="Back" className="-ml-2 size-8">
-        <ArrowBackIosOutlinedIcon className="size-4" />
-      </IconButton>
+      <Link passHref href="/multicalendar/256/availability-settings">
+        <IconButton aria-label="Back" className="-ml-2 size-8" component="a">
+          <ArrowBackIosOutlinedIcon className="size-4" />
+        </IconButton>
+      </Link>
       <Box>
         <Typography className="mb-2 font-medium" variant="h3">
           Custom trip lengths

@@ -1,29 +1,12 @@
 "use client";
-import React, { useState } from "react";
 
 import { Button } from "@/components/atoms/Button";
 import { Stack } from "@/components/atoms/Stack";
 
-export default function SelectableWeekDayButtons() {
-  const initialDays = [
-    { name: "Sunday", selected: false },
-    { name: "Monday", selected: false },
-    { name: "Tuesday", selected: false },
-    { name: "Wednesday", selected: false },
-    { name: "Thursday", selected: false },
-    { name: "Friday", selected: false },
-    { name: "Saturday", selected: false },
-  ];
+import { useSelectableWeekDayButtons } from "./SelectableWeekDayButtons.hooks";
 
-  const [days, setDays] = useState(initialDays);
-
-  const handleToggle = (index: number) => {
-    setDays((prevDays) =>
-      prevDays.map((day, i) =>
-        i === index ? { ...day, selected: !day.selected } : day,
-      ),
-    );
-  };
+export function SelectableWeekDayButtons() {
+  const { days, handleToggle } = useSelectableWeekDayButtons();
 
   return (
     <Stack className="flex-row flex-wrap items-center gap-3">
