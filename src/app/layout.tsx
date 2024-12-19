@@ -7,6 +7,8 @@ import localFont from "next/font/local";
 import { CssBaseline } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { Toolbar } from "@/components/atoms/Toolbar";
 import { AuthenticationLoader } from "@/components/molecules/AuthenticationLoader";
@@ -86,6 +88,8 @@ export default function RootLayout({
             </CustomQueryProvider>
           </CustomThemeProvider>
         </AppRouterCacheProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

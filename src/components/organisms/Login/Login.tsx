@@ -40,7 +40,7 @@ export function Login({
             <Grid2 size={12}>
               <TextFieldWrapper
                 control={control}
-                label="Email"
+                label="Email / username"
                 name="email"
                 rules={{ required: "Email is required" }}
               />

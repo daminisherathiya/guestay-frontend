@@ -18,6 +18,7 @@ export const useFileUploadButton = ({
       }));
       setSelectedImages([...selectedImages, ...newImages]);
     }
+    event.target.value = "";
   };
   return { handleFileChange };
 };

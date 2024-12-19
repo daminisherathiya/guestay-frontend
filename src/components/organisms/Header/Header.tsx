@@ -14,10 +14,12 @@ import { GridMenuIcon } from "@mui/x-data-grid";
 import UserAccount from "/public/images/userAccount.svg";
 
 import { Avatar } from "@/components/atoms/Avatar";
+import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
 // import { Divider } from "@/components/atoms/Divider";
 // import { Drawer } from "@/components/atoms/Drawer";
+import { Divider } from "@/components/atoms/Divider";
 import { ListItemIcon } from "@/components/atoms/ListItemIcon";
 import { Menu } from "@/components/atoms/Menu";
 import { MenuItem } from "@/components/atoms/MenuItem";
@@ -159,7 +161,11 @@ export function Header() {
                   Log in
                 </MenuItem>,
               ]}
-              {isAuthenticated && (
+              {isAuthenticated && [
+                <Box key="0" className="px-[16px] py-[6px] text-text-secondary">
+                  {userDetails?.fname} {userDetails?.lname}
+                </Box>,
+                <Divider key="1" className="my-1" />,
                 <MenuItem
                   key="Reset password"
                   onClick={() => {
@@ -170,8 +176,8 @@ export function Header() {
                     <PasswordIcon />{" "}
                   </ListItemIcon>
                   Change Password
-                </MenuItem>
-              )}
+                </MenuItem>,
+              ]}
               {isAuthenticated && <Logout />}
               {/* <Divider />
               <MenuItem onClick={closeAccountMenu}>

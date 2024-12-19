@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 
+import ErrorIcon from "@mui/icons-material/Error";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 
 import { Box } from "@/components/atoms/Box";
@@ -17,6 +18,7 @@ import PlusIcon from "/public/images/plus.svg";
 
 import { UploadedPhoto } from "./components/UploadedPhoto";
 import { UploadPhotosDialog } from "./components/UploadPhotosDialog";
+import { MIN_PHOTOS_REQUIRED } from "./Photos.consts";
 import { usePhotos } from "./Photos.hooks";
 
 export function Photos() {
@@ -62,14 +64,14 @@ export function Photos() {
                     component="h3"
                     variant="h3"
                   >
-                    You&apos;ll need 5 photos to get started. You can add more
-                    or make changes later.
+                    You&apos;ll need {MIN_PHOTOS_REQUIRED} photos to get
+                    started. You can add more or make changes later.
                   </Typography>
                 </Box>
-              ) : uploadedImages.length < 5 ? (
+              ) : uploadedImages.length < MIN_PHOTOS_REQUIRED ? (
                 <>
                   <Typography component="h2" variant="h2">
-                    Choose at least 5 photos
+                    Choose at least {MIN_PHOTOS_REQUIRED} photos
                   </Typography>
                 </>
               ) : (
@@ -124,18 +126,20 @@ export function Photos() {
                   </Grid2>
                 );
               })}
-              {uploadedImages.length < 4 &&
-                [...Array(4 - uploadedImages.length)].map((_, index) => (
-                  <Grid2 key={index} size={6}>
-                    <Button
-                      className="size-full min-h-56 flex-col items-center justify-center rounded-xl border border-dashed border-text-secondary p-10 hover:border-2 hover:border-solid hover:bg-common-white"
-                      variant="outlined"
-                      onClick={setUploadPhotosDialogIsOpenTrue}
-                    >
-                      <ImageOutlinedIcon className="mx-auto !size-10 text-text-secondary" />
-                    </Button>
-                  </Grid2>
-                ))}
+              {uploadedImages.length < MIN_PHOTOS_REQUIRED &&
+                [...Array(MIN_PHOTOS_REQUIRED - uploadedImages.length)].map(
+                  (_, index) => (
+                    <Grid2 key={index} size={{ "2xs": 12, sm: 6 }}>
+                      <Button
+                        className="size-full min-h-56 flex-col items-center justify-center rounded-xl border border-dashed border-text-secondary p-10 hover:border-2 hover:border-solid hover:bg-common-white"
+                        variant="outlined"
+                        onClick={setUploadPhotosDialogIsOpenTrue}
+                      >
+                        <ImageOutlinedIcon className="mx-auto !size-10 text-text-secondary" />
+                      </Button>
+                    </Grid2>
+                  ),
+                )}
               <Grid2 size={{ "2xs": 12, sm: 6 }}>
                 <Button
                   className="size-full min-h-56 flex-col items-center justify-center rounded-xl border border-dashed border-text-secondary p-10 hover:border-2 hover:border-solid hover:bg-common-white"
@@ -151,6 +155,23 @@ export function Photos() {
                   </Typography>
                 </Button>
               </Grid2>
+              {MIN_PHOTOS_REQUIRED - uploadedImages.length > 0 && (
+                <Grid2 size={12}>
+                  <Stack className="mb-6 flex-row items-center gap-2">
+                    <ErrorIcon className="size-5 text-error-main" />
+                    <Typography
+                      className="font-bold text-error-main"
+                      variant="body2"
+                    >
+                      Please add {MIN_PHOTOS_REQUIRED - uploadedImages.length}{" "}
+                      more photo
+                      {MIN_PHOTOS_REQUIRED - uploadedImages.length === 1
+                        ? ""
+                        : "s"}
+                    </Typography>
+                  </Stack>
+                </Grid2>
+              )}
             </Grid2>
           ) : (
             <Box className="flex h-[60vh] max-h-[31.25rem] flex-col items-center justify-center rounded-xl border border-dashed border-divider bg-action-hover">
