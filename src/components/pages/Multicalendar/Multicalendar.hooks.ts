@@ -2,6 +2,12 @@ import { useRef, useState } from "react";
 
 import { SelectChangeEvent } from "@mui/material";
 
+import { listingPropertiesApi } from "@/apis/property/listingPropertiesApi";
+import { listingPropertiesApiResponseType } from "@/apis/property/listingPropertiesApi/listingPropertiesApi.types";
+import { useQuery } from "@/hooks/useQuery";
+import { useToggle } from "@/hooks/useToggle";
+import { getUserDetails } from "@/utils/localStorage/localStorage";
+
 import { CalendarRefType } from "./Multicalendar.types";
 
 export function useMulticalendar() {
@@ -9,6 +15,26 @@ export function useMulticalendar() {
     useState<number>(10);
   const [selectedShowOptionValue, setSelectedShowOptionValue] =
     useState<number>(1);
+
+  const {
+    data: listingPropertiesApiData,
+    isFirstLoading: listingPropertiesApiIsFirstLoading,
+  } = useQuery<
+    listingPropertiesApiResponseType,
+    Error,
+    listingPropertiesApiResponseType
+  >({
+    initialData: { data: [] },
+    queryFn: () => {
+      return listingPropertiesApi({
+        data: {
+          status: "'active'",
+          userId: getUserDetails().id,
+        },
+      });
+    },
+    queryKey: ["listing-properties", "'active'"],
+  });
 
   const handlePropertyChange = (event: SelectChangeEvent<unknown>) => {
     setSelectedPropertyValue(event.target.value as number);
@@ -26,10 +52,21 @@ export function useMulticalendar() {
       }
     }
   };
+
+  const { toggle: toggleCalenderSettings, value: calenderSettings } = useToggle(
+    {
+      initialValue: false,
+    },
+  );
+
   return {
+    calenderSettings,
     handlePropertyChange,
     handleShowOptionChange,
+    listingPropertiesApiData,
+    listingPropertiesApiIsFirstLoading,
     selectedPropertyValue,
     selectedShowOptionValue,
+    toggleCalenderSettings,
   };
 }

@@ -213,6 +213,7 @@ const CalendarApp = () => {
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
     null,
   );
+  const [blockedDates, setBlockedDates] = useState<string[]>([]);
 
   useEffect(() => {
     const currentDate = new Date();
@@ -301,14 +302,31 @@ const CalendarApp = () => {
   //   }
   // }, [initialDate]);
 
+  // Helper function to check if a date is in the past
+  const isPastDate = (date: Date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date < today;
+  };
+
   const handleRangeSelect = (info: DateSelectArg) => {
+    // Prevent selection if start date is in the past
+    if (isPastDate(info.start)) {
+      if (calendarContainerRef.current) {
+        calendarContainerRef.current.getApi().unselect();
+      }
+      return;
+    }
+
     const start = new Date(info.start);
     const end = new Date(info.end);
     const datesInRange: string[] = [];
 
-    // Collect all dates in the selected range
+    // Collect all dates in the selected range that aren't in the past
     while (start < end) {
-      datesInRange.push(start.toISOString().split("T")[0]);
+      if (!isPastDate(start)) {
+        datesInRange.push(start.toISOString().split("T")[0]);
+      }
       start.setDate(start.getDate() + 1);
     }
 
@@ -331,10 +349,18 @@ const CalendarApp = () => {
   };
 
   const dayCellClassNames = (arg: DayCellContentArg) => {
-    if (isCellSelected(arg.date.toISOString().split("T")[0])) {
-      return ["bg-primary-main", "text-common-white", "rounded-xl"];
+    const classes = [];
+    const dateStr = arg.date.toISOString().split("T")[0];
+
+    if (isPastDate(arg.date)) {
+      classes.push("bg-[#d1d1d14d]", "cursor-not-allowed");
+    } else if (isCellSelected(dateStr)) {
+      classes.push("bg-primary-main", "text-common-white", "rounded-xl");
+    } else if (blockedDates.includes(dateStr)) {
+      classes.push("bg-[#d1d1d14d]");
     }
-    return [];
+
+    return classes;
   };
 
   const handleEventClick = (info: EventClickArg) => {
@@ -345,6 +371,12 @@ const CalendarApp = () => {
 
   const handleEventResize = (info: EventResizeDoneArg) => {
     const { event } = info;
+
+    // Prevent resizing events into past dates
+    if (event.start && isPastDate(event.start)) {
+      info.revert();
+      return;
+    }
 
     setEvents((prevEvents) =>
       prevEvents.map((e) => {
@@ -366,6 +398,12 @@ const CalendarApp = () => {
 
   const handleEventDrop = (info: EventDropArg) => {
     const { event } = info;
+
+    // Prevent dropping events in past dates
+    if (event.start && isPastDate(event.start)) {
+      info.revert();
+      return;
+    }
 
     setEvents((prevEvents) =>
       prevEvents.map((e) => {
@@ -435,6 +473,12 @@ const CalendarApp = () => {
     console.log("🚀 ~ renderCalendars ~ endMonth:", endMonth);
 
     const handleDateClick = (info: DateClickArg) => {
+      if (isPastDate(info.date)) {
+        return; // Prevent clicking on past dates
+      }
+      if (isDateBlocked(info.date)) {
+        return;
+      }
       console.log("🚀 ~ handleDateClick ~ info:", info);
       // alert(Clicked date: ${info.dateStr});
     };
@@ -478,9 +522,11 @@ const CalendarApp = () => {
           // });
 
           return (
-            <Box className={`h-full rounded-xl p-3 pb-0`}>
+            <Box className="p-3 pb-0">
               <Stack className="h-full justify-between">
-                <Typography className={`font-medium`}>
+                <Typography
+                  className={`font-medium ${isDateBlocked(arg.date) ? "line-through" : ""}`}
+                >
                   {arg.dayNumberText}
                 </Typography>
                 <Typography>₹4,221</Typography>
@@ -620,6 +666,24 @@ const CalendarApp = () => {
     // return calendars;
   };
 
+  const handleBlockDates = () => {
+    setBlockedDates((prev) => [...prev, ...selectedCells]);
+    setSelectedCells([]); // Clear selection after blocking
+  };
+
+  const isDateBlocked = (date: Date): boolean => {
+    const dateStr = date.toISOString().split("T")[0];
+    return blockedDates.includes(dateStr);
+  };
+
+  const handleUnblockDates = () => {
+    // Remove selected dates from blocked dates
+    setBlockedDates((prev) =>
+      prev.filter((date) => !selectedCells.includes(date)),
+    );
+    setSelectedCells([]); // Clear selection after unblocking
+  };
+
   return (
     // <div
     //   // ref={calendarContainerRef}
@@ -632,8 +696,27 @@ const CalendarApp = () => {
     //   }}
     // >
     <>
+      {selectedCells.length > 0 && (
+        <>
+          <Button
+            className="mb-4"
+            color="primary"
+            variant="contained"
+            onClick={handleBlockDates}
+          >
+            Block Selected Dates
+          </Button>
+          <Button
+            className="mb-4"
+            color="success"
+            variant="contained"
+            onClick={handleUnblockDates}
+          >
+            Open Selected Dates
+          </Button>
+        </>
+      )}
       {renderCalendars()}
-
       <Dialog open={isDialogOpen} onClose={handleDialogClose}>
         <DialogTitle>Event Details</DialogTitle>
         <DialogContent>{renderDialogContent()}</DialogContent>
