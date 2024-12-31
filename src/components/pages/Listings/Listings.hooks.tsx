@@ -118,7 +118,7 @@ export function useListings() {
         const searchTerm = searchText.trim().toLowerCase();
 
         return (
-          listing.title.toLowerCase().includes(searchTerm) ||
+          (listing.title || "").toLowerCase().includes(searchTerm) ||
           locationLabel.toLowerCase().includes(searchTerm)
         );
       }) || [];

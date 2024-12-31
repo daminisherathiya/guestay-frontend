@@ -25,7 +25,7 @@ export interface PropertyType {
   longitude: string;
   no_of_couples: string;
   num_of_people: string;
-  title: string;
+  title: string | null;
   type: string;
   weekdays_price: string;
 }
