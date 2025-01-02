@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 
 import {
   DateSelectArg,
@@ -52,8 +52,9 @@ const CalendarApp = () => {
   // const calendarRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [selectedCells, setSelectedCells] = useState<string[]>([]); // Track individual cell selections
   const renderEventContent = (eventInfo: EventContentArg) => {
+    const eventData = events.find((e) => e.id === eventInfo.event.id);
+    const isPastEvent = eventData && isEventInPast(eventData);
     return {
-      // The HTML structure is wrapped in a div with flex layout
       html: `
         <div class="fc-event-custom-content" style="
           display: flex;
@@ -62,7 +63,7 @@ const CalendarApp = () => {
           padding: 8px;
           width: 100%;
         ">
-          <div class="fc-event-avatar" style="
+          <div class={"fc-event-avatar"} style="
             width: 20px;
             height: 20px;
             border-radius: 50%;
@@ -214,7 +215,12 @@ const CalendarApp = () => {
     null,
   );
   const [blockedDates, setBlockedDates] = useState<string[]>([]);
-
+  const isEventInPast = (event: CalendarEvent) => {
+    const eventEnd = event.end ? new Date(event.end) : new Date(event.start);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return eventEnd < today;
+  };
   useEffect(() => {
     const currentDate = new Date();
     setInitialDate(
@@ -267,7 +273,6 @@ const CalendarApp = () => {
         currentMonthElement.offsetTop - scrollableContainer.offsetTop;
       console.log("🚀 ~ useEffect ~ offsetTop:", offsetTop);
 
-      // Scroll the container so that the element aligns with the top of the container
       scrollableContainer.scrollTo({
         behavior: "smooth",
         top: currentMonthElement.offsetTop,
@@ -351,6 +356,22 @@ const CalendarApp = () => {
   const dayCellClassNames = (arg: DayCellContentArg) => {
     const classes = [];
     const dateStr = arg.date.toISOString().split("T")[0];
+    const today = new Date();
+    const isToday =
+      arg.date.toISOString().split("T")[0] ===
+      today.toISOString().split("T")[0];
+
+    if (isToday) {
+      classes.push(
+        "before:ring-2",
+        "before:ring-primary-main",
+        "before:rounded-xl",
+        "before:absolute",
+        "before:size-full",
+        "relative",
+        "bg-common-transparent",
+      );
+    }
 
     if (isPastDate(arg.date)) {
       classes.push("bg-[#d1d1d14d]", "cursor-not-allowed");
@@ -862,4 +883,4 @@ const CalendarApp = () => {
 //   );
 // }
 
-export default CalendarApp;
+export default memo(CalendarApp);

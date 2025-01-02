@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { SelectChangeEvent } from "@mui/material";
 
@@ -11,8 +11,7 @@ import { getUserDetails } from "@/utils/localStorage/localStorage";
 import { CalendarRefType } from "./Multicalendar.types";
 
 export function useMulticalendar() {
-  const [selectedPropertyValue, setSelectedPropertyValue] =
-    useState<number>(10);
+  const [selectedPropertyValue, setSelectedPropertyValue] = useState<number>(0);
   const [selectedShowOptionValue, setSelectedShowOptionValue] =
     useState<number>(1);
 
@@ -35,6 +34,15 @@ export function useMulticalendar() {
     },
     queryKey: ["listing-properties", "'active'"],
   });
+
+  useEffect(() => {
+    if (
+      listingPropertiesApiData?.data &&
+      listingPropertiesApiData.data.length > 0
+    ) {
+      setSelectedPropertyValue(Number(listingPropertiesApiData.data[0].id));
+    }
+  }, [listingPropertiesApiData]);
 
   const handlePropertyChange = (event: SelectChangeEvent<unknown>) => {
     setSelectedPropertyValue(event.target.value as number);

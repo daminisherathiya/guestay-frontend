@@ -131,7 +131,7 @@ body {
     @apply lg:border-r-0;
   }
 
-  .fc .fc-daygrid-day.fc-day-today {
+  /* .fc .fc-daygrid-day.fc-day-today {
     @apply before:ring-2 before:ring-primary-main before:rounded-xl before:absolute before:size-full relative;
-  }
+  } */
 }

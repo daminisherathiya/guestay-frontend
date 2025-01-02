@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import CloseIcon from "@mui/icons-material/Close";
+import HomeIcon from "@mui/icons-material/Home";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
@@ -25,25 +26,6 @@ import { Typography } from "@/components/atoms/Typography";
 
 import CalendarApp from "./components/Calendar/Calendar";
 import { useMulticalendar } from "./Multicalendar.hooks";
-
-const propertyOptions = [
-  { img: "https://via.placeholder.com/24", label: "Option 1", value: 10 },
-  {
-    img: "https://via.placeholder.com/24",
-    label:
-      "Option 2Option 2Option 2Option 2Option 2Option 2Option 2Option 2Option 2Option 2",
-    value: 20,
-  },
-  { img: "https://via.placeholder.com/24", label: "Option 3", value: 30 },
-  { img: "https://via.placeholder.com/24", label: "Option 1", value: 40 },
-  {
-    img: "https://via.placeholder.com/24",
-    label:
-      "Option 2Option 2Option 2Option 2Option 2Option 2Option 2Option 2Option 2Option 2",
-    value: 50,
-  },
-  { img: "https://via.placeholder.com/24", label: "Option 3", value: 60 },
-];
 
 const showOptions = [
   { label: "Month", value: 1 },
@@ -66,7 +48,6 @@ export function Multicalendar({
     toggleCalenderSettings,
   } = useMulticalendar();
   console.log("🚀 ~ listingPropertiesApiData:", listingPropertiesApiData);
-
 
   // useEffect(() => {
   //   if (calendarRef?.current) {
@@ -123,14 +104,23 @@ export function Multicalendar({
                     },
                   }}
                   renderValue={(value) => {
-                    const selected = propertyOptions.find(
-                      (option) => option.value === value,
+                    const selected = listingPropertiesApiData?.data.find(
+                      (listingProperty) => Number(listingProperty.id) === value,
                     );
+                    const coverImage = selected?.images.split(",")[0] || "";
                     return (
                       <Stack className="flex-row items-center gap-3">
-                        <Avatar className="size-7" src={selected?.img} />
+                        {coverImage ? (
+                          <Avatar
+                            className="size-7"
+                            src={`https://guestay.webarysites.com/file/28/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${coverImage}`}
+                          />
+                        ) : (
+                          <HomeIcon className="block size-7 rounded-full bg-action-hover text-text-secondary/20" />
+                        )}
+
                         <Typography className="truncate" variant="body2">
-                          {selected?.label}
+                          {selected?.title}
                         </Typography>
                         <Divider
                           flexItem
@@ -145,47 +135,55 @@ export function Multicalendar({
                   onChange={handlePropertyChange}
                 >
                   {listingPropertiesApiData?.data.map((listingProperty) => {
-                    const coverImage = listingProperty?.images.split(",")[0] || "";
-                    return <MenuItem
-                      key={listingProperty.id}
-                      className="px-6 py-4"
-                      value={listingProperty.id}
-                    >
-                      <Stack className="w-full flex-row items-center">
-                        <Stack className="w-full flex-row items-center justify-between gap-2">
-                          <Stack className="flex-row items-center gap-2">
-                            <Box className="size-14 shrink-0 overflow-hidden rounded-lg">
-                              <Image
-                                alt="Cover picture"
-                                className="size-full object-cover"
-                                height={60}
-                                src={`https://guestay.webarysites.com/file/1000/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${coverImage}`}
-                                width={60}
-                              />
-                            </Box>
-                            <Box>
-                              <Typography
-                                className="line-clamp-2 text-wrap font-medium"
-                                variant="body2"
-                              >
-                                {listingProperty.title}
-                              </Typography>
-                              <Typography
-                                className="text-xs text-text-secondary"
-                                variant="body2"
-                              >
-                                In progress
-                              </Typography>
-                            </Box>
+                    const coverImage =
+                      listingProperty?.images.split(",")[0] || "";
+                    return (
+                      <MenuItem
+                        key={listingProperty.id}
+                        className="px-6 py-4"
+                        value={Number(listingProperty.id)}
+                      >
+                        <Stack className="w-full flex-row items-center">
+                          <Stack className="w-full flex-row items-center justify-between gap-2">
+                            <Stack className="flex-row items-center gap-2">
+                              <Box className="size-14 shrink-0 overflow-hidden rounded-lg">
+                                {coverImage ? (
+                                  <Image
+                                    alt="Cover picture"
+                                    className="size-full max-h-full max-w-full object-cover"
+                                    height={60}
+                                    src={`https://guestay.webarysites.com/file/60/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${coverImage}`}
+                                    width={60}
+                                  />
+                                ) : (
+                                  <HomeIcon className="block size-full max-h-full max-w-full bg-action-hover text-text-secondary/20" />
+                                )}
+                              </Box>
+                              <Box>
+                                <Typography
+                                  className="line-clamp-2 text-wrap font-medium"
+                                  variant="body2"
+                                >
+                                  {listingProperty.title}
+                                </Typography>
+                                <Typography
+                                  className="text-xs text-text-secondary"
+                                  variant="body2"
+                                >
+                                  In progress
+                                </Typography>
+                              </Box>
+                            </Stack>
+                            {selectedPropertyValue ===
+                            Number(listingProperty.id) ? (
+                                <RadioButtonCheckedIcon color="primary" />
+                              ) : (
+                                <RadioButtonUncheckedIcon color="action" />
+                              )}
                           </Stack>
-                          {selectedPropertyValue === Number(listingProperty.id) ? (
-                            <RadioButtonCheckedIcon color="primary" />
-                          ) : (
-                            <RadioButtonUncheckedIcon color="action" />
-                          )}
                         </Stack>
-                      </Stack>
-                    </MenuItem>
+                      </MenuItem>
+                    );
                   })}
                 </Select>
                 <Select
