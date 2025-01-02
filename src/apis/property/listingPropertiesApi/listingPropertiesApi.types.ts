@@ -14,7 +14,7 @@ export interface ListingPropertiesType {
   listing_steps: string | null;
   location: string;
   status: "active" | "inactive" | "trash" | "draft";
-  title: string;
+  title: string | null;
 }
 
 export interface listingPropertiesApiResponseType {
