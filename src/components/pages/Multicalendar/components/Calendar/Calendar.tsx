@@ -488,7 +488,7 @@ const CalendarApp = () => {
     console.log("🚀 ~ renderCalendars ~ startMonth:", startMonth);
 
     const endMonth = currentDate
-      .add(23, "months")
+      .add(13, "months")
       .startOf("month")
       .format("YYYY-MM-DD");
     console.log("🚀 ~ renderCalendars ~ endMonth:", endMonth);
@@ -609,7 +609,7 @@ const CalendarApp = () => {
         }}
         views={{
           multiMonthYear: {
-            duration: { months: 34 }, // Match the duration here as well
+            duration: { months: 24 }, // Match the duration here as well
             multiMonthTitleFormat: { month: "long", year: "numeric" },
           },
         }}

@@ -65,6 +65,7 @@ export function FloorPlan() {
               isLoading={isLoading}
               label="Bathrooms"
               maxCount={50}
+              minCount={1}
               setCounters={setBedroomsCounters}
               steps={0.5}
             />
@@ -104,12 +105,15 @@ export function FloorPlan() {
                     </Grid2>
                   </Grid2>
                 ) : (
-                  <Grid2 container className="items-center" spacing={2}>
+                  <Grid2 container spacing={2}>
                     <Grid2 size={{ "2xs": 12, sm: 6 }}>
                       <TextFieldWrapper
                         control={control}
                         label="Bedroom Name"
                         name={`bedrooms.${index}.name`}
+                        rules={{
+                          required: "Bedroom Name is required",
+                        }}
                       />
                     </Grid2>
                     <Grid2 size={{ "2xs": 12, sm: 6 }}>
@@ -143,7 +147,7 @@ export function FloorPlan() {
                       <Controller
                         control={control}
                         name={`bedrooms.${index}.type`}
-                        render={({ field }) => (
+                        render={({ field, fieldState: { error } }) => (
                           <Autocomplete
                             {...field}
                             multiple
@@ -155,13 +159,16 @@ export function FloorPlan() {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
+                                error={!!error}
+                                helperText={error ? error.message : ""}
                                 label="Select Bed Types"
                                 slotProps={{
+                                  formHelperText: { className: "mt-0 mx-2" },
                                   input: {
                                     ...params.InputProps,
                                     className: `${
                                       params.InputProps.className
-                                    } bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none`,
+                                    } bg-common-white before:h-full before:rounded-lg before:border before:border-common-black/45 after:h-full after:rounded-lg after:border-2 after:border-common-black after:transition-none ${error ? "before:border-error-main after:border-error-main" : ""}`,
                                     endAdornment: (
                                       <>
                                         {bedTypesApiIsFirstLoading ? (
@@ -193,6 +200,11 @@ export function FloorPlan() {
                             onChange={(_, newValue) => field.onChange(newValue)}
                           />
                         )}
+                        rules={{
+                          validate: (value) =>
+                            (value && value.length > 0) ||
+                            "At least one bed type must be selected",
+                        }}
                       />
                     </Grid2>
                     {bedrooms.length > 1 && (
@@ -226,7 +238,7 @@ export function FloorPlan() {
               }}
               counter={cribsCounters}
               isLoading={isLoading}
-              label="cribs"
+              label="Cribs"
               maxCount={50}
               setCounters={setCribsCounters}
             />

@@ -26,16 +26,22 @@ export function useFloorPlan() {
     savePropertyApiMutate,
   } = usePropertyToEdit();
 
-  const [bedroomsCounters, setBedroomsCounters] = useState<number>(0);
+  const [bedroomsCounters, setBedroomsCounters] = useState<number>(1);
   const [cribsCounters, setCribsCounters] = useState<number>(0);
 
-  const { control, reset, setValue, watch, getValues } =
-    useForm<BedroomFormValues>({
-      defaultValues: {
-        bedrooms: BEDROOMS_INITIAL_VALUE,
-      },
-      mode: "onChange",
-    });
+  const {
+    control,
+    reset,
+    setValue,
+    watch,
+    getValues,
+    formState: { isValid },
+  } = useForm<BedroomFormValues>({
+    defaultValues: {
+      bedrooms: BEDROOMS_INITIAL_VALUE,
+    },
+    mode: "onChange",
+  });
 
   const bedrooms = watch("bedrooms") || [];
 
@@ -44,7 +50,7 @@ export function useFloorPlan() {
       bed_count: "1",
       display_order: String(bedrooms.length),
       name: `Bedroom ${bedrooms.length + 1}`,
-      type: [],
+      type: BEDROOMS_INITIAL_VALUE[0].type,
     };
     setValue("bedrooms", [...bedrooms, newBedroom]);
   };
@@ -54,8 +60,27 @@ export function useFloorPlan() {
     setValue("bedrooms", newBedrooms);
   };
 
+  const {
+    data: bedTypesApiData,
+    isFirstLoading: bedTypesApiIsFirstLoading,
+    isSuccess: bedTypesApiIsSuccess,
+  } = useQuery<bedTypesApiResponseType, Error, bedTypesApiResponseType>({
+    initialData: { data: [] },
+    queryFn: () => {
+      return bedTypesApi({ data: { userId: getUserDetails().id } });
+    },
+    queryKey: ["bed-type"],
+  });
+
   useEffect(() => {
-    if (propertyApiIsSuccess) {
+    if (bedTypesApiIsSuccess && propertyApiIsSuccess) {
+      const firstBedType = bedTypesApiData.data[0];
+      if (firstBedType) {
+        BEDROOMS_INITIAL_VALUE[0].type = [firstBedType];
+      }
+
+      ////////
+
       setBedroomsCounters(
         propertyApiData?.data?.property[0].baths
           ? Number(propertyApiData?.data?.property[0].baths)
@@ -74,16 +99,13 @@ export function useFloorPlan() {
         : BEDROOMS_INITIAL_VALUE;
       reset({ bedrooms: propertyBedrooms });
     }
-  }, [propertyApiData, propertyApiIsSuccess, reset]);
-
-  const { data: bedTypesApiData, isFirstLoading: bedTypesApiIsFirstLoading } =
-    useQuery<bedTypesApiResponseType, Error, bedTypesApiResponseType>({
-      initialData: { data: [] },
-      queryFn: () => {
-        return bedTypesApi({ data: { userId: getUserDetails().id } });
-      },
-      queryKey: ["bed-type"],
-    });
+  }, [
+    bedTypesApiData,
+    bedTypesApiIsSuccess,
+    propertyApiData,
+    propertyApiIsSuccess,
+    reset,
+  ]);
 
   ////////
 
@@ -132,7 +154,7 @@ export function useFloorPlan() {
   const isLoading = propertyApiIsFirstLoading || bedTypesApiIsFirstLoading;
 
   const { Footer, nextUrl } = useFooterProgressBar({
-    isDisabled: isLoading,
+    isDisabled: isLoading || !isValid,
     isLoading: savePropertyApiIsPending,
     onSubmit: onSubmit,
   });
