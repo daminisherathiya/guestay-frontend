@@ -1,14 +1,3 @@
-export interface CounterItem {
-  field: keyof CounterState;
-  max: number;
-  name: string;
-}
-
-export interface CounterState {
-  bathrooms: number;
-  cribs: number;
-}
-
 export interface BedroomFormValues {
   bedrooms: {
     bed_count: string;

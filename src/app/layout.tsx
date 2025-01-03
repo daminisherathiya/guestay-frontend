@@ -77,7 +77,7 @@ export default function RootLayout({
                 <GlobalSnackbarAlertProvider>
                   <CssBaseline />
                   <Header />
-                  <Toolbar className="min-h-20 xs:min-h-24 sm:min-h-[6.375rem]" />
+                  <Toolbar className="min-h-[4.5rem] xs:min-h-[5.125rem] md:min-h-[5.625rem]" />
                   <AuthenticationLoader>{children}</AuthenticationLoader>
                   {process.env.NODE_ENV !== "production" && (
                     <ReactQueryDevtools initialIsOpen={false} />

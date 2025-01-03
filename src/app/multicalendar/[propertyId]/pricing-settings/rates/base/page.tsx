@@ -6,6 +6,6 @@ export const metadata: Metadata = {
   title: "Base price - Pricing settings - Guestay",
 };
 
-export default function PricingSettingsBasePage() {
+export default function PricingSettingsRatesBasePage() {
   return <BasePricing />;
 }
