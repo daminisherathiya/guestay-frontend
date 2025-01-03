@@ -25,12 +25,16 @@ import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
 import CalendarApp from "./components/Calendar/Calendar";
+import { CALENDAR_VIEW_OPTIONS } from "./Multicalendar.consts";
 import { useMulticalendar } from "./Multicalendar.hooks";
 
-const showOptions = [
-  { label: "Month", value: 1 },
-  { label: "Year", value: 2 },
-];
+function RadioButtonIcon({ isSelected }: { isSelected: boolean }) {
+  return isSelected ? (
+    <RadioButtonCheckedIcon color="primary" />
+  ) : (
+    <RadioButtonUncheckedIcon color="action" />
+  );
+}
 
 export function Multicalendar({
   children,
@@ -42,9 +46,9 @@ export function Multicalendar({
     handlePropertyChange,
     handleShowOptionChange,
     listingPropertiesApiData,
-    listingPropertiesApiIsFirstLoading,
+    // listingPropertiesApiIsFirstLoading,
+    selectedCalenderViewOptionValue,
     selectedPropertyValue,
-    selectedShowOptionValue,
     toggleCalenderSettings,
   } = useMulticalendar();
   console.log("🚀 ~ listingPropertiesApiData:", listingPropertiesApiData);
@@ -174,12 +178,12 @@ export function Multicalendar({
                                 </Typography>
                               </Box>
                             </Stack>
-                            {selectedPropertyValue ===
-                            Number(listingProperty.id) ? (
-                                <RadioButtonCheckedIcon color="primary" />
-                              ) : (
-                                <RadioButtonUncheckedIcon color="action" />
-                              )}
+                            <RadioButtonIcon
+                              isSelected={
+                                selectedPropertyValue ===
+                                Number(listingProperty.id)
+                              }
+                            />
                           </Stack>
                         </Stack>
                       </MenuItem>
@@ -216,7 +220,7 @@ export function Multicalendar({
                     },
                   }}
                   renderValue={(value) => {
-                    const selected = showOptions.find(
+                    const selected = CALENDAR_VIEW_OPTIONS.find(
                       (option) => option.value === value,
                     );
                     return (
@@ -233,10 +237,10 @@ export function Multicalendar({
                       </Stack>
                     );
                   }}
-                  value={selectedShowOptionValue}
+                  value={selectedCalenderViewOptionValue}
                   onChange={handleShowOptionChange}
                 >
-                  {showOptions.map((option) => (
+                  {CALENDAR_VIEW_OPTIONS.map((option) => (
                     <MenuItem
                       key={option.value}
                       className="px-6 py-4"
@@ -251,7 +255,7 @@ export function Multicalendar({
                             {option.label}
                           </Typography>
 
-                          {selectedShowOptionValue === option.value ? (
+                          {selectedCalenderViewOptionValue === option.value ? (
                             <RadioButtonCheckedIcon color="primary" />
                           ) : (
                             <RadioButtonUncheckedIcon color="action" />

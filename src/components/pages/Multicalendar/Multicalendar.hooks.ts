@@ -12,7 +12,7 @@ import { CalendarRefType } from "./Multicalendar.types";
 
 export function useMulticalendar() {
   const [selectedPropertyValue, setSelectedPropertyValue] = useState<number>(0);
-  const [selectedShowOptionValue, setSelectedShowOptionValue] =
+  const [selectedCalenderViewOptionValue, setSelectedCalenderViewOptionValue] =
     useState<number>(1);
 
   const {
@@ -51,7 +51,7 @@ export function useMulticalendar() {
   const calendarRef = useRef<CalendarRefType>(null);
 
   const handleShowOptionChange = (event: SelectChangeEvent<unknown>) => {
-    setSelectedShowOptionValue(event.target.value as number);
+    setSelectedCalenderViewOptionValue(event.target.value as number);
     if (calendarRef?.current) {
       if (event.target.value === 1) {
         calendarRef.current.getApi().changeView("multiMonth");
@@ -73,8 +73,8 @@ export function useMulticalendar() {
     handleShowOptionChange,
     listingPropertiesApiData,
     listingPropertiesApiIsFirstLoading,
+    selectedCalenderViewOptionValue,
     selectedPropertyValue,
-    selectedShowOptionValue,
     toggleCalenderSettings,
   };
 }

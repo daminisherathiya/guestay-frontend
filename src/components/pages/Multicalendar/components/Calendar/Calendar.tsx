@@ -52,8 +52,8 @@ const CalendarApp = () => {
   // const calendarRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [selectedCells, setSelectedCells] = useState<string[]>([]); // Track individual cell selections
   const renderEventContent = (eventInfo: EventContentArg) => {
-    const eventData = events.find((e) => e.id === eventInfo.event.id);
-    const isPastEvent = eventData && isEventInPast(eventData);
+    // const eventData = events.find((e) => e.id === eventInfo.event.id);
+    // const isPastEvent = eventData && isEventInPast(eventData);
     return {
       html: `
         <div class="fc-event-custom-content" style="
@@ -215,12 +215,12 @@ const CalendarApp = () => {
     null,
   );
   const [blockedDates, setBlockedDates] = useState<string[]>([]);
-  const isEventInPast = (event: CalendarEvent) => {
-    const eventEnd = event.end ? new Date(event.end) : new Date(event.start);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return eventEnd < today;
-  };
+  // const isEventInPast = (event: CalendarEvent) => {
+  //   const eventEnd = event.end ? new Date(event.end) : new Date(event.start);
+  //   const today = new Date();
+  //   today.setHours(0, 0, 0, 0);
+  //   return eventEnd < today;
+  // };
   useEffect(() => {
     const currentDate = new Date();
     setInitialDate(
