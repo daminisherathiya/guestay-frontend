@@ -63,7 +63,7 @@ export function useMulticalendar() {
 
   const { toggle: toggleCalenderSettings, value: calenderSettings } = useToggle(
     {
-      initialValue: false,
+      initialValue: true,
     },
   );
 

@@ -24,7 +24,7 @@ import { Select } from "@/components/atoms/Select/Select";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-import CalendarApp from "./components/Calendar/Calendar";
+import { HostCalendar } from "./components/HostCalendar";
 import { CALENDAR_VIEW_OPTIONS } from "./Multicalendar.consts";
 import { useMulticalendar } from "./Multicalendar.hooks";
 
@@ -287,7 +287,7 @@ export function Multicalendar({
               </Box>
             </Stack>
             <Box>
-              <CalendarApp />
+              <HostCalendar />
             </Box>
           </Box>
           <Divider
@@ -297,9 +297,11 @@ export function Multicalendar({
           />
           <Box
             className={`no-scrollbar fixed top-0 z-10 ${calenderSettings ? "" : "hidden"} size-full shrink-0 overflow-auto bg-common-white px-6 py-12 lg:static lg:block lg:w-[23.125rem] lg:py-8`}
-            onClick={toggleCalenderSettings}
           >
-            <IconButton className="absolute left-2 top-2 size-8 lg:hidden">
+            <IconButton
+              className="absolute left-2 top-2 size-8 lg:hidden"
+              onClick={toggleCalenderSettings}
+            >
               <CloseIcon className="size-5" />
             </IconButton>
             {children}
