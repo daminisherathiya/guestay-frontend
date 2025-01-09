@@ -10,12 +10,14 @@ import {
 import { EventResizeDoneArg } from "@fullcalendar/interaction/index.js";
 import FullCalendar from "@fullcalendar/react";
 
-import { CalendarEvent } from "./HostCalendar.types";
+import { CalendarEvent, useHostCalendarProps } from "./HostCalendar.types";
 
-export function useHostCalendar() {
+export function useHostCalendar({
+  blockedDates,
+  setSelectedCells,
+  selectedCells,
+}: useHostCalendarProps) {
   const calendarContainerRef = useRef<FullCalendar | null>(null);
-  const [selectedCells, setSelectedCells] = useState<string[]>([]); // Track individual cell selections
-  const [blockedDates, setBlockedDates] = useState<string[]>([]);
   const [events, setEvents] = useState<CalendarEvent[]>([
     {
       allDay: false,
@@ -307,31 +309,17 @@ export function useHostCalendar() {
     }
   };
 
-  const handleBlockDates = () => {
-    setBlockedDates((prev) => [...prev, ...selectedCells]);
-    setSelectedCells([]); // Clear selection after blocking
-  };
-
   const isDateBlocked = (date: Date): boolean => {
     const dateStr = date.toISOString().split("T")[0];
     return blockedDates.includes(dateStr);
   };
 
-  const handleUnblockDates = () => {
-    // Remove selected dates from blocked dates
-    setBlockedDates((prev) =>
-      prev.filter((date) => !selectedCells.includes(date)),
-    );
-    setSelectedCells([]); // Clear selection after unblocking
-  };
   return {
     calendarContainerRef,
     dayCellClassNames,
     events,
-    handleBlockDates,
     handleDateRangeSelect,
     handleEventClick,
-    handleUnblockDates,
     isDateBlocked,
     renderEventContent,
     selectedCells,

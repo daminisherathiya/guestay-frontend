@@ -4,6 +4,9 @@ import Link from "next/link";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { Button } from "@mui/material";
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 
 import { Box } from "@/components/atoms/Box";
 import { IconButton } from "@/components/atoms/IconButton";
@@ -11,28 +14,70 @@ import { Stack } from "@/components/atoms/Stack";
 import { Tab } from "@/components/atoms/Tab";
 import { Tabs } from "@/components/atoms/Tabs";
 import { Typography } from "@/components/atoms/Typography";
+import { useMulticalendarContext } from "@/hooks/useMulticalendar";
 import { useTabIndex } from "@/hooks/useTabIndex";
 
 import { useEditSelectedDates } from "./EditSelectedDates.hooks";
 import { PriceBreakdownDialog } from "./PriceBreakdownDialog";
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 export function EditSelectedDates() {
+  const {
+    blockedDates,
+    selectedCells,
+    setSelectedCells,
+    setBlockedDates,
+    getPriceForDate,
+  } = useMulticalendarContext();
+
   const [selectedEditorTabIndex, handleEditorTabChange] = useTabIndex({
-    initialIndex: 0,
+    initialIndex: selectedCells.length === blockedDates.length ? 1 : 0,
   });
 
+  const minMaxSelectedDatePrice = (selectedCells: string[]) => {
+    if (selectedCells.length === 1) {
+      return `₹ ${getPriceForDate(dayjs.tz(selectedCells[0], "YYYY-MM-DD", "UTC").toDate())}`;
+    }
+    const prices = selectedCells.map((selectedCell) => {
+      return getPriceForDate(
+        dayjs.tz(selectedCell, "YYYY-MM-DD", "UTC").toDate(),
+      );
+    });
+    const minPrice = Math.min(...prices);
+    const maxPrice = Math.max(...prices);
+    return minPrice === maxPrice
+      ? `₹${minPrice}`
+      : `₹${minPrice} – ${maxPrice}`;
+  };
+
   const {
+    formatSelectedDates,
+    handleBlockDates,
+    handleOpenPricingSettings,
+    handleUnblockDates,
     priceBreakdownDialogIsOpen,
     setPriceBreakdownDialogIsOpenFalse,
     setPriceBreakdownDialogIsOpenTrue,
-  } = useEditSelectedDates();
+  } = useEditSelectedDates({
+    selectedCells,
+    setBlockedDates,
+    setSelectedCells,
+  });
 
   return (
     <>
       <Stack className="gap-5">
         <Stack className="mb-3 flex-row items-center justify-between">
-          <Typography variant="h2">18–20 Dec</Typography>
-          <IconButton aria-label="close" className="-mr-2 size-8">
+          <Typography variant="h2">
+            {formatSelectedDates(selectedCells)}
+          </Typography>
+          <IconButton
+            aria-label="close"
+            className="-mr-2 size-8"
+            onClick={handleOpenPricingSettings}
+          >
             <CloseIcon className="size-5" />
           </IconButton>
         </Stack>
@@ -63,9 +108,10 @@ export function EditSelectedDates() {
                 Open
               </Typography>
             }
+            onClick={handleUnblockDates}
           />
           <Tab
-            aria-controls="open"
+            aria-controls="block night"
             classes={{
               selected:
                 "bg-common-white bg-primary-main !text-common-white !no-underline",
@@ -80,11 +126,14 @@ export function EditSelectedDates() {
                 Block night
               </Typography>
             }
+            onClick={handleBlockDates}
           />
         </Tabs>
         <Link href="./edit-selected-dates/nightly-price">
           <Box className="space-y-2 rounded-2xl border border-divider p-6">
-            <Typography className="text-3xl font-bold">$25</Typography>
+            <Typography className="text-3xl font-bold">
+              {minMaxSelectedDatePrice(selectedCells)}
+            </Typography>
           </Box>
         </Link>
         <Button

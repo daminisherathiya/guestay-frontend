@@ -1,7 +1,5 @@
 "use client";
 
-import { ReactNode } from "react";
-
 import Image from "next/image";
 import Link from "next/link";
 
@@ -21,14 +19,20 @@ import { IconButton } from "@/components/atoms/IconButton";
 import { MenuItem } from "@/components/atoms/MenuItem";
 import { OutlinedInput } from "@/components/atoms/OutlinedInput";
 import { Select } from "@/components/atoms/Select/Select";
+import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
+import { MulticalendarContextProvider } from "@/providers/MulticalendarProvider/MulticalendarProvider";
 
 import { HostCalendar } from "./components/HostCalendar";
 import { CALENDAR_VIEW_OPTIONS } from "./Multicalendar.consts";
 import { useMulticalendar } from "./Multicalendar.hooks";
+import {
+  MulticalendarProps,
+  RadioButtonIconProps,
+} from "./Multicalendar.types";
 
-function RadioButtonIcon({ isSelected }: { isSelected: boolean }) {
+function RadioButtonIcon({ isSelected }: RadioButtonIconProps) {
   return isSelected ? (
     <RadioButtonCheckedIcon color="primary" />
   ) : (
@@ -36,22 +40,24 @@ function RadioButtonIcon({ isSelected }: { isSelected: boolean }) {
   );
 }
 
-export function Multicalendar({
-  children,
-}: Readonly<{
-  children: ReactNode;
-}>) {
+export function Multicalendar({ children }: MulticalendarProps) {
   const {
+    blockedDates,
     calenderSettings,
+    getPriceForDate,
     handlePropertyChange,
     handleShowOptionChange,
     listingPropertiesApiData,
-    // listingPropertiesApiIsFirstLoading,
+    listingPropertiesApiIsFirstLoading,
+    propertyPricingInfoApiData,
+    propertyPricingInfoApiIsFirstLoading,
     selectedCalenderViewOptionValue,
+    selectedCells,
     selectedPropertyValue,
+    setBlockedDates,
+    setSelectedCells,
     toggleCalenderSettings,
   } = useMulticalendar();
-  console.log("🚀 ~ listingPropertiesApiData:", listingPropertiesApiData);
 
   // useEffect(() => {
   //   if (calendarRef?.current) {
@@ -122,10 +128,13 @@ export function Multicalendar({
                         ) : (
                           <HomeIcon className="block size-7 rounded-full bg-action-hover text-text-secondary/20" />
                         )}
-
-                        <Typography className="truncate" variant="body2">
-                          {selected?.title}
-                        </Typography>
+                        {listingPropertiesApiIsFirstLoading ? (
+                          <Skeleton className="w-32" variant="text" />
+                        ) : (
+                          <Typography className="truncate" variant="body2">
+                            {selected?.title}
+                          </Typography>
+                        )}
                         <Divider
                           flexItem
                           className="mr-0.5"
@@ -287,7 +296,19 @@ export function Multicalendar({
               </Box>
             </Stack>
             <Box>
-              <HostCalendar />
+              <HostCalendar
+                blockedDates={blockedDates}
+                getPriceForDate={getPriceForDate}
+                holidayPricing={propertyPricingInfoApiData?.data.holiday}
+                propertyPricingInfoApiIsFirstLoading={
+                  propertyPricingInfoApiIsFirstLoading
+                }
+                seasonalPricing={propertyPricingInfoApiData?.data.seasonal}
+                selectedCells={selectedCells}
+                setSelectedCells={setSelectedCells}
+                weekdaysPrice={propertyPricingInfoApiData?.data.weekdays_price}
+                weekendPrice={propertyPricingInfoApiData?.data.weekend_price}
+              />
             </Box>
           </Box>
           <Divider
@@ -304,7 +325,20 @@ export function Multicalendar({
             >
               <CloseIcon className="size-5" />
             </IconButton>
-            {children}
+            <MulticalendarContextProvider
+              blockedDates={blockedDates}
+              getPriceForDate={getPriceForDate}
+              propertyPricingInfoApiIsFirstLoading={
+                propertyPricingInfoApiIsFirstLoading
+              }
+              selectedCells={selectedCells}
+              setBlockedDates={setBlockedDates}
+              setSelectedCells={setSelectedCells}
+              weekdaysPrice={propertyPricingInfoApiData?.data.weekdays_price}
+              weekendPrice={propertyPricingInfoApiData?.data.weekend_price}
+            >
+              {children}
+            </MulticalendarContextProvider>
           </Box>
         </Stack>
       </Stack>

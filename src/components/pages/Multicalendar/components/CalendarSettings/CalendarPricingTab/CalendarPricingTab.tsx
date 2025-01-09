@@ -2,10 +2,15 @@ import Link from "next/link";
 
 import { Box } from "@/components/atoms/Box";
 import { Button } from "@/components/atoms/Button";
+import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
+import { useMulticalendarContext } from "@/hooks/useMulticalendar";
 
 export function CalendarPricingTab() {
+  const { propertyPricingInfoApiIsFirstLoading, weekdaysPrice, weekendPrice } =
+    useMulticalendarContext();
+
   return (
     <Stack className="gap-8">
       <Stack className="gap-4">
@@ -18,15 +23,35 @@ export function CalendarPricingTab() {
         <Link href="./pricing-settings/rates/base">
           <Box className="space-y-2 rounded-2xl border border-divider p-6">
             <Typography variant="body2">Per night</Typography>
-            <Typography className="text-3xl font-bold">$25</Typography>
+            {propertyPricingInfoApiIsFirstLoading ? (
+              <Skeleton className="h-9 w-32" variant="text" />
+            ) : (
+              <Typography className="text-3xl font-bold">
+                ${weekdaysPrice}
+              </Typography>
+            )}
           </Box>
         </Link>
-        <Link href="./pricing-settings/rates/weekend">
-          <Stack className="flex-row items-center justify-between rounded-2xl border border-divider p-6">
-            <Typography variant="body2">Custom weekend price</Typography>
-            <Button className="-m-2.5 p-2.5 font-medium">Add</Button>
-          </Stack>
-        </Link>
+
+        <Stack className="flex-row items-start justify-between rounded-2xl border border-divider p-6">
+          <Link href="./pricing-settings/rates/weekend">
+            <Box className="space-y-2">
+              <Typography variant="body2">Custom weekend price</Typography>
+              {propertyPricingInfoApiIsFirstLoading ? (
+                <Skeleton className="h-9 w-32" variant="text" />
+              ) : (
+                weekendPrice && (
+                  <Typography className="text-3xl font-bold">
+                    ${weekendPrice}
+                  </Typography>
+                )
+              )}
+            </Box>
+          </Link>
+          <Button className="-m-2.5 p-2.5 font-medium">
+            {weekendPrice ? "Remove" : "Add"}
+          </Button>
+        </Stack>
       </Stack>
       <Stack className="gap-4">
         <Stack className="grow">

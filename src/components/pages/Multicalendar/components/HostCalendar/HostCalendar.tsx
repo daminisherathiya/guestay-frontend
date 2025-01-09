@@ -1,4 +1,6 @@
-import React, { memo } from "react";
+import { memo, useEffect } from "react";
+
+import { useParams, useRouter } from "next/navigation";
 
 import interactionPlugin from "@fullcalendar/interaction";
 import multiMonthPlugin from "@fullcalendar/multimonth";
@@ -6,13 +8,24 @@ import FullCalendar from "@fullcalendar/react";
 import dayjs from "dayjs";
 
 import { Box } from "@/components/atoms/Box";
-import { Button } from "@/components/atoms/Button";
+import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
 import { useHostCalendar } from "./HostCalendar.hooks";
+import { _HostCalendarProps } from "./HostCalendar.types";
 
-function _HostCalendar() {
+function _HostCalendar({
+  blockedDates,
+  getPriceForDate,
+  holidayPricing,
+  propertyPricingInfoApiIsFirstLoading,
+  seasonalPricing,
+  selectedCells,
+  setSelectedCells,
+  weekdaysPrice,
+  weekendPrice,
+}: _HostCalendarProps) {
   // const isEventInPast = (event: CalendarEvent) => {
   //   const eventEnd = event.end ? new Date(event.end) : new Date(event.start);
   //   const today = new Date();
@@ -24,15 +37,28 @@ function _HostCalendar() {
     calendarContainerRef,
     dayCellClassNames,
     events,
-    handleBlockDates,
     handleDateRangeSelect,
     handleEventClick,
-    handleUnblockDates,
     isDateBlocked,
-    selectedCells,
     renderEventContent,
     updateEvent,
-  } = useHostCalendar();
+  } = useHostCalendar({
+    blockedDates,
+    selectedCells,
+    setSelectedCells,
+  });
+
+  const router = useRouter();
+  const { propertyId }: { propertyId: string } = useParams();
+
+  useEffect(() => {
+    if (selectedCells.length > 0) {
+      // Todo: Replace the id
+      router.replace(`/multicalendar/${propertyId}/edit-selected-dates`, {
+        scroll: false,
+      });
+    }
+  }, [selectedCells, router, propertyId]);
 
   const renderCalendars = () => {
     // const calendars = [];
@@ -64,20 +90,13 @@ function _HostCalendar() {
                 >
                   {arg.dayNumberText}
                 </Typography>
-                <Typography>₹4,221</Typography>
-                {/* <div>
-                  {eventsForDay.map((event) => (
-                    <Typography
-                      key={event.id}
-                      className={`truncate ${
-                        isSelected ? "text-common-white" : "text-primary-dark"
-                      }`}
-                      title={event.title}
-                    >
-                      {event.title}
-                    </Typography>
-                  ))}
-                </div> */}
+                <Typography>
+                  {propertyPricingInfoApiIsFirstLoading ? (
+                    <Skeleton className="w-16" variant="text" />
+                  ) : (
+                    getPriceForDate(arg.date)
+                  )}
+                </Typography>
               </Stack>
             </Box>
           );
@@ -122,31 +141,7 @@ function _HostCalendar() {
     );
   };
 
-  return (
-    <>
-      {selectedCells.length > 0 && (
-        <>
-          <Button
-            className="mb-4"
-            color="primary"
-            variant="contained"
-            onClick={handleBlockDates}
-          >
-            Block Selected Dates
-          </Button>
-          <Button
-            className="mb-4"
-            color="success"
-            variant="contained"
-            onClick={handleUnblockDates}
-          >
-            Open Selected Dates
-          </Button>
-        </>
-      )}
-      {renderCalendars()}
-    </>
-  );
+  return renderCalendars();
 }
 
 export const HostCalendar = memo(_HostCalendar);
