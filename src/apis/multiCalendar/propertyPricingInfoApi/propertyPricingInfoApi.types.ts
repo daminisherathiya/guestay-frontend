@@ -7,7 +7,7 @@ export interface propertyPricingInfoApiType {
   data: propertyPricingInfoApiDataType;
 }
 
-export interface holiday {
+export interface Holiday {
   display_order: string;
   end_at: string;
   id: string;
@@ -15,7 +15,7 @@ export interface holiday {
   start_at: string;
 }
 
-export interface seasonal {
+export interface Seasonal {
   display_order: string;
   end_at: string;
   id: string;
@@ -25,8 +25,8 @@ export interface seasonal {
 }
 
 export interface PropertyPricingInfoType {
-  holiday?: holiday[];
-  seasonal?: seasonal[];
+  holiday?: Holiday[];
+  seasonal?: Seasonal[];
   weekdays_price: string;
   weekend_price: string;
 }

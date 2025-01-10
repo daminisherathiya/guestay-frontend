@@ -1,10 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
 
-import {
-  holiday,
-  seasonal,
-} from "@/apis/multiCalendar/propertyPricingInfoApi/propertyPricingInfoApi.types";
-
 import { CalendarRefType } from "../../Multicalendar.types";
 
 export interface CalendarProps {
@@ -26,14 +21,10 @@ export interface CalendarEvent {
 
 export interface _HostCalendarProps {
   blockedDates: string[];
-  holidayPricing: holiday;
+  getPriceForDate: (date: Date) => number;
   propertyPricingInfoApiIsFirstLoading: boolean;
-  seasonalPricing: seasonal;
   selectedCells: string[];
-  setBlockedDates: Dispatch<SetStateAction<string[]>>;
   setSelectedCells: Dispatch<SetStateAction<string[]>>;
-  weekdaysPrice: string;
-  weekendPrice: string;
 }
 
 export interface useHostCalendarProps {

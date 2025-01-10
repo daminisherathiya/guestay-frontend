@@ -18,21 +18,10 @@ import { _HostCalendarProps } from "./HostCalendar.types";
 function _HostCalendar({
   blockedDates,
   getPriceForDate,
-  holidayPricing,
   propertyPricingInfoApiIsFirstLoading,
-  seasonalPricing,
   selectedCells,
   setSelectedCells,
-  weekdaysPrice,
-  weekendPrice,
 }: _HostCalendarProps) {
-  // const isEventInPast = (event: CalendarEvent) => {
-  //   const eventEnd = event.end ? new Date(event.end) : new Date(event.start);
-  //   const today = new Date();
-  //   today.setHours(0, 0, 0, 0);
-  //   return eventEnd < today;
-  // };
-
   const {
     calendarContainerRef,
     dayCellClassNames,
@@ -94,7 +83,7 @@ function _HostCalendar({
                   {propertyPricingInfoApiIsFirstLoading ? (
                     <Skeleton className="w-16" variant="text" />
                   ) : (
-                    getPriceForDate(arg.date)
+                    `$${getPriceForDate(arg.date)}`
                   )}
                 </Typography>
               </Stack>

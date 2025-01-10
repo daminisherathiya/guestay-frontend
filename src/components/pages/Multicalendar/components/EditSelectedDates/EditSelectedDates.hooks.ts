@@ -1,14 +1,16 @@
-import { useParams, useRouter } from "next/navigation";
-
-import { useBoolean } from "@/hooks/useBoolean";
+import { useRouter } from "next/navigation";
 
 import dayjs from "dayjs";
 
+import { useBoolean } from "@/hooks/useBoolean";
+
+import { useEditSelectedDatesProps } from "./useEditSelectedDates.types";
+
 export function useEditSelectedDates({
   selectedCells,
-  setSelectedCells,
   setBlockedDates,
-}) {
+  setSelectedCells,
+}: useEditSelectedDatesProps) {
   const {
     value: priceBreakdownDialogIsOpen,
     setTrue: setPriceBreakdownDialogIsOpenTrue,
@@ -32,13 +34,16 @@ export function useEditSelectedDates({
     setSelectedCells([]);
   };
 
-  const formatSelectedDates = (selectedCells:string[]) => {
-    if (!selectedCells || selectedCells.length === 0) return "";
+  const formatSelectedDates = (selectedCells: string[]) => {
+    if (!selectedCells || selectedCells.length === 0) {
+      router.push("./pricing-settings");
+      return "";
+    }
 
     if (selectedCells.length === 1) {
-      const parsedDate = dayjs(selectedCells[0])
+      const parsedDate = dayjs(selectedCells[0]);
       const singleDay = parsedDate.date();
-      const month = parsedDate.format('MMM');
+      const month = parsedDate.format("MMM");
       return `${singleDay} ${month}`;
     }
 

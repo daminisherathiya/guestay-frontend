@@ -299,15 +299,11 @@ export function Multicalendar({ children }: MulticalendarProps) {
               <HostCalendar
                 blockedDates={blockedDates}
                 getPriceForDate={getPriceForDate}
-                holidayPricing={propertyPricingInfoApiData?.data.holiday}
                 propertyPricingInfoApiIsFirstLoading={
                   propertyPricingInfoApiIsFirstLoading
                 }
-                seasonalPricing={propertyPricingInfoApiData?.data.seasonal}
                 selectedCells={selectedCells}
                 setSelectedCells={setSelectedCells}
-                weekdaysPrice={propertyPricingInfoApiData?.data.weekdays_price}
-                weekendPrice={propertyPricingInfoApiData?.data.weekend_price}
               />
             </Box>
           </Box>
@@ -334,8 +330,14 @@ export function Multicalendar({ children }: MulticalendarProps) {
               selectedCells={selectedCells}
               setBlockedDates={setBlockedDates}
               setSelectedCells={setSelectedCells}
-              weekdaysPrice={propertyPricingInfoApiData?.data.weekdays_price}
-              weekendPrice={propertyPricingInfoApiData?.data.weekend_price}
+              weekdaysPrice={parseInt(
+                propertyPricingInfoApiData?.data.weekdays_price || "0",
+                10,
+              )}
+              weekendPrice={parseInt(
+                propertyPricingInfoApiData?.data.weekend_price || "0",
+                10,
+              )}
             >
               {children}
             </MulticalendarContextProvider>

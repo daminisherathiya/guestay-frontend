@@ -7,10 +7,10 @@ import dayjs from "dayjs";
 
 import { propertyPricingInfoApi } from "@/apis/multiCalendar/propertyPricingInfoApi";
 import {
-  holiday,
-  seasonal,
+  Holiday,
+  Seasonal,
+  propertyPricingInfoApiResponseType,
 } from "@/apis/multiCalendar/propertyPricingInfoApi/propertyPricingInfoApi.types";
-import { propertyPricingInfoApiResponseType } from "@/apis/multiCalendar/propertyPricingInfoApi/propertyPricingInfoApi.types";
 import { listingPropertiesApi } from "@/apis/property/listingPropertiesApi";
 import { listingPropertiesApiResponseType } from "@/apis/property/listingPropertiesApi/listingPropertiesApi.types";
 import { useQuery } from "@/hooks/useQuery";
@@ -93,38 +93,47 @@ export function useMulticalendar() {
     },
   );
 
-  const getPricingPeriod = (date: Date) => {
+  const getPricingPeriod = (date: Date): Holiday | Seasonal | null => {
     const dateStr = dayjs(date).format("YYYY-MM-DD HH:mm:ss");
 
-    const holidayPrice = propertyPricingInfoApiData?.data.holiday.find(
-      (holiday: holiday) =>
-        dateStr >= holiday.start_at && dateStr <= holiday.end_at,
+    const holidayPrice = propertyPricingInfoApiData?.data.holiday?.find(
+      (holiday) => dateStr >= holiday.start_at && dateStr <= holiday.end_at,
     );
-    if (holidayPrice) return holidayPrice;
+    console.log(
+      "🚀 ~ getPricingPeriod ~ propertyPricingInfoApiData:",
+      propertyPricingInfoApiData,
+    );
+    if (holidayPrice) {
+      return holidayPrice;
+    }
 
-    const seasonalPrice = propertyPricingInfoApiData?.data.seasonal.find(
-      (season: seasonal) =>
-        dateStr >= season.start_at && dateStr <= season.end_at,
+    const seasonalPrice = propertyPricingInfoApiData?.data.seasonal?.find(
+      (season) => dateStr >= season.start_at && dateStr <= season.end_at,
     );
-    if (seasonalPrice) return seasonalPrice;
+    console.log("🚀 ~ getPricingPeriod ~ seasonalPrice:", seasonalPrice);
+    if (seasonalPrice) {
+      return seasonalPrice;
+    }
 
     return null;
   };
 
   const getPriceForDate = (date: Date) => {
-    console.log("🚀 ~ getPriceForDate ~ date:", date);
     const isWeekend = date.getDay() === 0 || date.getDay() === 6;
     const specialPricing = getPricingPeriod(date);
 
     if (specialPricing) {
+      console.log("🚀 ~ getPriceForDate ~ specialPricing:", specialPricing);
       if (!("weekend_price" in specialPricing)) {
-        return specialPricing.price;
+        return parseInt(specialPricing.price, 10);
       }
-      return isWeekend ? specialPricing.weekend_price : specialPricing.price;
+      return isWeekend
+        ? parseInt(specialPricing?.weekend_price, 10)
+        : parseInt(specialPricing.price, 10);
     }
     return isWeekend
-      ? propertyPricingInfoApiData?.data.weekend_price
-      : propertyPricingInfoApiData?.data.weekdays_price;
+      ? parseInt(propertyPricingInfoApiData?.data.weekend_price || "0", 10)
+      : parseInt(propertyPricingInfoApiData?.data.weekdays_price || "0", 10);
   };
 
   return {
