@@ -12,7 +12,10 @@ import { useQuery } from "@/hooks/useQuery";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { BEDROOMS_INITIAL_VALUE } from "./FloorPlan.consts";
-import { BedroomFormValues } from "./FloorPlan.types";
+import {
+  BedroomFormValues,
+  BedroomsFromGetPropertyAPI,
+} from "./FloorPlan.types";
 
 export function useFloorPlan() {
   const { propertyId }: { propertyId: string } = useParams();
@@ -91,9 +94,29 @@ export function useFloorPlan() {
           ? Number(propertyApiData?.data?.property[0].cribs)
           : 0,
       );
-      let propertyBedrooms = JSON.parse(
-        propertyApiData?.data?.property[0]?.bedrooms_info || "[]",
-      );
+      const propertyBedroomsFromGetPropertyAPI: BedroomsFromGetPropertyAPI =
+        JSON.parse(propertyApiData?.data?.property[0]?.bedrooms_info || "[]");
+
+      let propertyBedrooms: BedroomFormValues["bedrooms"] =
+        propertyBedroomsFromGetPropertyAPI.map((bedroom) => {
+          const updatedTypes = bedroom.type.map((bedTypeItem) => {
+            const found = bedTypesApiData.data.find(
+              (apiItem) => apiItem.id === bedTypeItem.id,
+            );
+
+            return {
+              ...bedTypeItem,
+              icon: found?.icon ?? "",
+              title: found?.title ?? "",
+            };
+          });
+
+          return {
+            ...bedroom,
+            type: updatedTypes,
+          };
+        });
+
       propertyBedrooms = propertyBedrooms.length
         ? propertyBedrooms
         : BEDROOMS_INITIAL_VALUE;
