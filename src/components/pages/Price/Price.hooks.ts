@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";
 
@@ -7,11 +7,9 @@ import {
   GlobalPriceType,
   globalPricesApiResponseType,
 } from "@/apis/property/globalPricesApi/globalPricesApi.types";
-import { useBoolean } from "@/hooks/useBoolean/useBoolean";
 import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
 import { useQuery } from "@/hooks/useQuery";
-import { useToggle } from "@/hooks/useToggle/useToggle";
 import { removeLeadingZeros, roundNumber } from "@/utils/common";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
@@ -22,7 +20,6 @@ export function usePrice() {
   const { propertyId }: { propertyId: string } = useParams();
 
   const [price, setPrice] = useState<string>(DEFAULT_PRICE);
-  const priceInputRef = useRef<HTMLInputElement | null>(null);
 
   const {
     propertyApiData,
@@ -83,29 +80,6 @@ export function usePrice() {
     setInsurancePolicyPrice,
   ]);
 
-  const { toggle: setIsPriceVisibleTrue, value: isPriceVisible } = useToggle({
-    initialValue: true,
-  });
-
-  const {
-    value: isEditing,
-    setTrue: setIsEditingTrue,
-    setFalse: setIsEditingFalse,
-  } = useBoolean({ initialValue: false });
-
-  const {
-    value: moreAboutPricingDialogIsOpen,
-    setTrue: setMoreAboutPricingDialogIsOpenTrue,
-    setFalse: setMoreAboutPricingDialogIsOpenFalse,
-  } = useBoolean({ initialValue: false });
-
-  const handleEditClick = () => {
-    setIsEditingTrue();
-    if (priceInputRef.current) {
-      priceInputRef.current.focus();
-    }
-  };
-
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
 
@@ -156,25 +130,15 @@ export function usePrice() {
   }, [nextUrl, router, savePropertyApiIsSuccess]);
 
   return {
-    commissionRates: roundNumber(
+    commissionPrice: roundNumber(
       parseFloat(price.replace(/,/g, "")) * (parseFloat(commissionRate) / 100),
     ),
+    commissionRate,
     Footer,
-    globalPricesApiData,
-    handleEditClick,
     handleInput,
     insurancePolicyPrice: insurancePolicyPrice,
-    isEditing,
     isLoading,
-    isPriceVisible,
-    moreAboutPricingDialogIsOpen,
     price,
     priceError,
-    priceInputRef,
-    setIsEditingFalse,
-    setIsEditingTrue,
-    setIsPriceVisibleTrue,
-    setMoreAboutPricingDialogIsOpenFalse,
-    setMoreAboutPricingDialogIsOpenTrue,
   };
 }

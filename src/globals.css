@@ -61,4 +61,77 @@ body {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  .c-fc-container .fc-header-toolbar {
+    @apply sticky top-0 bg-common-white z-[3] mb-0 h-14;
+  }
+  .c-fc-container .fc-dayGridMonth-view .fc-scrollgrid [role="rowgroup"]:first-child {
+    @apply sticky top-14 bg-common-white z-[3];
+  }
+  .fc .fc-view-harness {
+    @apply h-screen;
+  }
+  .fc .fc-toolbar.fc-header-toolbar {
+    @apply mb-0;
+  }
+  .fc {
+    @apply overflow-scroll;
+  }
+  .fc .fc-multimonth {
+    @apply overflow-visible;
+  }
+  .fc .fc-highlight {
+    @apply bg-[#e4e4e44d];
+  }
+  .fc .fc-daygrid-day {
+    @apply h-[152px];
+  }
+  .fc .fc-daygrid-day-number {
+    @apply w-full h-full;
+  }
+
+  .fc .fc-daygrid-day-top {
+    @apply h-full;
+  }
+
+  .fc .fc-multimonth-singlecol .fc-multimonth-daygrid-table,
+  .fc .fc-multimonth-singlecol .fc-multimonth-header-table {
+    @apply border-x border-divider border-solid;
+  }
+
+  .fc .fc-multimonth {
+    @apply border-none;
+  }
+
+  .fc .fc-multimonth-title {
+    @apply pt-0 text-2xl;
+  }
+
+  .fc .fc-multimonth-daygrid-table {
+    @apply mb-5;
+  }
+
+  .fc .fc-h-event {
+    @apply rounded-pill;
+  }
+
+  .fc.fc-direction-ltr .fc-daygrid-block-event:not(.fc-event-end) {
+    @apply rounded-r-none;
+  }
+
+  .fc.fc-direction-ltr .fc-daygrid-block-event:not(.fc-event-start) {
+    @apply rounded-l-none;
+  }
+
+  .fc .fc-multimonth-singlecol .fc-multimonth-daygrid-table,
+  .fc-theme-standard td,
+  .fc-theme-standard td,
+  .fc .fc-multimonth-singlecol .fc-multimonth-header-table,
+  .fc-theme-standard td,
+  .fc-theme-standard th {
+    @apply lg:border-r-0;
+  }
+
+  /* .fc .fc-daygrid-day.fc-day-today {
+    @apply before:ring-2 before:ring-primary-main before:rounded-xl before:absolute before:size-full relative;
+  } */
 }

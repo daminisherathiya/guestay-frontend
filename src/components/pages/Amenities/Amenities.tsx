@@ -68,7 +68,7 @@ export function Amenities() {
                         alt={amenity.title}
                         className="size-8 object-cover"
                         height={32}
-                        src={`https://guestay.webarysites.com/data/amenities_icons/${amenity.icon}`}
+                        src={`${process.env.NEXT_PUBLIC_API_DOMAIN}/data/amenities_icons/${amenity.icon}`}
                         width={32}
                       />
                     ) : (

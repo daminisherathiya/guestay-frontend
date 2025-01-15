@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 
+import { MinimumNightsStay } from "@/components/pages/Multicalendar/components/CalendarSettings/CalendarAvailabilityTab/MinimumNightsStay";
+
 export const metadata: Metadata = {
-  title: "Pricing settings - Guestay",
+  title: "Edit calendar - Guestay",
 };
 
 export default function TempPage() {
-  return <></>;
+  return <MinimumNightsStay />;
 }

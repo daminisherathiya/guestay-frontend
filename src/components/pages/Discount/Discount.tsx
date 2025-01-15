@@ -3,28 +3,25 @@
 import { Controller } from "react-hook-form";
 
 import { Box } from "@/components/atoms/Box";
-import { Button } from "@/components/atoms/Button";
 import { Checkbox } from "@/components/atoms/Checkbox";
 import { Container } from "@/components/atoms/Container";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
-import { removeLeadingZeros } from "@/utils/common";
+import { numericValue, removeLeadingZeros } from "@/utils/common";
 
-import { DiscountsDialog } from "./components/DiscountsDialog";
+import { DiscountsLearnMoreDialog } from "../../molecules/DiscountsLearnMoreDialog";
+
 import { useDiscount } from "./Discount.hooks";
 
 export function Discount() {
   const {
     control,
-    discountsDialogIsOpen,
     Footer,
     isLoading,
     isMonthlyDiscountEnabled,
     isWeeklyDiscountEnabled,
-    setDiscountsDialogIsOpenFalse,
-    setDiscountsDialogIsOpenTrue,
   } = useDiscount();
 
   return (
@@ -120,13 +117,25 @@ export function Discount() {
                                     %
                                   </Typography>
                                 ),
-                                inputProps: { maxLength: 2 },
+                                inputProps: {
+                                  inputMode: "numeric",
+                                  max: 99,
+                                  maxLength: 2,
+                                  min: 0,
+                                },
                               },
                             }}
                             variant="outlined"
-                            onChange={(e) =>
-                              field.onChange(removeLeadingZeros(e.target.value))
-                            }
+                            onChange={(e) => {
+                              const value = numericValue(
+                                removeLeadingZeros(e.target.value),
+                              );
+                              const clampedValue = Math.max(
+                                0,
+                                Math.min(99, Number(value) || 0),
+                              );
+                              field.onChange(value ? clampedValue : "");
+                            }}
                           />
                         )}
                         rules={{
@@ -185,13 +194,25 @@ export function Discount() {
                                     %
                                   </Typography>
                                 ),
-                                inputProps: { maxLength: 2 },
+                                inputProps: {
+                                  inputMode: "numeric",
+                                  max: 99,
+                                  maxLength: 2,
+                                  min: 0,
+                                },
                               },
                             }}
                             variant="outlined"
-                            onChange={(e) =>
-                              field.onChange(removeLeadingZeros(e.target.value))
-                            }
+                            onChange={(e) => {
+                              const value = numericValue(
+                                removeLeadingZeros(e.target.value),
+                              );
+                              const clampedValue = Math.max(
+                                0,
+                                Math.min(99, Number(value) || 0),
+                              );
+                              field.onChange(value ? clampedValue : "");
+                            }}
                           />
                         )}
                         rules={{
@@ -228,17 +249,8 @@ export function Discount() {
           </Box>
           <Typography className="mt-6 text-center text-xs text-text-secondary">
             Only one discount will be applied per stay.{" "}
-            <Button
-              disableRipple
-              className="p-0 text-xs font-normal text-text-secondary"
-              variant="text"
-              onClick={setDiscountsDialogIsOpenTrue}
-            >
-              Learn more
-            </Button>
-            <DiscountsDialog
-              discountsDialogIsOpen={discountsDialogIsOpen}
-              handleCloseDiscountsDialog={setDiscountsDialogIsOpenFalse}
+            <DiscountsLearnMoreDialog
+              classes={{ button: "font-normal text-text-secondary" }}
             />
           </Typography>
         </Box>

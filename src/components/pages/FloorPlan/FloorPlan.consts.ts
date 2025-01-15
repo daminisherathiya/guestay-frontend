@@ -1,18 +1,10 @@
-import { CounterItem } from "./FloorPlan.types";
+import { BedroomFormValues } from "./FloorPlan.types";
 
-export const floorPlanItemsBeforeBedrooms: CounterItem[] = [
-  { field: "bathrooms", max: 50, name: "Bathrooms" },
-];
-
-export const floorPlanItemsAfterBedrooms: CounterItem[] = [
-  { field: "cribs", max: 50, name: "Cribs" },
-];
-
-export const BEDROOMS_INITIAL_VALUE = [
+export const BEDROOMS_INITIAL_VALUE: BedroomFormValues["bedrooms"] = [
   {
     bed_count: "1",
     display_order: "0",
     name: "Bedroom 1",
-    type: [],
+    type: [], // Will be populated once the API loads
   },
 ];

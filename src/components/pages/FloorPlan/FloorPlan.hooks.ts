@@ -12,7 +12,10 @@ import { useQuery } from "@/hooks/useQuery";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { BEDROOMS_INITIAL_VALUE } from "./FloorPlan.consts";
-import { BedroomFormValues, CounterState } from "./FloorPlan.types";
+import {
+  BedroomFormValues,
+  BedroomsFromGetPropertyAPI,
+} from "./FloorPlan.types";
 
 export function useFloorPlan() {
   const { propertyId }: { propertyId: string } = useParams();
@@ -26,46 +29,22 @@ export function useFloorPlan() {
     savePropertyApiMutate,
   } = usePropertyToEdit();
 
-  const [counters, setCounters] = useState<CounterState>({
-    bathrooms: 0,
-    cribs: 0,
+  const [bedroomsCounters, setBedroomsCounters] = useState<number>(1);
+  const [cribsCounters, setCribsCounters] = useState<number>(0);
+
+  const {
+    control,
+    reset,
+    setValue,
+    watch,
+    getValues,
+    formState: { isValid },
+  } = useForm<BedroomFormValues>({
+    defaultValues: {
+      bedrooms: BEDROOMS_INITIAL_VALUE,
+    },
+    mode: "onChange",
   });
-
-  const handleIncrease = (field: keyof CounterState, maxLimit: number) => {
-    setCounters((prevCounters) => {
-      const increment = field === "bathrooms" ? 0.5 : 1;
-      return {
-        ...prevCounters,
-        [field]:
-          prevCounters[field] < maxLimit
-            ? prevCounters[field] + increment
-            : prevCounters[field],
-      };
-    });
-  };
-
-  const handleDecrease = (field: keyof CounterState) => {
-    setCounters((prevCounters) => {
-      const decrement = field === "bathrooms" ? 0.5 : 1;
-      return {
-        ...prevCounters,
-        [field]:
-          prevCounters[field] > 0
-            ? prevCounters[field] - decrement
-            : prevCounters[field],
-      };
-    });
-  };
-
-  const displayValue = (value: number) => value;
-
-  const { control, reset, setValue, watch, getValues } =
-    useForm<BedroomFormValues>({
-      defaultValues: {
-        bedrooms: BEDROOMS_INITIAL_VALUE,
-      },
-      mode: "onChange",
-    });
 
   const bedrooms = watch("bedrooms") || [];
 
@@ -74,7 +53,7 @@ export function useFloorPlan() {
       bed_count: "1",
       display_order: String(bedrooms.length),
       name: `Bedroom ${bedrooms.length + 1}`,
-      type: [],
+      type: BEDROOMS_INITIAL_VALUE[0].type,
     };
     setValue("bedrooms", [...bedrooms, newBedroom]);
   };
@@ -84,35 +63,72 @@ export function useFloorPlan() {
     setValue("bedrooms", newBedrooms);
   };
 
+  const {
+    data: bedTypesApiData,
+    isFirstLoading: bedTypesApiIsFirstLoading,
+    isSuccess: bedTypesApiIsSuccess,
+  } = useQuery<bedTypesApiResponseType, Error, bedTypesApiResponseType>({
+    initialData: { data: [] },
+    queryFn: () => {
+      return bedTypesApi({ data: { userId: getUserDetails().id } });
+    },
+    queryKey: ["bed-type"],
+  });
+
   useEffect(() => {
-    if (propertyApiIsSuccess) {
-      setCounters({
-        bathrooms: propertyApiData?.data?.property[0].baths
+    if (bedTypesApiIsSuccess && propertyApiIsSuccess) {
+      const firstBedType = bedTypesApiData.data[0];
+      if (firstBedType) {
+        BEDROOMS_INITIAL_VALUE[0].type = [firstBedType];
+      }
+
+      ////////
+
+      setBedroomsCounters(
+        propertyApiData?.data?.property[0].baths
           ? Number(propertyApiData?.data?.property[0].baths)
           : 0,
-        cribs: propertyApiData?.data?.property[0].cribs
+      );
+      setCribsCounters(
+        propertyApiData?.data?.property[0].cribs
           ? Number(propertyApiData?.data?.property[0].cribs)
           : 0,
-      });
-      let propertyBedrooms = JSON.parse(
-        propertyApiData?.data?.property[0]?.bedrooms_info || "[]",
       );
+      const propertyBedroomsFromGetPropertyAPI: BedroomsFromGetPropertyAPI =
+        JSON.parse(propertyApiData?.data?.property[0]?.bedrooms_info || "[]");
+
+      let propertyBedrooms: BedroomFormValues["bedrooms"] =
+        propertyBedroomsFromGetPropertyAPI.map((bedroom) => {
+          const updatedTypes = bedroom.type.map((bedTypeItem) => {
+            const found = bedTypesApiData.data.find(
+              (apiItem) => apiItem.id === bedTypeItem.id,
+            );
+
+            return {
+              ...bedTypeItem,
+              icon: found?.icon ?? "",
+              title: found?.title ?? "",
+            };
+          });
+
+          return {
+            ...bedroom,
+            type: updatedTypes,
+          };
+        });
+
       propertyBedrooms = propertyBedrooms.length
         ? propertyBedrooms
         : BEDROOMS_INITIAL_VALUE;
-      console.log("🚀 ~ useEffect ~ propertyBedrooms:", propertyBedrooms);
       reset({ bedrooms: propertyBedrooms });
     }
-  }, [propertyApiData, propertyApiIsSuccess, reset]);
-
-  const { data: bedTypesApiData, isFirstLoading: bedTypesApiIsFirstLoading } =
-    useQuery<bedTypesApiResponseType, Error, bedTypesApiResponseType>({
-      initialData: { data: [] },
-      queryFn: () => {
-        return bedTypesApi({ data: { userId: getUserDetails().id } });
-      },
-      queryKey: ["bed-type"],
-    });
+  }, [
+    bedTypesApiData,
+    bedTypesApiIsSuccess,
+    propertyApiData,
+    propertyApiIsSuccess,
+    reset,
+  ]);
 
   ////////
 
@@ -123,7 +139,7 @@ export function useFloorPlan() {
     const bedrooms = formValues.bedrooms || [];
     savePropertyApiMutate({
       data: {
-        baths: counters.bathrooms,
+        baths: bedroomsCounters,
         bedrooms: bedrooms.reduce(
           (total, bedroom) => total + Number(bedroom.bed_count),
           0,
@@ -136,9 +152,9 @@ export function useFloorPlan() {
           );
           return total + numOfBeds;
         }, 0),
-        cribs: counters.cribs,
+        cribs: cribsCounters,
         listingStep: "bedroom_info",
-        noOfChildren: counters.cribs,
+        noOfChildren: cribsCounters,
         noOfCouples: bedrooms.reduce((total, bedroom) => {
           const coupleBeds = bedroom.type.filter(
             (bedType) => bedType.num_of_people === "2",
@@ -161,7 +177,7 @@ export function useFloorPlan() {
   const isLoading = propertyApiIsFirstLoading || bedTypesApiIsFirstLoading;
 
   const { Footer, nextUrl } = useFooterProgressBar({
-    isDisabled: isLoading,
+    isDisabled: isLoading || !isValid,
     isLoading: savePropertyApiIsPending,
     onSubmit: onSubmit,
   });
@@ -174,16 +190,16 @@ export function useFloorPlan() {
 
   return {
     bedrooms,
+    bedroomsCounters,
     bedTypesApiData,
     bedTypesApiIsFirstLoading,
     control,
-    counters,
-    displayValue,
+    cribsCounters,
     Footer,
     handleAddBedroom,
-    handleDecrease,
-    handleIncrease,
     handleRemoveBedroom,
     isLoading,
+    setBedroomsCounters,
+    setCribsCounters,
   };
 }

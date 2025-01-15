@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 
+import { CustomTripLength } from "@/components/pages/Multicalendar/components/CalendarSettings/CalendarAvailabilityTab/CustomTripLength";
+
 export const metadata: Metadata = {
-  title: "Pricing settings - Guestay",
+  title: "Edit calendar - Guestay",
 };
 
-export default function TempPage() {
-  return <></>;
+export default function CustomTripLengthPage() {
+  return <CustomTripLength />;
 }
