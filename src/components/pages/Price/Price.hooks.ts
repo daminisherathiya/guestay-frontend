@@ -1,16 +1,11 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";
 
-import { globalPricesApi } from "@/apis/property/globalPricesApi";
-import {
-  GlobalPriceType,
-  globalPricesApiResponseType,
-} from "@/apis/property/globalPricesApi/globalPricesApi.types";
 import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
+import { useGlobalPrices } from "@/hooks/useGlobalPrices";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
-import { useQuery } from "@/hooks/useQuery";
-import { removeLeadingZeros, roundNumber } from "@/utils/common";
+import { removeLeadingZeros } from "@/utils/common";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { DEFAULT_PRICE } from "./Price.consts";
@@ -45,51 +40,13 @@ export function usePrice() {
   }, [propertyApiData, propertyApiIsSuccess]);
 
   const {
-    data: globalPricesApiData,
-    isFirstLoading: globalPricesApiIsFirstLoading,
-    isSuccess: globalPricesApiIsSuccess,
-  } = useQuery<globalPricesApiResponseType, Error, globalPricesApiResponseType>(
-    {
-      initialData: { data: [] },
-      queryFn: () => {
-        return globalPricesApi({ data: { userId: getUserDetails().id } });
-      },
-      queryKey: ["global-prices"],
-    },
-  );
-
-  const [commissionRate, setCommissionRate] = useState<string>("0");
-  const [insurancePolicyPrice, setInsurancePolicyPrice] = useState<string>("0");
-
-  useEffect(() => {
-    if (globalPricesApiIsSuccess) {
-      const commissionRateItem = globalPricesApiData.data.find(
-        (item: GlobalPriceType) => item.name === "commission_rate",
-      );
-      setCommissionRate(commissionRateItem?.value ?? "0");
-
-      const insurancePolicyPriceItem = globalPricesApiData.data.find(
-        (item: GlobalPriceType) => item.name === "insurance_policy_price",
-      );
-      setInsurancePolicyPrice(insurancePolicyPriceItem?.value ?? "0");
-    }
-  }, [
-    globalPricesApiData,
-    globalPricesApiIsSuccess,
-    setCommissionRate,
-    setInsurancePolicyPrice,
-  ]);
-
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
-
-    value = value.replace(/[^0-9]/g, "");
-    if (value.length > 5) {
-      value = value.slice(0, 5);
-    }
-    e.target.value = value;
-    setPrice(formatNumberWithCommas(removeLeadingZeros(value)));
-  };
+    commissionPrice,
+    commissionRate,
+    globalPricesApiIsFirstLoading,
+    handleInput,
+    insurancePolicyPrice,
+    priceError,
+  } = useGlobalPrices({ price, setPrice });
 
   ////////
 
@@ -110,11 +67,6 @@ export function usePrice() {
     });
   };
 
-  const priceError =
-    parseFloat(price.replace(/,/g, "")) < 50
-      ? "The price should be at least $50"
-      : "";
-
   const isLoading = propertyApiIsFirstLoading || globalPricesApiIsFirstLoading;
 
   const { Footer, nextUrl } = useFooterProgressBar({
@@ -130,9 +82,7 @@ export function usePrice() {
   }, [nextUrl, router, savePropertyApiIsSuccess]);
 
   return {
-    commissionPrice: roundNumber(
-      parseFloat(price.replace(/,/g, "")) * (parseFloat(commissionRate) / 100),
-    ),
+    commissionPrice,
     commissionRate,
     Footer,
     handleInput,

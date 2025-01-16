@@ -1,22 +1,45 @@
 "use client";
 
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import { Button } from "@/components/atoms/Button";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 import { PriceWithTaxCalculation } from "@/components/organisms/PriceWithTaxCalculation";
-import { usePrice } from "@/components/pages/Price/Price.hooks";
+import { useManagePropertyPricing } from "@/hooks/useManagePropertyPricing";
+import { getUserDetails } from "@/utils/localStorage/localStorage";
+
+import { useBasePricing } from "./BasePricing.hooks";
 
 export function BasePricing() {
   const {
     commissionPrice,
+    globalPricesApiIsFirstLoading,
     handleInput,
     insurancePolicyPrice,
-    isLoading,
     price,
     priceError,
-  } = usePrice();
+    weekendPrice,
+  } = useBasePricing();
+
+  const {
+    managePropertyPricingApiIsPending,
+    managePropertyPricingApiIsSuccess,
+    managePropertyPricingApiMutate,
+  } = useManagePropertyPricing();
+
+  const { propertyId }: { propertyId: string } = useParams();
+  const onSubmit = () => {
+    managePropertyPricingApiMutate({
+      data: {
+        propertyId: propertyId,
+        userId: getUserDetails().id,
+        weekdaysPrice: price,
+        weekendPrice: weekendPrice.toString(),
+      },
+    });
+  };
 
   return (
     <>
@@ -27,13 +50,22 @@ export function BasePricing() {
         commissionPrice={commissionPrice}
         handleInput={handleInput}
         insurancePolicyPrice={insurancePolicyPrice}
-        isLoading={isLoading}
+        isLoading={globalPricesApiIsFirstLoading}
         price={price}
         priceError={priceError}
         priceVisibleInitialValue={false}
       />
       <Stack className="mt-8 gap-3">
-        <Button className="w-full" size="large" variant="contained">
+        <Button
+          className="w-full"
+          // disabled={isDisabled}
+          // loading={globalPricesApiIsFirstLoading}
+          loadingIndicator="Saving..."
+          size="large"
+          type="submit"
+          variant="contained"
+          onClick={onSubmit}
+        >
           Save
         </Button>
         <Button

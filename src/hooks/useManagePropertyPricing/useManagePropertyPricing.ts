@@ -6,7 +6,7 @@ import {
 
 import { useMutation } from "../useMutation";
 
-export function usePropertyToEdit() {
+export function useManagePropertyPricing() {
   const {
     mutate: managePropertyPricingApiMutate,
     isPending: managePropertyPricingApiIsPending,
