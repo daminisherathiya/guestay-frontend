@@ -21,6 +21,7 @@ function _HostCalendar({
   propertyPricingInfoApiIsFirstLoading,
   selectedCells,
   setSelectedCells,
+  weekdaysPrice,
 }: _HostCalendarProps) {
   const {
     calendarContainerRef,
@@ -35,6 +36,7 @@ function _HostCalendar({
     blockedDates,
     selectedCells,
     setSelectedCells,
+    weekdaysPrice,
   });
 
   const router = useRouter();
@@ -50,8 +52,6 @@ function _HostCalendar({
   }, [selectedCells, router, propertyId]);
 
   const renderCalendars = () => {
-    // const calendars = [];
-
     const currentDate = dayjs();
 
     const startMonth = currentDate

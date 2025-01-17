@@ -1,16 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
 
 import { Button } from "@/components/atoms/Button";
+import { LoadingButton } from "@/components/atoms/LoadingButton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 import { PriceWithTaxCalculation } from "@/components/organisms/PriceWithTaxCalculation";
-import { useManagePropertyPricing } from "@/hooks/useManagePropertyPricing";
-import { getUserDetails } from "@/utils/localStorage/localStorage";
-
-import { useWeekendPricing } from "./WeekendPricing.hooks";
+import { useWeekdayAndWeekendPrice } from "@/hooks/useWeekdayAndWeekendPrice";
 
 export function WeekendPricing() {
   const {
@@ -18,29 +15,12 @@ export function WeekendPricing() {
     globalPricesApiIsFirstLoading,
     handleInput,
     insurancePolicyPrice,
+    isDisabled,
+    isLoading,
+    onSubmit,
     price,
     priceError,
-    weekdaysPrice,
-  } = useWeekendPricing();
-
-  const {
-    managePropertyPricingApiIsPending,
-    managePropertyPricingApiIsSuccess,
-    managePropertyPricingApiMutate,
-  } = useManagePropertyPricing();
-
-  const { propertyId }: { propertyId: string } = useParams();
-
-  const onSubmit = () => {
-    managePropertyPricingApiMutate({
-      data: {
-        propertyId: propertyId,
-        userId: getUserDetails().id,
-        weekdaysPrice: weekdaysPrice.toString(),
-        weekendPrice: price,
-      },
-    });
-  };
+  } = useWeekdayAndWeekendPrice({ pricing: "weekend" });
 
   return (
     <>
@@ -62,18 +42,18 @@ export function WeekendPricing() {
         priceError={priceError}
       />
       <Stack className="mt-8 gap-3">
-        <Button
+        <LoadingButton
           className="w-full"
+          disabled={isDisabled}
+          loading={isLoading}
           loadingIndicator="Saving..."
           size="large"
           type="submit"
           variant="contained"
-          // disabled={isDisabled}
-          // loading={globalPricesApiIsFirstLoading}
           onClick={onSubmit}
         >
           Save
-        </Button>
+        </LoadingButton>
         <Button
           className="w-full border-primary-main"
           component={Link}

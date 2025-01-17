@@ -22,7 +22,6 @@ import { Select } from "@/components/atoms/Select/Select";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
-import { MulticalendarContextProvider } from "@/providers/MulticalendarProvider/MulticalendarProvider";
 
 import { HostCalendar } from "./components/HostCalendar";
 import { CALENDAR_VIEW_OPTIONS } from "./Multicalendar.consts";
@@ -49,14 +48,13 @@ export function Multicalendar({ children }: MulticalendarProps) {
     handleShowOptionChange,
     listingPropertiesApiData,
     listingPropertiesApiIsFirstLoading,
-    propertyPricingInfoApiData,
     propertyPricingInfoApiIsFirstLoading,
     selectedCalenderViewOptionValue,
     selectedCells,
     selectedPropertyValue,
-    setBlockedDates,
     setSelectedCells,
     toggleCalenderSettings,
+    weekdaysPrice,
   } = useMulticalendar();
 
   // useEffect(() => {
@@ -304,6 +302,7 @@ export function Multicalendar({ children }: MulticalendarProps) {
                 }
                 selectedCells={selectedCells}
                 setSelectedCells={setSelectedCells}
+                weekdaysPrice={weekdaysPrice}
               />
             </Box>
           </Box>
@@ -321,26 +320,7 @@ export function Multicalendar({ children }: MulticalendarProps) {
             >
               <CloseIcon className="size-5" />
             </IconButton>
-            <MulticalendarContextProvider
-              blockedDates={blockedDates}
-              getPriceForDate={getPriceForDate}
-              propertyPricingInfoApiIsFirstLoading={
-                propertyPricingInfoApiIsFirstLoading
-              }
-              selectedCells={selectedCells}
-              setBlockedDates={setBlockedDates}
-              setSelectedCells={setSelectedCells}
-              weekdaysPrice={parseInt(
-                propertyPricingInfoApiData?.data.weekdays_price || "0",
-                10,
-              )}
-              weekendPrice={parseInt(
-                propertyPricingInfoApiData?.data.weekend_price || "0",
-                10,
-              )}
-            >
-              {children}
-            </MulticalendarContextProvider>
+            {children}
           </Box>
         </Stack>
       </Stack>

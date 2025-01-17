@@ -5,11 +5,10 @@ import { useParams, useRouter } from "next/navigation";
 import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { useGlobalPrices } from "@/hooks/useGlobalPrices";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
-import { removeLeadingZeros } from "@/utils/common";
+import { formatNumberWithCommas, removeLeadingZeros } from "@/utils/common";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { DEFAULT_PRICE } from "./Price.consts";
-import { formatNumberWithCommas } from "./Price.utils";
 
 export function usePrice() {
   const { propertyId }: { propertyId: string } = useParams();

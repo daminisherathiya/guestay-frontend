@@ -1,16 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
 
 import { Button } from "@/components/atoms/Button";
+import { LoadingButton } from "@/components/atoms/LoadingButton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 import { PriceWithTaxCalculation } from "@/components/organisms/PriceWithTaxCalculation";
-import { useManagePropertyPricing } from "@/hooks/useManagePropertyPricing";
-import { getUserDetails } from "@/utils/localStorage/localStorage";
-
-import { useBasePricing } from "./BasePricing.hooks";
+import { useWeekdayAndWeekendPrice } from "@/hooks/useWeekdayAndWeekendPrice";
 
 export function BasePricing() {
   const {
@@ -18,28 +15,12 @@ export function BasePricing() {
     globalPricesApiIsFirstLoading,
     handleInput,
     insurancePolicyPrice,
+    isDisabled,
+    isLoading,
+    onSubmit,
     price,
     priceError,
-    weekendPrice,
-  } = useBasePricing();
-
-  const {
-    managePropertyPricingApiIsPending,
-    managePropertyPricingApiIsSuccess,
-    managePropertyPricingApiMutate,
-  } = useManagePropertyPricing();
-
-  const { propertyId }: { propertyId: string } = useParams();
-  const onSubmit = () => {
-    managePropertyPricingApiMutate({
-      data: {
-        propertyId: propertyId,
-        userId: getUserDetails().id,
-        weekdaysPrice: price,
-        weekendPrice: weekendPrice.toString(),
-      },
-    });
-  };
+  } = useWeekdayAndWeekendPrice({ pricing: "weekday" });
 
   return (
     <>
@@ -56,10 +37,10 @@ export function BasePricing() {
         priceVisibleInitialValue={false}
       />
       <Stack className="mt-8 gap-3">
-        <Button
+        <LoadingButton
           className="w-full"
-          // disabled={isDisabled}
-          // loading={globalPricesApiIsFirstLoading}
+          disabled={isDisabled}
+          loading={isLoading}
           loadingIndicator="Saving..."
           size="large"
           type="submit"
@@ -67,7 +48,7 @@ export function BasePricing() {
           onClick={onSubmit}
         >
           Save
-        </Button>
+        </LoadingButton>
         <Button
           className="w-full border-primary-main"
           component={Link}

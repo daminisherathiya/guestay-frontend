@@ -26,6 +26,11 @@ export const numericValue = (value: string) => {
   return onlyNumbers === "" ? "0" : onlyNumbers;
 };
 
+export const formatNumberWithCommas = (num: string) => {
+  if (!num) return "";
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
 export const getListingStatusToDisplay = ({
   listingSteps,
   status,

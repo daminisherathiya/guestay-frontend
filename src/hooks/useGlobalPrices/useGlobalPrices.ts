@@ -5,12 +5,18 @@ import {
   GlobalPriceType,
   globalPricesApiResponseType,
 } from "@/apis/property/globalPricesApi/globalPricesApi.types";
-import { formatNumberWithCommas } from "@/components/pages/Price/Price.utils";
 import { useQuery } from "@/hooks/useQuery";
-import { removeLeadingZeros, roundNumber } from "@/utils/common";
+import {
+  formatNumberWithCommas,
+  removeLeadingZeros,
+  roundNumber,
+} from "@/utils/common";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
-export function useGlobalPrices({ price, setPrice }) {
+import { useGlobalPricesProps } from "./useGlobalPrices.types";
+
+export function useGlobalPrices({ price, setPrice }: useGlobalPricesProps) {
+  console.log("🚀 ~ useGlobalPrices ~ price:", price);
   const {
     data: globalPricesApiData,
     isFirstLoading: globalPricesApiIsFirstLoading,
