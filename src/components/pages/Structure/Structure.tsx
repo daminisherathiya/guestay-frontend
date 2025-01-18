@@ -58,7 +58,7 @@ export function Structure() {
                         alt={propertyType.title}
                         className="size-8 object-cover"
                         height={32}
-                        src={`https://guestay.webarysites.com/data/property_type_icons/${propertyType.icon}`}
+                        src={`${process.env.NEXT_PUBLIC_API_DOMAIN}/data/property_type_icons/${propertyType.icon}`}
                         width={32}
                       />
                     ) : (

@@ -100,7 +100,7 @@ export function FullReceiptPreviewDialog({
                             alt={amenity.title}
                             className="size-6 object-cover"
                             height={24}
-                            src={`https://guestay.webarysites.com/data/amenities_icons/${amenity.icon}`}
+                            src={`${process.env.NEXT_PUBLIC_API_DOMAIN}/data/amenities_icons/${amenity.icon}`}
                             width={24}
                           />
                         ) : (
