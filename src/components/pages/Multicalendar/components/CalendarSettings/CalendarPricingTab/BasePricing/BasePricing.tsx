@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import { Button } from "@/components/atoms/Button";
 import { LoadingButton } from "@/components/atoms/LoadingButton";
@@ -21,6 +22,8 @@ export function BasePricing() {
     price,
     priceError,
   } = useWeekdayAndWeekendPrice({ pricing: "weekday" });
+
+  const { propertyId }: { propertyId: string } = useParams();
 
   return (
     <>
@@ -52,7 +55,7 @@ export function BasePricing() {
         <Button
           className="w-full border-primary-main"
           component={Link}
-          href="/multicalendar/256/pricing-settings"
+          href={`/multicalendar/${propertyId}/pricing-settings`}
           size="large"
           variant="outlined"
         >

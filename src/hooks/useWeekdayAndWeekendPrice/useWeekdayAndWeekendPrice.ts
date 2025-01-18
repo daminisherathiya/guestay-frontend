@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { managePropertyPricingApi } from "@/apis/multiCalendar/managePropertyPricingApi";
 import {
@@ -84,6 +84,8 @@ export function useWeekdayAndWeekendPrice({
     });
   };
 
+  const router = useRouter();
+
   useEffect(() => {
     if (
       !managePropertyPricingApiIsPending &&
@@ -95,6 +97,7 @@ export function useWeekdayAndWeekendPrice({
       } else {
         setWeekendPrice(parsedPrice);
       }
+      router.push(`/multicalendar/${propertyId}/pricing-settings`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [

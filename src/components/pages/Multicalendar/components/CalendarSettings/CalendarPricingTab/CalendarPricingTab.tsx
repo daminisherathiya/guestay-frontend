@@ -1,15 +1,24 @@
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { Box } from "@/components/atoms/Box";
-import { Button } from "@/components/atoms/Button";
+import { LoadingButton } from "@/components/atoms/LoadingButton";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
-import { useMulticalendarContext } from "@/hooks/useMulticalendar";
+
+import { useCalendarPricingTab } from "./CalendarPricingTab.hooks";
 
 export function CalendarPricingTab() {
-  const { propertyPricingInfoApiIsFirstLoading, weekdaysPrice, weekendPrice } =
-    useMulticalendarContext();
+  const router = useRouter();
+
+  const {
+    handleRemoveWeekendPrice,
+    managePropertyPricingApiIsPending,
+    propertyPricingInfoApiIsFirstLoading,
+    weekdaysPrice,
+    weekendPrice,
+  } = useCalendarPricingTab();
 
   return (
     <Stack className="gap-8">
@@ -40,7 +49,7 @@ export function CalendarPricingTab() {
               {propertyPricingInfoApiIsFirstLoading ? (
                 <Skeleton className="h-9 w-32" variant="text" />
               ) : (
-                weekendPrice && (
+                weekendPrice > 1 && (
                   <Typography className="text-3xl font-bold">
                     ${weekendPrice}
                   </Typography>
@@ -48,9 +57,22 @@ export function CalendarPricingTab() {
               )}
             </Box>
           </Link>
-          <Button className="-m-2.5 p-2.5 font-medium">
-            {weekendPrice ? "Remove" : "Add"}
-          </Button>
+          <LoadingButton
+            classes={{ loadingIndicator: "text-text-primary text-xs" }}
+            className="-m-2.5 p-2.5 font-medium"
+            disabled={managePropertyPricingApiIsPending}
+            loading={managePropertyPricingApiIsPending}
+            loadingIndicator="Removing..."
+            onClick={() => {
+              if (weekendPrice > 1) {
+                handleRemoveWeekendPrice();
+              } else {
+                router.push(`./pricing-settings/rates/weekend`);
+              }
+            }}
+          >
+            {weekendPrice > 1 ? "Remove" : "Add"}
+          </LoadingButton>
         </Stack>
       </Stack>
       <Stack className="gap-4">

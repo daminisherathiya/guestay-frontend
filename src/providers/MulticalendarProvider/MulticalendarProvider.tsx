@@ -108,7 +108,7 @@ export function MulticalendarContextProvider({
         ? parseInt(specialPricing?.weekend_price, 10)
         : parseInt(specialPricing.price, 10);
     }
-    return isWeekend ? weekendPrice : weekdaysPrice;
+    return isWeekend && weekendPrice !== 1 ? weekendPrice : weekdaysPrice;
   };
 
   return (
