@@ -10,6 +10,11 @@ import {
 import { EventResizeDoneArg } from "@fullcalendar/interaction/index.js";
 import FullCalendar from "@fullcalendar/react";
 
+import { holidaysApi } from "@/apis/multiCalendar/holidaysApi";
+import { holidaysApiResponseType } from "@/apis/multiCalendar/holidaysApi/holidaysApi.types";
+import { useQuery } from "@/hooks/useQuery";
+import { getUserDetails } from "@/utils/localStorage/localStorage";
+
 import { CalendarEvent, useHostCalendarProps } from "./HostCalendar.types";
 
 export function useHostCalendar({
@@ -23,6 +28,8 @@ export function useHostCalendar({
       allDay: false,
       amount: 1684.89,
       avatar: "/api/placeholder/32/32",
+      backgroundColor: "#222222",
+      borderColor: "#222222",
       description: "Discuss the Q4 project roadmap.",
       end: "2024-11-06T18:00:00",
       guestCount: 7,
@@ -35,6 +42,8 @@ export function useHostCalendar({
       allDay: false,
       amount: 1684.89,
       avatar: "/api/placeholder/32/32",
+      backgroundColor: "#222222",
+      borderColor: "#222222",
       description: "Lunch with the team at the rooftop cafe.",
       end: "2024-11-06T14:00:00",
       guestCount: 7,
@@ -47,6 +56,8 @@ export function useHostCalendar({
       allDay: false,
       amount: 1684.89,
       avatar: "/api/placeholder/32/32",
+      backgroundColor: "#222222",
+      borderColor: "#222222",
       description: "Routine checkup with Dr. Smith.",
       guestCount: 7,
       id: "3",
@@ -58,6 +69,8 @@ export function useHostCalendar({
       allDay: true,
       amount: 1684.89,
       avatar: "/api/placeholder/32/32",
+      backgroundColor: "#222222",
+      borderColor: "#222222",
       description: "Annual Company Retreat.",
       end: "2024-11-04",
       guestCount: 7,
@@ -70,6 +83,8 @@ export function useHostCalendar({
       allDay: true,
       amount: 1684.89,
       avatar: "/api/placeholder/32/32",
+      backgroundColor: "#222222",
+      borderColor: "#222222",
       description: "Annual Company Retreat.",
       end: "2024-11-04",
       guestCount: 7,
@@ -82,11 +97,13 @@ export function useHostCalendar({
       allDay: true,
       amount: 1684.89,
       avatar: "/api/placeholder/32/32",
+      backgroundColor: "#222222",
+      borderColor: "#222222",
       description: "Annual Company Retreat.",
-      end: "2024-11-04",
+      end: "2025-01-28",
       guestCount: 7,
       id: "6",
-      start: "2024-10-28",
+      start: "2025-01-20",
       title: "🏖️ Company Retreat",
       type: "retreat",
     },
@@ -117,18 +134,70 @@ export function useHostCalendar({
     //   title: "🏖️ Company Retreat",
     //   type: "retreat",
     // },
-    {
-      allDay: true, // All-day event
-      description: "Christmas Holidays",
-      end: "2025-01-12",
-      id: "10",
-      start: "2025-01-02",
-      title: "🎄 Christmas Holidays",
-      type: "holiday",
-    },
   ]);
 
+  const {
+    data: holidaysApiData,
+    isFirstLoading: holidaysApiIsFirstLoading,
+    isSuccess: holidaysApiIsSuccess,
+  } = useQuery<holidaysApiResponseType, Error, holidaysApiResponseType>({
+    queryFn: () => {
+      return holidaysApi({
+        data: {
+          userId: getUserDetails().id,
+        },
+      });
+    },
+    queryKey: ["holidays"],
+  });
+
+  useEffect(() => {
+    if (holidaysApiIsSuccess && holidaysApiData?.data) {
+      const apiHolidayEvents = holidaysApiData.data.map((holiday) => ({
+        allDay: true,
+        backgroundColor: "#9575CD",
+        borderColor: "#7E57C2",
+        description: holiday.name,
+        editable: false,
+        end: holiday.end_at,
+        id: holiday.id,
+        start: holiday.start_at,
+        textColor: "#ffffff",
+        title: `🏖️\u00A0\u00A0\u00A0${holiday.name}`,
+        type: "holiday",
+      }));
+
+      setEvents((prevEvents) => {
+        return [...prevEvents, ...apiHolidayEvents];
+      });
+    }
+  }, [holidaysApiData, holidaysApiIsSuccess]);
+
   const renderEventContent = (eventInfo: EventContentArg) => {
+    if (eventInfo.event.extendedProps.type === "holiday") {
+      return {
+        html: `
+          <div style="
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            width: 100%;
+          ">
+            <div style="
+              font-size: 14px;
+              font-weight: 500;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            ">
+              ${eventInfo.event.title}
+            </div>
+          </div>
+        `,
+      };
+    }
+
     return {
       html: `
           <div style="

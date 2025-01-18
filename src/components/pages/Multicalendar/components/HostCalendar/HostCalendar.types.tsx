@@ -10,6 +10,8 @@ export interface CalendarEvent {
   allDay?: boolean;
   amount?: number;
   avatar?: string;
+  backgroundColor: string;
+  borderColor: string;
   description: string;
   end?: string;
   guestCount?: number;
