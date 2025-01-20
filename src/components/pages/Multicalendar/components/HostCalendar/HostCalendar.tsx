@@ -1,6 +1,4 @@
-import { memo, useEffect } from "react";
-
-import { useParams, useRouter } from "next/navigation";
+import { memo } from "react";
 
 import interactionPlugin from "@fullcalendar/interaction";
 import multiMonthPlugin from "@fullcalendar/multimonth";
@@ -18,10 +16,9 @@ import { _HostCalendarProps } from "./HostCalendar.types";
 function _HostCalendar({
   blockedDates,
   getPriceForDate,
-  propertyPricingInfoApiIsFirstLoading,
+  isPropertyPricingInfoApiIsLoading,
   selectedCells,
   setSelectedCells,
-  weekdaysPrice,
 }: _HostCalendarProps) {
   const {
     calendarContainerRef,
@@ -36,20 +33,7 @@ function _HostCalendar({
     blockedDates,
     selectedCells,
     setSelectedCells,
-    weekdaysPrice,
   });
-
-  const router = useRouter();
-  const { propertyId }: { propertyId: string } = useParams();
-
-  useEffect(() => {
-    if (selectedCells.length > 0) {
-      // Todo: Replace the id
-      router.replace(`/multicalendar/${propertyId}/edit-selected-dates`, {
-        scroll: false,
-      });
-    }
-  }, [selectedCells, router, propertyId]);
 
   const renderCalendars = () => {
     const currentDate = dayjs();
@@ -80,7 +64,7 @@ function _HostCalendar({
                   {arg.dayNumberText}
                 </Typography>
                 <Typography>
-                  {propertyPricingInfoApiIsFirstLoading ? (
+                  {isPropertyPricingInfoApiIsLoading ? (
                     <Skeleton className="w-16" variant="text" />
                   ) : (
                     `$${getPriceForDate(arg.date)}`

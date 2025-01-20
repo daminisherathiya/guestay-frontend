@@ -1,8 +1,14 @@
 "use client";
 
-import { createContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import dayjs from "dayjs";
 
@@ -28,18 +34,20 @@ export function MulticalendarContextProvider({
   children,
 }: MulticalendarContextProviderProps) {
   const { propertyId }: { propertyId: string } = useParams();
+  const router = useRouter();
+
   const [selectedCells, setSelectedCells] = useState<string[]>([]);
   const [blockedDates, setBlockedDates] = useState<string[]>([]);
   const [selectedPropertyValue, setSelectedPropertyValue] = useState<number>(
     Number(propertyId),
   );
-  const [weekdaysPrice, setWeekdaysPrice] = useState<number>(0);
-  const [weekendPrice, setWeekendPrice] = useState<number>(0);
 
   const {
     data: propertyPricingInfoApiData,
+    isFetching: propertyPricingInfoApiIsFetching,
     isFirstLoading: propertyPricingInfoApiIsFirstLoading,
     isSuccess: propertyPricingInfoApiIsSuccess,
+    refetch: propertyPricingInfoApiRefetch,
   } = useQuery<
     propertyPricingInfoApiResponseType,
     Error,
@@ -56,77 +64,188 @@ export function MulticalendarContextProvider({
     queryKey: ["property_pricing_info", selectedPropertyValue],
   });
 
-  useEffect(() => {
+  const isPropertyPricingInfoApiIsLoading =
+    propertyPricingInfoApiIsFirstLoading || propertyPricingInfoApiIsFetching;
+
+  const weekdayPrice = useMemo(() => {
     if (propertyPricingInfoApiData && propertyPricingInfoApiIsSuccess) {
-      setWeekdaysPrice(
-        parseInt(propertyPricingInfoApiData.data.weekdays_price, 10),
-      );
-      setWeekendPrice(
-        parseInt(propertyPricingInfoApiData.data.weekend_price, 10),
-      );
+      return parseInt(
+        propertyPricingInfoApiData.data.weekdays_price,
+      ).toString();
     }
-    console.log(
-      "🚀 ~ useEffect ~ propertyPricingInfoApiData.data.weekdays_price:",
-      propertyPricingInfoApiData?.data.weekdays_price,
-    );
+    return "0";
   }, [propertyPricingInfoApiData, propertyPricingInfoApiIsSuccess]);
 
-  const getPricingPeriod = (date: Date): Holiday | Seasonal | null => {
-    const dateStr = dayjs(date).format("YYYY-MM-DD HH:mm:ss");
-
-    const holidayPrice = propertyPricingInfoApiData?.data.holiday?.find(
-      (holiday) => dateStr >= holiday.start_at && dateStr <= holiday.end_at,
-    );
-    console.log(
-      "🚀 ~ getPricingPeriod ~ propertyPricingInfoApiData:",
-      propertyPricingInfoApiData,
-    );
-    if (holidayPrice) {
-      return holidayPrice;
+  const weekendPrice = useMemo(() => {
+    if (propertyPricingInfoApiData && propertyPricingInfoApiIsSuccess) {
+      return parseInt(propertyPricingInfoApiData.data.weekend_price).toString();
     }
+    return "0";
+  }, [propertyPricingInfoApiData, propertyPricingInfoApiIsSuccess]);
 
-    const seasonalPrice = propertyPricingInfoApiData?.data.seasonal?.find(
-      (season) => dateStr >= season.start_at && dateStr <= season.end_at,
-    );
-    console.log("🚀 ~ getPricingPeriod ~ seasonalPrice:", seasonalPrice);
-    if (seasonalPrice) {
-      return seasonalPrice;
-    }
+  const getPricingPeriod = useCallback(
+    (date: Date): Holiday | Seasonal | null => {
+      const dateStr = dayjs(date).format("YYYY-MM-DD");
 
-    return null;
-  };
+      const holidayPrice = propertyPricingInfoApiData?.data.holiday?.findLast(
+        (holiday) => {
+          const startDate = dayjs(holiday.start_at).format("YYYY-MM-DD");
+          const endDate = dayjs(holiday.end_at).format("YYYY-MM-DD");
+          return dateStr >= startDate && dateStr <= endDate;
+        },
+      );
 
-  const getPriceForDate = (date: Date) => {
-    const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-    const specialPricing = getPricingPeriod(date);
-
-    if (specialPricing) {
-      if (!("weekend_price" in specialPricing)) {
-        return parseInt(specialPricing.price, 10);
+      if (holidayPrice) {
+        return holidayPrice;
       }
-      return isWeekend
-        ? parseInt(specialPricing?.weekend_price, 10)
-        : parseInt(specialPricing.price, 10);
+
+      const seasonalPrice = propertyPricingInfoApiData?.data.seasonal?.findLast(
+        (season) => {
+          const startDate = dayjs(season.start_at).format("YYYY-MM-DD");
+          const endDate = dayjs(season.end_at).format("YYYY-MM-DD");
+          return dateStr >= startDate && dateStr <= endDate;
+        },
+      );
+
+      if (seasonalPrice) {
+        return seasonalPrice;
+      }
+
+      return null;
+    },
+    [propertyPricingInfoApiData],
+  );
+
+  const priceCache = useMemo(() => {
+    if (!propertyPricingInfoApiData?.data) return new Map();
+
+    const cache = new Map();
+    // Todo: Use variable instead of hard-coded 12 and use the same in HostCalendar
+    const startDate = dayjs().subtract(12, "months").startOf("month");
+    const endDate = dayjs().add(12, "months").endOf("month");
+
+    let currentDate = startDate;
+    while (currentDate.isBefore(endDate)) {
+      const date = currentDate.toDate();
+      const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+      const specialPricing = getPricingPeriod(date);
+
+      let price;
+      if (specialPricing) {
+        if (!("weekend_price" in specialPricing)) {
+          price = parseInt(specialPricing.price, 10);
+        } else {
+          price = isWeekend
+            ? parseInt(specialPricing?.weekend_price, 10)
+            : parseInt(specialPricing.price, 10);
+        }
+      } else {
+        const weekdaysPrice = parseInt(
+          propertyPricingInfoApiData?.data.weekdays_price ?? "0",
+        );
+        const weekendPrice = parseInt(
+          propertyPricingInfoApiData?.data.weekend_price ?? "0",
+        );
+        price = isWeekend && weekendPrice !== 1 ? weekendPrice : weekdaysPrice;
+      }
+
+      cache.set(currentDate.format("YYYY-MM-DD"), price);
+      currentDate = currentDate.add(1, "day");
     }
-    return isWeekend && weekendPrice !== 1 ? weekendPrice : weekdaysPrice;
-  };
+
+    return cache;
+  }, [propertyPricingInfoApiData, getPricingPeriod]);
+
+  const getPriceForDate = useCallback(
+    (date: Date) => {
+      console.log("🚀 ~ date:", date);
+      const dateStr = dayjs(date).format("YYYY-MM-DD");
+      return priceCache.get(dateStr) ?? 0;
+    },
+    [priceCache],
+  );
+
+  const _getPriceForDate = useCallback(
+    (date: Date) => {
+      console.log("🚀 ~ date:", date);
+      const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+      const specialPricing = getPricingPeriod(date);
+
+      if (specialPricing) {
+        if (!("weekend_price" in specialPricing)) {
+          return parseInt(specialPricing.price, 10);
+        }
+        return isWeekend
+          ? parseInt(specialPricing?.weekend_price, 10)
+          : parseInt(specialPricing.price, 10);
+      }
+      return isWeekend && Number(weekendPrice) !== 1
+        ? weekendPrice
+        : weekdayPrice;
+    },
+    [getPricingPeriod, weekdayPrice, weekendPrice],
+  );
+
+  const minMaxSelectedDatePrice = useCallback(() => {
+    const prices = selectedCells.map((selectedCell) => {
+      return getPriceForDate(
+        dayjs.tz(selectedCell, "YYYY-MM-DD", "UTC").toDate(),
+      );
+    });
+    const minPrice = Math.min(...prices);
+    const maxPrice = Math.max(...prices);
+    return {
+      maxPrice: maxPrice,
+      minPrice: minPrice,
+    };
+  }, [getPriceForDate, selectedCells]);
+
+  useEffect(() => {
+    if (selectedCells.length > 0) {
+      router.replace(`/multicalendar/${propertyId}/edit-selected-dates`, {
+        scroll: false,
+      });
+    }
+  }, [selectedCells, router, propertyId]);
+
+  const getSelectedDaysType = useCallback(() => {
+    if (selectedCells.length === 0) return "notSelected";
+
+    let hasWeekend = false;
+    let hasWeekday = false;
+
+    for (const date of selectedCells) {
+      const day = dayjs(date).day();
+      if (day === 0 || day === 6) {
+        hasWeekend = true;
+      } else {
+        hasWeekday = true;
+      }
+
+      if (hasWeekend && hasWeekday) {
+        return "both";
+      }
+    }
+    return hasWeekend ? "weekend" : "weekday";
+  }, [selectedCells]);
 
   return (
     <MulticalendarContext.Provider
       value={{
         blockedDates,
         getPriceForDate,
+        getSelectedDaysType,
+        isPropertyPricingInfoApiIsLoading,
+        minMaxSelectedDatePrice,
         propertyPricingInfoApiData,
-        propertyPricingInfoApiIsFirstLoading,
         propertyPricingInfoApiIsSuccess,
+        propertyPricingInfoApiRefetch,
         selectedCells,
         selectedPropertyValue,
         setBlockedDates,
         setSelectedCells,
         setSelectedPropertyValue,
-        setWeekdaysPrice,
-        setWeekendPrice,
-        weekdaysPrice,
+        weekdayPrice,
         weekendPrice,
       }}
     >

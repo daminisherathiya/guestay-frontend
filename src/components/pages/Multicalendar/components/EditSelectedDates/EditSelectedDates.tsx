@@ -15,7 +15,6 @@ import { Tab } from "@/components/atoms/Tab";
 import { Tabs } from "@/components/atoms/Tabs";
 import { Typography } from "@/components/atoms/Typography";
 import { useMulticalendarContext } from "@/hooks/useMulticalendar";
-import { useTabIndex } from "@/hooks/useTabIndex";
 
 import { useEditSelectedDates } from "./EditSelectedDates.hooks";
 import { PriceBreakdownDialog } from "./PriceBreakdownDialog";
@@ -26,41 +25,26 @@ dayjs.extend(timezone);
 export function EditSelectedDates() {
   const {
     blockedDates,
+    minMaxSelectedDatePrice,
     selectedCells,
     setSelectedCells,
     setBlockedDates,
-    getPriceForDate,
   } = useMulticalendarContext();
-
-  const [selectedEditorTabIndex, handleEditorTabChange] = useTabIndex({
-    initialIndex: selectedCells.length === blockedDates.length ? 1 : 0,
-  });
-
-  const minMaxSelectedDatePrice = (selectedCells: string[]) => {
-    if (selectedCells.length === 1) {
-      return `₹ ${getPriceForDate(dayjs.tz(selectedCells[0], "YYYY-MM-DD", "UTC").toDate())}`;
-    }
-    const prices = selectedCells.map((selectedCell) => {
-      return getPriceForDate(
-        dayjs.tz(selectedCell, "YYYY-MM-DD", "UTC").toDate(),
-      );
-    });
-    const minPrice = Math.min(...prices);
-    const maxPrice = Math.max(...prices);
-    return minPrice === maxPrice
-      ? `₹${minPrice}`
-      : `₹${minPrice} – ${maxPrice}`;
-  };
 
   const {
     formatSelectedDates,
     handleBlockDates,
+    handleEditorTabChange,
     handleOpenPricingSettings,
     handleUnblockDates,
     priceBreakdownDialogIsOpen,
+    selectedDatePriceRangeInString,
+    selectedEditorTabIndex,
     setPriceBreakdownDialogIsOpenFalse,
     setPriceBreakdownDialogIsOpenTrue,
   } = useEditSelectedDates({
+    blockedDates,
+    minMaxSelectedDatePrice,
     selectedCells,
     setBlockedDates,
     setSelectedCells,
@@ -132,7 +116,7 @@ export function EditSelectedDates() {
         <Link href="./edit-selected-dates/nightly-price">
           <Box className="space-y-2 rounded-2xl border border-divider p-6">
             <Typography className="text-3xl font-bold">
-              {minMaxSelectedDatePrice(selectedCells)}
+              {selectedDatePriceRangeInString}
             </Typography>
           </Box>
         </Link>

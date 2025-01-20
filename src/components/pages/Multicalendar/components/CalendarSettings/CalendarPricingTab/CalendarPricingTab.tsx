@@ -14,9 +14,10 @@ export function CalendarPricingTab() {
 
   const {
     handleRemoveWeekendPrice,
+    hasWeekendPrice,
+    isPropertyPricingInfoApiIsLoading,
     managePropertyPricingApiIsPending,
-    propertyPricingInfoApiIsFirstLoading,
-    weekdaysPrice,
+    weekdayPrice,
     weekendPrice,
   } = useCalendarPricingTab();
 
@@ -32,11 +33,11 @@ export function CalendarPricingTab() {
         <Link href="./pricing-settings/rates/base">
           <Box className="space-y-2 rounded-2xl border border-divider p-6">
             <Typography variant="body2">Per night</Typography>
-            {propertyPricingInfoApiIsFirstLoading ? (
+            {isPropertyPricingInfoApiIsLoading ? (
               <Skeleton className="h-9 w-32" variant="text" />
             ) : (
               <Typography className="text-3xl font-bold">
-                ${weekdaysPrice}
+                ${weekdayPrice}
               </Typography>
             )}
           </Box>
@@ -46,10 +47,10 @@ export function CalendarPricingTab() {
           <Link href="./pricing-settings/rates/weekend">
             <Box className="space-y-2">
               <Typography variant="body2">Custom weekend price</Typography>
-              {propertyPricingInfoApiIsFirstLoading ? (
+              {isPropertyPricingInfoApiIsLoading ? (
                 <Skeleton className="h-9 w-32" variant="text" />
               ) : (
-                weekendPrice > 1 && (
+                hasWeekendPrice && (
                   <Typography className="text-3xl font-bold">
                     ${weekendPrice}
                   </Typography>
@@ -64,14 +65,14 @@ export function CalendarPricingTab() {
             loading={managePropertyPricingApiIsPending}
             loadingIndicator="Removing..."
             onClick={() => {
-              if (weekendPrice > 1) {
+              if (hasWeekendPrice) {
                 handleRemoveWeekendPrice();
               } else {
                 router.push(`./pricing-settings/rates/weekend`);
               }
             }}
           >
-            {weekendPrice > 1 ? "Remove" : "Add"}
+            {hasWeekendPrice ? "Remove" : "Add"}
           </LoadingButton>
         </Stack>
       </Stack>

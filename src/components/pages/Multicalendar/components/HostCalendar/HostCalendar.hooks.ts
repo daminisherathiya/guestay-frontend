@@ -136,11 +136,11 @@ export function useHostCalendar({
     // },
   ]);
 
-  const {
-    data: holidaysApiData,
-    isFirstLoading: holidaysApiIsFirstLoading,
-    isSuccess: holidaysApiIsSuccess,
-  } = useQuery<holidaysApiResponseType, Error, holidaysApiResponseType>({
+  const { data: holidaysApiData, isSuccess: holidaysApiIsSuccess } = useQuery<
+    holidaysApiResponseType,
+    Error,
+    holidaysApiResponseType
+  >({
     queryFn: () => {
       return holidaysApi({
         data: {
@@ -287,6 +287,25 @@ export function useHostCalendar({
     while (start < end) {
       selectedRangeDates.push(start.toISOString().split("T")[0]);
       start.setDate(start.getDate() + 1);
+    }
+
+    const hasNonHolidayOverlap = events.some((event) => {
+      if (event.type === "holiday") return false;
+
+      const eventStart = new Date(event.start);
+      const eventEnd = new Date(event.end || event.start);
+
+      return selectedRangeDates.some((date) => {
+        const currentDate = new Date(date);
+        return currentDate >= eventStart && currentDate < eventEnd;
+      });
+    });
+
+    if (hasNonHolidayOverlap) {
+      if (calendarContainerRef.current) {
+        calendarContainerRef.current.getApi().unselect();
+      }
+      return;
     }
 
     // Check if all dates in the range are already selected

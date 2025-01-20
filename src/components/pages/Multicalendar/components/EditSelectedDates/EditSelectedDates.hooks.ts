@@ -1,12 +1,17 @@
+import { useEffect } from "react";
+
 import { useRouter } from "next/navigation";
 
 import dayjs from "dayjs";
 
 import { useBoolean } from "@/hooks/useBoolean";
+import { useTabIndex } from "@/hooks/useTabIndex";
 
 import { useEditSelectedDatesProps } from "./useEditSelectedDates.types";
 
 export function useEditSelectedDates({
+  blockedDates,
+  minMaxSelectedDatePrice,
   selectedCells,
   setBlockedDates,
   setSelectedCells,
@@ -36,7 +41,6 @@ export function useEditSelectedDates({
 
   const formatSelectedDates = (selectedCells: string[]) => {
     if (!selectedCells || selectedCells.length === 0) {
-      router.push("./pricing-settings");
       return "";
     }
 
@@ -69,12 +73,31 @@ export function useEditSelectedDates({
     return `${startDay}–${endDay} ${month}`;
   };
 
+  const [selectedEditorTabIndex, handleEditorTabChange] = useTabIndex({
+    initialIndex: selectedCells.length === blockedDates.length ? 1 : 0,
+  });
+
+  const selectedDatePriceRange = minMaxSelectedDatePrice();
+  const selectedDatePriceRangeInString =
+    selectedDatePriceRange.minPrice === selectedDatePriceRange.maxPrice
+      ? `₹${selectedDatePriceRange.minPrice}`
+      : `₹${selectedDatePriceRange.minPrice} – ₹${selectedDatePriceRange.maxPrice}`;
+
+  useEffect(() => {
+    if (!selectedCells || selectedCells.length === 0) {
+      router.push("./pricing-settings");
+    }
+  }, [router, selectedCells]);
+
   return {
     formatSelectedDates,
     handleBlockDates,
+    handleEditorTabChange,
     handleOpenPricingSettings,
     handleUnblockDates,
     priceBreakdownDialogIsOpen,
+    selectedDatePriceRangeInString,
+    selectedEditorTabIndex,
     setPriceBreakdownDialogIsOpenFalse,
     setPriceBreakdownDialogIsOpenTrue,
   };

@@ -8,7 +8,7 @@ import { LoadingButton } from "@/components/atoms/LoadingButton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 import { PriceWithTaxCalculation } from "@/components/organisms/PriceWithTaxCalculation";
-import { useWeekdayAndWeekendPrice } from "@/hooks/useWeekdayAndWeekendPrice";
+import { usePropertyPricing } from "@/hooks/usePropertyPricing";
 
 export function WeekendPricing() {
   const {
@@ -21,7 +21,7 @@ export function WeekendPricing() {
     onSubmit,
     price,
     priceError,
-  } = useWeekdayAndWeekendPrice({ pricing: "weekend" });
+  } = usePropertyPricing({ pricing: "weekend" });
 
   const { propertyId }: { propertyId: string } = useParams();
 

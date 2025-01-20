@@ -9,10 +9,10 @@ export function useCalendarPricingTab() {
   const { propertyId }: { propertyId: string } = useParams();
 
   const {
-    propertyPricingInfoApiIsFirstLoading,
-    weekdaysPrice,
+    isPropertyPricingInfoApiIsLoading,
+    propertyPricingInfoApiRefetch,
+    weekdayPrice,
     weekendPrice,
-    setWeekendPrice,
   } = useMulticalendarContext();
 
   const {
@@ -20,7 +20,7 @@ export function useCalendarPricingTab() {
     isPending: managePropertyPricingApiIsPending,
   } = useMutation({
     mutationFn: managePropertyPricingApi,
-    mutationKey: ["save-property"],
+    mutationKey: ["manage_property_pricing"],
   });
 
   const handleRemoveWeekendPrice = () => {
@@ -29,13 +29,13 @@ export function useCalendarPricingTab() {
         data: {
           propertyId: propertyId,
           userId: getUserDetails().id,
-          weekdaysPrice: weekdaysPrice.toString(),
+          weekdaysPrice: weekdayPrice,
           weekendPrice: "1",
         },
       },
       {
         onSuccess: () => {
-          setWeekendPrice(1);
+          propertyPricingInfoApiRefetch();
         },
       },
     );
@@ -43,9 +43,10 @@ export function useCalendarPricingTab() {
 
   return {
     handleRemoveWeekendPrice,
+    hasWeekendPrice: Number(weekendPrice) > 1,
+    isPropertyPricingInfoApiIsLoading,
     managePropertyPricingApiIsPending,
-    propertyPricingInfoApiIsFirstLoading,
-    weekdaysPrice,
+    weekdayPrice,
     weekendPrice,
   };
 }

@@ -46,15 +46,14 @@ export function Multicalendar({ children }: MulticalendarProps) {
     getPriceForDate,
     handlePropertyChange,
     handleShowOptionChange,
+    isPropertyPricingInfoApiIsLoading,
     listingPropertiesApiData,
     listingPropertiesApiIsFirstLoading,
-    propertyPricingInfoApiIsFirstLoading,
     selectedCalenderViewOptionValue,
     selectedCells,
     selectedPropertyValue,
     setSelectedCells,
     toggleCalenderSettings,
-    weekdaysPrice,
   } = useMulticalendar();
 
   // useEffect(() => {
@@ -297,12 +296,11 @@ export function Multicalendar({ children }: MulticalendarProps) {
               <HostCalendar
                 blockedDates={blockedDates}
                 getPriceForDate={getPriceForDate}
-                propertyPricingInfoApiIsFirstLoading={
-                  propertyPricingInfoApiIsFirstLoading
+                isPropertyPricingInfoApiIsLoading={
+                  isPropertyPricingInfoApiIsLoading
                 }
                 selectedCells={selectedCells}
                 setSelectedCells={setSelectedCells}
-                weekdaysPrice={weekdaysPrice}
               />
             </Box>
           </Box>

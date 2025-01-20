@@ -15,12 +15,11 @@ export function useMulticalendar() {
   const {
     blockedDates,
     getPriceForDate,
-    propertyPricingInfoApiIsFirstLoading,
+    isPropertyPricingInfoApiIsLoading,
     selectedCells,
     selectedPropertyValue,
     setSelectedCells,
     setSelectedPropertyValue,
-    weekdaysPrice,
   } = useMulticalendarContext();
 
   const [selectedCalenderViewOptionValue, setSelectedCalenderViewOptionValue] =
@@ -77,14 +76,13 @@ export function useMulticalendar() {
     getPriceForDate,
     handlePropertyChange,
     handleShowOptionChange,
+    isPropertyPricingInfoApiIsLoading,
     listingPropertiesApiData,
     listingPropertiesApiIsFirstLoading,
-    propertyPricingInfoApiIsFirstLoading,
     selectedCalenderViewOptionValue,
     selectedCells,
     selectedPropertyValue,
     setSelectedCells,
     toggleCalenderSettings,
-    weekdaysPrice,
   };
 }
