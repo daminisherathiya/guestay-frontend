@@ -20,7 +20,7 @@ export function useCalendarPricingTab() {
     isPending: managePropertyPricingApiIsPending,
   } = useMutation({
     mutationFn: managePropertyPricingApi,
-    mutationKey: ["manage_property_pricing"],
+    mutationKey: ["manage-property-pricing"],
   });
 
   const handleRemoveWeekendPrice = () => {

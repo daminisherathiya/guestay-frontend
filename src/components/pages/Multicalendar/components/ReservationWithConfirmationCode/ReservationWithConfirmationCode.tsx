@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
@@ -21,12 +22,16 @@ export function ReservationWithConfirmationCode() {
   const { isBreakdownShow, toggleIsBreakdownShow } =
     useReservationWithConfirmationCode();
 
+  const { propertyId }: { propertyId: string } = useParams();
+
   return (
     <>
       <Stack className="sticky -top-8 z-10 -mx-6 mb-5 items-end bg-common-white pr-6">
-        <IconButton aria-label="close" className="-mr-2 size-8">
-          <CloseIcon className="size-5" />
-        </IconButton>
+        <Link href={`/multicalendar/${propertyId}/pricing-settings`}>
+          <IconButton aria-label="close" className="-mr-2 size-8">
+            <CloseIcon className="size-5" />
+          </IconButton>
+        </Link>
       </Stack>
       <Stack className="flex-row items-center justify-between">
         <Stack className="gap-0.5">

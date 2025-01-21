@@ -3,7 +3,6 @@ import { memo } from "react";
 import interactionPlugin from "@fullcalendar/interaction";
 import multiMonthPlugin from "@fullcalendar/multimonth";
 import FullCalendar from "@fullcalendar/react";
-import dayjs from "dayjs";
 
 import { Box } from "@/components/atoms/Box";
 import { Skeleton } from "@/components/atoms/Skeleton";
@@ -22,6 +21,8 @@ function _HostCalendar({
 }: _HostCalendarProps) {
   const {
     calendarContainerRef,
+    calendarEndMonth,
+    calendarStartMonth,
     dayCellClassNames,
     events,
     handleDateRangeSelect,
@@ -36,18 +37,6 @@ function _HostCalendar({
   });
 
   const renderCalendars = () => {
-    const currentDate = dayjs();
-
-    const startMonth = currentDate
-      .subtract(12, "months")
-      .startOf("month")
-      .format("YYYY-MM-DD");
-
-    const endMonth = currentDate
-      .add(12, "months")
-      .startOf("month")
-      .format("YYYY-MM-DD");
-
     return (
       <FullCalendar
         ref={(el) => {
@@ -92,7 +81,7 @@ function _HostCalendar({
           start: "",
         }}
         height="auto"
-        initialDate={startMonth}
+        initialDate={calendarStartMonth}
         initialView="multiMonthYear"
         multiMonthMaxColumns={1}
         plugins={[multiMonthPlugin, interactionPlugin]}
@@ -101,8 +90,8 @@ function _HostCalendar({
         selectMirror={true}
         timeZone="EST"
         validRange={{
-          end: endMonth,
-          start: startMonth,
+          end: calendarEndMonth,
+          start: calendarStartMonth,
         }}
         views={{
           multiMonthYear: {

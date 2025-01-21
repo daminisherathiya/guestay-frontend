@@ -85,7 +85,7 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
     managePropertyPricingApiType
   >({
     mutationFn: managePropertyPricingApi,
-    mutationKey: ["manage_property_pricing"],
+    mutationKey: ["manage-property-pricing"],
   });
 
   const { selectedCells } = useMulticalendarContext();

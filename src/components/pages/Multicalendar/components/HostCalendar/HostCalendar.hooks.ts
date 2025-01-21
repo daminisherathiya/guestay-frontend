@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
+import { useParams, useRouter } from "next/navigation";
+
 import {
   DateSelectArg,
   DayCellContentArg,
@@ -9,7 +11,10 @@ import {
 } from "@fullcalendar/core/index.js";
 import { EventResizeDoneArg } from "@fullcalendar/interaction/index.js";
 import FullCalendar from "@fullcalendar/react";
+import dayjs from "dayjs";
 
+import { allBookingsApi } from "@/apis/multiCalendar/allBookingsApi";
+import { allBookingsApiResponseType } from "@/apis/multiCalendar/allBookingsApi/allBookingsApi.types";
 import { holidaysApi } from "@/apis/multiCalendar/holidaysApi";
 import { holidaysApiResponseType } from "@/apis/multiCalendar/holidaysApi/holidaysApi.types";
 import { useQuery } from "@/hooks/useQuery";
@@ -22,7 +27,22 @@ export function useHostCalendar({
   setSelectedCells,
   selectedCells,
 }: useHostCalendarProps) {
+  const { propertyId }: { propertyId: string } = useParams();
+
   const calendarContainerRef = useRef<FullCalendar | null>(null);
+  const currentDate = dayjs();
+
+  const calendarStartMonth = currentDate
+    .subtract(12, "months")
+    .startOf("month")
+    .format("YYYY-MM-DD");
+
+  const calendarEndMonth = currentDate
+
+    .add(12, "months")
+    .startOf("month")
+    .format("YYYY-MM-DD");
+
   const [events, setEvents] = useState<CalendarEvent[]>([
     {
       allDay: false,
@@ -136,6 +156,49 @@ export function useHostCalendar({
     // },
   ]);
 
+  const {
+    data: allBookingsApiData,
+    isSuccess: allBookingsApiIsSuccess,
+    isFirstLoading: allBookingsApiIsFirstLoading,
+  } = useQuery<allBookingsApiResponseType, Error, allBookingsApiResponseType>({
+    queryFn: () => {
+      return allBookingsApi({
+        data: {
+          endDate: calendarEndMonth,
+          onlyMyBookings: "0",
+          propertyId: propertyId,
+          startDate: calendarStartMonth,
+          userId: getUserDetails().id,
+        },
+      });
+    },
+    queryKey: ["all-bookings"],
+  });
+
+  useEffect(() => {
+    if (allBookingsApiIsSuccess && allBookingsApiData?.data) {
+      const allBookingsEvents = allBookingsApiData.data.allBookings.map(
+        (booking) => ({
+          allDay: false,
+          backgroundColor: "#222222",
+          borderColor: "#222222",
+          description: booking.guest_name,
+          editable: false,
+          end: booking.checkout,
+          id: booking.id,
+          start: booking.checkin,
+          textColor: "#ffffff",
+          title: booking.guest_name,
+          type: booking.status,
+        }),
+      );
+
+      setEvents((prevEvents) => {
+        return [...prevEvents, ...allBookingsEvents];
+      });
+    }
+  }, [allBookingsApiData?.data, allBookingsApiIsSuccess]);
+
   const { data: holidaysApiData, isSuccess: holidaysApiIsSuccess } = useQuery<
     holidaysApiResponseType,
     Error,
@@ -153,7 +216,7 @@ export function useHostCalendar({
 
   useEffect(() => {
     if (holidaysApiIsSuccess && holidaysApiData?.data) {
-      const apiHolidayEvents = holidaysApiData.data.map((holiday) => ({
+      const holidayEvents = holidaysApiData.data.map((holiday) => ({
         allDay: true,
         backgroundColor: "#9575CD",
         borderColor: "#7E57C2",
@@ -168,7 +231,7 @@ export function useHostCalendar({
       }));
 
       setEvents((prevEvents) => {
-        return [...prevEvents, ...apiHolidayEvents];
+        return [...prevEvents, ...holidayEvents];
       });
     }
   }, [holidaysApiData, holidaysApiIsSuccess]);
@@ -364,10 +427,11 @@ export function useHostCalendar({
 
     return classes;
   };
+  const router = useRouter();
 
   const handleEventClick = (info: EventClickArg) => {
-    const event = events.find((e) => e.id === info.event.id);
-    console.log("🚀 ~ handleEventClick ~ event:", event);
+    const bookingId = info.event.id;
+    router.push(`/multicalendar/${propertyId}/reservation/${bookingId}`);
   };
 
   const updateEvent = (info: EventResizeDoneArg | EventDropArg) => {
@@ -404,6 +468,8 @@ export function useHostCalendar({
 
   return {
     calendarContainerRef,
+    calendarEndMonth,
+    calendarStartMonth,
     dayCellClassNames,
     events,
     handleDateRangeSelect,
