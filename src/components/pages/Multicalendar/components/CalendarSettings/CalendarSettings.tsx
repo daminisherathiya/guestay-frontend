@@ -8,6 +8,7 @@ import { Box } from "@/components/atoms/Box";
 import { Tab } from "@/components/atoms/Tab";
 import { Tabs } from "@/components/atoms/Tabs";
 import { Typography } from "@/components/atoms/Typography";
+import { useMulticalendarContext } from "@/hooks/useMulticalendar";
 import { useTabIndex } from "@/hooks/useTabIndex";
 import { TabPanelProps } from "@/utils/common.types";
 
@@ -45,6 +46,12 @@ export function CalendarSettings() {
     useTabIndex({
       initialIndex: initialIndex,
     });
+
+  const { setSelectedCells } = useMulticalendarContext();
+
+  useEffect(() => {
+    setSelectedCells([]); // /edit-selected-dates -> /pricing-settings
+  }, [setSelectedCells]);
 
   useEffect(() => {
     if (selectedCalendarSettingsTabIndex === 1) {

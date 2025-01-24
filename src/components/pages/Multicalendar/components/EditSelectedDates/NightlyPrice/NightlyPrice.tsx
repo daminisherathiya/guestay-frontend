@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import { Box } from "@mui/material";
 
@@ -32,6 +33,8 @@ export function NightlyPrice() {
     price: seasonalWeekendPrice,
     priceError: seasonalWeekendPriceError,
   } = usePropertyPricing({ pricing: "seasonal" });
+
+  const { propertyId }: { propertyId: string } = useParams();
 
   return (
     <>
@@ -102,7 +105,7 @@ export function NightlyPrice() {
         <Button
           className="w-full border-primary-main"
           component={Link}
-          href="/multicalendar/256/edit-selected-dates"
+          href={`/multicalendar/${propertyId}/edit-selected-dates`}
           size="large"
           variant="outlined"
         >

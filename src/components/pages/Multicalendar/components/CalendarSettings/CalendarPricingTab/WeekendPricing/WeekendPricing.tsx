@@ -53,7 +53,7 @@ export function WeekendPricing() {
           size="large"
           type="submit"
           variant="contained"
-          onClick={onSubmit}
+          onClick={() => onSubmit({})}
         >
           Save
         </LoadingButton>

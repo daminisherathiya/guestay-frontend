@@ -12,15 +12,23 @@ import { Avatar } from "@/components/atoms/Avatar";
 import { Box } from "@/components/atoms/Box";
 import { Divider } from "@/components/atoms/Divider";
 import { IconButton } from "@/components/atoms/IconButton";
+import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { TextareaAutosize } from "@/components/atoms/TextareaAutosize";
 import { Typography } from "@/components/atoms/Typography";
 
-import { useReservationWithConfirmationCode } from "./ReservationWithConfirmationCode.types";
+import { useReservationWithConfirmationCode } from "./ReservationWithConfirmationCode.hooks";
 
 export function ReservationWithConfirmationCode() {
-  const { isBreakdownShow, toggleIsBreakdownShow } =
-    useReservationWithConfirmationCode();
+  const {
+    allBookingsApiIsFirstLoading,
+    formattedBookingDateRange,
+    guestBookingStatus,
+    guestNameInitialLater,
+    selectedBookingDetails,
+    isBreakdownShow,
+    toggleIsBreakdownShow,
+  } = useReservationWithConfirmationCode();
 
   const { propertyId }: { propertyId: string } = useParams();
 
@@ -33,28 +41,45 @@ export function ReservationWithConfirmationCode() {
           </IconButton>
         </Link>
       </Stack>
-      <Stack className="flex-row items-center justify-between">
-        <Stack className="gap-0.5">
-          <Typography
-            className="font-medium text-text-secondary"
-            variant="body2"
-          >
-            Past guest
-          </Typography>
-          <Typography className="text-2xl font-bold" variant="h2">
-            Rachel Lerner
-          </Typography>
+      <Stack className="flex-row items-center justify-between gap-6">
+        <Stack className="grow gap-0.5">
+          {allBookingsApiIsFirstLoading ? (
+            <Skeleton className="h-8 w-full rounded" variant="rectangular" />
+          ) : (
+            <>
+              <Typography
+                className="font-medium text-text-secondary"
+                variant="body2"
+              >
+                {guestBookingStatus}
+              </Typography>
+              <Typography className="text-2xl font-bold" variant="h2">
+                {selectedBookingDetails?.guest_name}
+              </Typography>
+            </>
+          )}
         </Stack>
-        <Avatar className="size-12 bg-primary-main text-sm font-medium">
-          R
+        <Avatar className="size-12 bg-primary-main text-base font-medium">
+          {guestNameInitialLater}
         </Avatar>
       </Stack>
       <Box className="mt-4">
-        <Typography>
-          1362 E 10th St · Oasis in the Desert King/Great Location/Pool/Wifi
-        </Typography>
-        <Typography>28 Nov - 1 Dec (3 nights)</Typography>
-        <Typography>2 guests · $698.4</Typography>
+        {allBookingsApiIsFirstLoading ? (
+          <>
+            <Skeleton variant="text" />
+            <Skeleton variant="text" />
+            <Skeleton className="w-4/5" variant="text" />
+            <Skeleton className="w-3/5" variant="text" />
+          </>
+        ) : (
+          <>
+            <Typography>
+              1362 E 10th St · Oasis in the Desert King/Great Location/Pool/Wifi
+            </Typography>
+            <Typography>{formattedBookingDateRange}</Typography>
+            <Typography>2 guests · $698.4</Typography>
+          </>
+        )}
       </Box>
       <Divider className="-mx-6 my-8 border-4 border-action-selected" />
       <Box>

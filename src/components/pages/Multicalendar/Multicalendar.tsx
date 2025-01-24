@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import CloseIcon from "@mui/icons-material/Close";
 import HomeIcon from "@mui/icons-material/Home";
@@ -9,6 +10,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import { Fade } from "@mui/material";
 
 import { Avatar } from "@/components/atoms/Avatar";
 import { Box } from "@/components/atoms/Box";
@@ -20,6 +22,7 @@ import { MenuItem } from "@/components/atoms/MenuItem";
 import { OutlinedInput } from "@/components/atoms/OutlinedInput";
 import { Select } from "@/components/atoms/Select/Select";
 import { Skeleton } from "@/components/atoms/Skeleton";
+import { Slide } from "@/components/atoms/Slide";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
@@ -65,6 +68,11 @@ export function Multicalendar({ children }: MulticalendarProps) {
   //     }
   //   }
   // }, [selectedShowOptionValue]);
+
+  const pathname = usePathname();
+  const isPricingSettingsPage =
+    pathname.includes("pricing-settings") ||
+    pathname.includes("availability-settings");
 
   return (
     <Container className="m-0 mx-auto p-0" maxWidth="3xl">
@@ -309,17 +317,47 @@ export function Multicalendar({ children }: MulticalendarProps) {
             className="hidden lg:block"
             orientation="vertical"
           />
-          <Box
-            className={`no-scrollbar fixed top-0 z-10 ${calenderSettings ? "" : "hidden"} size-full shrink-0 overflow-auto bg-common-white px-6 py-12 lg:static lg:block lg:w-[23.125rem] lg:py-8`}
-          >
-            <IconButton
-              className="absolute left-2 top-2 size-8 lg:hidden"
-              onClick={toggleCalenderSettings}
+          {isPricingSettingsPage ? (
+            // Render without animations for pricing-settings page
+            <Box
+              className={`no-scrollbar fixed top-0 z-10 ${
+                calenderSettings ? "" : "hidden"
+              } size-full shrink-0 overflow-auto bg-common-white px-6 py-12 lg:static lg:block lg:w-[23.125rem] lg:py-8`}
             >
-              <CloseIcon className="size-5" />
-            </IconButton>
-            {children}
-          </Box>
+              <IconButton
+                className="absolute left-2 top-2 size-8 lg:hidden"
+                onClick={toggleCalenderSettings}
+              >
+                <CloseIcon className="size-5" />
+              </IconButton>
+              {children}
+            </Box>
+          ) : (
+            // Render with animations for other pages
+            <Slide
+              key={pathname}
+              mountOnEnter
+              unmountOnExit
+              direction="left"
+              in={true}
+            >
+              <Fade in={true}>
+                <Box
+                  className={`no-scrollbar fixed top-0 z-10 ${
+                    calenderSettings ? "" : "hidden"
+                  } size-full shrink-0 overflow-auto bg-common-white px-6 py-12 lg:static lg:block lg:w-[23.125rem] lg:py-8`}
+                >
+                  <IconButton
+                    className="absolute left-2 top-2 size-8 lg:hidden"
+                    onClick={toggleCalenderSettings}
+                  >
+                    <CloseIcon className="size-5" />
+                  </IconButton>
+                  {children}
+                </Box>
+              </Fade>
+            </Slide>
+          )}
         </Stack>
       </Stack>
     </Container>

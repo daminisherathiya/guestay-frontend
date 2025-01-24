@@ -27,7 +27,6 @@ export function EditSelectedDates() {
     blockedDates,
     minMaxSelectedDatePrice,
     selectedCells,
-    setSelectedCells,
     setBlockedDates,
   } = useMulticalendarContext();
 
@@ -47,7 +46,6 @@ export function EditSelectedDates() {
     minMaxSelectedDatePrice,
     selectedCells,
     setBlockedDates,
-    setSelectedCells,
   });
 
   return (

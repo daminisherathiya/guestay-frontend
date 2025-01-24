@@ -12,6 +12,8 @@ import { useParams, useRouter } from "next/navigation";
 
 import dayjs from "dayjs";
 
+import { allBookingsApi } from "@/apis/multiCalendar/allBookingsApi";
+import { allBookingsApiResponseType } from "@/apis/multiCalendar/allBookingsApi/allBookingsApi.types";
 import { propertyPricingInfoApi } from "@/apis/multiCalendar/propertyPricingInfoApi";
 import {
   Holiday,
@@ -62,6 +64,38 @@ export function MulticalendarContextProvider({
       });
     },
     queryKey: ["property_pricing_info", selectedPropertyValue],
+  });
+
+  const currentDate = dayjs();
+
+  const calendarStartMonth = currentDate
+    .subtract(12, "months")
+    .startOf("month")
+    .format("YYYY-MM-DD");
+
+  const calendarEndMonth = currentDate
+
+    .add(12, "months")
+    .startOf("month")
+    .format("YYYY-MM-DD");
+
+  const {
+    data: allBookingsApiData,
+    isSuccess: allBookingsApiIsSuccess,
+    isFirstLoading: allBookingsApiIsFirstLoading,
+  } = useQuery<allBookingsApiResponseType, Error, allBookingsApiResponseType>({
+    queryFn: () => {
+      return allBookingsApi({
+        data: {
+          endDate: calendarEndMonth,
+          onlyMyBookings: "0",
+          propertyId: propertyId,
+          startDate: calendarStartMonth,
+          userId: getUserDetails().id,
+        },
+      });
+    },
+    queryKey: ["all-bookings"],
   });
 
   const isPropertyPricingInfoApiIsLoading =
@@ -165,35 +199,14 @@ export function MulticalendarContextProvider({
     [priceCache],
   );
 
-  const _getPriceForDate = useCallback(
-    (date: Date) => {
-      console.log("🚀 ~ date:", date);
-      const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-      const specialPricing = getPricingPeriod(date);
-
-      if (specialPricing) {
-        if (!("weekend_price" in specialPricing)) {
-          return parseInt(specialPricing.price, 10);
-        }
-        return isWeekend
-          ? parseInt(specialPricing?.weekend_price, 10)
-          : parseInt(specialPricing.price, 10);
-      }
-      return isWeekend && Number(weekendPrice) !== 1
-        ? weekendPrice
-        : weekdayPrice;
-    },
-    [getPricingPeriod, weekdayPrice, weekendPrice],
-  );
-
   const minMaxSelectedDatePrice = useCallback(() => {
     const prices = selectedCells.map((selectedCell) => {
       return getPriceForDate(
         dayjs.tz(selectedCell, "YYYY-MM-DD", "UTC").toDate(),
       );
     });
-    const minPrice = Math.min(...prices);
-    const maxPrice = Math.max(...prices);
+    const minPrice = prices.length ? Math.min(...prices) : 0;
+    const maxPrice = prices.length ? Math.max(...prices) : 0;
     return {
       maxPrice: maxPrice,
       minPrice: minPrice,
@@ -232,7 +245,12 @@ export function MulticalendarContextProvider({
   return (
     <MulticalendarContext.Provider
       value={{
+        allBookingsApiData,
+        allBookingsApiIsFirstLoading,
+        allBookingsApiIsSuccess,
         blockedDates,
+        calendarEndMonth,
+        calendarStartMonth,
         getPriceForDate,
         getSelectedDaysType,
         isPropertyPricingInfoApiIsLoading,

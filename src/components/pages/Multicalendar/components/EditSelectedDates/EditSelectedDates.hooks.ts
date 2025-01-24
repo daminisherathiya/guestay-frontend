@@ -14,7 +14,6 @@ export function useEditSelectedDates({
   minMaxSelectedDatePrice,
   selectedCells,
   setBlockedDates,
-  setSelectedCells,
 }: useEditSelectedDatesProps) {
   const {
     value: priceBreakdownDialogIsOpen,
@@ -36,8 +35,13 @@ export function useEditSelectedDates({
 
   const handleOpenPricingSettings = () => {
     router.push("./pricing-settings");
-    setSelectedCells([]);
   };
+
+  useEffect(() => {
+    if (!selectedCells || selectedCells.length === 0) {
+      router.push("./pricing-settings");
+    }
+  }, [router, selectedCells]);
 
   const formatSelectedDates = (selectedCells: string[]) => {
     if (!selectedCells || selectedCells.length === 0) {
@@ -82,12 +86,6 @@ export function useEditSelectedDates({
     selectedDatePriceRange.minPrice === selectedDatePriceRange.maxPrice
       ? `₹${selectedDatePriceRange.minPrice}`
       : `₹${selectedDatePriceRange.minPrice} – ₹${selectedDatePriceRange.maxPrice}`;
-
-  useEffect(() => {
-    if (!selectedCells || selectedCells.length === 0) {
-      router.push("./pricing-settings");
-    }
-  }, [router, selectedCells]);
 
   return {
     formatSelectedDates,

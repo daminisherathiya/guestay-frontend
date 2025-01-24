@@ -11,12 +11,10 @@ import {
 } from "@fullcalendar/core/index.js";
 import { EventResizeDoneArg } from "@fullcalendar/interaction/index.js";
 import FullCalendar from "@fullcalendar/react";
-import dayjs from "dayjs";
 
-import { allBookingsApi } from "@/apis/multiCalendar/allBookingsApi";
-import { allBookingsApiResponseType } from "@/apis/multiCalendar/allBookingsApi/allBookingsApi.types";
 import { holidaysApi } from "@/apis/multiCalendar/holidaysApi";
 import { holidaysApiResponseType } from "@/apis/multiCalendar/holidaysApi/holidaysApi.types";
+import { useMulticalendarContext } from "@/hooks/useMulticalendar";
 import { useQuery } from "@/hooks/useQuery";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
@@ -30,156 +28,20 @@ export function useHostCalendar({
   const { propertyId }: { propertyId: string } = useParams();
 
   const calendarContainerRef = useRef<FullCalendar | null>(null);
-  const currentDate = dayjs();
-
-  const calendarStartMonth = currentDate
-    .subtract(12, "months")
-    .startOf("month")
-    .format("YYYY-MM-DD");
-
-  const calendarEndMonth = currentDate
-
-    .add(12, "months")
-    .startOf("month")
-    .format("YYYY-MM-DD");
-
-  const [events, setEvents] = useState<CalendarEvent[]>([
-    {
-      allDay: false,
-      amount: 1684.89,
-      avatar: "/api/placeholder/32/32",
-      backgroundColor: "#222222",
-      borderColor: "#222222",
-      description: "Discuss the Q4 project roadmap.",
-      end: "2024-11-06T18:00:00",
-      guestCount: 7,
-      id: "1",
-      start: "2024-11-05T10:00:00",
-      title: "📅 Meeting with John",
-      type: "meeting",
-    },
-    {
-      allDay: false,
-      amount: 1684.89,
-      avatar: "/api/placeholder/32/32",
-      backgroundColor: "#222222",
-      borderColor: "#222222",
-      description: "Lunch with the team at the rooftop cafe.",
-      end: "2024-11-06T14:00:00",
-      guestCount: 7,
-      id: "2",
-      start: "2024-11-06T12:30:00",
-      title: "🍴 Team Lunch",
-      type: "lunch",
-    },
-    {
-      allDay: false,
-      amount: 1684.89,
-      avatar: "/api/placeholder/32/32",
-      backgroundColor: "#222222",
-      borderColor: "#222222",
-      description: "Routine checkup with Dr. Smith.",
-      guestCount: 7,
-      id: "3",
-      start: "2024-11-07T15:00:00",
-      title: "🩺 Doctor Appointment",
-      type: "appointment",
-    },
-    {
-      allDay: true,
-      amount: 1684.89,
-      avatar: "/api/placeholder/32/32",
-      backgroundColor: "#222222",
-      borderColor: "#222222",
-      description: "Annual Company Retreat.",
-      end: "2024-11-04",
-      guestCount: 7,
-      id: "4",
-      start: "2024-10-28",
-      title: "🏖️ Company Retreat",
-      type: "retreat",
-    },
-    {
-      allDay: true,
-      amount: 1684.89,
-      avatar: "/api/placeholder/32/32",
-      backgroundColor: "#222222",
-      borderColor: "#222222",
-      description: "Annual Company Retreat.",
-      end: "2024-11-04",
-      guestCount: 7,
-      id: "5",
-      start: "2024-10-28",
-      title: "🏖️ Company Retreat",
-      type: "retreat",
-    },
-    {
-      allDay: true,
-      amount: 1684.89,
-      avatar: "/api/placeholder/32/32",
-      backgroundColor: "#222222",
-      borderColor: "#222222",
-      description: "Annual Company Retreat.",
-      end: "2025-01-28",
-      guestCount: 7,
-      id: "6",
-      start: "2025-01-20",
-      title: "🏖️ Company Retreat",
-      type: "retreat",
-    },
-    // {
-    //   allDay: true, // All-day event
-    //   description: "Annual Company Retreat.",
-    //   end: "2024-11-04",
-    //   id: "7",
-    //   start: "2024-10-28",
-    //   title: "🏖️ Company Retreat",
-    //   type: "retreat",
-    // },
-    // {
-    //   allDay: true, // All-day event
-    //   description: "Annual Company Retreat.",
-    //   end: "2024-11-04",
-    //   id: "8",
-    //   start: "2024-10-28",
-    //   title: "🏖️ Company Retreat",
-    //   type: "retreat",
-    // },
-    // {
-    //   allDay: true, // All-day event
-    //   description: "Annual Company Retreat.",
-    //   end: "2024-11-04",
-    //   id: "9",
-    //   start: "2024-10-28",
-    //   title: "🏖️ Company Retreat",
-    //   type: "retreat",
-    // },
-  ]);
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
 
   const {
-    data: allBookingsApiData,
-    isSuccess: allBookingsApiIsSuccess,
-    isFirstLoading: allBookingsApiIsFirstLoading,
-  } = useQuery<allBookingsApiResponseType, Error, allBookingsApiResponseType>({
-    queryFn: () => {
-      return allBookingsApi({
-        data: {
-          endDate: calendarEndMonth,
-          onlyMyBookings: "0",
-          propertyId: propertyId,
-          startDate: calendarStartMonth,
-          userId: getUserDetails().id,
-        },
-      });
-    },
-    queryKey: ["all-bookings"],
-  });
+    allBookingsApiData,
+    allBookingsApiIsSuccess,
+    calendarEndMonth,
+    calendarStartMonth,
+  } = useMulticalendarContext();
 
   useEffect(() => {
     if (allBookingsApiIsSuccess && allBookingsApiData?.data) {
       const allBookingsEvents = allBookingsApiData.data.allBookings.map(
         (booking) => ({
-          allDay: false,
+          allDay: true,
           backgroundColor: "#222222",
           borderColor: "#222222",
           description: booking.guest_name,
@@ -269,6 +131,7 @@ export function useHostCalendar({
             gap: 8px;
             padding: 8px;
             width: 100%;
+            cursor: pointer;
           ">
             <div style="
               width: 20px;
@@ -330,7 +193,11 @@ export function useHostCalendar({
   const isPastDate = (date: Date) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    return date < today;
+
+    const checkDate = new Date(date);
+    checkDate.setHours(0, 0, 0, 0);
+
+    return checkDate < today;
   };
 
   const handleDateRangeSelect = (info: DateSelectArg) => {
@@ -398,10 +265,13 @@ export function useHostCalendar({
   const dayCellClassNames = (arg: DayCellContentArg) => {
     const classes = [];
     const dateStr = arg.date.toISOString().split("T")[0];
+
     const today = new Date();
-    const isToday =
-      arg.date.toISOString().split("T")[0] ===
-      today.toISOString().split("T")[0];
+    today.setHours(0, 0, 0, 0);
+    const cellDate = new Date(arg.date);
+    cellDate.setHours(0, 0, 0, 0);
+
+    const isToday = cellDate.getTime() === today.getTime();
 
     if (isToday) {
       classes.push(
@@ -418,11 +288,11 @@ export function useHostCalendar({
     }
 
     if (isPastDate(arg.date)) {
-      classes.push("bg-[#d1d1d14d]", "cursor-not-allowed");
+      classes.push("bg-[#F1F1F1]", "cursor-not-allowed");
     } else if (isDateCellSelected(dateStr)) {
       classes.push("bg-primary-main", "text-common-white", "rounded-xl");
     } else if (blockedDates.includes(dateStr)) {
-      classes.push("bg-[#d1d1d14d]");
+      classes.push("bg-[#F1F1F1]");
     }
 
     return classes;

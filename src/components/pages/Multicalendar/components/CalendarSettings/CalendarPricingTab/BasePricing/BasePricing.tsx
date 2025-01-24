@@ -48,7 +48,7 @@ export function BasePricing() {
           size="large"
           type="submit"
           variant="contained"
-          onClick={onSubmit}
+          onClick={() => onSubmit({})}
         >
           Save
         </LoadingButton>

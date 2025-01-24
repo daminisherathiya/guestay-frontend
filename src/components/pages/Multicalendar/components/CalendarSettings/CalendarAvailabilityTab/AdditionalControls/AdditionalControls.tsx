@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import ArrowBackIosOutlinedIcon from "@mui/icons-material/ArrowBackIosOutlined";
 
@@ -11,9 +14,14 @@ import { Typography } from "@/components/atoms/Typography";
 import { SelectableWeekDayButtons } from "./SelectableWeekDayButtons";
 
 export function AdditionalControls() {
+  const { propertyId }: { propertyId: string } = useParams();
+
   return (
     <>
-      <Link passHref href="/multicalendar/256/availability-settings">
+      <Link
+        passHref
+        href={`/multicalendar/${propertyId}/availability-settings`}
+      >
         <IconButton aria-label="Back" className="-ml-2 size-8" component="a">
           <ArrowBackIosOutlinedIcon className="size-4" />
         </IconButton>

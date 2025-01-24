@@ -8,5 +8,4 @@ export interface useEditSelectedDatesProps {
   };
   selectedCells: string[];
   setBlockedDates: Dispatch<SetStateAction<string[]>>;
-  setSelectedCells: Dispatch<SetStateAction<string[]>>;
 }

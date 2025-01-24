@@ -48,7 +48,11 @@ export function useMulticalendar() {
   const handlePropertyChange = (event: SelectChangeEvent<unknown>) => {
     const propertyId = event.target.value as number;
     setSelectedPropertyValue(propertyId);
-    window.history.replaceState({}, "", `/multicalendar/${propertyId}`);
+    window.history.replaceState(
+      {},
+      "",
+      `/multicalendar/${propertyId}/pricing-settings`,
+    );
   };
 
   const calendarRef = useRef<CalendarRefType>(null);

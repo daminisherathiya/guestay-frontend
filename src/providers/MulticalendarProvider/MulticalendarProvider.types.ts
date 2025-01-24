@@ -2,10 +2,16 @@ import { Dispatch, ReactNode, SetStateAction } from "react";
 
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 
+import { allBookingsApiResponseType } from "@/apis/multiCalendar/allBookingsApi/allBookingsApi.types";
 import { propertyPricingInfoApiResponseType } from "@/apis/multiCalendar/propertyPricingInfoApi/propertyPricingInfoApi.types";
 
 export interface MulticalendarContextType {
+  allBookingsApiData: allBookingsApiResponseType | undefined;
+  allBookingsApiIsFirstLoading: boolean;
+  allBookingsApiIsSuccess: boolean;
   blockedDates: string[];
+  calendarEndMonth: string;
+  calendarStartMonth: string;
   getPriceForDate: (date: Date) => number;
   getSelectedDaysType: () => "weekday" | "weekend" | "both" | "notSelected";
   isPropertyPricingInfoApiIsLoading: boolean;
