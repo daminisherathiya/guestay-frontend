@@ -76,7 +76,7 @@ export function CalendarSettings() {
     {
       tabNameComponent: (
         <Typography
-          className="font-medium lowercase leading-5 first-letter:uppercase"
+          className="hidden font-medium lowercase leading-5 first-letter:uppercase"
           variant="body2"
         >
           Availability

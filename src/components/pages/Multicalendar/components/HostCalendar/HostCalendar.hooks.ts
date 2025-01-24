@@ -129,7 +129,7 @@ export function useHostCalendar({
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 8px;
+            padding: 8px 12px;
             width: 100%;
             cursor: pointer;
           ">
@@ -140,6 +140,7 @@ export function useHostCalendar({
               overflow: hidden;
               flex-shrink: 0;
               background-color: #f3f4f6;
+              display: none;
             ">
               <img 
                 src="/api/placeholder/32/32"
@@ -154,13 +155,14 @@ export function useHostCalendar({
               overflow: hidden;
               text-overflow: ellipsis;
             ">
-              ${eventInfo.event.title} + ${eventInfo.event.extendedProps.guestCount} guests
+              🏠\u00A0\u00A0\u00A0${eventInfo.event.title}
             </div>
             <div style="
               font-size: 14px;
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
+              display: none;
             ">
               $${eventInfo.event.extendedProps.amount?.toLocaleString()}
             </div>
@@ -300,8 +302,10 @@ export function useHostCalendar({
   const router = useRouter();
 
   const handleEventClick = (info: EventClickArg) => {
-    const bookingId = info.event.id;
-    router.push(`/multicalendar/${propertyId}/reservation/${bookingId}`);
+    if (info.event.extendedProps.type !== "holiday") {
+      const bookingId = info.event.id;
+      router.push(`/multicalendar/${propertyId}/reservation/${bookingId}`);
+    }
   };
 
   const updateEvent = (info: EventResizeDoneArg | EventDropArg) => {

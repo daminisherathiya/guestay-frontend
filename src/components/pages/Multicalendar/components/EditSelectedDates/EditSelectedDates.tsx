@@ -70,7 +70,7 @@ export function EditSelectedDates() {
               "bg-action-hover rounded-pill p-1 border border-divider",
             indicator: "hidden",
           }}
-          className="grow"
+          className="hidden grow"
           value={selectedEditorTabIndex}
           onChange={handleEditorTabChange}
         >
@@ -120,7 +120,7 @@ export function EditSelectedDates() {
         </Link>
         <Button
           disableRipple
-          className="justify-start rounded-2xl border border-divider p-6 hover:bg-common-transparent"
+          className="hidden justify-start rounded-2xl border border-divider p-6 hover:bg-common-transparent"
           variant="outlined"
           onClick={setPriceBreakdownDialogIsOpenTrue}
         >
@@ -130,13 +130,18 @@ export function EditSelectedDates() {
             </Box>
           </Stack>
         </Button>
-        <PriceBreakdownDialog
-          priceBreakdownDialogIsOpen={priceBreakdownDialogIsOpen}
-          setPriceBreakdownDialogIsOpenFalse={
-            setPriceBreakdownDialogIsOpenFalse
-          }
-        />
-        <Link href="./availability-settings/custom-length/add">
+        <div className="hidden">
+          <PriceBreakdownDialog
+            priceBreakdownDialogIsOpen={priceBreakdownDialogIsOpen}
+            setPriceBreakdownDialogIsOpenFalse={
+              setPriceBreakdownDialogIsOpenFalse
+            }
+          />
+        </div>
+        <Link
+          className="hidden"
+          href="./availability-settings/custom-length/add"
+        >
           <Box className="rounded-2xl border border-divider p-6">
             <Stack className="flex-row items-center justify-between">
               <Box>
@@ -146,7 +151,7 @@ export function EditSelectedDates() {
             </Stack>
           </Box>
         </Link>
-        <Link href="./edit-selected-dates/notes">
+        <Link className="hidden" href="./edit-selected-dates/notes">
           <Box className="rounded-2xl border border-divider p-6">
             <Stack className="flex-row items-center justify-between">
               <Box>

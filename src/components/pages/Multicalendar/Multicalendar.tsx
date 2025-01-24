@@ -84,7 +84,7 @@ export function Multicalendar({ children }: MulticalendarProps) {
                 {/* <Typography className="text-[1.625rem] leading-8" variant="h2">
                   November 2023
                 </Typography> */}
-                <Link className="pt-1.5 text-xs underline" href="#">
+                <Link className="hidden pt-1.5 text-xs underline" href="#">
                   1 discount
                 </Link>
               </Box>
@@ -209,6 +209,7 @@ export function Multicalendar({ children }: MulticalendarProps) {
                     icon: "w-5 right-3",
                     select: "pl-4 pr-8 py-1.5 max-w-72",
                   }}
+                  className="hidden"
                   IconComponent={KeyboardArrowDownIcon}
                   id="demo-simple-select"
                   input={

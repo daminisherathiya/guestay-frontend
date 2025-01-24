@@ -73,16 +73,16 @@ export function ReservationWithConfirmationCode() {
           </>
         ) : (
           <>
-            <Typography>
+            <Typography className="hidden">
               1362 E 10th St · Oasis in the Desert King/Great Location/Pool/Wifi
             </Typography>
             <Typography>{formattedBookingDateRange}</Typography>
-            <Typography>2 guests · $698.4</Typography>
+            <Typography className="hidden">2 guests · $698.4</Typography>
           </>
         )}
       </Box>
-      <Divider className="-mx-6 my-8 border-4 border-action-selected" />
-      <Box>
+      <Divider className="-mx-6 my-8 hidden border-4 border-action-selected" />
+      <Box className="hidden">
         <Typography className="font-bold opacity-85" variant="h2">
           Booking details
         </Typography>
@@ -130,8 +130,8 @@ export function ReservationWithConfirmationCode() {
           </Button>
         </Box>
       </Box>
-      <Divider className="-mx-6 my-8 border-4 border-action-selected" />
-      <Box>
+      <Divider className="-mx-6 my-8 hidden border-4 border-action-selected" />
+      <Box className="hidden">
         <Typography className="mb-6 font-bold opacity-85" variant="h2">
           Guest paid
         </Typography>
@@ -158,8 +158,8 @@ export function ReservationWithConfirmationCode() {
           </Stack>
         </Stack>
       </Box>
-      <Divider className="-mx-6 my-8 border-4 border-action-selected" />
-      <Box>
+      <Divider className="-mx-6 my-8 hidden border-4 border-action-selected" />
+      <Box className="hidden">
         <Typography className="mb-6 font-bold opacity-85" variant="h2">
           Host payout
         </Typography>
@@ -220,8 +220,8 @@ export function ReservationWithConfirmationCode() {
           </Stack>
         </Link>
       </Box>
-      <Divider className="-mx-6 my-8 border-4 border-action-selected" />
-      <Box>
+      <Divider className="-mx-6 my-8 hidden border-4 border-action-selected" />
+      <Box className="hidden">
         <Typography className="mb-6 font-bold opacity-85" variant="h2">
           Calendar note
         </Typography>
@@ -246,8 +246,8 @@ export function ReservationWithConfirmationCode() {
           Save
         </Button>
       </Box>
-      <Divider className="-mx-6 my-8 border-4 border-action-selected" />
-      <Box>
+      <Divider className="-mx-6 my-8 hidden border-4 border-action-selected" />
+      <Box className="hidden">
         <Typography className="mb-6 font-bold opacity-85" variant="h2">
           Common questions
         </Typography>

@@ -76,7 +76,7 @@ export function CalendarPricingTab() {
           </LoadingButton>
         </Stack>
       </Stack>
-      <Stack className="gap-4">
+      <Stack className="hidden gap-4">
         <Stack className="grow">
           <Typography variant="h2">Discounts</Typography>
           <Typography className="mb-2 mt-1 text-text-secondary" variant="body2">
