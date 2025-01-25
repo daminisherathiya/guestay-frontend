@@ -8,7 +8,13 @@ Sentry.init({
   dsn: "https://c6c09738f39931bdf1080329adbe8aaa@o4508699999076352.ingest.us.sentry.io/4508700000387072",
 
   // Add optional integrations for additional features
-  integrations: [Sentry.replayIntegration()],
+  integrations: [
+    Sentry.captureConsoleIntegration({
+      levels: ["warn", "error", "debug", "assert"],
+    }),
+    Sentry.httpClientIntegration(),
+    Sentry.replayIntegration(),
+  ],
 
   // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
   tracesSampleRate: 1,
@@ -23,4 +29,6 @@ Sentry.init({
 
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
   debug: false,
+
+  sendDefaultPii: true,
 });
