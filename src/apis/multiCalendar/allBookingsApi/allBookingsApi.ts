@@ -12,6 +12,6 @@ export const allBookingsApi = async ({ data }: allBookingsApiType) => {
       user_id: data.userId,
     },
     method: "post",
-    url: "/booking/get_all_bookings",
+    url: "/booking/get_all",
   });
 };
