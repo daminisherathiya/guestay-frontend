@@ -39,7 +39,7 @@ export function useGlobalPrices({
 
   useEffect(() => {
     if (globalPricesApiIsSuccess) {
-      if (parseFloat(propertyCommissionRate)) {
+      if (propertyCommissionRate && parseFloat(propertyCommissionRate)) {
         setCommissionRate(propertyCommissionRate);
       } else {
         const commissionRateItem = globalPricesApiData.data.find(
