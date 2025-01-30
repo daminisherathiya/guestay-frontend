@@ -50,7 +50,7 @@ export function CalendarSettings() {
   const { setSelectedCells } = useMulticalendarContext();
 
   useEffect(() => {
-    setSelectedCells([]); // /edit-selected-dates -> /pricing-settings
+    setSelectedCells((prev) => (prev.length ? [] : prev)); // /edit-selected-dates -> /pricing-settings
   }, [setSelectedCells]);
 
   useEffect(() => {

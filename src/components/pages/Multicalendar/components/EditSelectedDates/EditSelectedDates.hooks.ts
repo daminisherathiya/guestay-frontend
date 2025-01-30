@@ -84,8 +84,8 @@ export function useEditSelectedDates({
   const selectedDatePriceRange = minMaxSelectedDatePrice();
   const selectedDatePriceRangeInString =
     selectedDatePriceRange.minPrice === selectedDatePriceRange.maxPrice
-      ? `₹${selectedDatePriceRange.minPrice}`
-      : `₹${selectedDatePriceRange.minPrice} – ₹${selectedDatePriceRange.maxPrice}`;
+      ? `$${selectedDatePriceRange.minPrice}`
+      : `$${selectedDatePriceRange.minPrice} – $${selectedDatePriceRange.maxPrice}`;
 
   return {
     formatSelectedDates,

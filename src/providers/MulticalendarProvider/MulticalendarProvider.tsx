@@ -11,6 +11,8 @@ import {
 import { useParams, useRouter } from "next/navigation";
 
 import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 
 import { allBookingsApi } from "@/apis/multiCalendar/allBookingsApi";
 import { allBookingsApiResponseType } from "@/apis/multiCalendar/allBookingsApi/allBookingsApi.types";
@@ -23,10 +25,14 @@ import {
 import { useQuery } from "@/hooks/useQuery";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
+import { WEEKEND_PRICE_NOT_SET_PLACEHOLDER_VALUE } from "./MulticalendarProvider.consts";
 import {
   MulticalendarContextProviderProps,
   MulticalendarContextType,
 } from "./MulticalendarProvider.types";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export const MulticalendarContext = createContext<
   MulticalendarContextType | undefined
@@ -66,15 +72,14 @@ export function MulticalendarContextProvider({
     queryKey: ["property_pricing_info", selectedPropertyValue],
   });
 
-  const currentDate = dayjs();
+  const todaysDate = useMemo(() => dayjs(), []);
 
-  const calendarStartMonth = currentDate
+  const calendarStartMonth = todaysDate
     .subtract(12, "months")
     .startOf("month")
     .format("YYYY-MM-DD");
 
-  const calendarEndMonth = currentDate
-
+  const calendarEndMonth = todaysDate
     .add(12, "months")
     .startOf("month")
     .format("YYYY-MM-DD");
@@ -154,9 +159,8 @@ export function MulticalendarContextProvider({
     if (!propertyPricingInfoApiData?.data) return new Map();
 
     const cache = new Map();
-    // Todo: Use variable instead of hard-coded 12 and use the same in HostCalendar
-    const startDate = dayjs().subtract(12, "months").startOf("month");
-    const endDate = dayjs().add(12, "months").endOf("month");
+    const startDate = todaysDate.subtract(12, "months").startOf("month");
+    const endDate = todaysDate.add(12, "months").endOf("month");
 
     let currentDate = startDate;
     while (currentDate.isBefore(endDate)) {
@@ -180,20 +184,26 @@ export function MulticalendarContextProvider({
         const weekendPrice = parseInt(
           propertyPricingInfoApiData?.data.weekend_price ?? "0",
         );
-        price = isWeekend && weekendPrice !== 1 ? weekendPrice : weekdaysPrice;
+        price =
+          isWeekend &&
+          weekendPrice !== parseInt(WEEKEND_PRICE_NOT_SET_PLACEHOLDER_VALUE)
+            ? weekendPrice
+            : weekdaysPrice;
       }
 
       cache.set(currentDate.format("YYYY-MM-DD"), price);
       currentDate = currentDate.add(1, "day");
     }
 
+    console.log("🚀 ~ priceCache ~ cache:", cache);
     return cache;
-  }, [propertyPricingInfoApiData, getPricingPeriod]);
+  }, [getPricingPeriod, propertyPricingInfoApiData, todaysDate]);
 
   const getPriceForDate = useCallback(
     (date: Date) => {
-      console.log("🚀 ~ date:", date);
+      // console.log("🚀 ~ date:", date);
       const dateStr = dayjs(date).format("YYYY-MM-DD");
+      // console.log("🚀 ~ dateStr:", dateStr);
       return priceCache.get(dateStr) ?? 0;
     },
     [priceCache],
@@ -201,9 +211,7 @@ export function MulticalendarContextProvider({
 
   const minMaxSelectedDatePrice = useCallback(() => {
     const prices = selectedCells.map((selectedCell) => {
-      return getPriceForDate(
-        dayjs.tz(selectedCell, "YYYY-MM-DD", "UTC").toDate(),
-      );
+      return getPriceForDate(dayjs(selectedCell).toDate());
     });
     const minPrice = prices.length ? Math.min(...prices) : 0;
     const maxPrice = prices.length ? Math.max(...prices) : 0;

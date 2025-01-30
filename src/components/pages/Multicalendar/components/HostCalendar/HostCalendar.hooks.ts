@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import {
   DateSelectArg,
@@ -11,6 +11,7 @@ import {
 } from "@fullcalendar/core/index.js";
 import { EventResizeDoneArg } from "@fullcalendar/interaction/index.js";
 import FullCalendar from "@fullcalendar/react";
+import dayjs from "dayjs";
 
 import { holidaysApi } from "@/apis/multiCalendar/holidaysApi";
 import { holidaysApiResponseType } from "@/apis/multiCalendar/holidaysApi/holidaysApi.types";
@@ -22,11 +23,10 @@ import { CalendarEvent, useHostCalendarProps } from "./HostCalendar.types";
 
 export function useHostCalendar({
   blockedDates,
+  propertyId,
   setSelectedCells,
   selectedCells,
 }: useHostCalendarProps) {
-  const { propertyId }: { propertyId: string } = useParams();
-
   const calendarContainerRef = useRef<FullCalendar | null>(null);
   const [events, setEvents] = useState<CalendarEvent[]>([]);
 
@@ -46,7 +46,7 @@ export function useHostCalendar({
           borderColor: "#222222",
           description: booking.guest_name,
           editable: false,
-          end: booking.checkout,
+          end: dayjs(booking.checkout).add(1, "day").format("YYYY-MM-DD"),
           id: booking.id,
           start: booking.checkin,
           textColor: "#ffffff",
@@ -84,7 +84,7 @@ export function useHostCalendar({
         borderColor: "#7E57C2",
         description: holiday.name,
         editable: false,
-        end: holiday.end_at,
+        end: dayjs(holiday.end_at).add(1, "day").format("YYYY-MM-DD"),
         id: holiday.id,
         start: holiday.start_at,
         textColor: "#ffffff",
@@ -98,7 +98,7 @@ export function useHostCalendar({
     }
   }, [holidaysApiData, holidaysApiIsSuccess]);
 
-  const renderEventContent = (eventInfo: EventContentArg) => {
+  const renderEventContent = useCallback((eventInfo: EventContentArg) => {
     if (eventInfo.event.extendedProps.type === "holiday") {
       return {
         html: `
@@ -169,7 +169,7 @@ export function useHostCalendar({
           </div>
         `,
     };
-  };
+  }, []);
 
   // Automatically scroll the calendar container to align the current month at the top of the scrollable area
   useEffect(() => {
@@ -192,7 +192,7 @@ export function useHostCalendar({
   }, []);
 
   // Helper function to check if a date is in the past
-  const isPastDate = (date: Date) => {
+  const isPastDate = useCallback((date: Date) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -200,145 +200,166 @@ export function useHostCalendar({
     checkDate.setHours(0, 0, 0, 0);
 
     return checkDate < today;
-  };
+  }, []);
 
-  const handleDateRangeSelect = (info: DateSelectArg) => {
-    // Prevent selection if start date is in the past
-    if (isPastDate(info.start)) {
-      if (calendarContainerRef.current) {
-        calendarContainerRef.current.getApi().unselect();
+  const handleDateRangeSelect = useCallback(
+    (info: DateSelectArg) => {
+      // Prevent selection if start date is in the past
+      if (isPastDate(info.start)) {
+        if (calendarContainerRef.current) {
+          calendarContainerRef.current.getApi().unselect();
+        }
+        return;
       }
-      return;
-    }
 
-    const start = new Date(info.start);
-    const end = new Date(info.end);
-    const selectedRangeDates: string[] = [];
+      const start = new Date(info.start);
+      const end = new Date(info.end);
+      const selectedRangeDates: string[] = [];
 
-    // Collect all dates in the selected range that aren't in the past
-    while (start < end) {
-      selectedRangeDates.push(start.toISOString().split("T")[0]);
-      start.setDate(start.getDate() + 1);
-    }
+      // Collect all dates in the selected range that aren't in the past
+      while (start < end) {
+        selectedRangeDates.push(start.toISOString().split("T")[0]);
+        start.setDate(start.getDate() + 1);
+      }
 
-    const hasNonHolidayOverlap = events.some((event) => {
-      if (event.type === "holiday") return false;
+      const hasNonHolidayOverlap = events.some((event) => {
+        if (event.type === "holiday") return false;
 
-      const eventStart = new Date(event.start);
-      const eventEnd = new Date(event.end || event.start);
+        const eventStart = new Date(event.start);
+        const eventEnd = new Date(event.end || event.start);
 
-      return selectedRangeDates.some((date) => {
-        const currentDate = new Date(date);
-        return currentDate >= eventStart && currentDate < eventEnd;
+        return selectedRangeDates.some((date) => {
+          const currentDate = new Date(date);
+          return currentDate >= eventStart && currentDate < eventEnd;
+        });
       });
-    });
 
-    if (hasNonHolidayOverlap) {
-      if (calendarContainerRef.current) {
-        calendarContainerRef.current.getApi().unselect();
+      if (hasNonHolidayOverlap) {
+        if (calendarContainerRef.current) {
+          calendarContainerRef.current.getApi().unselect();
+        }
+        return;
       }
-      return;
-    }
 
-    // Check if all dates in the range are already selected
-    const allSelected = selectedRangeDates.every((date) =>
-      selectedCells.includes(date),
-    );
-
-    if (allSelected) {
-      // Deselect all dates in the range
-      setSelectedCells((prevSelectedRangeDates) =>
-        prevSelectedRangeDates.filter(
-          (date) => !selectedRangeDates.includes(date),
-        ),
+      // Check if all dates in the range are already selected
+      const allSelected = selectedRangeDates.every((date) =>
+        selectedCells.includes(date),
       );
-    } else {
-      // Select all dates in the range
-      setSelectedCells((prevSelectedRangeDates) =>
-        Array.from(new Set([...prevSelectedRangeDates, ...selectedRangeDates])),
-      );
-    }
-  };
 
-  const isDateCellSelected = (date: string): boolean => {
-    return selectedCells.includes(date);
-  };
+      if (allSelected) {
+        // Deselect all dates in the range
+        setSelectedCells((prevSelectedRangeDates) =>
+          prevSelectedRangeDates.filter(
+            (date) => !selectedRangeDates.includes(date),
+          ),
+        );
+      } else {
+        // Select all dates in the range
+        setSelectedCells((prevSelectedRangeDates) =>
+          Array.from(
+            new Set([...prevSelectedRangeDates, ...selectedRangeDates]),
+          ),
+        );
+      }
+    },
+    [events, isPastDate, selectedCells, setSelectedCells],
+  );
 
-  const dayCellClassNames = (arg: DayCellContentArg) => {
-    const classes = [];
-    const dateStr = arg.date.toISOString().split("T")[0];
+  const isDateCellSelected = useCallback(
+    (date: string): boolean => {
+      return selectedCells.includes(date);
+    },
+    [selectedCells],
+  );
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const cellDate = new Date(arg.date);
-    cellDate.setHours(0, 0, 0, 0);
+  const dayCellClassNames = useCallback(
+    (arg: DayCellContentArg) => {
+      const classes = [];
+      const dateStr = arg.date.toISOString().split("T")[0];
 
-    const isToday = cellDate.getTime() === today.getTime();
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const cellDate = new Date(arg.date);
+      cellDate.setHours(0, 0, 0, 0);
 
-    if (isToday) {
-      classes.push(
-        "before:ring-2",
-        "before:ring-primary-main",
-        "before:rounded-xl",
-        "before:absolute",
-        "before:size-[calc(100%-2px)]",
-        "top-[1px]",
-        "left-[1px]",
-        "relative",
-        "bg-common-transparent",
-      );
-    }
+      const isToday = cellDate.getTime() === today.getTime();
 
-    if (isPastDate(arg.date)) {
-      classes.push("bg-[#F1F1F1]", "cursor-not-allowed");
-    } else if (isDateCellSelected(dateStr)) {
-      classes.push("bg-primary-main", "text-common-white", "rounded-xl");
-    } else if (blockedDates.includes(dateStr)) {
-      classes.push("bg-[#F1F1F1]");
-    }
+      if (isToday) {
+        classes.push(
+          "before:ring-2",
+          "before:ring-primary-main",
+          "before:rounded-xl",
+          "before:absolute",
+          "before:size-[calc(100%-2px)]",
+          "top-[1px]",
+          "left-[1px]",
+          "relative",
+          "bg-common-transparent",
+        );
+      }
 
-    return classes;
-  };
+      if (isPastDate(arg.date)) {
+        classes.push("bg-[#F1F1F1]", "cursor-not-allowed");
+      } else if (isDateCellSelected(dateStr)) {
+        classes.push("bg-primary-main", "text-common-white", "rounded-xl");
+      } else if (blockedDates.includes(dateStr)) {
+        classes.push("bg-[#F1F1F1]");
+      }
+
+      return classes;
+    },
+    [blockedDates, isDateCellSelected, isPastDate],
+  );
+
   const router = useRouter();
 
-  const handleEventClick = (info: EventClickArg) => {
-    if (info.event.extendedProps.type !== "holiday") {
-      const bookingId = info.event.id;
-      router.push(`/multicalendar/${propertyId}/reservation/${bookingId}`);
-    }
-  };
+  const handleEventClick = useCallback(
+    (info: EventClickArg) => {
+      if (info.event.extendedProps.type !== "holiday") {
+        const bookingId = info.event.id;
+        router.push(`/multicalendar/${propertyId}/reservation/${bookingId}`);
+      }
+    },
+    [propertyId, router],
+  );
 
-  const updateEvent = (info: EventResizeDoneArg | EventDropArg) => {
-    const { event } = info;
+  const updateEvent = useCallback(
+    (info: EventResizeDoneArg | EventDropArg) => {
+      const { event } = info;
 
-    // Prevent resizing events into past dates
-    if (event.start && isPastDate(event.start)) {
-      info.revert();
-      return;
-    }
+      // Prevent resizing events into past dates
+      if (event.start && isPastDate(event.start)) {
+        info.revert();
+        return;
+      }
 
-    setEvents((prevEvents) =>
-      prevEvents.map((e) => {
-        if (e.id === event.id) {
-          return {
-            ...e,
-            end: event.end?.toISOString() || e.end,
-            start: event.start?.toISOString() || e.start,
-          };
-        }
-        return e;
-      }),
-    );
+      setEvents((prevEvents) =>
+        prevEvents.map((e) => {
+          if (e.id === event.id) {
+            return {
+              ...e,
+              end: event.end?.toISOString() || e.end,
+              start: event.start?.toISOString() || e.start,
+            };
+          }
+          return e;
+        }),
+      );
 
-    if (event.start) {
-      event.setDates(event.start, event.end);
-    }
-  };
+      if (event.start) {
+        event.setDates(event.start, event.end);
+      }
+    },
+    [isPastDate],
+  );
 
-  const isDateBlocked = (date: Date): boolean => {
-    const dateStr = date.toISOString().split("T")[0];
-    return blockedDates.includes(dateStr);
-  };
+  const isDateBlocked = useCallback(
+    (date: Date): boolean => {
+      const dateStr = date.toISOString().split("T")[0];
+      return blockedDates.includes(dateStr);
+    },
+    [blockedDates],
+  );
 
   return {
     calendarContainerRef,

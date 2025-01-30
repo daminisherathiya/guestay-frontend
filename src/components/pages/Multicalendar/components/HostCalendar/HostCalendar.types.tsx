@@ -25,12 +25,14 @@ export interface _HostCalendarProps {
   blockedDates: string[];
   getPriceForDate: (date: Date) => number;
   isPropertyPricingInfoApiIsLoading: boolean;
+  propertyId: number;
   selectedCells: string[];
   setSelectedCells: Dispatch<SetStateAction<string[]>>;
 }
 
 export interface useHostCalendarProps {
   blockedDates: string[];
+  propertyId: number;
   selectedCells: string[];
   setSelectedCells: Dispatch<SetStateAction<string[]>>;
 }

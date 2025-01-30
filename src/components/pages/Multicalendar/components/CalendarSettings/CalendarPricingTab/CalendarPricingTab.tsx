@@ -1,22 +1,22 @@
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import { Box } from "@/components/atoms/Box";
 import { LoadingButton } from "@/components/atoms/LoadingButton";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
+import { WEEKEND_PRICE_NOT_SET_PLACEHOLDER_VALUE } from "@/providers/MulticalendarProvider/MulticalendarProvider.consts";
 
 import { useCalendarPricingTab } from "./CalendarPricingTab.hooks";
 
 export function CalendarPricingTab() {
-  const router = useRouter();
-
   const {
-    handleRemoveWeekendPrice,
     hasWeekendPrice,
     isPropertyPricingInfoApiIsLoading,
     managePropertyPricingApiIsPending,
+    router,
+    setPrice,
+    setRemoveWeekendPriceIsTriggered,
     weekdayPrice,
     weekendPrice,
   } = useCalendarPricingTab();
@@ -66,7 +66,8 @@ export function CalendarPricingTab() {
             loadingIndicator="Removing..."
             onClick={() => {
               if (hasWeekendPrice) {
-                handleRemoveWeekendPrice();
+                setPrice(WEEKEND_PRICE_NOT_SET_PLACEHOLDER_VALUE);
+                setRemoveWeekendPriceIsTriggered(true);
               } else {
                 router.push(`./pricing-settings/rates/weekend`);
               }

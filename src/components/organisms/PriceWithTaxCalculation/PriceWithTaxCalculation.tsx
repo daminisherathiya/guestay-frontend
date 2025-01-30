@@ -18,7 +18,7 @@ import { PriceWithTaxCalculationProps } from "./PriceWithTaxCalculation.types";
 export function PriceWithTaxCalculation({
   commissionPrice,
   handleInput,
-  hideLearnMore = false,
+  hideLearnMore = true,
   insurancePolicyPrice,
   isLoading,
   price,

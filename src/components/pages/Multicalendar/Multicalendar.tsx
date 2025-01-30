@@ -308,6 +308,7 @@ export function Multicalendar({ children }: MulticalendarProps) {
                 isPropertyPricingInfoApiIsLoading={
                   isPropertyPricingInfoApiIsLoading
                 }
+                propertyId={selectedPropertyValue}
                 selectedCells={selectedCells}
                 setSelectedCells={setSelectedCells}
               />

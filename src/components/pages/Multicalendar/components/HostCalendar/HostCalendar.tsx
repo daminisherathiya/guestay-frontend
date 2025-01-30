@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 
 import interactionPlugin from "@fullcalendar/interaction";
 import multiMonthPlugin from "@fullcalendar/multimonth";
@@ -8,6 +8,7 @@ import { Box } from "@/components/atoms/Box";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
+import { DEFAULT_TIMEZONE } from "@/consts/common";
 
 import { useHostCalendar } from "./HostCalendar.hooks";
 import { _HostCalendarProps } from "./HostCalendar.types";
@@ -16,9 +17,39 @@ function _HostCalendar({
   blockedDates,
   getPriceForDate,
   isPropertyPricingInfoApiIsLoading,
+  propertyId,
   selectedCells,
   setSelectedCells,
 }: _HostCalendarProps) {
+  console.log("<HostCalendar> rendered");
+
+  useEffect(() => {
+    console.log("<HostCalendar> mounted");
+  }, []);
+
+  useEffect(() => {
+    console.log("blockedDates changed:", blockedDates);
+  }, [blockedDates]);
+
+  useEffect(() => {
+    console.log("getPriceForDate changed:", getPriceForDate);
+  }, [getPriceForDate]);
+
+  useEffect(() => {
+    console.log(
+      "isPropertyPricingInfoApiIsLoading changed:",
+      isPropertyPricingInfoApiIsLoading,
+    );
+  }, [isPropertyPricingInfoApiIsLoading]);
+
+  useEffect(() => {
+    console.log("selectedCells changed:", selectedCells);
+  }, [selectedCells]);
+
+  useEffect(() => {
+    console.log("setSelectedCells changed:", setSelectedCells);
+  }, [setSelectedCells]);
+
   const {
     calendarContainerRef,
     calendarEndMonth,
@@ -32,11 +63,12 @@ function _HostCalendar({
     updateEvent,
   } = useHostCalendar({
     blockedDates,
+    propertyId,
     selectedCells,
     setSelectedCells,
   });
 
-  const renderCalendars = () => {
+  const renderCalendar = () => {
     return (
       <FullCalendar
         ref={(el) => {
@@ -75,6 +107,7 @@ function _HostCalendar({
             id: "events",
           },
         ]}
+        firstDay={1}
         headerToolbar={{
           center: "",
           end: "",
@@ -88,7 +121,7 @@ function _HostCalendar({
         select={handleDateRangeSelect}
         selectable={true}
         selectMirror={true}
-        timeZone="EST"
+        timeZone={DEFAULT_TIMEZONE}
         validRange={{
           end: calendarEndMonth,
           start: calendarStartMonth,
@@ -103,7 +136,7 @@ function _HostCalendar({
     );
   };
 
-  return renderCalendars();
+  return renderCalendar();
 }
 
 export const HostCalendar = memo(_HostCalendar);

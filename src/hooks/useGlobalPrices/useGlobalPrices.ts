@@ -15,8 +15,11 @@ import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { useGlobalPricesProps } from "./useGlobalPrices.types";
 
-export function useGlobalPrices({ price, setPrice }: useGlobalPricesProps) {
-  console.log("🚀 ~ useGlobalPrices ~ price:", price);
+export function useGlobalPrices({
+  price,
+  propertyCommissionRate,
+  setPrice,
+}: useGlobalPricesProps) {
   const {
     data: globalPricesApiData,
     isFirstLoading: globalPricesApiIsFirstLoading,
@@ -36,10 +39,14 @@ export function useGlobalPrices({ price, setPrice }: useGlobalPricesProps) {
 
   useEffect(() => {
     if (globalPricesApiIsSuccess) {
-      const commissionRateItem = globalPricesApiData.data.find(
-        (item: GlobalPriceType) => item.name === "commission_rate",
-      );
-      setCommissionRate(commissionRateItem?.value ?? "0");
+      if (parseFloat(propertyCommissionRate)) {
+        setCommissionRate(propertyCommissionRate);
+      } else {
+        const commissionRateItem = globalPricesApiData.data.find(
+          (item: GlobalPriceType) => item.name === "commission_rate",
+        );
+        setCommissionRate(commissionRateItem?.value ?? "0");
+      }
 
       const insurancePolicyPriceItem = globalPricesApiData.data.find(
         (item: GlobalPriceType) => item.name === "insurance_policy_price",
@@ -49,6 +56,7 @@ export function useGlobalPrices({ price, setPrice }: useGlobalPricesProps) {
   }, [
     globalPricesApiData,
     globalPricesApiIsSuccess,
+    propertyCommissionRate,
     setCommissionRate,
     setInsurancePolicyPrice,
   ]);
