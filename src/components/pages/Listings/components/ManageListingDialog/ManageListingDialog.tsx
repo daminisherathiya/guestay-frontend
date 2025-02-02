@@ -44,7 +44,7 @@ export function ManageListingDialog({
       >
         {selectedListing.title}
       </Typography>
-      {selectedListing.status === "draft" ? (
+      {selectedListing.status === "draft" && (
         <Button
           className="mt-6 w-full sm:mt-10"
           component={Link}
@@ -57,7 +57,8 @@ export function ManageListingDialog({
         >
           Edit listing
         </Button>
-      ) : (
+      )}
+      {selectedListing.status === "inactive" && (
         <Button
           className="mt-6 w-full sm:mt-10"
           size="large"
@@ -68,6 +69,17 @@ export function ManageListingDialog({
               "_blank",
             );
           }}
+        >
+          Edit listing
+        </Button>
+      )}
+      {selectedListing.status === "active" && (
+        <Button
+          className="mt-6 w-full sm:mt-10"
+          component={Link}
+          href={`/multicalendar/${selectedListing.id}/pricing-settings`}
+          size="large"
+          variant="contained"
         >
           Edit listing
         </Button>

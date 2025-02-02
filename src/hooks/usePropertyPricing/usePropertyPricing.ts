@@ -144,49 +144,68 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
 
   const onSubmit = useCallback(
     ({ seasonalWeekdayPrice, seasonalWeekendPrice }: onSubmitProps) => {
+      const holidayData = propertyPricingInfoApiData?.data?.holiday || [];
+      const existingHolidays = holidayData.map((holiday, index) => ({
+        endAt: holiday.end_at,
+        id: holiday.id,
+        order: String(index + 1),
+        price: parseInt(holiday.price),
+        startAt: holiday.start_at,
+        weekendPrice: parseInt(holiday.price),
+      }));
+
       const seasonalData = propertyPricingInfoApiData?.data?.seasonal || [];
-      const existingSeasons = seasonalData.map((season) => ({
-        endAt: dayjs(season.end_at).format("YYYY-MM-DD"),
+      const existingSeasons = seasonalData.map((season, index) => ({
+        endAt: season.end_at,
         id: season.id,
-        order: season.display_order,
+        order: String(index + 1 + existingHolidays.length),
         price: parseInt(season.price),
-        startAt: dayjs(season.start_at).format("YYYY-MM-DD"),
+        startAt: season.start_at,
         weekendPrice: parseInt(season.weekend_price),
       }));
 
-      const lastOrder = existingSeasons.at(-1)?.order ?? 0;
       const newSeasonsCount = startDates?.length || 0;
 
       const newSeasonOrders = Array.from({ length: newSeasonsCount }, (_, i) =>
-        String(Number(lastOrder) + i + 1),
+        String(i + 1 + existingHolidays.length + existingSeasons.length),
       );
 
       managePropertyPricingApiMutate({
         data: {
           propertyId,
           seasonalOrder: [
+            ...existingHolidays.map((existingHoliday) => existingHoliday.order),
             ...existingSeasons.map((existingSeason) => existingSeason.order),
             ...(pricing === "seasonal" ? newSeasonOrders : []),
           ],
           seasonEndAt: [
+            ...existingHolidays.map((existingHoliday) => existingHoliday.endAt),
             ...existingSeasons.map((existingSeason) => existingSeason.endAt),
             ...(pricing === "seasonal" ? endDates || [] : []),
           ],
           seasonId: [
+            ...existingHolidays.map(() => 0),
             ...existingSeasons.map((existingSeason) => existingSeason.id),
             ...(pricing === "seasonal" ? Array(newSeasonsCount).fill(0) : []),
           ],
           seasonPrice: [
+            ...existingHolidays.map((existingHoliday) => existingHoliday.price),
             ...existingSeasons.map((existingSeason) => existingSeason.price),
             ...(pricing === "seasonal"
               ? Array(newSeasonsCount).fill(numericValue(seasonalWeekdayPrice!))
               : []),
           ],
           seasonStartAt: [
+            ...existingHolidays.map(
+              (existingHoliday) => existingHoliday.startAt,
+            ),
             ...existingSeasons.map((existingSeason) => existingSeason.startAt),
             ...(pricing === "seasonal" ? startDates || [] : []),
           ],
           seasonWeekendPrice: [
+            ...existingHolidays.map(
+              (existingHoliday) => existingHoliday.weekendPrice,
+            ),
             ...existingSeasons.map(
               (existingSeason) => existingSeason.weekendPrice,
             ),
