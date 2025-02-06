@@ -106,11 +106,11 @@ export function useHostCalendar({
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 12px;
+            padding: 3px 12px;
             width: 100%;
           ">
             <div style="
-              font-size: 14px;
+              font-size: 12px;
               font-weight: 500;
               white-space: nowrap;
               overflow: hidden;
@@ -129,12 +129,12 @@ export function useHostCalendar({
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 12px;
+            padding: 3px 12px;
             width: 100%;
             cursor: pointer;
           ">
             <div style="
-              font-size: 14px;
+              font-size: 12px;
               font-weight: 500;
               white-space: nowrap;
               overflow: hidden;

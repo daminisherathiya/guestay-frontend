@@ -109,18 +109,18 @@ export function MulticalendarContextProvider({
   });
 
   useEffect(() => {
-    queryClient.setQueryData<allBookingsApiResponseType>(
-      ["all-bookings", selectedPropertyValue],
-      {
-        data: {
-          allBookings: [],
-          allBookingsCount: 0,
-          end_date: "",
-          property_id: "",
-          start_date: "",
-        },
-      },
-    );
+    // queryClient.setQueryData<allBookingsApiResponseType>(
+    //   ["all-bookings", selectedPropertyValue],
+    //   {
+    //     data: {
+    //       allBookings: [],
+    //       allBookingsCount: 0,
+    //       end_date: "",
+    //       property_id: "",
+    //       start_date: "",
+    //     },
+    //   },
+    // );
     allBookingsApiRefetch();
   }, [allBookingsApiRefetch, queryClient, selectedPropertyValue]);
 
