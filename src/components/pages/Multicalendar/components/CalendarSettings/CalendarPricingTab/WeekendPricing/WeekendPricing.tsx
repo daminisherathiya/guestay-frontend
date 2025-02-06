@@ -1,22 +1,29 @@
 "use client";
 
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import { Button } from "@/components/atoms/Button";
+import { LoadingButton } from "@/components/atoms/LoadingButton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 import { PriceWithTaxCalculation } from "@/components/organisms/PriceWithTaxCalculation";
-import { usePrice } from "@/components/pages/Price/Price.hooks";
+import { usePropertyPricing } from "@/hooks/usePropertyPricing";
 
 export function WeekendPricing() {
   const {
     commissionPrice,
+    globalPricesApiIsFirstLoading,
     handleInput,
     insurancePolicyPrice,
+    isDisabled,
     isLoading,
+    onSubmit,
     price,
     priceError,
-  } = usePrice();
+  } = usePropertyPricing({ pricing: "weekend" });
+
+  const { propertyId }: { propertyId: string } = useParams();
 
   return (
     <>
@@ -33,18 +40,27 @@ export function WeekendPricing() {
         commissionPrice={commissionPrice}
         handleInput={handleInput}
         insurancePolicyPrice={insurancePolicyPrice}
-        isLoading={isLoading}
+        isLoading={globalPricesApiIsFirstLoading}
         price={price}
         priceError={priceError}
       />
       <Stack className="mt-8 gap-3">
-        <Button className="w-full" size="large" variant="contained">
+        <LoadingButton
+          className="w-full"
+          disabled={isDisabled}
+          loading={isLoading}
+          loadingIndicator="Saving..."
+          size="large"
+          type="submit"
+          variant="contained"
+          onClick={() => onSubmit({})}
+        >
           Save
-        </Button>
+        </LoadingButton>
         <Button
           className="w-full border-primary-main"
           component={Link}
-          href="/multicalendar/256/pricing-settings"
+          href={`/multicalendar/${propertyId}/pricing-settings`}
           size="large"
           variant="outlined"
         >

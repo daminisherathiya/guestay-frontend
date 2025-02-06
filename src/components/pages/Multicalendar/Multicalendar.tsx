@@ -1,9 +1,8 @@
 "use client";
 
-import { ReactNode } from "react";
-
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import CloseIcon from "@mui/icons-material/Close";
 import HomeIcon from "@mui/icons-material/Home";
@@ -11,6 +10,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import { Fade } from "@mui/material";
 
 import { Avatar } from "@/components/atoms/Avatar";
 import { Box } from "@/components/atoms/Box";
@@ -21,14 +21,20 @@ import { IconButton } from "@/components/atoms/IconButton";
 import { MenuItem } from "@/components/atoms/MenuItem";
 import { OutlinedInput } from "@/components/atoms/OutlinedInput";
 import { Select } from "@/components/atoms/Select/Select";
+import { Skeleton } from "@/components/atoms/Skeleton";
+import { Slide } from "@/components/atoms/Slide";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
-import CalendarApp from "./components/Calendar/Calendar";
+import { HostCalendar } from "./components/HostCalendar";
 import { CALENDAR_VIEW_OPTIONS } from "./Multicalendar.consts";
 import { useMulticalendar } from "./Multicalendar.hooks";
+import {
+  MulticalendarProps,
+  RadioButtonIconProps,
+} from "./Multicalendar.types";
 
-function RadioButtonIcon({ isSelected }: { isSelected: boolean }) {
+function RadioButtonIcon({ isSelected }: RadioButtonIconProps) {
   return isSelected ? (
     <RadioButtonCheckedIcon color="primary" />
   ) : (
@@ -36,22 +42,22 @@ function RadioButtonIcon({ isSelected }: { isSelected: boolean }) {
   );
 }
 
-export function Multicalendar({
-  children,
-}: Readonly<{
-  children: ReactNode;
-}>) {
+export function Multicalendar({ children }: MulticalendarProps) {
   const {
+    blockedDates,
     calenderSettings,
+    getPriceForDate,
     handlePropertyChange,
     handleShowOptionChange,
+    isPropertyPricingInfoApiIsLoading,
     listingPropertiesApiData,
-    // listingPropertiesApiIsFirstLoading,
+    listingPropertiesApiIsFirstLoading,
     selectedCalenderViewOptionValue,
+    selectedCells,
     selectedPropertyValue,
+    setSelectedCells,
     toggleCalenderSettings,
   } = useMulticalendar();
-  console.log("🚀 ~ listingPropertiesApiData:", listingPropertiesApiData);
 
   // useEffect(() => {
   //   if (calendarRef?.current) {
@@ -63,17 +69,22 @@ export function Multicalendar({
   //   }
   // }, [selectedShowOptionValue]);
 
+  const pathname = usePathname();
+  const isPricingSettingsPage =
+    pathname.includes("pricing-settings") ||
+    pathname.includes("availability-settings");
+
   return (
     <Container className="m-0 mx-auto p-0" maxWidth="3xl">
       <Stack className="h-[calc(100vh-6.375rem)] border-t border-divider">
         <Stack className="h-full flex-row items-start">
-          <Box className="no-scrollbar size-full grow overflow-auto">
+          <Box className="no-scrollbar flex size-full grow flex-col overflow-auto">
             <Stack className=" sticky top-0 z-[3] flex-row items-center justify-between bg-common-white p-6">
               <Box>
                 {/* <Typography className="text-[1.625rem] leading-8" variant="h2">
                   November 2023
                 </Typography> */}
-                <Link className="pt-1.5 text-xs underline" href="#">
+                <Link className="hidden pt-1.5 text-xs underline" href="#">
                   1 discount
                 </Link>
               </Box>
@@ -122,10 +133,13 @@ export function Multicalendar({
                         ) : (
                           <HomeIcon className="block size-7 rounded-full bg-action-hover text-text-secondary/20" />
                         )}
-
-                        <Typography className="truncate" variant="body2">
-                          {selected?.title}
-                        </Typography>
+                        {listingPropertiesApiIsFirstLoading ? (
+                          <Skeleton className="w-32" variant="text" />
+                        ) : (
+                          <Typography className="truncate" variant="body2">
+                            {selected?.title}
+                          </Typography>
+                        )}
                         <Divider
                           flexItem
                           className="mr-0.5"
@@ -195,6 +209,7 @@ export function Multicalendar({
                     icon: "w-5 right-3",
                     select: "pl-4 pr-8 py-1.5 max-w-72",
                   }}
+                  className="hidden"
                   IconComponent={KeyboardArrowDownIcon}
                   id="demo-simple-select"
                   input={
@@ -286,8 +301,17 @@ export function Multicalendar({
                 </Button>
               </Box>
             </Stack>
-            <Box>
-              <CalendarApp />
+            <Box className="flex-1 overflow-auto">
+              <HostCalendar
+                blockedDates={blockedDates}
+                getPriceForDate={getPriceForDate}
+                isPropertyPricingInfoApiIsLoading={
+                  isPropertyPricingInfoApiIsLoading
+                }
+                propertyId={selectedPropertyValue}
+                selectedCells={selectedCells}
+                setSelectedCells={setSelectedCells}
+              />
             </Box>
           </Box>
           <Divider
@@ -295,15 +319,47 @@ export function Multicalendar({
             className="hidden lg:block"
             orientation="vertical"
           />
-          <Box
-            className={`no-scrollbar fixed top-0 z-10 ${calenderSettings ? "" : "hidden"} size-full shrink-0 overflow-auto bg-common-white px-6 py-12 lg:static lg:block lg:w-[23.125rem] lg:py-8`}
-            onClick={toggleCalenderSettings}
-          >
-            <IconButton className="absolute left-2 top-2 size-8 lg:hidden">
-              <CloseIcon className="size-5" />
-            </IconButton>
-            {children}
-          </Box>
+          {isPricingSettingsPage ? (
+            // Render without animations for pricing-settings page
+            <Box
+              className={`no-scrollbar fixed top-0 z-10 ${
+                calenderSettings ? "" : "hidden"
+              } size-full shrink-0 overflow-auto bg-common-white px-6 py-12 lg:static lg:block lg:w-[23.125rem] lg:py-8`}
+            >
+              <IconButton
+                className="absolute left-2 top-2 size-8 lg:hidden"
+                onClick={toggleCalenderSettings}
+              >
+                <CloseIcon className="size-5" />
+              </IconButton>
+              {children}
+            </Box>
+          ) : (
+            // Render with animations for other pages
+            <Slide
+              key={pathname}
+              mountOnEnter
+              unmountOnExit
+              direction="left"
+              in={true}
+            >
+              <Fade in={true}>
+                <Box
+                  className={`no-scrollbar fixed top-0 z-10 ${
+                    calenderSettings ? "" : "hidden"
+                  } size-full shrink-0 overflow-auto bg-common-white px-6 py-12 lg:static lg:block lg:w-[23.125rem] lg:py-8`}
+                >
+                  <IconButton
+                    className="absolute left-2 top-2 size-8 lg:hidden"
+                    onClick={toggleCalenderSettings}
+                  >
+                    <CloseIcon className="size-5" />
+                  </IconButton>
+                  {children}
+                </Box>
+              </Fade>
+            </Slide>
+          )}
         </Stack>
       </Stack>
     </Container>

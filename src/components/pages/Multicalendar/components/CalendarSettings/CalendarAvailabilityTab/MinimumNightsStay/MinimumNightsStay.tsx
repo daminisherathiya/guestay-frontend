@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { Controller, useForm } from "react-hook-form";
@@ -19,6 +20,8 @@ export function MinimumNightsStay() {
     },
     mode: "onChange",
   });
+
+  const { propertyId }: { propertyId: string } = useParams();
 
   return (
     <>
@@ -85,7 +88,7 @@ export function MinimumNightsStay() {
         <Button
           className="w-full border-primary-main"
           component={Link}
-          href="/multicalendar/256/pricing-settings"
+          href={`/multicalendar/${propertyId}/pricing-settings`}
           size="large"
           variant="outlined"
         >

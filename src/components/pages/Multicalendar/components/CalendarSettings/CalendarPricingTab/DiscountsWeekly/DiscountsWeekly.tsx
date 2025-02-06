@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import { Slider } from "@mui/material";
 import { Controller } from "react-hook-form";
@@ -39,6 +40,8 @@ export function DiscountsWeekly() {
     discountPercentage,
     handleDiscountSliderChange,
   } = useDiscountsWeekly({ commissionRate, price });
+
+  const { propertyId }: { propertyId: string } = useParams();
 
   return (
     <>
@@ -148,7 +151,7 @@ export function DiscountsWeekly() {
         <Button
           className="w-full border-primary-main"
           component={Link}
-          href="/multicalendar/256/pricing-settings"
+          href={`/multicalendar/${propertyId}/pricing-settings`}
           size="large"
           variant="outlined"
         >

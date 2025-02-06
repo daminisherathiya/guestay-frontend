@@ -2,6 +2,8 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 
+import { DEFAULT_TIMEZONE } from "@/consts/common";
+
 import {
   getDefaultPropertyTitleType,
   getListingStatusToDisplayType,
@@ -26,6 +28,11 @@ export const numericValue = (value: string) => {
   return onlyNumbers === "" ? "0" : onlyNumbers;
 };
 
+export const formatNumberWithCommas = (num: string) => {
+  if (!num) return "";
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
 export const getListingStatusToDisplay = ({
   listingSteps,
   status,
@@ -42,5 +49,5 @@ export const getListingStatusToDisplay = ({
 export const getDefaultPropertyTitle = ({
   createdAt,
 }: getDefaultPropertyTitleType) => {
-  return `Your listing started at ${dayjs.tz(createdAt, "America/New_York").local().format("D MMMM YYYY")}`;
+  return `Your listing started at ${dayjs.tz(createdAt, DEFAULT_TIMEZONE).local().format("D MMMM YYYY")}`;
 };

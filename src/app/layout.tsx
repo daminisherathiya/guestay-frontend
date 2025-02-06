@@ -1,3 +1,5 @@
+import "./wdyr";
+
 import { ReactNode } from "react";
 
 import type { Metadata } from "next";

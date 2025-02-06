@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import ArrowBackIosOutlinedIcon from "@mui/icons-material/ArrowBackIosOutlined";
 
@@ -9,9 +12,14 @@ import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
 
 export function CustomTripLength() {
+  const { propertyId }: { propertyId: string } = useParams();
+
   return (
     <Stack className="gap-8">
-      <Link passHref href="/multicalendar/256/availability-settings">
+      <Link
+        passHref
+        href={`/multicalendar/${propertyId}/availability-settings`}
+      >
         <IconButton aria-label="Back" className="-ml-2 size-8" component="a">
           <ArrowBackIosOutlinedIcon className="size-4" />
         </IconButton>
