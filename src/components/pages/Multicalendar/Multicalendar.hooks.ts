@@ -1,5 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 
+import { useRouter } from "next/navigation";
+
 import { SelectChangeEvent } from "@mui/material";
 
 import { listingPropertiesApi } from "@/apis/property/listingPropertiesApi";
@@ -12,6 +14,8 @@ import { getUserDetails } from "@/utils/localStorage/localStorage";
 import { CalendarRefType } from "./Multicalendar.types";
 
 export function useMulticalendar() {
+  const router = useRouter();
+
   const {
     blockedDates,
     getPriceForDate,
@@ -49,15 +53,16 @@ export function useMulticalendar() {
     (event: SelectChangeEvent<unknown>) => {
       const propertyId = event.target.value as number;
       setSelectedPropertyValue(propertyId);
-      setTimeout(() => {
-        window.history.replaceState(
-          {},
-          "",
-          `/multicalendar/${propertyId}/pricing-settings`,
-        );
-      }, 500);
+      router.push(`/multicalendar/${propertyId}/pricing-settings`);
+      // setTimeout(() => {
+      //   window.history.replaceState(
+      //     {},
+      //     "",
+      //     `/multicalendar/${propertyId}/pricing-settings`,
+      //   );
+      // }, 500);
     },
-    [setSelectedPropertyValue],
+    [router, setSelectedPropertyValue],
   );
 
   const calendarRef = useRef<CalendarRefType>(null);
