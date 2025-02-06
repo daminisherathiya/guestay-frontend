@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
@@ -25,6 +27,7 @@ export function NightlyPrice() {
     onSubmit,
     price: seasonalWeekdayPrice,
     priceError: seasonalWeekdayPriceError,
+    setPrice: seasonalWeekdaySetPrice,
   } = usePropertyPricing({ pricing: "seasonal_weekday" });
 
   const {
@@ -32,9 +35,22 @@ export function NightlyPrice() {
     handleInput: seasonalWeekendHandleInput,
     price: seasonalWeekendPrice,
     priceError: seasonalWeekendPriceError,
+    setPrice: seasonalWeekendSetPrice,
   } = usePropertyPricing({ pricing: "seasonal_weekend" });
 
   const { propertyId }: { propertyId: string } = useParams();
+
+  useEffect(() => {
+    if (selectedDaysType === "weekday") {
+      seasonalWeekendSetPrice(seasonalWeekdayPrice);
+    }
+  }, [seasonalWeekdayPrice, seasonalWeekendSetPrice, selectedDaysType]);
+
+  useEffect(() => {
+    if (selectedDaysType === "weekend") {
+      seasonalWeekdaySetPrice(seasonalWeekendPrice);
+    }
+  }, [seasonalWeekendPrice, seasonalWeekdaySetPrice, selectedDaysType]);
 
   return (
     <>
