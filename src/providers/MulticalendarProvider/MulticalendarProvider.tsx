@@ -10,6 +10,7 @@ import {
 
 import { useParams, useRouter } from "next/navigation";
 
+import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
@@ -41,6 +42,8 @@ export const MulticalendarContext = createContext<
 export function MulticalendarContextProvider({
   children,
 }: MulticalendarContextProviderProps) {
+  const queryClient = useQueryClient();
+
   const { propertyId }: { propertyId: string } = useParams();
   const router = useRouter();
 
@@ -74,37 +77,72 @@ export function MulticalendarContextProvider({
 
   const todaysDate = useMemo(() => dayjs(), []);
 
-  const calendarStartMonth = todaysDate
-    .subtract(12, "months")
-    .startOf("month")
-    .format("YYYY-MM-DD");
+  const calendarStartMonth = useMemo(() => {
+    return todaysDate
+      .subtract(12, "months")
+      .startOf("month")
+      .format("YYYY-MM-DD");
+  }, [todaysDate]);
 
-  const calendarEndMonth = todaysDate
-    .add(12, "months")
-    .startOf("month")
-    .format("YYYY-MM-DD");
+  const calendarEndMonth = useMemo(() => {
+    return todaysDate.add(12, "months").startOf("month").format("YYYY-MM-DD");
+  }, [todaysDate]);
 
   const {
     data: allBookingsApiData,
     isSuccess: allBookingsApiIsSuccess,
     isFirstLoading: allBookingsApiIsFirstLoading,
+    refetch: allBookingsApiRefetch,
   } = useQuery<allBookingsApiResponseType, Error, allBookingsApiResponseType>({
     queryFn: () => {
       return allBookingsApi({
         data: {
           endDate: calendarEndMonth,
           onlyMyBookings: "0",
-          propertyId: propertyId,
+          propertyId: String(selectedPropertyValue),
           startDate: calendarStartMonth,
           userId: getUserDetails().id,
         },
       });
     },
-    queryKey: ["all-bookings"],
+    queryKey: ["all-bookings", selectedPropertyValue],
   });
 
-  const isPropertyPricingInfoApiIsLoading =
-    propertyPricingInfoApiIsFirstLoading || propertyPricingInfoApiIsFetching;
+  useEffect(() => {
+    queryClient.setQueryData<allBookingsApiResponseType>(
+      ["all-bookings", selectedPropertyValue],
+      {
+        data: {
+          allBookings: [],
+          allBookingsCount: 0,
+          end_date: "",
+          property_id: "",
+          start_date: "",
+        },
+      },
+    );
+    allBookingsApiRefetch();
+  }, [allBookingsApiRefetch, queryClient, selectedPropertyValue]);
+
+  const isPropertyPricingInfoApiIsLoading = useMemo(
+    () =>
+      propertyPricingInfoApiIsFirstLoading || propertyPricingInfoApiIsFetching,
+    [propertyPricingInfoApiIsFetching, propertyPricingInfoApiIsFirstLoading],
+  );
+
+  const propertyWeekendDays = useMemo(() => {
+    if (
+      propertyPricingInfoApiData &&
+      propertyPricingInfoApiIsSuccess &&
+      propertyPricingInfoApiData.data.property_weekend_days
+    ) {
+      const days = propertyPricingInfoApiData.data.property_weekend_days
+        .split(",")
+        .map(Number);
+      return days.map((day) => day % 7);
+    }
+    return [];
+  }, [propertyPricingInfoApiData, propertyPricingInfoApiIsSuccess]);
 
   const weekdayPrice = useMemo(() => {
     if (propertyPricingInfoApiData && propertyPricingInfoApiIsSuccess) {
@@ -165,7 +203,7 @@ export function MulticalendarContextProvider({
     let currentDate = startDate;
     while (currentDate.isBefore(endDate)) {
       const date = currentDate.toDate();
-      const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+      const isWeekend = propertyWeekendDays.includes(date.getDay());
       const specialPricing = getPricingPeriod(date);
 
       let price;
@@ -197,7 +235,12 @@ export function MulticalendarContextProvider({
 
     console.log("🚀 ~ priceCache ~ cache:", cache);
     return cache;
-  }, [getPricingPeriod, propertyPricingInfoApiData, todaysDate]);
+  }, [
+    getPricingPeriod,
+    propertyPricingInfoApiData,
+    propertyWeekendDays,
+    todaysDate,
+  ]);
 
   const getPriceForDate = useCallback(
     (date: Date) => {
@@ -229,7 +272,7 @@ export function MulticalendarContextProvider({
     }
   }, [selectedCells, router, propertyId]);
 
-  const getSelectedDaysType = useCallback(() => {
+  const selectedDaysType = useMemo(() => {
     if (selectedCells.length === 0) return "notSelected";
 
     let hasWeekend = false;
@@ -237,7 +280,7 @@ export function MulticalendarContextProvider({
 
     for (const date of selectedCells) {
       const day = dayjs(date).day();
-      if (day === 0 || day === 6) {
+      if (propertyWeekendDays.includes(day)) {
         hasWeekend = true;
       } else {
         hasWeekday = true;
@@ -248,7 +291,7 @@ export function MulticalendarContextProvider({
       }
     }
     return hasWeekend ? "weekend" : "weekday";
-  }, [selectedCells]);
+  }, [propertyWeekendDays, selectedCells]);
 
   return (
     <MulticalendarContext.Provider
@@ -260,13 +303,13 @@ export function MulticalendarContextProvider({
         calendarEndMonth,
         calendarStartMonth,
         getPriceForDate,
-        getSelectedDaysType,
         isPropertyPricingInfoApiIsLoading,
         minMaxSelectedDatePrice,
         propertyPricingInfoApiData,
         propertyPricingInfoApiIsSuccess,
         propertyPricingInfoApiRefetch,
         selectedCells,
+        selectedDaysType,
         selectedPropertyValue,
         setBlockedDates,
         setSelectedCells,

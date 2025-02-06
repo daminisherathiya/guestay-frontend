@@ -37,30 +37,6 @@ export function useHostCalendar({
     calendarStartMonth,
   } = useMulticalendarContext();
 
-  useEffect(() => {
-    if (allBookingsApiIsSuccess && allBookingsApiData?.data) {
-      const allBookingsEvents = allBookingsApiData.data.allBookings.map(
-        (booking) => ({
-          allDay: true,
-          backgroundColor: "#222222",
-          borderColor: "#222222",
-          description: booking.guest_name,
-          editable: false,
-          end: dayjs(booking.checkout).add(1, "day").format("YYYY-MM-DD"),
-          id: booking.id,
-          start: booking.checkin,
-          textColor: "#ffffff",
-          title: booking.guest_name,
-          type: booking.status,
-        }),
-      );
-
-      setEvents((prevEvents) => {
-        return [...prevEvents, ...allBookingsEvents];
-      });
-    }
-  }, [allBookingsApiData?.data, allBookingsApiIsSuccess]);
-
   const { data: holidaysApiData, isSuccess: holidaysApiIsSuccess } = useQuery<
     holidaysApiResponseType,
     Error,
@@ -77,7 +53,12 @@ export function useHostCalendar({
   });
 
   useEffect(() => {
-    if (holidaysApiIsSuccess && holidaysApiData?.data) {
+    if (
+      holidaysApiIsSuccess &&
+      holidaysApiData?.data &&
+      allBookingsApiIsSuccess &&
+      allBookingsApiData?.data
+    ) {
       const holidayEvents = holidaysApiData.data.map((holiday) => ({
         allDay: true,
         backgroundColor: "#9575CD",
@@ -88,15 +69,34 @@ export function useHostCalendar({
         id: holiday.id,
         start: holiday.start_at,
         textColor: "#ffffff",
-        title: `🏖️\u00A0\u00A0\u00A0${holiday.name}`,
+        title: holiday.name,
         type: "holiday",
       }));
 
-      setEvents((prevEvents) => {
-        return [...prevEvents, ...holidayEvents];
-      });
+      const allBookingsEvents = allBookingsApiData.data.allBookings.map(
+        (booking) => ({
+          allDay: true,
+          backgroundColor: "#222222",
+          borderColor: "#222222",
+          description: booking.guest_name,
+          editable: false,
+          end: dayjs(booking.checkout).add(1, "day").format("YYYY-MM-DD"),
+          id: booking.id,
+          start: booking.checkin,
+          textColor: "#ffffff",
+          title: booking.guest_name,
+          type: booking.status,
+        }),
+      );
+
+      setEvents([...holidayEvents, ...allBookingsEvents]);
     }
-  }, [holidaysApiData, holidaysApiIsSuccess]);
+  }, [
+    allBookingsApiData,
+    allBookingsApiIsSuccess,
+    holidaysApiData,
+    holidaysApiIsSuccess,
+  ]);
 
   const renderEventContent = useCallback((eventInfo: EventContentArg) => {
     if (eventInfo.event.extendedProps.type === "holiday") {
@@ -106,7 +106,7 @@ export function useHostCalendar({
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 8px;
+            padding: 8px 12px;
             width: 100%;
           ">
             <div style="
@@ -133,21 +133,6 @@ export function useHostCalendar({
             width: 100%;
             cursor: pointer;
           ">
-            <div style="
-              width: 20px;
-              height: 20px;
-              border-radius: 50%;
-              overflow: hidden;
-              flex-shrink: 0;
-              background-color: #f3f4f6;
-              display: none;
-            ">
-              <img 
-                src="/api/placeholder/32/32"
-                alt="User avatar"
-                style="width: 100%; height: 100%; object-fit: cover;"
-              />
-            </div>
             <div style="
               font-size: 14px;
               font-weight: 500;

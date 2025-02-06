@@ -27,6 +27,7 @@ export interface Seasonal {
 export interface PropertyPricingInfoType {
   commission_rate: string;
   holiday?: Holiday[];
+  property_weekend_days: string;
   seasonal?: Seasonal[];
   weekdays_price: string;
   weekend_price: string;

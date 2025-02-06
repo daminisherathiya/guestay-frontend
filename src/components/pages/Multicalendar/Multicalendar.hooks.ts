@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 import { SelectChangeEvent } from "@mui/material";
 
@@ -45,28 +45,36 @@ export function useMulticalendar() {
     queryKey: ["listing-properties", "'active'"],
   });
 
-  const handlePropertyChange = (event: SelectChangeEvent<unknown>) => {
-    const propertyId = event.target.value as number;
-    setSelectedPropertyValue(propertyId);
-    window.history.replaceState(
-      {},
-      "",
-      `/multicalendar/${propertyId}/pricing-settings`,
-    );
-  };
+  const handlePropertyChange = useCallback(
+    (event: SelectChangeEvent<unknown>) => {
+      const propertyId = event.target.value as number;
+      setSelectedPropertyValue(propertyId);
+      setTimeout(() => {
+        window.history.replaceState(
+          {},
+          "",
+          `/multicalendar/${propertyId}/pricing-settings`,
+        );
+      }, 500);
+    },
+    [setSelectedPropertyValue],
+  );
 
   const calendarRef = useRef<CalendarRefType>(null);
 
-  const handleShowOptionChange = (event: SelectChangeEvent<unknown>) => {
-    setSelectedCalenderViewOptionValue(event.target.value as number);
-    if (calendarRef?.current) {
-      if (event.target.value === 1) {
-        calendarRef.current.getApi().changeView("multiMonth");
-      } else {
-        calendarRef.current.getApi().changeView("multiMonthYear");
+  const handleShowOptionChange = useCallback(
+    (event: SelectChangeEvent<unknown>) => {
+      setSelectedCalenderViewOptionValue(event.target.value as number);
+      if (calendarRef?.current) {
+        if (event.target.value === 1) {
+          calendarRef.current.getApi().changeView("multiMonth");
+        } else {
+          calendarRef.current.getApi().changeView("multiMonthYear");
+        }
       }
-    }
-  };
+    },
+    [],
+  );
 
   const { toggle: toggleCalenderSettings, value: calenderSettings } = useToggle(
     {

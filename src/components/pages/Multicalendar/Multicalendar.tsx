@@ -78,7 +78,7 @@ export function Multicalendar({ children }: MulticalendarProps) {
     <Container className="m-0 mx-auto p-0" maxWidth="3xl">
       <Stack className="h-[calc(100vh-6.375rem)] border-t border-divider">
         <Stack className="h-full flex-row items-start">
-          <Box className="no-scrollbar size-full grow overflow-auto">
+          <Box className="no-scrollbar flex size-full grow flex-col overflow-auto">
             <Stack className=" sticky top-0 z-[3] flex-row items-center justify-between bg-common-white p-6">
               <Box>
                 {/* <Typography className="text-[1.625rem] leading-8" variant="h2">
@@ -301,7 +301,7 @@ export function Multicalendar({ children }: MulticalendarProps) {
                 </Button>
               </Box>
             </Stack>
-            <Box>
+            <Box className="flex-1 overflow-auto">
               <HostCalendar
                 blockedDates={blockedDates}
                 getPriceForDate={getPriceForDate}

@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 
 import { globalPricesApi } from "@/apis/property/globalPricesApi";
 import {
@@ -61,26 +61,39 @@ export function useGlobalPrices({
     setInsurancePolicyPrice,
   ]);
 
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
+  const handleInput = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      let value = e.target.value;
 
-    value = value.replace(/[^0-9]/g, "");
-    if (value.length > 5) {
-      value = value.slice(0, 5);
-    }
-    e.target.value = value;
-    setPrice(formatNumberWithCommas(removeLeadingZeros(value)));
-  };
+      value = value.replace(/[^0-9]/g, "");
+      if (value.length > 5) {
+        value = value.slice(0, 5);
+      }
+      e.target.value = value;
+      setPrice(formatNumberWithCommas(removeLeadingZeros(value)));
+    },
+    [setPrice],
+  );
 
-  const priceError =
-    parseFloat(price.replace(/,/g, "")) < 50
-      ? "The price should be at least $50"
-      : "";
+  const priceError = useMemo(
+    () =>
+      parseFloat(price.replace(/,/g, "")) < 50
+        ? "The price should be at least $50"
+        : "",
+    [price],
+  );
+
+  const commissionPrice = useMemo(
+    () =>
+      roundNumber(
+        parseFloat(price.replace(/,/g, "")) *
+          (parseFloat(commissionRate) / 100),
+      ),
+    [price, commissionRate],
+  );
 
   return {
-    commissionPrice: roundNumber(
-      parseFloat(price.replace(/,/g, "")) * (parseFloat(commissionRate) / 100),
-    ),
+    commissionPrice,
     commissionRate,
     globalPricesApiIsFirstLoading,
     handleInput,

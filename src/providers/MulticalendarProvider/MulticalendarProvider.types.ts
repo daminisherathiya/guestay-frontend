@@ -13,7 +13,6 @@ export interface MulticalendarContextType {
   calendarEndMonth: string;
   calendarStartMonth: string;
   getPriceForDate: (date: Date) => number;
-  getSelectedDaysType: () => "weekday" | "weekend" | "both" | "notSelected";
   isPropertyPricingInfoApiIsLoading: boolean;
   minMaxSelectedDatePrice: () => {
     maxPrice: number;
@@ -25,6 +24,7 @@ export interface MulticalendarContextType {
     options?: RefetchOptions,
   ) => Promise<QueryObserverResult<propertyPricingInfoApiResponseType, Error>>;
   selectedCells: string[];
+  selectedDaysType: "weekday" | "weekend" | "both" | "notSelected";
   selectedPropertyValue: number;
   setBlockedDates: Dispatch<SetStateAction<string[]>>;
   setSelectedCells: Dispatch<SetStateAction<string[]>>;

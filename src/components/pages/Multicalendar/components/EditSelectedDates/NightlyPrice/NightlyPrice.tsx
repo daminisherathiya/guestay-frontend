@@ -16,7 +16,7 @@ import { usePropertyPricing } from "@/hooks/usePropertyPricing";
 export function NightlyPrice() {
   const {
     commissionPrice: seasonalWeekdayCommissionPrice,
-    getSelectedDaysType,
+    selectedDaysType,
     globalPricesApiIsFirstLoading,
     handleInput: seasonalWeekdayHandleInput,
     insurancePolicyPrice,
@@ -25,21 +25,20 @@ export function NightlyPrice() {
     onSubmit,
     price: seasonalWeekdayPrice,
     priceError: seasonalWeekdayPriceError,
-  } = usePropertyPricing({ pricing: "seasonal" });
+  } = usePropertyPricing({ pricing: "seasonal_weekday" });
 
   const {
     commissionPrice: seasonalWeekendCommissionPrice,
     handleInput: seasonalWeekendHandleInput,
     price: seasonalWeekendPrice,
     priceError: seasonalWeekendPriceError,
-  } = usePropertyPricing({ pricing: "seasonal" });
+  } = usePropertyPricing({ pricing: "seasonal_weekend" });
 
   const { propertyId }: { propertyId: string } = useParams();
 
   return (
     <>
-      {(getSelectedDaysType === "weekday" ||
-        getSelectedDaysType === "both") && (
+      {(selectedDaysType === "weekday" || selectedDaysType === "both") && (
         <>
           <Typography className="mb-8 text-center font-medium">
             Weekday price per night
@@ -56,8 +55,7 @@ export function NightlyPrice() {
           <Divider className="-mx-6 my-8 border border-action-selected" />
         </>
       )}
-      {(getSelectedDaysType === "weekend" ||
-        getSelectedDaysType === "both") && (
+      {(selectedDaysType === "weekend" || selectedDaysType === "both") && (
         <>
           <Typography className="mb-8 text-center font-medium">
             Weekend price per night
@@ -75,7 +73,7 @@ export function NightlyPrice() {
         </>
       )}
 
-      {getSelectedDaysType === "notSelected" && (
+      {selectedDaysType === "notSelected" && (
         <Box className="space-y-2 rounded-2xl border border-divider p-6">
           <Typography variant="body2">Dates</Typography>
           <Typography className="font-medium leading-5">

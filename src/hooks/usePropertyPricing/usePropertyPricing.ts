@@ -12,13 +12,13 @@ import {
 import { DEFAULT_PRICE } from "@/components/pages/Price/Price.consts";
 import { useGlobalPrices } from "@/hooks/useGlobalPrices";
 import { useMulticalendarContext } from "@/hooks/useMulticalendar";
+import { WEEKEND_PRICE_NOT_SET_PLACEHOLDER_VALUE } from "@/providers/MulticalendarProvider/MulticalendarProvider.consts";
 import { formatNumberWithCommas, numericValue } from "@/utils/common";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { useMutation } from "../useMutation";
 
 import {
-  getInitialPriceProps,
   onSubmitProps,
   usePropertyPricingProps,
 } from "./usePropertyPricing.types";
@@ -28,37 +28,55 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
 
   const {
     isPropertyPricingInfoApiIsLoading,
-    getSelectedDaysType,
     minMaxSelectedDatePrice,
     propertyPricingInfoApiData,
     propertyPricingInfoApiIsSuccess,
     propertyPricingInfoApiRefetch,
+    selectedCells,
+    selectedDaysType,
     weekdayPrice,
     weekendPrice,
   } = useMulticalendarContext();
 
-  const getInitialPrice = ({ pricing }: getInitialPriceProps) => {
-    if (pricing === "seasonal") {
+  const isSeasonalPricing = useMemo(
+    () => pricing === "seasonal_weekday" || pricing === "seasonal_weekend",
+    [pricing],
+  );
+
+  const getInitialPrice = useCallback(() => {
+    if (isSeasonalPricing) {
       const priceRange = minMaxSelectedDatePrice();
       return priceRange.maxPrice === priceRange.minPrice
         ? String(priceRange.maxPrice)
         : "0";
     }
     return DEFAULT_PRICE;
-  };
+  }, [isSeasonalPricing, minMaxSelectedDatePrice]);
 
-  const [price, setPrice] = useState<string>(getInitialPrice({ pricing }));
+  const [price, setPrice] = useState<string>(getInitialPrice());
   const [propertyCommissionRate, setPropertyCommissionRate] =
     useState<string>("0");
 
   useEffect(() => {
     if (propertyPricingInfoApiData && propertyPricingInfoApiIsSuccess) {
-      if (pricing !== "seasonal") {
-        const selectedPrice =
+      let selectedPrice;
+
+      if (isSeasonalPricing) {
+        if (selectedDaysType === "weekday" && pricing === "seasonal_weekend") {
+          selectedPrice = propertyPricingInfoApiData.data.weekend_price;
+        } else if (
+          selectedDaysType === "weekend" &&
+          pricing === "seasonal_weekday"
+        ) {
+          selectedPrice = propertyPricingInfoApiData.data.weekdays_price;
+        }
+      } else {
+        selectedPrice =
           pricing === "weekday"
             ? propertyPricingInfoApiData.data.weekdays_price
             : propertyPricingInfoApiData.data.weekend_price;
-
+      }
+      if (selectedPrice) {
         setPrice(formatNumberWithCommas(String(parseInt(selectedPrice))));
       }
 
@@ -66,7 +84,13 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
         propertyPricingInfoApiData.data.commission_rate,
       );
     }
-  }, [propertyPricingInfoApiData, propertyPricingInfoApiIsSuccess, pricing]);
+  }, [
+    isSeasonalPricing,
+    propertyPricingInfoApiData,
+    propertyPricingInfoApiIsSuccess,
+    pricing,
+    selectedDaysType,
+  ]);
 
   const {
     commissionPrice,
@@ -92,8 +116,6 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
     mutationFn: managePropertyPricingApi,
     mutationKey: ["manage-property-pricing"],
   });
-
-  const { selectedCells } = useMulticalendarContext();
 
   const getConsecutiveDateRanges = useCallback((dates: string[]) => {
     const sortedDates = [...dates].sort();
@@ -136,10 +158,10 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
 
   const { endDates, startDates } = useMemo(
     () =>
-      pricing === "seasonal"
+      isSeasonalPricing
         ? getConsecutiveDateRanges(selectedCells)
         : { endDates: undefined, startDates: undefined },
-    [getConsecutiveDateRanges, pricing, selectedCells],
+    [getConsecutiveDateRanges, isSeasonalPricing, selectedCells],
   );
 
   const onSubmit = useCallback(
@@ -176,22 +198,22 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
           seasonalOrder: [
             ...existingHolidays.map((existingHoliday) => existingHoliday.order),
             ...existingSeasons.map((existingSeason) => existingSeason.order),
-            ...(pricing === "seasonal" ? newSeasonOrders : []),
+            ...(isSeasonalPricing ? newSeasonOrders : []),
           ],
           seasonEndAt: [
             ...existingHolidays.map((existingHoliday) => existingHoliday.endAt),
             ...existingSeasons.map((existingSeason) => existingSeason.endAt),
-            ...(pricing === "seasonal" ? endDates || [] : []),
+            ...(isSeasonalPricing ? endDates || [] : []),
           ],
           seasonId: [
             ...existingHolidays.map(() => 0),
             ...existingSeasons.map((existingSeason) => existingSeason.id),
-            ...(pricing === "seasonal" ? Array(newSeasonsCount).fill(0) : []),
+            ...(isSeasonalPricing ? Array(newSeasonsCount).fill(0) : []),
           ],
           seasonPrice: [
             ...existingHolidays.map((existingHoliday) => existingHoliday.price),
             ...existingSeasons.map((existingSeason) => existingSeason.price),
-            ...(pricing === "seasonal"
+            ...(isSeasonalPricing
               ? Array(newSeasonsCount).fill(numericValue(seasonalWeekdayPrice!))
               : []),
           ],
@@ -200,7 +222,7 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
               (existingHoliday) => existingHoliday.startAt,
             ),
             ...existingSeasons.map((existingSeason) => existingSeason.startAt),
-            ...(pricing === "seasonal" ? startDates || [] : []),
+            ...(isSeasonalPricing ? startDates || [] : []),
           ],
           seasonWeekendPrice: [
             ...existingHolidays.map(
@@ -209,7 +231,7 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
             ...existingSeasons.map(
               (existingSeason) => existingSeason.weekendPrice,
             ),
-            ...(pricing === "seasonal"
+            ...(isSeasonalPricing
               ? Array(newSeasonsCount).fill(numericValue(seasonalWeekendPrice!))
               : []),
           ],
@@ -223,6 +245,7 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
     },
     [
       endDates,
+      isSeasonalPricing,
       managePropertyPricingApiMutate,
       price,
       pricing,
@@ -242,31 +265,51 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
       managePropertyPricingApiIsSuccess
     ) {
       propertyPricingInfoApiRefetch();
-      if (pricing === "seasonal") {
+      if (isSeasonalPricing) {
         router.push(`/multicalendar/${propertyId}/edit-selected-dates`);
       } else {
         router.push(`/multicalendar/${propertyId}/pricing-settings`);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [managePropertyPricingApiIsPending, managePropertyPricingApiIsSuccess]);
+  }, [
+    isSeasonalPricing,
+    managePropertyPricingApiIsPending,
+    managePropertyPricingApiIsSuccess,
+  ]);
 
-  const isDisabled =
-    priceError != "" ||
-    managePropertyPricingApiIsPending ||
-    globalPricesApiIsFirstLoading ||
-    isPropertyPricingInfoApiIsLoading ||
-    !propertyPricingInfoApiIsSuccess;
+  const isDisabled = useMemo(
+    () =>
+      priceError != "" ||
+      managePropertyPricingApiIsPending ||
+      globalPricesApiIsFirstLoading ||
+      isPropertyPricingInfoApiIsLoading ||
+      !propertyPricingInfoApiIsSuccess,
+    [
+      priceError,
+      managePropertyPricingApiIsPending,
+      globalPricesApiIsFirstLoading,
+      isPropertyPricingInfoApiIsLoading,
+      propertyPricingInfoApiIsSuccess,
+    ],
+  );
 
-  const isLoading =
-    globalPricesApiIsFirstLoading || managePropertyPricingApiIsPending;
+  const isLoading = useMemo(
+    () => globalPricesApiIsFirstLoading || managePropertyPricingApiIsPending,
+    [globalPricesApiIsFirstLoading, managePropertyPricingApiIsPending],
+  );
+
+  const hasWeekendPrice = useMemo(
+    () =>
+      Number(weekendPrice) > Number(WEEKEND_PRICE_NOT_SET_PLACEHOLDER_VALUE),
+    [weekendPrice],
+  );
 
   return {
     commissionPrice,
-    getSelectedDaysType: getSelectedDaysType(),
     globalPricesApiIsFirstLoading,
     handleInput,
-    hasWeekendPrice: Number(weekendPrice) > 1,
+    hasWeekendPrice: hasWeekendPrice,
     insurancePolicyPrice,
     isDisabled,
     isLoading,
@@ -275,6 +318,7 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
     onSubmit,
     price,
     priceError,
+    selectedDaysType,
     setPrice,
     weekdayPrice,
     weekendPrice,
