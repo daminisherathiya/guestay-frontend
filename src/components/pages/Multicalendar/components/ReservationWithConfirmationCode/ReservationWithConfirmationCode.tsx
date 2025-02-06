@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
@@ -11,48 +12,77 @@ import { Avatar } from "@/components/atoms/Avatar";
 import { Box } from "@/components/atoms/Box";
 import { Divider } from "@/components/atoms/Divider";
 import { IconButton } from "@/components/atoms/IconButton";
+import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { TextareaAutosize } from "@/components/atoms/TextareaAutosize";
 import { Typography } from "@/components/atoms/Typography";
 
-import { useReservationWithConfirmationCode } from "./ReservationWithConfirmationCode.types";
+import { useReservationWithConfirmationCode } from "./ReservationWithConfirmationCode.hooks";
 
 export function ReservationWithConfirmationCode() {
-  const { isBreakdownShow, toggleIsBreakdownShow } =
-    useReservationWithConfirmationCode();
+  const {
+    allBookingsApiIsFirstLoading,
+    formattedBookingDateRange,
+    guestBookingStatus,
+    guestNameInitialLater,
+    selectedBookingDetails,
+    isBreakdownShow,
+    toggleIsBreakdownShow,
+  } = useReservationWithConfirmationCode();
+
+  const { propertyId }: { propertyId: string } = useParams();
 
   return (
     <>
       <Stack className="sticky -top-8 z-10 -mx-6 mb-5 items-end bg-common-white pr-6">
-        <IconButton aria-label="close" className="-mr-2 size-8">
-          <CloseIcon className="size-5" />
-        </IconButton>
+        <Link href={`/multicalendar/${propertyId}/pricing-settings`}>
+          <IconButton aria-label="close" className="-mr-2 size-8">
+            <CloseIcon className="size-5" />
+          </IconButton>
+        </Link>
       </Stack>
-      <Stack className="flex-row items-center justify-between">
-        <Stack className="gap-0.5">
-          <Typography
-            className="font-medium text-text-secondary"
-            variant="body2"
-          >
-            Past guest
-          </Typography>
-          <Typography className="text-2xl font-bold" variant="h2">
-            Rachel Lerner
-          </Typography>
+      <Stack className="flex-row items-center justify-between gap-6">
+        <Stack className="grow gap-0.5">
+          {allBookingsApiIsFirstLoading ? (
+            <Skeleton className="h-8 w-full rounded" variant="rectangular" />
+          ) : (
+            <>
+              <Typography
+                className="font-medium text-text-secondary"
+                variant="body2"
+              >
+                {guestBookingStatus}
+              </Typography>
+              <Typography className="text-2xl font-bold" variant="h2">
+                {selectedBookingDetails?.guest_name}
+              </Typography>
+            </>
+          )}
         </Stack>
-        <Avatar className="size-12 bg-primary-main text-sm font-medium">
-          R
+        <Avatar className="size-12 bg-primary-main text-base font-medium">
+          {guestNameInitialLater}
         </Avatar>
       </Stack>
       <Box className="mt-4">
-        <Typography>
-          1362 E 10th St · Oasis in the Desert King/Great Location/Pool/Wifi
-        </Typography>
-        <Typography>28 Nov - 1 Dec (3 nights)</Typography>
-        <Typography>2 guests · $698.4</Typography>
+        {allBookingsApiIsFirstLoading ? (
+          <>
+            <Skeleton variant="text" />
+            <Skeleton variant="text" />
+            <Skeleton className="w-4/5" variant="text" />
+            <Skeleton className="w-3/5" variant="text" />
+          </>
+        ) : (
+          <>
+            <Typography className="hidden">
+              1362 E 10th St · Oasis in the Desert King/Great Location/Pool/Wifi
+            </Typography>
+            <Typography>{formattedBookingDateRange}</Typography>
+            <Typography className="hidden">2 guests · $698.4</Typography>
+          </>
+        )}
       </Box>
-      <Divider className="-mx-6 my-8 border-4 border-action-selected" />
-      <Box>
+      <Divider className="-mx-6 my-8 hidden border-4 border-action-selected" />
+      <Box className="hidden">
         <Typography className="font-bold opacity-85" variant="h2">
           Booking details
         </Typography>
@@ -100,8 +130,8 @@ export function ReservationWithConfirmationCode() {
           </Button>
         </Box>
       </Box>
-      <Divider className="-mx-6 my-8 border-4 border-action-selected" />
-      <Box>
+      <Divider className="-mx-6 my-8 hidden border-4 border-action-selected" />
+      <Box className="hidden">
         <Typography className="mb-6 font-bold opacity-85" variant="h2">
           Guest paid
         </Typography>
@@ -128,8 +158,8 @@ export function ReservationWithConfirmationCode() {
           </Stack>
         </Stack>
       </Box>
-      <Divider className="-mx-6 my-8 border-4 border-action-selected" />
-      <Box>
+      <Divider className="-mx-6 my-8 hidden border-4 border-action-selected" />
+      <Box className="hidden">
         <Typography className="mb-6 font-bold opacity-85" variant="h2">
           Host payout
         </Typography>
@@ -190,8 +220,8 @@ export function ReservationWithConfirmationCode() {
           </Stack>
         </Link>
       </Box>
-      <Divider className="-mx-6 my-8 border-4 border-action-selected" />
-      <Box>
+      <Divider className="-mx-6 my-8 hidden border-4 border-action-selected" />
+      <Box className="hidden">
         <Typography className="mb-6 font-bold opacity-85" variant="h2">
           Calendar note
         </Typography>
@@ -216,8 +246,8 @@ export function ReservationWithConfirmationCode() {
           Save
         </Button>
       </Box>
-      <Divider className="-mx-6 my-8 border-4 border-action-selected" />
-      <Box>
+      <Divider className="-mx-6 my-8 hidden border-4 border-action-selected" />
+      <Box className="hidden">
         <Typography className="mb-6 font-bold opacity-85" variant="h2">
           Common questions
         </Typography>

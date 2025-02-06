@@ -1,14 +1,23 @@
 "use client";
 
+import { useEffect } from "react";
+
+import { usePathname, useRouter } from "next/navigation";
+
 import { Box } from "@/components/atoms/Box";
 import { Tab } from "@/components/atoms/Tab";
 import { Tabs } from "@/components/atoms/Tabs";
 import { Typography } from "@/components/atoms/Typography";
+import { useMulticalendarContext } from "@/hooks/useMulticalendar";
 import { useTabIndex } from "@/hooks/useTabIndex";
 import { TabPanelProps } from "@/utils/common.types";
 
 import { CalendarAvailabilityTab } from "./CalendarAvailabilityTab";
 import { CalendarPricingTab } from "./CalendarPricingTab";
+import {
+  AVAILABILITY_SETTINGS_PATH,
+  PRICING_SETTINGS_PATH,
+} from "./CalendarSettings.consts";
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -28,10 +37,29 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export function CalendarSettings() {
+  const router = useRouter();
+
+  const pathname = usePathname();
+  const initialIndex = pathname.includes(AVAILABILITY_SETTINGS_PATH) ? 1 : 0;
+
   const [selectedCalendarSettingsTabIndex, handleCalendarSettingsTabChange] =
     useTabIndex({
-      initialIndex: 0,
+      initialIndex: initialIndex,
     });
+
+  const { setSelectedCells } = useMulticalendarContext();
+
+  useEffect(() => {
+    setSelectedCells((prev) => (prev.length ? [] : prev)); // /edit-selected-dates -> /pricing-settings
+  }, [setSelectedCells]);
+
+  useEffect(() => {
+    if (selectedCalendarSettingsTabIndex === 1) {
+      router.push(AVAILABILITY_SETTINGS_PATH);
+    } else {
+      router.push(PRICING_SETTINGS_PATH);
+    }
+  }, [router, selectedCalendarSettingsTabIndex]);
 
   const calendarSettingsTabsInfo = [
     {
@@ -48,7 +76,7 @@ export function CalendarSettings() {
     {
       tabNameComponent: (
         <Typography
-          className="font-medium lowercase leading-5 first-letter:uppercase"
+          className="hidden font-medium lowercase leading-5 first-letter:uppercase"
           variant="body2"
         >
           Availability
@@ -79,6 +107,7 @@ export function CalendarSettings() {
             {calendarSettingsTabsInfo.map((calendarSettingsTabInfo, index) => (
               <Tab
                 key={index}
+                disableRipple
                 aria-controls={`calendar-settings-tabpanel-${index}`}
                 className="min-w-0 items-start px-0"
                 id={`calendar-settings-tab-${index}`}

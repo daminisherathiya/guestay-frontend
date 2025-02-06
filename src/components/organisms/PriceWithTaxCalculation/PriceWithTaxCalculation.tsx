@@ -10,8 +10,7 @@ import { Stack } from "@/components/atoms/Stack";
 import { TextField } from "@/components/atoms/TextField";
 import { Typography } from "@/components/atoms/Typography";
 import { MoreAboutPricingDialog } from "@/components/pages/Price/components/MoreAboutPricingDialog";
-import { formatNumberWithCommas } from "@/components/pages/Price/Price.utils";
-import { roundNumber } from "@/utils/common";
+import { formatNumberWithCommas, roundNumber } from "@/utils/common";
 
 import { usePriceWithTaxCalculation } from "./PriceWithTaxCalculation.hooks";
 import { PriceWithTaxCalculationProps } from "./PriceWithTaxCalculation.types";
@@ -19,7 +18,7 @@ import { PriceWithTaxCalculationProps } from "./PriceWithTaxCalculation.types";
 export function PriceWithTaxCalculation({
   commissionPrice,
   handleInput,
-  hideLearnMore = false,
+  hideLearnMore = true,
   insurancePolicyPrice,
   isLoading,
   price,

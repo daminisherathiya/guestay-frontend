@@ -1,11 +1,26 @@
 import Link from "next/link";
 
 import { Box } from "@/components/atoms/Box";
-import { Button } from "@/components/atoms/Button";
+import { LoadingButton } from "@/components/atoms/LoadingButton";
+import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
+import { WEEKEND_PRICE_NOT_SET_PLACEHOLDER_VALUE } from "@/providers/MulticalendarProvider/MulticalendarProvider.consts";
+
+import { useCalendarPricingTab } from "./CalendarPricingTab.hooks";
 
 export function CalendarPricingTab() {
+  const {
+    hasWeekendPrice,
+    isPropertyPricingInfoApiIsLoading,
+    managePropertyPricingApiIsPending,
+    router,
+    setPrice,
+    setRemoveWeekendPriceIsTriggered,
+    weekdayPrice,
+    weekendPrice,
+  } = useCalendarPricingTab();
+
   return (
     <Stack className="gap-8">
       <Stack className="gap-4">
@@ -18,17 +33,51 @@ export function CalendarPricingTab() {
         <Link href="./pricing-settings/rates/base">
           <Box className="space-y-2 rounded-2xl border border-divider p-6">
             <Typography variant="body2">Per night</Typography>
-            <Typography className="text-3xl font-bold">$25</Typography>
+            {isPropertyPricingInfoApiIsLoading ? (
+              <Skeleton className="h-9 w-32" variant="text" />
+            ) : (
+              <Typography className="text-3xl font-bold">
+                ${weekdayPrice}
+              </Typography>
+            )}
           </Box>
         </Link>
-        <Link href="./pricing-settings/rates/weekend">
-          <Stack className="flex-row items-center justify-between rounded-2xl border border-divider p-6">
-            <Typography variant="body2">Custom weekend price</Typography>
-            <Button className="-m-2.5 p-2.5 font-medium">Add</Button>
-          </Stack>
-        </Link>
+
+        <Stack className="flex-row items-start justify-between rounded-2xl border border-divider p-6">
+          <Link href="./pricing-settings/rates/weekend">
+            <Box className="space-y-2">
+              <Typography variant="body2">Custom weekend price</Typography>
+              {isPropertyPricingInfoApiIsLoading ? (
+                <Skeleton className="h-9 w-32" variant="text" />
+              ) : (
+                hasWeekendPrice && (
+                  <Typography className="text-3xl font-bold">
+                    ${weekendPrice}
+                  </Typography>
+                )
+              )}
+            </Box>
+          </Link>
+          <LoadingButton
+            classes={{ loadingIndicator: "text-text-primary text-xs" }}
+            className="-m-2.5 p-2.5 font-medium"
+            disabled={managePropertyPricingApiIsPending}
+            loading={managePropertyPricingApiIsPending}
+            loadingIndicator="Removing..."
+            onClick={() => {
+              if (hasWeekendPrice) {
+                setPrice(WEEKEND_PRICE_NOT_SET_PLACEHOLDER_VALUE);
+                setRemoveWeekendPriceIsTriggered(true);
+              } else {
+                router.push(`./pricing-settings/rates/weekend`);
+              }
+            }}
+          >
+            {hasWeekendPrice ? "Remove" : "Add"}
+          </LoadingButton>
+        </Stack>
       </Stack>
-      <Stack className="gap-4">
+      <Stack className="hidden gap-4">
         <Stack className="grow">
           <Typography variant="h2">Discounts</Typography>
           <Typography className="mb-2 mt-1 text-text-secondary" variant="body2">

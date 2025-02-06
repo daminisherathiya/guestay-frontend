@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import ArrowBackIosOutlinedIcon from "@mui/icons-material/ArrowBackIosOutlined";
 import { Controller } from "react-hook-form";
@@ -15,12 +16,13 @@ import { numericValue, removeLeadingZeros } from "@/utils/common";
 import { useAddCustomTripDates } from "./AddCustomTripDates.hooks";
 export function AddCustomTripDates() {
   const { control } = useAddCustomTripDates();
+  const { propertyId }: { propertyId: string } = useParams();
 
   return (
     <>
       <Link
         passHref
-        href="/multicalendar/256/availability-settings/custom-length"
+        href={`/multicalendar/${propertyId}/availability-settings/custom-length`}
       >
         <IconButton aria-label="Back" className="-ml-2 size-8" component="a">
           <ArrowBackIosOutlinedIcon className="size-4" />

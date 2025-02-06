@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import ArrowBackIosOutlinedIcon from "@mui/icons-material/ArrowBackIosOutlined";
 import { Controller, useForm } from "react-hook-form";
@@ -37,11 +38,13 @@ export function MinimumStayCustom() {
     { label: "Saturdays", name: "saturdays" },
   ];
 
+  const { propertyId }: { propertyId: string } = useParams();
+
   return (
     <>
       <Link
         passHref
-        href="/multicalendar/256/availability-settings/minimum-stay"
+        href={`/multicalendar/${propertyId}/availability-settings/minimum-stay`}
       >
         <IconButton aria-label="Back" className="-ml-2 size-8" component="a">
           <ArrowBackIosOutlinedIcon className="size-4" />
