@@ -1,6 +1,7 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
 
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
+import { Dayjs } from "dayjs";
 
 import { allBookingsApiResponseType } from "@/apis/multiCalendar/allBookingsApi/allBookingsApi.types";
 import { propertyPricingInfoApiResponseType } from "@/apis/multiCalendar/propertyPricingInfoApi/propertyPricingInfoApi.types";
@@ -29,6 +30,7 @@ export interface MulticalendarContextType {
   setBlockedDates: Dispatch<SetStateAction<string[]>>;
   setSelectedCells: Dispatch<SetStateAction<string[]>>;
   setSelectedPropertyValue: Dispatch<SetStateAction<number>>;
+  todaysDate: Dayjs;
   weekdayPrice: string;
   weekendPrice: string;
 }

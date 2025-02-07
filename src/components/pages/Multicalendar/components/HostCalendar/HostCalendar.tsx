@@ -8,7 +8,6 @@ import { Box } from "@/components/atoms/Box";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
-import { DEFAULT_TIMEZONE } from "@/consts/common";
 
 import { useHostCalendar } from "./HostCalendar.hooks";
 import { _HostCalendarProps } from "./HostCalendar.types";
@@ -118,10 +117,11 @@ function _HostCalendar({
         initialView="multiMonthYear"
         multiMonthMaxColumns={1}
         plugins={[multiMonthPlugin, interactionPlugin]}
+        // plugins={[multiMonthPlugin, interactionPlugin, dayGridPlugin]}
         select={handleDateRangeSelect}
         selectable={true}
         selectMirror={true}
-        timeZone={DEFAULT_TIMEZONE}
+        // timeZone={DEFAULT_TIMEZONE}
         validRange={{
           end: calendarEndMonth,
           start: calendarStartMonth,
