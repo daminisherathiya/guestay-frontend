@@ -180,7 +180,9 @@ export function useHostCalendar({
   // Helper function to check if a date is in the past
   const isPastDate = useCallback(
     (date: Date) => {
-      return dayjs(date).isBefore(todaysDate);
+      return dayjs(date)
+        .startOf("day")
+        .isBefore(dayjs(todaysDate).startOf("day"));
     },
     [todaysDate],
   );
