@@ -167,12 +167,8 @@ export function MulticalendarContextProvider({
 
       const holidayPrice = propertyPricingInfoApiData?.data.holiday?.findLast(
         (holiday) => {
-          const startDate = dayjs(holiday.start_at)
-            .tz("America/New_York")
-            .format("YYYY-MM-DD");
-          const endDate = dayjs(holiday.end_at)
-            .tz("America/New_York")
-            .format("YYYY-MM-DD");
+          const startDate = dayjs(holiday.start_at).format("YYYY-MM-DD");
+          const endDate = dayjs(holiday.end_at).format("YYYY-MM-DD");
           return dateStr >= startDate && dateStr <= endDate;
         },
       );
@@ -183,12 +179,8 @@ export function MulticalendarContextProvider({
 
       const seasonalPrice = propertyPricingInfoApiData?.data.seasonal?.findLast(
         (season) => {
-          const startDate = dayjs(season.start_at)
-            .tz("America/New_York")
-            .format("YYYY-MM-DD");
-          const endDate = dayjs(season.end_at)
-            .tz("America/New_York")
-            .format("YYYY-MM-DD");
+          const startDate = dayjs(season.start_at).format("YYYY-MM-DD");
+          const endDate = dayjs(season.end_at).format("YYYY-MM-DD");
           return dateStr >= startDate && dateStr <= endDate;
         },
       );
@@ -322,6 +314,7 @@ export function MulticalendarContextProvider({
         setBlockedDates,
         setSelectedCells,
         setSelectedPropertyValue,
+        todaysDate,
         weekdayPrice,
         weekendPrice,
       }}

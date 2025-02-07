@@ -35,6 +35,7 @@ export function useHostCalendar({
     allBookingsApiIsSuccess,
     calendarEndMonth,
     calendarStartMonth,
+    todaysDate,
   } = useMulticalendarContext();
 
   const { data: holidaysApiData, isSuccess: holidaysApiIsSuccess } = useQuery<
@@ -177,15 +178,12 @@ export function useHostCalendar({
   }, []);
 
   // Helper function to check if a date is in the past
-  const isPastDate = useCallback((date: Date) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const checkDate = new Date(date);
-    checkDate.setHours(0, 0, 0, 0);
-
-    return checkDate < today;
-  }, []);
+  const isPastDate = useCallback(
+    (date: Date) => {
+      return dayjs(date).isBefore(todaysDate);
+    },
+    [todaysDate],
+  );
 
   const handleDateRangeSelect = useCallback(
     (info: DateSelectArg) => {
@@ -197,25 +195,29 @@ export function useHostCalendar({
         return;
       }
 
-      const start = new Date(info.start);
-      const end = new Date(info.end);
+      let start = dayjs(info.start);
+      const end = dayjs(info.end);
       const selectedRangeDates: string[] = [];
 
       // Collect all dates in the selected range that aren't in the past
-      while (start < end) {
-        selectedRangeDates.push(start.toISOString().split("T")[0]);
-        start.setDate(start.getDate() + 1);
+      while (start.isBefore(end)) {
+        selectedRangeDates.push(start.format("YYYY-MM-DD"));
+        start = start.add(1, "day");
       }
 
       const hasNonHolidayOverlap = events.some((event) => {
         if (event.type === "holiday") return false;
 
-        const eventStart = new Date(event.start);
-        const eventEnd = new Date(event.end || event.start);
+        const eventStart = dayjs(event.start);
+        const eventEnd = dayjs(event.end || event.start);
 
         return selectedRangeDates.some((date) => {
-          const currentDate = new Date(date);
-          return currentDate >= eventStart && currentDate < eventEnd;
+          const currentDate = dayjs(date);
+          return (
+            (currentDate.isSame(eventStart) ||
+              currentDate.isAfter(eventStart)) &&
+            currentDate.isBefore(eventEnd)
+          );
         });
       });
 
@@ -260,14 +262,8 @@ export function useHostCalendar({
   const dayCellClassNames = useCallback(
     (arg: DayCellContentArg) => {
       const classes = [];
-      const dateStr = arg.date.toISOString().split("T")[0];
-
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const cellDate = new Date(arg.date);
-      cellDate.setHours(0, 0, 0, 0);
-
-      const isToday = cellDate.getTime() === today.getTime();
+      const isToday = dayjs(arg.date).isSame(todaysDate, "day");
+      const dateStr = dayjs(arg.date).format("YYYY-MM-DD");
 
       if (isToday) {
         classes.push(
@@ -293,7 +289,7 @@ export function useHostCalendar({
 
       return classes;
     },
-    [blockedDates, isDateCellSelected, isPastDate],
+    [blockedDates, isDateCellSelected, isPastDate, todaysDate],
   );
 
   const router = useRouter();
@@ -323,8 +319,8 @@ export function useHostCalendar({
           if (e.id === event.id) {
             return {
               ...e,
-              end: event.end?.toISOString() || e.end,
-              start: event.start?.toISOString() || e.start,
+              end: event.end ? dayjs(event.end).format() : e.end,
+              start: event.start ? dayjs(event.start).format() : e.start,
             };
           }
           return e;
@@ -340,7 +336,7 @@ export function useHostCalendar({
 
   const isDateBlocked = useCallback(
     (date: Date): boolean => {
-      const dateStr = date.toISOString().split("T")[0];
+      const dateStr = dayjs(date).format("YYYY-MM-DD");
       return blockedDates.includes(dateStr);
     },
     [blockedDates],
