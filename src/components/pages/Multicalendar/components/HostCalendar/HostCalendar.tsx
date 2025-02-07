@@ -121,7 +121,7 @@ function _HostCalendar({
         select={handleDateRangeSelect}
         selectable={true}
         selectMirror={true}
-        timeZone={DEFAULT_TIMEZONE}
+        // timeZone={DEFAULT_TIMEZONE}
         validRange={{
           end: calendarEndMonth,
           start: calendarStartMonth,
