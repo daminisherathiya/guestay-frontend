@@ -76,6 +76,7 @@ export function MulticalendarContextProvider({
   });
 
   const todaysDate = useMemo(() => dayjs(), []);
+  console.log("🚀 ~ todaysDate:", todaysDate);
 
   const calendarStartMonth = useMemo(() => {
     return todaysDate
@@ -244,9 +245,8 @@ export function MulticalendarContextProvider({
 
   const getPriceForDate = useCallback(
     (date: Date) => {
-      // console.log("🚀 ~ date:", date);
       const dateStr = dayjs(date).format("YYYY-MM-DD");
-      // console.log("🚀 ~ dateStr:", dateStr);
+      // console.log("🚀 ~ date:", date, dateStr);
       return priceCache.get(dateStr) ?? 0;
     },
     [priceCache],
@@ -314,6 +314,7 @@ export function MulticalendarContextProvider({
         setBlockedDates,
         setSelectedCells,
         setSelectedPropertyValue,
+        todaysDate,
         weekdayPrice,
         weekendPrice,
       }}
