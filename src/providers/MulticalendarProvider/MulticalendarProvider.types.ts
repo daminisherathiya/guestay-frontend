@@ -7,7 +7,6 @@ import { allBookingsApiResponseType } from "@/apis/multiCalendar/allBookingsApi/
 import { propertyPricingInfoApiResponseType } from "@/apis/multiCalendar/propertyPricingInfoApi/propertyPricingInfoApi.types";
 
 export interface MulticalendarContextType {
-  allBookingsApiData: allBookingsApiResponseType | undefined;
   allBookingsApiIsFirstLoading: boolean;
   allBookingsApiIsSuccess: boolean;
   blockedDates: string[];
@@ -19,6 +18,7 @@ export interface MulticalendarContextType {
     maxPrice: number;
     minPrice: number;
   };
+  nonBookedBookings: allBookingsApiResponseType["data"]["allBookings"];
   propertyPricingInfoApiData: propertyPricingInfoApiResponseType | undefined;
   propertyPricingInfoApiIsSuccess: boolean;
   propertyPricingInfoApiRefetch: (

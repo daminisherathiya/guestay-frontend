@@ -31,10 +31,10 @@ export function useHostCalendar({
   const [events, setEvents] = useState<CalendarEvent[]>([]);
 
   const {
-    allBookingsApiData,
     allBookingsApiIsSuccess,
     calendarEndMonth,
     calendarStartMonth,
+    nonBookedBookings,
     todaysDate,
   } = useMulticalendarContext();
 
@@ -54,12 +54,7 @@ export function useHostCalendar({
   });
 
   useEffect(() => {
-    if (
-      holidaysApiIsSuccess &&
-      holidaysApiData?.data &&
-      allBookingsApiIsSuccess &&
-      allBookingsApiData?.data
-    ) {
+    if (holidaysApiIsSuccess && allBookingsApiIsSuccess) {
       const holidayEvents = holidaysApiData.data.map((holiday) => ({
         allDay: true,
         backgroundColor: "#9575CD",
@@ -74,29 +69,27 @@ export function useHostCalendar({
         type: "holiday",
       }));
 
-      const allBookingsEvents = allBookingsApiData.data.allBookings.map(
-        (booking) => ({
-          allDay: true,
-          backgroundColor: "#222222",
-          borderColor: "#222222",
-          description: booking.guest_name,
-          editable: false,
-          end: dayjs(booking.checkout).add(1, "day").format("YYYY-MM-DD"),
-          id: booking.id,
-          start: booking.checkin,
-          textColor: "#ffffff",
-          title: booking.guest_name,
-          type: booking.status,
-        }),
-      );
+      const allBookingsEvents = nonBookedBookings.map((booking) => ({
+        allDay: true,
+        backgroundColor: "#222222",
+        borderColor: "#222222",
+        description: booking.guest_name,
+        editable: false,
+        end: dayjs(booking.checkout).add(1, "day").format("YYYY-MM-DD"),
+        id: booking.id,
+        start: booking.checkin,
+        textColor: "#ffffff",
+        title: booking.guest_name,
+        type: booking.status,
+      }));
 
       setEvents([...holidayEvents, ...allBookingsEvents]);
     }
   }, [
-    allBookingsApiData,
     allBookingsApiIsSuccess,
     holidaysApiData,
     holidaysApiIsSuccess,
+    nonBookedBookings,
   ]);
 
   const renderEventContent = useCallback((eventInfo: EventContentArg) => {

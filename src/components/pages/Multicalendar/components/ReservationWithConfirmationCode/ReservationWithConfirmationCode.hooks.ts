@@ -29,9 +29,9 @@ export function useReservationWithConfirmationCode() {
   const [guestNameInitialLater, setGuestNameInitialLater] = useState<string>();
 
   const {
-    allBookingsApiData,
     allBookingsApiIsFirstLoading,
     allBookingsApiIsSuccess,
+    nonBookedBookings,
   } = useMulticalendarContext();
 
   const formatBookingDateRange = ({
@@ -65,7 +65,7 @@ export function useReservationWithConfirmationCode() {
 
   useEffect(() => {
     if (allBookingsApiIsSuccess) {
-      const bookingDetails = allBookingsApiData?.data?.allBookings?.find(
+      const bookingDetails = nonBookedBookings.find(
         (booking) => booking.id === confirmationCode,
       );
       setSelectedBookingDetails(bookingDetails);
@@ -87,11 +87,7 @@ export function useReservationWithConfirmationCode() {
         setGuestNameInitialLater(getUserInitial(bookingDetails.guest_name));
       }
     }
-  }, [
-    allBookingsApiIsSuccess,
-    allBookingsApiData?.data?.allBookings,
-    confirmationCode,
-  ]);
+  }, [allBookingsApiIsSuccess, confirmationCode, nonBookedBookings]);
 
   return {
     allBookingsApiIsFirstLoading,

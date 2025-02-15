@@ -109,6 +109,22 @@ export function MulticalendarContextProvider({
     queryKey: ["all-bookings", selectedPropertyValue],
   });
 
+  const nonBookedBookings = useMemo(() => {
+    return (
+      allBookingsApiData?.data.allBookings.filter(
+        (booking) => booking.status !== "booked",
+      ) ?? []
+    );
+  }, [allBookingsApiData]);
+
+  // const bookedBookings = useMemo(() => {
+  //   return (
+  //     allBookingsApiData?.data.allBookings.filter((booking) => {
+  //       return booking.status === "booked";
+  //     }) ?? []
+  //   );
+  // }, [allBookingsApiData]);
+
   useEffect(() => {
     // queryClient.setQueryData<allBookingsApiResponseType>(
     //   ["all-bookings", selectedPropertyValue],
@@ -296,7 +312,6 @@ export function MulticalendarContextProvider({
   return (
     <MulticalendarContext.Provider
       value={{
-        allBookingsApiData,
         allBookingsApiIsFirstLoading,
         allBookingsApiIsSuccess,
         blockedDates,
@@ -305,6 +320,7 @@ export function MulticalendarContextProvider({
         getPriceForDate,
         isPropertyPricingInfoApiIsLoading,
         minMaxSelectedDatePrice,
+        nonBookedBookings,
         propertyPricingInfoApiData,
         propertyPricingInfoApiIsSuccess,
         propertyPricingInfoApiRefetch,
