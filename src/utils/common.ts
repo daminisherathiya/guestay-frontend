@@ -7,6 +7,7 @@ import { DEFAULT_TIMEZONE } from "@/consts/common";
 import {
   getDefaultPropertyTitleType,
   getListingStatusToDisplayType,
+  getPropertyImageUrlType,
 } from "./common.types";
 
 dayjs.extend(utc);
@@ -50,4 +51,11 @@ export const getDefaultPropertyTitle = ({
   createdAt,
 }: getDefaultPropertyTitleType) => {
   return `Your listing started at ${dayjs.tz(createdAt, DEFAULT_TIMEZONE).local().format("D MMMM YYYY")}`;
+};
+
+export const getPropertyImageUrl = ({
+  imageName,
+  width,
+}: getPropertyImageUrlType) => {
+  return `${process.env.NEXT_PUBLIC_API_DOMAIN}/file/${width}/0/1/${encodeURIComponent(`https:||${process.env.NEXT_PUBLIC_API_DOMAIN!.replace("https://", "")}|data|properties_images`)}/${imageName}`;
 };

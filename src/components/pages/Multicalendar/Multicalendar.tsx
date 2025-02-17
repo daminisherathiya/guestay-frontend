@@ -25,6 +25,7 @@ import { Skeleton } from "@/components/atoms/Skeleton";
 import { Slide } from "@/components/atoms/Slide";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
+import { getPropertyImageUrl } from "@/utils/common";
 
 import { HostCalendar } from "./components/HostCalendar";
 import { CALENDAR_VIEW_OPTIONS } from "./Multicalendar.consts";
@@ -128,7 +129,10 @@ export function Multicalendar({ children }: MulticalendarProps) {
                         {coverImage ? (
                           <Avatar
                             className="size-7"
-                            src={`https://guestay.webarysites.com/file/28/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${coverImage}`}
+                            src={getPropertyImageUrl({
+                              imageName: coverImage,
+                              width: 28,
+                            })}
                           />
                         ) : (
                           <HomeIcon className="block size-7 rounded-full bg-action-hover text-text-secondary/20" />
@@ -170,7 +174,10 @@ export function Multicalendar({ children }: MulticalendarProps) {
                                     alt="Cover picture"
                                     className="size-full max-h-full max-w-full object-cover"
                                     height={60}
-                                    src={`https://guestay.webarysites.com/file/60/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${coverImage}`}
+                                    src={getPropertyImageUrl({
+                                      imageName: coverImage,
+                                      width: 60,
+                                    })}
                                     width={60}
                                   />
                                 ) : (
