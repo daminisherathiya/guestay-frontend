@@ -1,5 +1,5 @@
-import { withSentryConfig } from "@sentry/nextjs";
 import withBundleAnalyzer from "@next/bundle-analyzer";
+import { withSentryConfig } from "@sentry/nextjs";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -12,6 +12,11 @@ const nextConfig = {
       },
       {
         hostname: "guestay.webarysites.com",
+        pathname: "/**",
+        protocol: "https",
+      },
+      {
+        hostname: "guestay.com",
         pathname: "/**",
         protocol: "https",
       },

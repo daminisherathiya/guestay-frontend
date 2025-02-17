@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useBoolean } from "@/hooks/useBoolean/useBoolean";
 import { useFooterProgressBar } from "@/hooks/useFooterProgressBar";
 import { usePropertyToEdit } from "@/hooks/usePropertyToEdit";
+import { getPropertyImageUrl } from "@/utils/common";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { MIN_PHOTOS_REQUIRED } from "./Photos.consts";
@@ -58,9 +59,10 @@ export function usePhotos() {
           imageNames.map(async (imageName) => {
             console.log("🚀 ~ imageNames.map ~ imageName:", imageName);
             const file = await urlToFile(
-              // `/_next/image?url=https://guestay.webarysites.com/data/properties_images/${imageName}&w=64&q=75`,
-              // `https://guestay.webarysites.com/data/properties_images/${imageName}`,
-              `https://guestay.webarysites.com/file/1000/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${imageName}`,
+              getPropertyImageUrl({
+                imageName: imageName,
+                width: 1000,
+              }),
               imageName,
             );
             console.log("🚀 ~ imageNames.map ~ file:", file);

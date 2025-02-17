@@ -14,3 +14,8 @@ export interface TabPanelProps {
   index: number;
   value: number;
 }
+
+export interface getPropertyImageUrlType {
+  imageName: string;
+  width: number;
+}

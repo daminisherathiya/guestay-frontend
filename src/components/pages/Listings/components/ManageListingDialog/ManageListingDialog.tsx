@@ -8,6 +8,7 @@ import { Button } from "@/components/atoms/Button";
 import { Typography } from "@/components/atoms/Typography";
 import { DialogWrapper } from "@/components/molecules/DialogWrapper/DialogWrapper";
 import { getNextListingStepUrl } from "@/components/pages/ListingHome/ListingHome.utils";
+import { getPropertyImageUrl } from "@/utils/common";
 
 import { ManageListingDialogProps } from "./ManageListingDialog.types";
 
@@ -33,7 +34,10 @@ export function ManageListingDialog({
             alt="Cover picture"
             className="h-full max-h-full max-w-full rounded-lg object-cover"
             height={144}
-            src={`https://guestay.webarysites.com/file/1000/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${coverImage}`}
+            src={getPropertyImageUrl({
+              imageName: coverImage,
+              width: 1000,
+            })}
             width={144}
           />
         )}

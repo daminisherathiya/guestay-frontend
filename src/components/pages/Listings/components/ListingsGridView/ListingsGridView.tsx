@@ -10,6 +10,7 @@ import { Typography } from "@/components/atoms/Typography";
 import {
   getDefaultPropertyTitle,
   getListingStatusToDisplay,
+  getPropertyImageUrl,
 } from "@/utils/common";
 
 import { ListingsGridViewProps } from "./ListingsGridView.types";
@@ -71,7 +72,10 @@ export function ListingsGridView({
                           alt="Cover picture"
                           className="size-full max-h-full max-w-full object-cover"
                           height={435}
-                          src={`https://guestay.webarysites.com/file/1000/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${coverImage}`}
+                          src={getPropertyImageUrl({
+                            imageName: coverImage,
+                            width: 1000,
+                          })}
                           width={413}
                         />
                       ) : (

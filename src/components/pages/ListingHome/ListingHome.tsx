@@ -11,7 +11,7 @@ import { Container } from "@/components/atoms/Container";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { Stack } from "@/components/atoms/Stack";
 import { Typography } from "@/components/atoms/Typography";
-import { getDefaultPropertyTitle } from "@/utils/common";
+import { getDefaultPropertyTitle, getPropertyImageUrl } from "@/utils/common";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { NUMBER_OF_PROPERTIES_TO_SHOW } from "./ListingHome.consts";
@@ -61,7 +61,10 @@ export function ListingHome() {
               alt="home"
               className="size-11 rounded object-cover"
               height={44}
-              src={`https://guestay.webarysites.com/file/100/0/1/https%3A%7C%7Cguestay.webarysites.com%7Cdata%7Cproperties_images/${coverImage}`}
+              src={getPropertyImageUrl({
+                imageName: coverImage,
+                width: 100,
+              })}
               width={44}
             />
           ) : (

@@ -102,7 +102,6 @@ export function Photos() {
           ) : uploadedImages && uploadedImages.length > 0 ? (
             <Grid2 container spacing={2}>
               {uploadedImages.map((image, index) => {
-                // const imageUrl = `https://guestay.webarysites.com/data/properties_images/${image.name}`;
                 const imageUrl = imageUrls[index];
 
                 return (
