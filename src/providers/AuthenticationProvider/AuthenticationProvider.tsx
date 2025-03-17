@@ -2,6 +2,8 @@
 
 import { createContext, useCallback, useEffect, useState } from "react";
 
+import { useRouter } from "next/navigation";
+
 import { useQueryClient } from "@tanstack/react-query";
 
 import { useBoolean } from "@/hooks/useBoolean";
@@ -32,6 +34,7 @@ export const AuthenticationProvider = ({
   children,
 }: AuthenticationProviderProps) => {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const {
     value: authenticationStateIsLoading,
@@ -79,7 +82,8 @@ export const AuthenticationProvider = ({
     removeUserDetails();
     setIsAuthenticated(false);
     queryClient.clear();
-  }, [queryClient]);
+    router.push("/");
+  }, [queryClient, router]);
 
   return (
     <AuthenticationContext.Provider
