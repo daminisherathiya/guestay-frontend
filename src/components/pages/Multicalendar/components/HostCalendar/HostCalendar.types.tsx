@@ -24,8 +24,8 @@ export interface CalendarEvent {
 export interface _HostCalendarProps {
   blockedDates: string[];
   getPriceForDate: (date: Date) => number;
-  isPropertyPricingInfoApiIsLoading: boolean;
   propertyId: number;
+  propertyPricingInfoApiIsLoading: boolean;
   selectedCells: string[];
   setSelectedCells: Dispatch<SetStateAction<string[]>>;
 }

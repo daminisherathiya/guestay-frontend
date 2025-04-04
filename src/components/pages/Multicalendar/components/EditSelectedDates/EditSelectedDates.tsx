@@ -3,12 +3,12 @@ import Link from "next/link";
 
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { Button } from "@mui/material";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 
 import { Box } from "@/components/atoms/Box";
+import { Button } from "@/components/atoms/Button";
 import { IconButton } from "@/components/atoms/IconButton";
 import { Stack } from "@/components/atoms/Stack";
 import { Tab } from "@/components/atoms/Tab";
@@ -25,13 +25,13 @@ dayjs.extend(timezone);
 export function EditSelectedDates() {
   const {
     blockedDates,
+    formatSelectedDates,
     minMaxSelectedDatePrice,
     selectedCells,
     setBlockedDates,
   } = useMulticalendarContext();
 
   const {
-    formatSelectedDates,
     handleBlockDates,
     handleEditorTabChange,
     handleOpenPricingSettings,
@@ -52,9 +52,7 @@ export function EditSelectedDates() {
     <>
       <Stack className="gap-5">
         <Stack className="mb-3 flex-row items-center justify-between">
-          <Typography variant="h2">
-            {formatSelectedDates(selectedCells)}
-          </Typography>
+          <Typography variant="h2">{formatSelectedDates()}</Typography>
           <IconButton
             aria-label="close"
             className="-mr-2 size-8"
@@ -116,6 +114,16 @@ export function EditSelectedDates() {
             <Typography className="text-3xl font-bold">
               {selectedDatePriceRangeInString}
             </Typography>
+          </Box>
+        </Link>
+        <Link href="./edit-selected-dates/block-out-dates">
+          <Box className="rounded-2xl border border-divider p-6">
+            <Stack className="flex-row items-center justify-between">
+              <Box>
+                <Typography variant="body2">Block nights</Typography>
+              </Box>
+              <KeyboardArrowRightIcon className="c-keyboard-arrow-icon size-7 text-text-primary" />
+            </Stack>
           </Box>
         </Link>
         <Button

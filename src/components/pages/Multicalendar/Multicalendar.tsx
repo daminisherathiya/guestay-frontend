@@ -50,9 +50,9 @@ export function Multicalendar({ children }: MulticalendarProps) {
     getPriceForDate,
     handlePropertyChange,
     handleShowOptionChange,
-    isPropertyPricingInfoApiIsLoading,
     listingPropertiesApiData,
     listingPropertiesApiIsFirstLoading,
+    propertyPricingInfoApiIsLoading,
     selectedCalenderViewOptionValue,
     selectedCells,
     selectedPropertyValue,
@@ -312,10 +312,10 @@ export function Multicalendar({ children }: MulticalendarProps) {
               <HostCalendar
                 blockedDates={blockedDates}
                 getPriceForDate={getPriceForDate}
-                isPropertyPricingInfoApiIsLoading={
-                  isPropertyPricingInfoApiIsLoading
-                }
                 propertyId={selectedPropertyValue}
+                propertyPricingInfoApiIsLoading={
+                  propertyPricingInfoApiIsLoading
+                }
                 selectedCells={selectedCells}
                 setSelectedCells={setSelectedCells}
               />

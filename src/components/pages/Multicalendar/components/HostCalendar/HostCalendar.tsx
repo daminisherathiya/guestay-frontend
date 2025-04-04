@@ -15,7 +15,7 @@ import { _HostCalendarProps } from "./HostCalendar.types";
 function _HostCalendar({
   blockedDates,
   getPriceForDate,
-  isPropertyPricingInfoApiIsLoading,
+  propertyPricingInfoApiIsLoading,
   propertyId,
   selectedCells,
   setSelectedCells,
@@ -36,10 +36,10 @@ function _HostCalendar({
 
   useEffect(() => {
     console.log(
-      "isPropertyPricingInfoApiIsLoading changed:",
-      isPropertyPricingInfoApiIsLoading,
+      "propertyPricingInfoApiIsLoading changed:",
+      propertyPricingInfoApiIsLoading,
     );
-  }, [isPropertyPricingInfoApiIsLoading]);
+  }, [propertyPricingInfoApiIsLoading]);
 
   useEffect(() => {
     console.log("selectedCells changed:", selectedCells);
@@ -55,6 +55,7 @@ function _HostCalendar({
     calendarStartMonth,
     dayCellClassNames,
     events,
+    getBlockOutDatesApiIsLoading,
     handleDateRangeSelect,
     handleEventClick,
     isDateBlocked,
@@ -66,6 +67,9 @@ function _HostCalendar({
     selectedCells,
     setSelectedCells,
   });
+
+  const isLoading =
+    propertyPricingInfoApiIsLoading || getBlockOutDatesApiIsLoading;
 
   const renderCalendar = () => {
     return (
@@ -84,7 +88,7 @@ function _HostCalendar({
                   {arg.dayNumberText}
                 </Typography>
                 <Typography>
-                  {isPropertyPricingInfoApiIsLoading ? (
+                  {isLoading ? (
                     <Skeleton className="w-16" variant="text" />
                   ) : (
                     `$${getPriceForDate(arg.date)}`

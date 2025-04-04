@@ -32,17 +32,21 @@ export function useHostCalendar({
 
   const {
     allBookingsApiData,
+    allBookingsApiIsLoading,
     allBookingsApiIsSuccess,
     calendarEndMonth,
     calendarStartMonth,
+    getBlockOutDatesApiData,
+    getBlockOutDatesApiIsLoading,
+    getBlockOutDatesApiIsSuccess,
     todaysDate,
   } = useMulticalendarContext();
 
-  const { data: holidaysApiData, isSuccess: holidaysApiIsSuccess } = useQuery<
-    holidaysApiResponseType,
-    Error,
-    holidaysApiResponseType
-  >({
+  const {
+    data: holidaysApiData,
+    isSuccess: holidaysApiIsSuccess,
+    isLoading: holidaysApiIsLoading,
+  } = useQuery<holidaysApiResponseType, Error, holidaysApiResponseType>({
     queryFn: () => {
       return holidaysApi({
         data: {
@@ -55,10 +59,15 @@ export function useHostCalendar({
 
   useEffect(() => {
     if (
+      !holidaysApiIsLoading &&
       holidaysApiIsSuccess &&
       holidaysApiData?.data &&
+      !allBookingsApiIsLoading &&
       allBookingsApiIsSuccess &&
-      allBookingsApiData?.data
+      allBookingsApiData?.data &&
+      !getBlockOutDatesApiIsLoading &&
+      getBlockOutDatesApiIsSuccess &&
+      getBlockOutDatesApiData?.data
     ) {
       const holidayEvents = holidaysApiData.data.map((holiday) => ({
         allDay: true,
@@ -90,13 +99,40 @@ export function useHostCalendar({
         }),
       );
 
-      setEvents([...holidayEvents, ...allBookingsEvents]);
+      const blockOutDatesEvents = getBlockOutDatesApiData.data.map(
+        (blockOutDate) => ({
+          allDay: true,
+          backgroundColor: "#e85353",
+          borderColor: "#e85353",
+          description: blockOutDate.type,
+          editable: false,
+          end: dayjs(blockOutDate.end_date).add(1, "day").format("YYYY-MM-DD"),
+          id: blockOutDate.id,
+          start: blockOutDate.start_date,
+          textColor: "#ffffff",
+          title: `${blockOutDate.type === "checkin" ? "Check-in blocked" : "Check-out blocked"}`,
+          type: blockOutDate.type,
+        }),
+      );
+
+      setEvents([
+        ...holidayEvents,
+        ...allBookingsEvents,
+        ...blockOutDatesEvents,
+      ]);
+    } else {
+      setEvents((prev) => (prev.length === 0 ? prev : []));
     }
   }, [
     allBookingsApiData,
+    allBookingsApiIsLoading,
     allBookingsApiIsSuccess,
     holidaysApiData,
+    holidaysApiIsLoading,
     holidaysApiIsSuccess,
+    getBlockOutDatesApiData,
+    getBlockOutDatesApiIsLoading,
+    getBlockOutDatesApiIsSuccess,
   ]);
 
   const renderEventContent = useCallback((eventInfo: EventContentArg) => {
@@ -298,7 +334,14 @@ export function useHostCalendar({
 
   const handleEventClick = useCallback(
     (info: EventClickArg) => {
-      if (info.event.extendedProps.type !== "holiday") {
+      const eventType = info.event.extendedProps.type;
+
+      if (eventType === "holiday") {
+        return;
+      } else if (eventType === "checkin" || eventType === "checkout") {
+        const blockedId = info.event.id;
+        router.push(`/multicalendar/${propertyId}/blocked/${blockedId}`);
+      } else {
         const bookingId = info.event.id;
         router.push(`/multicalendar/${propertyId}/reservation/${bookingId}`);
       }
@@ -350,6 +393,7 @@ export function useHostCalendar({
     calendarStartMonth,
     dayCellClassNames,
     events,
+    getBlockOutDatesApiIsLoading,
     handleDateRangeSelect,
     handleEventClick,
     isDateBlocked,

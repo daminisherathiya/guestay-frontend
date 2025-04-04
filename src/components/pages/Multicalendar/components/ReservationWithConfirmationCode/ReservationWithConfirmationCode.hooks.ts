@@ -30,7 +30,7 @@ export function useReservationWithConfirmationCode() {
 
   const {
     allBookingsApiData,
-    allBookingsApiIsFirstLoading,
+    allBookingsApiIsLoading,
     allBookingsApiIsSuccess,
   } = useMulticalendarContext();
 
@@ -94,7 +94,7 @@ export function useReservationWithConfirmationCode() {
   ]);
 
   return {
-    allBookingsApiIsFirstLoading,
+    allBookingsApiIsLoading,
     formattedBookingDateRange,
     guestBookingStatus,
     guestNameInitialLater,

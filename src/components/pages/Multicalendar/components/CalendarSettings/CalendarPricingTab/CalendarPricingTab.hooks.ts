@@ -11,7 +11,7 @@ export const useCalendarPricingTab = () => {
   const {
     onSubmit,
     hasWeekendPrice,
-    isPropertyPricingInfoApiIsLoading,
+    propertyPricingInfoApiIsLoading,
     managePropertyPricingApiIsPending,
     price,
     setPrice,
@@ -34,8 +34,8 @@ export const useCalendarPricingTab = () => {
 
   return {
     hasWeekendPrice,
-    isPropertyPricingInfoApiIsLoading,
     managePropertyPricingApiIsPending,
+    propertyPricingInfoApiIsLoading,
     removeWeekendPriceIsTriggered,
     router,
     setPrice,
