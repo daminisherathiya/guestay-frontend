@@ -103,7 +103,10 @@ export function BlockedDates() {
               <Skeleton className="w-3/5" variant="text" />
             </div>
           ) : (
-            <Typography className="pl-7 text-text-secondary" variant="body2">
+            <Typography
+              className="break-words pl-7 text-text-secondary"
+              variant="body2"
+            >
               {selectedBlockedDatesDetails?.note}
             </Typography>
           )}
