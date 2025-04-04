@@ -68,6 +68,9 @@ function _HostCalendar({
     setSelectedCells,
   });
 
+  const isLoading =
+    propertyPricingInfoApiIsLoading || getBlockOutDatesApiIsLoading;
+
   const renderCalendar = () => {
     return (
       <FullCalendar
@@ -85,12 +88,11 @@ function _HostCalendar({
                   {arg.dayNumberText}
                 </Typography>
                 <Typography>
-                  {propertyPricingInfoApiIsLoading ||
-                  getBlockOutDatesApiIsLoading ? (
-                      <Skeleton className="w-16" variant="text" />
-                    ) : (
-                      `$${getPriceForDate(arg.date)}`
-                    )}
+                  {isLoading ? (
+                    <Skeleton className="w-16" variant="text" />
+                  ) : (
+                    `$${getPriceForDate(arg.date)}`
+                  )}
                 </Typography>
               </Stack>
             </Box>
