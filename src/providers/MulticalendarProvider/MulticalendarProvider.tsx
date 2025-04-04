@@ -17,6 +17,8 @@ import utc from "dayjs/plugin/utc";
 
 import { allBookingsApi } from "@/apis/multiCalendar/allBookingsApi";
 import { allBookingsApiResponseType } from "@/apis/multiCalendar/allBookingsApi/allBookingsApi.types";
+import { getBlockOutDatesApi } from "@/apis/multiCalendar/getBlockOutDatesApi";
+import { getBlockOutDatesApiResponseType } from "@/apis/multiCalendar/getBlockOutDatesApi/getBlockOutDatesApi.types";
 import { propertyPricingInfoApi } from "@/apis/multiCalendar/propertyPricingInfoApi";
 import {
   Holiday,
@@ -109,6 +111,29 @@ export function MulticalendarContextProvider({
     queryKey: ["all-bookings", selectedPropertyValue],
   });
 
+  const {
+    data: getBlockOutDatesApiData,
+    isSuccess: getBlockOutDatesApiIsSuccess,
+    isFirstLoading: getBlockOutDatesApiIsLoading,
+    refetch: getBlockOutDatesApiRefetch,
+  } = useQuery<
+    getBlockOutDatesApiResponseType,
+    Error,
+    getBlockOutDatesApiResponseType
+  >({
+    queryFn: () => {
+      return getBlockOutDatesApi({
+        data: {
+          endDate: calendarEndMonth,
+          propertyId: String(selectedPropertyValue),
+          startDate: calendarStartMonth,
+          userId: getUserDetails().id,
+        },
+      });
+    },
+    queryKey: ["get-block-out-dates", selectedPropertyValue],
+  });
+
   useEffect(() => {
     // queryClient.setQueryData<allBookingsApiResponseType>(
     //   ["all-bookings", selectedPropertyValue],
@@ -125,7 +150,7 @@ export function MulticalendarContextProvider({
     allBookingsApiRefetch();
   }, [allBookingsApiRefetch, queryClient, selectedPropertyValue]);
 
-  const isPropertyPricingInfoApiIsLoading = useMemo(
+  const propertyPricingInfoApiIsLoading = useMemo(
     () =>
       propertyPricingInfoApiIsFirstLoading || propertyPricingInfoApiIsFetching,
     [propertyPricingInfoApiIsFetching, propertyPricingInfoApiIsFirstLoading],
@@ -293,6 +318,79 @@ export function MulticalendarContextProvider({
     return hasWeekend ? "weekend" : "weekday";
   }, [propertyWeekendDays, selectedCells]);
 
+  const formatSelectedDates = useCallback(() => {
+    if (!selectedCells || selectedCells.length === 0) {
+      return "";
+    }
+
+    if (selectedCells.length === 1) {
+      const parsedDate = dayjs(selectedCells[0]);
+      const singleDay = parsedDate.date();
+      const month = parsedDate.format("MMM");
+      return `${singleDay} ${month}`;
+    }
+
+    const parsedDates = selectedCells
+      .map((date) => dayjs(date))
+      .sort((a, b) => a.valueOf() - b.valueOf());
+
+    let areConsecutive = true;
+    for (let i = 0; i < parsedDates.length - 1; i++) {
+      if (!parsedDates[i].add(1, "day").isSame(parsedDates[i + 1], "day")) {
+        areConsecutive = false;
+        break;
+      }
+    }
+    if (!areConsecutive) {
+      return `${parsedDates.length} nights`;
+    }
+
+    const startDay = parsedDates[0].date();
+    const endDay = parsedDates[parsedDates.length - 1].date();
+    const month = parsedDates[0].format("MMM");
+
+    return `${startDay}–${endDay} ${month}`;
+  }, [selectedCells]);
+
+  const getConsecutiveDateRanges = useCallback(() => {
+    const sortedDates = [...selectedCells].sort();
+    const selectedCellsDateRanges: { endDate: string; startDate: string }[] =
+      [];
+
+    if (sortedDates.length === 0) return { endDates: [], startDates: [] };
+
+    let rangeStart = sortedDates[0];
+    let prevDate = sortedDates[0];
+
+    for (let i = 1; i <= sortedDates.length; i++) {
+      const currentDate = sortedDates[i];
+
+      if (
+        i === sortedDates.length ||
+        dayjs(currentDate).diff(dayjs(prevDate), "day") > 1
+      ) {
+        selectedCellsDateRanges.push({
+          endDate: prevDate,
+          startDate: rangeStart,
+        });
+
+        if (i < sortedDates.length) {
+          rangeStart = currentDate;
+        }
+      }
+
+      prevDate = currentDate;
+    }
+
+    const startDates = selectedCellsDateRanges.map((range) => range.startDate);
+    const endDates = selectedCellsDateRanges.map((range) => range.endDate);
+
+    return {
+      endDates,
+      startDates,
+    };
+  }, [selectedCells]);
+
   return (
     <MulticalendarContext.Provider
       value={{
@@ -302,10 +400,16 @@ export function MulticalendarContextProvider({
         blockedDates,
         calendarEndMonth,
         calendarStartMonth,
+        formatSelectedDates,
+        getBlockOutDatesApiData,
+        getBlockOutDatesApiIsLoading,
+        getBlockOutDatesApiIsSuccess,
+        getBlockOutDatesApiRefetch,
+        getConsecutiveDateRanges,
         getPriceForDate,
-        isPropertyPricingInfoApiIsLoading,
         minMaxSelectedDatePrice,
         propertyPricingInfoApiData,
+        propertyPricingInfoApiIsLoading,
         propertyPricingInfoApiIsSuccess,
         propertyPricingInfoApiRefetch,
         selectedCells,

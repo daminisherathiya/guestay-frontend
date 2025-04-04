@@ -2,8 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";
 
-import dayjs from "dayjs";
-
 import { managePropertyPricingApi } from "@/apis/multiCalendar/managePropertyPricingApi";
 import {
   managePropertyPricingApiResponseType,
@@ -27,12 +25,12 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
   const { propertyId }: { propertyId: string } = useParams();
 
   const {
-    isPropertyPricingInfoApiIsLoading,
+    getConsecutiveDateRanges,
+    propertyPricingInfoApiIsLoading,
     minMaxSelectedDatePrice,
     propertyPricingInfoApiData,
     propertyPricingInfoApiIsSuccess,
     propertyPricingInfoApiRefetch,
-    selectedCells,
     selectedDaysType,
     weekdayPrice,
     weekendPrice,
@@ -117,51 +115,12 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
     mutationKey: ["manage-property-pricing"],
   });
 
-  const getConsecutiveDateRanges = useCallback((dates: string[]) => {
-    const sortedDates = [...dates].sort();
-    const selectedCellsDateRanges: { endDate: string; startDate: string }[] =
-      [];
-
-    if (sortedDates.length === 0) return { endDates: [], startDates: [] };
-
-    let rangeStart = sortedDates[0];
-    let prevDate = sortedDates[0];
-
-    for (let i = 1; i <= sortedDates.length; i++) {
-      const currentDate = sortedDates[i];
-
-      if (
-        i === sortedDates.length ||
-        dayjs(currentDate).diff(dayjs(prevDate), "day") > 1
-      ) {
-        selectedCellsDateRanges.push({
-          endDate: prevDate,
-          startDate: rangeStart,
-        });
-
-        if (i < sortedDates.length) {
-          rangeStart = currentDate;
-        }
-      }
-
-      prevDate = currentDate;
-    }
-
-    const startDates = selectedCellsDateRanges.map((range) => range.startDate);
-    const endDates = selectedCellsDateRanges.map((range) => range.endDate);
-
-    return {
-      endDates,
-      startDates,
-    };
-  }, []);
-
   const { endDates, startDates } = useMemo(
     () =>
       isSeasonalPricing
-        ? getConsecutiveDateRanges(selectedCells)
+        ? getConsecutiveDateRanges()
         : { endDates: undefined, startDates: undefined },
-    [getConsecutiveDateRanges, isSeasonalPricing, selectedCells],
+    [getConsecutiveDateRanges, isSeasonalPricing],
   );
 
   const onSubmit = useCallback(
@@ -283,13 +242,13 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
       priceError != "" ||
       managePropertyPricingApiIsPending ||
       globalPricesApiIsFirstLoading ||
-      isPropertyPricingInfoApiIsLoading ||
+      propertyPricingInfoApiIsLoading ||
       !propertyPricingInfoApiIsSuccess,
     [
       priceError,
       managePropertyPricingApiIsPending,
       globalPricesApiIsFirstLoading,
-      isPropertyPricingInfoApiIsLoading,
+      propertyPricingInfoApiIsLoading,
       propertyPricingInfoApiIsSuccess,
     ],
   );
@@ -313,11 +272,11 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
     insurancePolicyPrice,
     isDisabled,
     isLoading,
-    isPropertyPricingInfoApiIsLoading,
     managePropertyPricingApiIsPending,
     onSubmit,
     price,
     priceError,
+    propertyPricingInfoApiIsLoading,
     selectedDaysType,
     setPrice,
     weekdayPrice,

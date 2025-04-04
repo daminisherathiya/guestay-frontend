@@ -12,7 +12,7 @@ import { useCalendarPricingTab } from "./CalendarPricingTab.hooks";
 export function CalendarPricingTab() {
   const {
     hasWeekendPrice,
-    isPropertyPricingInfoApiIsLoading,
+    propertyPricingInfoApiIsLoading,
     managePropertyPricingApiIsPending,
     router,
     setPrice,
@@ -33,7 +33,7 @@ export function CalendarPricingTab() {
         <Link href="./pricing-settings/rates/base">
           <Box className="space-y-2 rounded-2xl border border-divider p-6">
             <Typography variant="body2">Per night</Typography>
-            {isPropertyPricingInfoApiIsLoading ? (
+            {propertyPricingInfoApiIsLoading ? (
               <Skeleton className="h-9 w-32" variant="text" />
             ) : (
               <Typography className="text-3xl font-bold">
@@ -47,7 +47,7 @@ export function CalendarPricingTab() {
           <Link href="./pricing-settings/rates/weekend">
             <Box className="space-y-2">
               <Typography variant="body2">Custom weekend price</Typography>
-              {isPropertyPricingInfoApiIsLoading ? (
+              {propertyPricingInfoApiIsLoading ? (
                 <Skeleton className="h-9 w-32" variant="text" />
               ) : (
                 hasWeekendPrice && (
