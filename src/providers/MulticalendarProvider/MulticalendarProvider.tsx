@@ -94,7 +94,7 @@ export function MulticalendarContextProvider({
   const {
     data: allBookingsApiData,
     isSuccess: allBookingsApiIsSuccess,
-    isFirstLoading: allBookingsApiIsFirstLoading,
+    isFirstLoading: allBookingsApiIsLoading,
     refetch: allBookingsApiRefetch,
   } = useQuery<allBookingsApiResponseType, Error, allBookingsApiResponseType>({
     queryFn: () => {
@@ -113,8 +113,9 @@ export function MulticalendarContextProvider({
 
   const {
     data: getBlockOutDatesApiData,
+    isFetching: getBlockOutDatesApiIsFetching,
     isSuccess: getBlockOutDatesApiIsSuccess,
-    isFirstLoading: getBlockOutDatesApiIsLoading,
+    isFirstLoading: getBlockOutDatesApiIsFirstLoading,
     refetch: getBlockOutDatesApiRefetch,
   } = useQuery<
     getBlockOutDatesApiResponseType,
@@ -148,12 +149,23 @@ export function MulticalendarContextProvider({
     //   },
     // );
     allBookingsApiRefetch();
-  }, [allBookingsApiRefetch, queryClient, selectedPropertyValue]);
+    getBlockOutDatesApiRefetch();
+  }, [
+    allBookingsApiRefetch,
+    getBlockOutDatesApiRefetch,
+    queryClient,
+    selectedPropertyValue,
+  ]);
 
   const propertyPricingInfoApiIsLoading = useMemo(
     () =>
       propertyPricingInfoApiIsFirstLoading || propertyPricingInfoApiIsFetching,
     [propertyPricingInfoApiIsFetching, propertyPricingInfoApiIsFirstLoading],
+  );
+
+  const getBlockOutDatesApiIsLoading = useMemo(
+    () => getBlockOutDatesApiIsFirstLoading || getBlockOutDatesApiIsFetching,
+    [getBlockOutDatesApiIsFetching, getBlockOutDatesApiIsFirstLoading],
   );
 
   const propertyWeekendDays = useMemo(() => {
@@ -395,7 +407,7 @@ export function MulticalendarContextProvider({
     <MulticalendarContext.Provider
       value={{
         allBookingsApiData,
-        allBookingsApiIsFirstLoading,
+        allBookingsApiIsLoading,
         allBookingsApiIsSuccess,
         blockedDates,
         calendarEndMonth,

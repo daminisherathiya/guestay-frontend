@@ -32,19 +32,21 @@ export function useHostCalendar({
 
   const {
     allBookingsApiData,
+    allBookingsApiIsLoading,
     allBookingsApiIsSuccess,
     calendarEndMonth,
     calendarStartMonth,
     getBlockOutDatesApiData,
+    getBlockOutDatesApiIsLoading,
     getBlockOutDatesApiIsSuccess,
     todaysDate,
   } = useMulticalendarContext();
 
-  const { data: holidaysApiData, isSuccess: holidaysApiIsSuccess } = useQuery<
-    holidaysApiResponseType,
-    Error,
-    holidaysApiResponseType
-  >({
+  const {
+    data: holidaysApiData,
+    isSuccess: holidaysApiIsSuccess,
+    isLoading: holidaysApiIsLoading,
+  } = useQuery<holidaysApiResponseType, Error, holidaysApiResponseType>({
     queryFn: () => {
       return holidaysApi({
         data: {
@@ -57,10 +59,13 @@ export function useHostCalendar({
 
   useEffect(() => {
     if (
+      !holidaysApiIsLoading &&
       holidaysApiIsSuccess &&
       holidaysApiData?.data &&
+      !allBookingsApiIsLoading &&
       allBookingsApiIsSuccess &&
       allBookingsApiData?.data &&
+      !getBlockOutDatesApiIsLoading &&
       getBlockOutDatesApiIsSuccess &&
       getBlockOutDatesApiData?.data
     ) {
@@ -115,13 +120,18 @@ export function useHostCalendar({
         ...allBookingsEvents,
         ...blockOutDatesEvents,
       ]);
+    } else {
+      setEvents((prev) => (prev.length === 0 ? prev : []));
     }
   }, [
     allBookingsApiData,
+    allBookingsApiIsLoading,
     allBookingsApiIsSuccess,
     holidaysApiData,
+    holidaysApiIsLoading,
     holidaysApiIsSuccess,
     getBlockOutDatesApiData,
+    getBlockOutDatesApiIsLoading,
     getBlockOutDatesApiIsSuccess,
   ]);
 
@@ -383,6 +393,7 @@ export function useHostCalendar({
     calendarStartMonth,
     dayCellClassNames,
     events,
+    getBlockOutDatesApiIsLoading,
     handleDateRangeSelect,
     handleEventClick,
     isDateBlocked,

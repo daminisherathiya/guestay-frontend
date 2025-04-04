@@ -9,7 +9,7 @@ import { propertyPricingInfoApiResponseType } from "@/apis/multiCalendar/propert
 
 export interface MulticalendarContextType {
   allBookingsApiData: allBookingsApiResponseType | undefined;
-  allBookingsApiIsFirstLoading: boolean;
+  allBookingsApiIsLoading: boolean;
   allBookingsApiIsSuccess: boolean;
   blockedDates: string[];
   calendarEndMonth: string;

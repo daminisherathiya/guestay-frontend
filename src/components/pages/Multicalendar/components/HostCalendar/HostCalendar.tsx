@@ -55,6 +55,7 @@ function _HostCalendar({
     calendarStartMonth,
     dayCellClassNames,
     events,
+    getBlockOutDatesApiIsLoading,
     handleDateRangeSelect,
     handleEventClick,
     isDateBlocked,
@@ -84,11 +85,12 @@ function _HostCalendar({
                   {arg.dayNumberText}
                 </Typography>
                 <Typography>
-                  {propertyPricingInfoApiIsLoading ? (
-                    <Skeleton className="w-16" variant="text" />
-                  ) : (
-                    `$${getPriceForDate(arg.date)}`
-                  )}
+                  {propertyPricingInfoApiIsLoading ||
+                  getBlockOutDatesApiIsLoading ? (
+                      <Skeleton className="w-16" variant="text" />
+                    ) : (
+                      `$${getPriceForDate(arg.date)}`
+                    )}
                 </Typography>
               </Stack>
             </Box>

@@ -21,7 +21,7 @@ import { useReservationWithConfirmationCode } from "./ReservationWithConfirmatio
 
 export function ReservationWithConfirmationCode() {
   const {
-    allBookingsApiIsFirstLoading,
+    allBookingsApiIsLoading,
     formattedBookingDateRange,
     guestBookingStatus,
     guestNameInitialLater,
@@ -43,7 +43,7 @@ export function ReservationWithConfirmationCode() {
       </Stack>
       <Stack className="flex-row items-center justify-between gap-6">
         <Stack className="grow gap-0.5">
-          {allBookingsApiIsFirstLoading ? (
+          {allBookingsApiIsLoading ? (
             <Skeleton className="h-8 w-full rounded" variant="rectangular" />
           ) : (
             <>
@@ -64,7 +64,7 @@ export function ReservationWithConfirmationCode() {
         </Avatar>
       </Stack>
       <Box className="mt-4">
-        {allBookingsApiIsFirstLoading ? (
+        {allBookingsApiIsLoading ? (
           <>
             <Skeleton variant="text" />
             <Skeleton variant="text" />
