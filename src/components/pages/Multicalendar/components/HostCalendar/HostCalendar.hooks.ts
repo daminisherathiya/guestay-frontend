@@ -19,7 +19,7 @@ import { useMulticalendarContext } from "@/hooks/useMulticalendar";
 import { useQuery } from "@/hooks/useQuery";
 import { getUserDetails } from "@/utils/localStorage/localStorage";
 
-import { CalendarEvent, useHostCalendarProps } from "./HostCalendar.types";
+import { useHostCalendarProps } from "./HostCalendar.types";
 
 export function useHostCalendar({
   blockedDates,
@@ -28,7 +28,6 @@ export function useHostCalendar({
   selectedCells,
 }: useHostCalendarProps) {
   const calendarContainerRef = useRef<FullCalendar | null>(null);
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
 
   const {
     allBookingsApiData,
@@ -36,9 +35,11 @@ export function useHostCalendar({
     allBookingsApiIsSuccess,
     calendarEndMonth,
     calendarStartMonth,
+    events,
     getBlockOutDatesApiData,
     getBlockOutDatesApiIsLoading,
     getBlockOutDatesApiIsSuccess,
+    setEvents,
     todaysDate,
   } = useMulticalendarContext();
 
@@ -133,6 +134,7 @@ export function useHostCalendar({
     getBlockOutDatesApiData,
     getBlockOutDatesApiIsLoading,
     getBlockOutDatesApiIsSuccess,
+    setEvents,
   ]);
 
   const renderEventContent = useCallback((eventInfo: EventContentArg) => {
@@ -243,28 +245,33 @@ export function useHostCalendar({
         start = start.add(1, "day");
       }
 
-      const hasNonHolidayOverlap = events.some((event) => {
-        if (event.type === "holiday") return false;
+      // const hasNonHolidayOverlap = events.some((event) => {
+      //   if (
+      //     event.type === "holiday" ||
+      //     event.type === "checkin" ||
+      //     event.type === "checkout"
+      //   )
+      //     return false;
 
-        const eventStart = dayjs(event.start);
-        const eventEnd = dayjs(event.end || event.start);
+      //   const eventStart = dayjs(event.start);
+      //   const eventEnd = dayjs(event.end || event.start);
 
-        return selectedRangeDates.some((date) => {
-          const currentDate = dayjs(date);
-          return (
-            (currentDate.isSame(eventStart) ||
-              currentDate.isAfter(eventStart)) &&
-            currentDate.isBefore(eventEnd)
-          );
-        });
-      });
+      //   return selectedRangeDates.some((date) => {
+      //     const currentDate = dayjs(date);
+      //     return (
+      //       (currentDate.isSame(eventStart) ||
+      //         currentDate.isAfter(eventStart)) &&
+      //       currentDate.isBefore(eventEnd)
+      //     );
+      //   });
+      // });
 
-      if (hasNonHolidayOverlap) {
-        if (calendarContainerRef.current) {
-          calendarContainerRef.current.getApi().unselect();
-        }
-        return;
-      }
+      // if (hasNonHolidayOverlap) {
+      //   if (calendarContainerRef.current) {
+      //     calendarContainerRef.current.getApi().unselect();
+      //   }
+      //   return;
+      // }
 
       // Check if all dates in the range are already selected
       const allSelected = selectedRangeDates.every((date) =>
@@ -287,7 +294,7 @@ export function useHostCalendar({
         );
       }
     },
-    [events, isPastDate, selectedCells, setSelectedCells],
+    [isPastDate, selectedCells, setSelectedCells],
   );
 
   const isDateCellSelected = useCallback(
@@ -376,7 +383,7 @@ export function useHostCalendar({
         event.setDates(event.start, event.end);
       }
     },
-    [isPastDate],
+    [isPastDate, setEvents],
   );
 
   const isDateBlocked = useCallback(

@@ -7,6 +7,21 @@ import { allBookingsApiResponseType } from "@/apis/multiCalendar/allBookingsApi/
 import { getBlockOutDatesApiResponseType } from "@/apis/multiCalendar/getBlockOutDatesApi/getBlockOutDatesApi.types";
 import { propertyPricingInfoApiResponseType } from "@/apis/multiCalendar/propertyPricingInfoApi/propertyPricingInfoApi.types";
 
+export interface CalendarEvent {
+  allDay?: boolean;
+  amount?: number;
+  avatar?: string;
+  backgroundColor: string;
+  borderColor: string;
+  description: string;
+  end?: string;
+  guestCount?: number;
+  id: string;
+  start: string;
+  title: string;
+  type: string;
+}
+
 export interface MulticalendarContextType {
   allBookingsApiData: allBookingsApiResponseType | undefined;
   allBookingsApiIsLoading: boolean;
@@ -14,14 +29,15 @@ export interface MulticalendarContextType {
   blockedDates: string[];
   calendarEndMonth: string;
   calendarStartMonth: string;
-  formatSelectedDates: () => string;
+  events: CalendarEvent[];
+  formatSelectedDates: ({ passedDates }: { passedDates: string[] }) => string;
   getBlockOutDatesApiData: getBlockOutDatesApiResponseType | undefined;
   getBlockOutDatesApiIsLoading: boolean;
   getBlockOutDatesApiIsSuccess: boolean;
   getBlockOutDatesApiRefetch: (
     options?: RefetchOptions,
   ) => Promise<QueryObserverResult<getBlockOutDatesApiResponseType, Error>>;
-  getConsecutiveDateRanges: () => {
+  getConsecutiveDateRanges: ({ passedDates }: { passedDates: string[] }) => {
     endDates: string[];
     startDates: string[];
   };
@@ -40,6 +56,7 @@ export interface MulticalendarContextType {
   selectedDaysType: "weekday" | "weekend" | "both" | "notSelected";
   selectedPropertyValue: number;
   setBlockedDates: Dispatch<SetStateAction<string[]>>;
+  setEvents: Dispatch<SetStateAction<CalendarEvent[]>>;
   setSelectedCells: Dispatch<SetStateAction<string[]>>;
   setSelectedPropertyValue: Dispatch<SetStateAction<number>>;
   todaysDate: Dayjs;

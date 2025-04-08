@@ -31,6 +31,7 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
     propertyPricingInfoApiData,
     propertyPricingInfoApiIsSuccess,
     propertyPricingInfoApiRefetch,
+    selectedCells,
     selectedDaysType,
     weekdayPrice,
     weekendPrice,
@@ -118,9 +119,9 @@ export function usePropertyPricing({ pricing }: usePropertyPricingProps) {
   const { endDates, startDates } = useMemo(
     () =>
       isSeasonalPricing
-        ? getConsecutiveDateRanges()
+        ? getConsecutiveDateRanges({ passedDates: selectedCells })
         : { endDates: undefined, startDates: undefined },
-    [getConsecutiveDateRanges, isSeasonalPricing],
+    [getConsecutiveDateRanges, isSeasonalPricing, selectedCells],
   );
 
   const onSubmit = useCallback(

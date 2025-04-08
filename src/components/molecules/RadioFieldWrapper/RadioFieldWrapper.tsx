@@ -33,7 +33,14 @@ export function RadioFieldWrapper<T extends FieldValues>({
             {options.map((option) => (
               <FormControlLabel
                 key={option.value}
-                control={<Radio className="py-0" />}
+                classes={{ disabled: "opacity-60 cursor-not-allowed" }}
+                control={
+                  <Radio
+                    classes={{ disabled: "text-primary-main" }}
+                    className="py-0"
+                  />
+                }
+                disabled={option.disabled}
                 label={option.label}
                 value={option.value}
               />

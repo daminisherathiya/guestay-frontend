@@ -5,7 +5,7 @@ export interface RadioFieldWrapperProps<T extends FieldValues> {
   control: Control<T>;
   label: string;
   name: Path<T>;
-  options: { label: string; value: string }[];
+  options: { disabled?: boolean; label: string; value: string }[];
   rules?: Omit<
     RegisterOptions<T, Path<T>>,
     "setValueAs" | "disabled" | "valueAsNumber" | "valueAsDate"

@@ -20,11 +20,17 @@ export function BlockOutDates() {
   const { propertyId }: { propertyId: string } = useParams();
 
   const {
+    blockedId,
+    deleteBlockOutDatesApiIsPending,
     control,
     handleSubmit,
     isValid,
+    onDeleteBlockOutDates,
     onSubmit,
+    overlappingCheckInEventIsPresent,
+    overlappingCheckOutEventIsPresent,
     saveBlockOutDatesApiIsPending,
+    selectedCellsOrEventCells,
   } = useBlockOutDates();
 
   const { formatSelectedDates } = useMulticalendarContext();
@@ -42,20 +48,61 @@ export function BlockOutDates() {
             Block out dates
           </Typography>
           <Typography className="text-text-secondary" variant="body2">
-            {formatSelectedDates()} selected
+            {formatSelectedDates({ passedDates: selectedCellsOrEventCells })}
           </Typography>
         </Box>
-        <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
-          <RadioFieldWrapper
-            className="gap-y-2"
-            control={control}
-            label="Block out dates for:"
-            name="type"
-            options={[
-              { label: "Check-in", value: "checkin" },
-              { label: "Check-out", value: "checkout" },
-            ]}
-          />
+        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+          <Stack className="gap-2">
+            <RadioFieldWrapper
+              className="gap-y-2"
+              control={control}
+              label="Block out dates for:"
+              name="type"
+              options={[
+                {
+                  disabled: overlappingCheckInEventIsPresent,
+                  label: "Check-in",
+                  value: "checkin",
+                },
+                {
+                  disabled: overlappingCheckOutEventIsPresent,
+                  label: "Check-out",
+                  value: "checkout",
+                },
+              ]}
+              rules={{
+                required: "Please select an option",
+              }}
+            />
+            <Stack className="gap-1">
+              {(overlappingCheckInEventIsPresent ||
+                overlappingCheckOutEventIsPresent) && (
+                <Typography className="font-medium" variant="body2">
+                  Note:
+                </Typography>
+              )}
+              <ul className="list-disc pl-6">
+                {overlappingCheckInEventIsPresent && (
+                  <li>
+                    <Typography variant="body2">
+                      Blocking &quot;check-in&quot; is not allowed as at least
+                      one of the selected date overlaps with an existing
+                      &quot;check-in&quot; event.
+                    </Typography>
+                  </li>
+                )}
+                {overlappingCheckOutEventIsPresent && (
+                  <li>
+                    <Typography variant="body2">
+                      Blocking &quot;check-out&quot; is not allowed as at least
+                      one of the selected date overlaps with an existing
+                      &quot;check-out&quot; event.
+                    </Typography>
+                  </li>
+                )}
+              </ul>
+            </Stack>
+          </Stack>
           <TextareaAutosizeFieldWrapper
             control={control}
             name="note"
@@ -69,13 +116,25 @@ export function BlockOutDates() {
               className="w-full"
               disabled={!isValid}
               loading={saveBlockOutDatesApiIsPending}
-              loadingIndicator="Blocking dates ..."
+              loadingIndicator={blockedId ? "Updating dates ..." : "Blocking dates ..."}
               size="large"
               type="submit"
               variant="contained"
             >
-              Block dates
+              {blockedId ? "Update blocked" : "Block"} dates
             </LoadingButton>
+            {blockedId && <LoadingButton
+              className="w-full bg-error-main"
+              classes={{loading: "opacity-50"}}
+              disabled={deleteBlockOutDatesApiIsPending}
+              loading={deleteBlockOutDatesApiIsPending}
+              loadingIndicator="Unblocking dates ..."
+              size="large"
+              variant="contained"
+              onClick={onDeleteBlockOutDates}
+            >
+              Delete blocked dates
+            </LoadingButton>}
             <Button
               className="w-full border-primary-main"
               component={Link}

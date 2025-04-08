@@ -30,6 +30,7 @@ import { getUserDetails } from "@/utils/localStorage/localStorage";
 
 import { WEEKEND_PRICE_NOT_SET_PLACEHOLDER_VALUE } from "./MulticalendarProvider.consts";
 import {
+  CalendarEvent,
   MulticalendarContextProviderProps,
   MulticalendarContextType,
 } from "./MulticalendarProvider.types";
@@ -54,6 +55,7 @@ export function MulticalendarContextProvider({
   const [selectedPropertyValue, setSelectedPropertyValue] = useState<number>(
     Number(propertyId),
   );
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
 
   const {
     data: propertyPricingInfoApiData,
@@ -330,19 +332,19 @@ export function MulticalendarContextProvider({
     return hasWeekend ? "weekend" : "weekday";
   }, [propertyWeekendDays, selectedCells]);
 
-  const formatSelectedDates = useCallback(() => {
-    if (!selectedCells || selectedCells.length === 0) {
+  const formatSelectedDates = useCallback(({passedDates}: {passedDates: string[]}) => {
+    if (!passedDates || passedDates.length === 0) {
       return "";
     }
 
-    if (selectedCells.length === 1) {
-      const parsedDate = dayjs(selectedCells[0]);
+    if (passedDates.length === 1) {
+      const parsedDate = dayjs(passedDates[0]);
       const singleDay = parsedDate.date();
       const month = parsedDate.format("MMM");
       return `${singleDay} ${month}`;
     }
 
-    const parsedDates = selectedCells
+    const parsedDates = passedDates
       .map((date) => dayjs(date))
       .sort((a, b) => a.valueOf() - b.valueOf());
 
@@ -362,46 +364,51 @@ export function MulticalendarContextProvider({
     const month = parsedDates[0].format("MMM");
 
     return `${startDay}–${endDay} ${month}`;
-  }, [selectedCells]);
+  }, []);
 
-  const getConsecutiveDateRanges = useCallback(() => {
-    const sortedDates = [...selectedCells].sort();
-    const selectedCellsDateRanges: { endDate: string; startDate: string }[] =
-      [];
+  const getConsecutiveDateRanges = useCallback(
+    ({ passedDates }: { passedDates: string[] }) => {
+      const sortedDates = [...passedDates].sort();
+      const selectedCellsDateRanges: { endDate: string; startDate: string }[] =
+        [];
 
-    if (sortedDates.length === 0) return { endDates: [], startDates: [] };
+      if (sortedDates.length === 0) return { endDates: [], startDates: [] };
 
-    let rangeStart = sortedDates[0];
-    let prevDate = sortedDates[0];
+      let rangeStart = sortedDates[0];
+      let prevDate = sortedDates[0];
 
-    for (let i = 1; i <= sortedDates.length; i++) {
-      const currentDate = sortedDates[i];
+      for (let i = 1; i <= sortedDates.length; i++) {
+        const currentDate = sortedDates[i];
 
-      if (
-        i === sortedDates.length ||
-        dayjs(currentDate).diff(dayjs(prevDate), "day") > 1
-      ) {
-        selectedCellsDateRanges.push({
-          endDate: prevDate,
-          startDate: rangeStart,
-        });
+        if (
+          i === sortedDates.length ||
+          dayjs(currentDate).diff(dayjs(prevDate), "day") > 1
+        ) {
+          selectedCellsDateRanges.push({
+            endDate: prevDate,
+            startDate: rangeStart,
+          });
 
-        if (i < sortedDates.length) {
-          rangeStart = currentDate;
+          if (i < sortedDates.length) {
+            rangeStart = currentDate;
+          }
         }
+
+        prevDate = currentDate;
       }
 
-      prevDate = currentDate;
-    }
+      const startDates = selectedCellsDateRanges.map(
+        (range) => range.startDate,
+      );
+      const endDates = selectedCellsDateRanges.map((range) => range.endDate);
 
-    const startDates = selectedCellsDateRanges.map((range) => range.startDate);
-    const endDates = selectedCellsDateRanges.map((range) => range.endDate);
-
-    return {
-      endDates,
-      startDates,
-    };
-  }, [selectedCells]);
+      return {
+        endDates,
+        startDates,
+      };
+    },
+    [],
+  );
 
   return (
     <MulticalendarContext.Provider
@@ -412,6 +419,7 @@ export function MulticalendarContextProvider({
         blockedDates,
         calendarEndMonth,
         calendarStartMonth,
+        events,
         formatSelectedDates,
         getBlockOutDatesApiData,
         getBlockOutDatesApiIsLoading,
@@ -428,6 +436,7 @@ export function MulticalendarContextProvider({
         selectedDaysType,
         selectedPropertyValue,
         setBlockedDates,
+        setEvents,
         setSelectedCells,
         setSelectedPropertyValue,
         todaysDate,

@@ -52,7 +52,9 @@ export function EditSelectedDates() {
     <>
       <Stack className="gap-5">
         <Stack className="mb-3 flex-row items-center justify-between">
-          <Typography variant="h2">{formatSelectedDates()}</Typography>
+          <Typography variant="h2">
+            {formatSelectedDates({ passedDates: selectedCells })}
+          </Typography>
           <IconButton
             aria-label="close"
             className="-mr-2 size-8"
